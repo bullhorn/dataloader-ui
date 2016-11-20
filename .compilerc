@@ -1,0 +1,24 @@
+{
+    "application/javascript": {
+        "presets": ["es2015"],
+        "sourceMaps": "inline",
+        "plugins": [
+            "angular2-annotations",
+            "transform-decorators-legacy",
+            "transform-class-properties",
+            "transform-flow-strip-types"
+        ]
+    },
+    "text/scss": {
+        "sourceMap": true,
+        "sourceMapEmbed": true,
+        "includePaths": [
+            "node_modules/bh-elements/lib",
+            "node_modules/novo-elements/lib",
+            "node_modules/hint.css/src",
+            "../bh-elements/lib",
+            "../novo-elements/lib",
+            "../hint.css/src"
+        ]
+    }
+}

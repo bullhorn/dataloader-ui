@@ -1,0 +1,13 @@
+{
+    "extends": "bullhorn/angular2",
+    "rules": {
+        "global-require": 0,
+    },
+    "globals": {
+        "expect": false,
+        "it": false,
+        "inject": false,
+        "ENV": false,
+        "addProviders": false
+    }
+}
