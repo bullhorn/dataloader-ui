@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NovoElementsModule, NovoToastModule } from 'novo-elements';
 // APP
 import { DataloaderUI } from './app/DataloaderUI';
-// import './home.module.scss';
+import './dataloader-ui.module.scss';
 // providers: [
 //     ...APP_PROVIDERS
 // ],

@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
 })
 export class DataloaderUI {
     constructor() {
-        this.app = 'Dataloader';
+        this.app = 'cats';
     }
 }

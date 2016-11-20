@@ -7,7 +7,8 @@
     "build": "webpack --inline --colors --progress --display-error-details --display-cached",
     "electron": "npm run build && electron .",
     "lint": "eslint public",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "zone.js": "^0.6.26"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
@@ -53,9 +55,11 @@
     "eslint-loader": "^1.5.0",
     "eslint-watch": "^2.1.10",
     "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "^3.13.0",
     "progress-bar-webpack-plugin": "^1.9.0",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "^0.1.8",
+    "sass-loader": "^4.0.2",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
