@@ -117,7 +117,7 @@ module.exports = {
     // See: https://github.com/jtangelder/sass-loader
     sassLoader: {
         includePaths: [
-            helpers.root('node_modules/novo-elements/lib'),
+            helpers.root('node_modules/novo-elements'),
             helpers.root('node_modules/hint.css/src')
         ]
     },
@@ -158,5 +158,6 @@ module.exports = {
         module: false,
         clearImmediate: false,
         setImmediate: false
-    }
+    },
+    target:'electron-renderer'
 };

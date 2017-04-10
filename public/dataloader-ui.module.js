@@ -4,14 +4,11 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Vendor
-import { NovoElementsModule, NovoToastModule } from 'novo-elements';
+import { NovoElementsModule, NovoElementProviders, FormUtils } from 'novo-elements';
 // APP
 import { DataloaderUI } from './app/DataloaderUI';
 import './dataloader-ui.module.scss';
-// providers: [
-//     ...APP_PROVIDERS
-// ],
-
+import { ComponentsModule } from './components/components.module.js';
 
 @NgModule({
     declarations: [
@@ -23,7 +20,11 @@ import './dataloader-ui.module.scss';
         ReactiveFormsModule,
         HttpModule,
         NovoElementsModule,
-        NovoToastModule
+        NovoElementProviders.forRoot(),
+        ComponentsModule
+    ],
+    providers: [
+        FormUtils
     ],
     entryComponents: [
         DataloaderUI

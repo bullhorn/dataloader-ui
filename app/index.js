@@ -1,7 +1,10 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const spawn = require('child_process').spawn;
+
 const path = require('path');
 const url = require('url');
 
+//./dataloader load examples/load/ClientCorporation.csv
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
@@ -29,10 +32,52 @@ function createWindow () {
     });
 }
 
+function handleSubmission() {
+    let response;
+    ipcMain.on('load', (event, argument) => {
+        // process.chdir('../dataloader-ui/dataloader');
+        console.log(`changing directories to get into dataloader: ${process.cwd()}`);
+        // const basic_load = spawn('./dataloader', ['load', 'examples/load/ClientCorporation.csv']);
+        //
+        // basic_load.stdout.on('data', (data) => {
+        //     console.log(`stdout: ${data}`);
+        // });
+        //
+        // basic_load.stderr.on('data', (data) => {
+        //     console.log(`stderr: ${data}`);
+        // });
+        // basic_load.on('close', function(code) {
+        //     console.log('closing code: ' + code);
+        //     debugger;
+        //     response = code;
+        //     //Here you can get the exit code of the script
+        // });
+        const ls = spawn('ls');
+
+        ls.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+
+        ls.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        ls.on('close', function(code) {
+            console.log('closing code: ' + code);
+            debugger;
+            return response = code;
+            //Here you can get the exit code of the script
+        });
+    });
+    return 'sample response';
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+    handleSubmission();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

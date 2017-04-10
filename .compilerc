@@ -13,9 +13,9 @@
         "sourceMap": true,
         "sourceMapEmbed": true,
         "includePaths": [
-            "node_modules/novo-elements/lib",
+            "node_modules/novo-elements",
             "node_modules/hint.css/src",
-            "../novo-elements/lib",
+            "../novo-elements",
             "../hint.css/src"
         ]
     }

@@ -1,0 +1,21 @@
+dataloader-header {
+    display: block;
+    background-color: #283649;
+    padding: 20px;
+    border-bottom: 1px solid #dddddd;
+    .bhi-addcard {
+        background-color: #283649;
+        color: #f4f4f4;
+        font-size: 2.2em;
+        border-radius: 8px;
+        width: 45px;
+        height: 47px;
+        text-align: center;
+    }
+    .title {
+        display: inline-block;
+        padding-left: 15px;
+        font-size: 28px;
+        color: #f4f4f4;
+    }
+}

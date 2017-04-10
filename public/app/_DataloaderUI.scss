@@ -1,2 +1,10 @@
 dataloader-ui {
+    .main {
+        position: relative;
+        min-height: 300px;
+        margin: 0 0 0 200px;
+    }
+    .load {
+        margin-top: 50px;
+    }
 }

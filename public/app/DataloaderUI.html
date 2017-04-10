@@ -1,4 +1,19 @@
+<dataloader-header></dataloader-header>
 <main>
-    <h1 class="cats">Hi it works. Welcome to {{app}}</h1>
-    <button theme="primary">Test Button</button>
+    <sidebar></sidebar>
+    <section class="main">
+        <h1 class="cats">Load</h1>
+        <novo-form [form]="fileForm" layout="vertical">
+            <section>
+                <div class="novo-form-row">
+                    <novo-control [form]="fileForm" [control]="bhNext"></novo-control>
+                </div>
+                <div class="novo-form-row">
+                    <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
+                </div>
+            </section>
+        </novo-form>
+        <p>response here: {{response}}</p>
+        <button theme="primary" class="load" (click)="loadSample(fileForm)">Load Button</button>
+    </section>
 </main>

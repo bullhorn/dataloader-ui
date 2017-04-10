@@ -1,0 +1,11 @@
+sidebar {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        width: 200px;
+        height: 100vh;
+        color: $white;
+        background-color: #f4f4f4;
+        overflow-x: hidden;
+    }
+}
