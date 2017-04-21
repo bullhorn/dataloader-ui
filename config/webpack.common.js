@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const helpers = require('./helpers');
 const pkg = require('../package.json');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Webpack Plugins
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -16,7 +17,6 @@ const METADATA = {
 // See: http://webpack.github.io/docs/configuration.html#cli
 module.exports = {
     // Static metadata for index.html
-
     //
     // See: (custom attribute)
     metadata: METADATA,
@@ -95,9 +95,9 @@ module.exports = {
                 loader: 'json-loader'
             },
 
-            // // Raw loader support for *.css files
-            // // Returns file content as string
-            // // See: https://github.com/webpack/raw-loader
+            // Raw loader support for *.css files
+            // Returns file content as string
+            // See: https://github.com/webpack/raw-loader
             {
                 test: /\.css$/,
                 loaders: ['to-string-loader', 'css-loader']
@@ -146,7 +146,12 @@ module.exports = {
         // See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
         new webpack.optimize.CommonsChunkPlugin({
             name: ['polyfills', 'vendor'].reverse()
-        })
+        }),
+
+        // Use copy-webpack-plugin to copy static assets into the dist folder
+        new CopyWebpackPlugin([
+            { from: 'static/assets/' }
+        ])
     ],
 
     // Include polyfills or mocks for various node stuff
