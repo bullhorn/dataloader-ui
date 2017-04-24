@@ -5,12 +5,22 @@ import { FormsModule } from '@angular/forms';
 // Vendor
 import { NovoElementsModule } from 'novo-elements';
 // APP
-import { Header, Sidebar } from './all';
-
+import {
+    BowlingAlley,
+    DropArea,
+    Header,
+    Load,
+    Menu,
+    Settings
+} from './all';
 
 const COMPONENTS = [
+    BowlingAlley,
+    DropArea,
     Header,
-    Sidebar
+    Load,
+    Menu,
+    Settings
 ];
 
 @NgModule({

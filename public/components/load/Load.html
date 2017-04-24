@@ -1,0 +1,17 @@
+<section class="load">
+    <h1 class="title">Load</h1>
+    <section class="content">
+        <novo-form [form]="fileForm" layout="vertical">
+            <section>
+                <div class="novo-form-row">
+                    <novo-control [form]="fileForm" [control]="bhNext"></novo-control>
+                </div>
+                <div class="novo-form-row">
+                    <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
+                </div>
+            </section>
+        </novo-form>
+        <div class="output">response here: {{response}}</div>
+        <button theme="primary" class="load" (click)="loadSample(fileForm)">Load Button</button>
+    </section>
+</section>

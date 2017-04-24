@@ -1,10 +1,46 @@
+$bowling-alley-width: 200px;
+
 dataloader-ui {
-    .main {
-        position: relative;
-        min-height: 300px;
-        margin: 0 0 0 200px;
+    body {
+        background-color: #FFFFFF;
     }
-    .load {
-        margin-top: 50px;
+
+    main {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        >bowling-alley {
+            width: $bowling-alley-width;
+            min-width: $bowling-alley-width;
+            background-color: $background;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            z-index: 2;
+        }
+        >section.content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: $white;
+            background-color: $background-dark;
+            width: 100%;
+            position: relative;
+            z-index: 0;
+            iframe {
+                border: none;
+                outline: none;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+        }
     }
 }

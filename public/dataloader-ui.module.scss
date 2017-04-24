@@ -1,12 +1,10 @@
 // Import ALL SCSS files here
-@import "novo-elements";
+@import "../node_modules/novo-elements/novo-elements.scss";
 
 @import "app/DataloaderUI";
+@import "components/bowling-alley/BowlingAlley";
+@import "components/drop-area/DropArea";
 @import "components/header/Header";
-@import "components/sidebar/Sidebar";
-
-body {
-    background-color: #FFFFFF;
-}
-main { display: block; }
-
+@import "components/load/Load";
+@import "components/menu/Menu";
+@import "components/settings/Settings";

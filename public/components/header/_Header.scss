@@ -14,13 +14,13 @@ dataloader-header {
         }
 
         .dataloader-logo {
-            min-width: 250px;
-            min-height: 55px;
-            background-image: url(images/dataloader.svg);
-            background-repeat: no-repeat;
-            background-size: contain;
             margin-left: auto;
             margin-right: auto;
+
+            svg {
+                min-width: 250px;
+                min-height: 55px;
+            }
         }
     }
 }

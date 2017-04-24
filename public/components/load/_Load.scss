@@ -1,0 +1,18 @@
+load {
+    background: $white;
+    width: 100%;
+    margin-bottom: 50px;
+
+    .title {
+        background: $candidate;
+        padding-left: 20px;
+    }
+
+    .content {
+        margin: 20px;
+
+        .output {
+            color: $black;
+        }
+    }
+}

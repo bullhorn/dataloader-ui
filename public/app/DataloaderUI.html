@@ -1,19 +1,8 @@
 <dataloader-header></dataloader-header>
 <main>
-    <sidebar></sidebar>
-    <section class="main">
-        <h1 class="cats">Load</h1>
-        <novo-form [form]="fileForm" layout="vertical">
-            <section>
-                <div class="novo-form-row">
-                    <novo-control [form]="fileForm" [control]="bhNext"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
-                </div>
-            </section>
-        </novo-form>
-        <p>response here: {{response}}</p>
-        <button theme="primary" class="load" (click)="loadSample(fileForm)">Load Button</button>
+    <bowling-alley></bowling-alley>
+    <section class="content">
+        <load></load>
+        <settings></settings>
     </section>
 </main>

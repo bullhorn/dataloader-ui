@@ -1,0 +1,14 @@
+settings {
+    background: $white;
+    width: 100%;
+    margin-bottom: 50px;
+
+    .title {
+        background: $note;
+        padding-left: 20px;
+    }
+
+    .content {
+        margin: 20px;
+    }
+}

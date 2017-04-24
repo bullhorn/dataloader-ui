@@ -1,0 +1,22 @@
+<section class="settings">
+    <h1 class="title">Settings</h1>
+    <section class="content">
+        <novo-form [form]="form" layout="vertical">
+            <section>
+                <div class="novo-form-row">
+                    <novo-control [form]="form" [control]="formControls.usernameControl"></novo-control>
+                </div>
+                <div class="novo-form-row">
+                    <novo-control [form]="form" [control]="formControls.passwordControl"></novo-control>
+                </div>
+                <div class="novo-form-row">
+                    <novo-control [form]="form" [control]="formControls.clientIdControl"></novo-control>
+                </div>
+                <div class="novo-form-row">
+                    <novo-control [form]="form" [control]="formControls.clientSecretControl"></novo-control>
+                </div>
+            </section>
+        </novo-form>
+        <button theme="primary" class="save" (click)="save(form)">Save</button>
+    </section>
+</section>
