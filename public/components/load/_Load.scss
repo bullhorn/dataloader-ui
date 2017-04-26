@@ -4,6 +4,7 @@ load {
     margin-bottom: 50px;
 
     .title {
+        color: $white;
         background: $candidate;
         padding-left: 20px;
     }
@@ -12,7 +13,6 @@ load {
         margin: 20px;
 
         .output {
-            color: $black;
             margin: 20px;
         }
     }

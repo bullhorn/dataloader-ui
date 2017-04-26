@@ -24,10 +24,74 @@ export class Load implements OnInit {
     setupForm() {
         this.fileControl = new FileControl({
             key: 'file',
-            name: 'myfile',
+            name: 'file',
             label: 'File'
         });
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
+
+        let columns = [
+            {
+                title: 'Column',
+                name: 'column',
+                ordering: true,
+                type: 'link',
+                filtering: true
+            }, {
+                title: 'Row 1',
+                name: 'row_1',
+                ordering: true,
+                filtering: true
+            }, {
+                title: 'Row 2',
+                name: 'row_2',
+                ordering: true,
+                filtering: true
+            }, {
+                title: 'Row 3',
+                name: 'row_3',
+                ordering: true,
+                filtering: true
+            }
+        ];
+
+        const TableData = [
+            {
+                'column': 'Victoria Cantrell',
+                'row_1': 'Integer Corporation',
+                'row_2': '8262',
+                'row_3': 208178
+            }, {
+                'column': 'Pearl Crosby',
+                'row_1': 'In PC',
+                'row_2': '8262',
+                'row_3': 114367
+            }, {
+                'column': 'Colette Foley',
+                'row_1': 'Lorem Inc.',
+                'row_2': '8262',
+                'row_3': 721473
+            }];
+
+        this.preview = {
+            columns: columns.slice(),
+            rows: TableData.slice(),
+            config: {
+                paging: {
+                    current: 1,
+                    itemsPerPage: 10,
+                    onPageChange: event => {
+                        this.preview.config.paging.current = event.page;
+                        this.preview.config.paging.itemsPerPage = event.itemsPerPage;
+                    }
+                },
+                sorting: true,
+                filtering: true,
+                ordering: true,
+                resizing: true,
+                selectAllEnabled: true,
+                rowSelectionStyle: 'checkbox'
+            }
+        };
     }
 
     loadSample(form) {

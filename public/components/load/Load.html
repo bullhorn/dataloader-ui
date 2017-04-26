@@ -6,7 +6,8 @@
                 <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
             </div>
         </novo-form>
+        <novo-table [rows]="preview.rows" [columns]="preview.columns" [config]="preview.config" #table></novo-table>
         <div class="output">{{response}}</div>
-        <button theme="primary" class="load" (click)="loadSample(fileForm)">Load Button</button>
+        <button theme="primary" class="load" (click)="loadSample(fileForm)">Load</button>
     </section>
 </section>
