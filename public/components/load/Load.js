@@ -1,6 +1,6 @@
-import {Component, OnInit, ChangeDetectorRef, FormGroup, FormControl} from '@angular/core';
-import {FormUtils, FileControl, CheckboxControl} from 'novo-elements';
-import {remote, ipcRenderer} from 'electron';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormUtils, FileControl } from 'novo-elements';
+// import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
 
 @Component({
@@ -22,9 +22,12 @@ export class Load implements OnInit {
     }
 
     setupForm() {
-        this.fileControl = new FileControl({key: 'file', name: 'myfile', label: 'File'});
-        this.bhNext = new CheckboxControl({key: 'check', label: 'BH Next'});
-        this.fileForm = this.formUtils.toFormGroup([this.fileControl, this.bhNext]);
+        this.fileControl = new FileControl({
+            key: 'file',
+            name: 'myfile',
+            label: 'File'
+        });
+        this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
     }
 
     loadSample(form) {
