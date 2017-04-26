@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormUtils, FileControl } from 'novo-elements';
 // import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
+const shell = require('electron').shell;
+const os = require('os');
 
 @Component({
     selector: 'load',
@@ -34,7 +36,6 @@ export class Load implements OnInit {
                 title: 'Column',
                 name: 'column',
                 ordering: true,
-                type: 'link',
                 filtering: true
             }, {
                 title: 'Row 1',
@@ -92,6 +93,32 @@ export class Load implements OnInit {
                 rowSelectionStyle: 'checkbox'
             }
         };
+
+        this.outputFiles = [{
+            name: 'Successful Records',
+            records: 103,
+            filePath: 'dataloader/results/ClientCorporation_load_2017-04-26_07.25.27_success.csv',
+            dateCreated: 'April 26, 7.25 AM',
+            icon: 'bhi-certification'
+        }, {
+            name: 'Failed Records',
+            records: 5,
+            filePath: 'dataloader/results/ClientCorporation_load_2017-04-26_07.25.27_failure.csv',
+            dateCreated: 'April 26, 7.25 AM',
+            icon: 'bhi-caution'
+        }, {
+            name: 'Log File',
+            records: 108,
+            errors: 5,
+            warnings: 18,
+            filePath: 'dataloader/log/dataloader_2017-04-26_07.25.27.log',
+            dateCreated: 'April 26, 7.25 AM',
+            icon: 'bhi-note'
+        }];
+    }
+
+    openFile(filePath) {
+        shell.showItemInFolder(filePath);
     }
 
     loadSample(form) {
