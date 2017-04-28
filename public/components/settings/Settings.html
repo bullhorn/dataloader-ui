@@ -3,26 +3,8 @@
     <section class="content">
         <novo-form [form]="form" layout="vertical">
             <section>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.usernameControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.passwordControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.clientIdControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.clientSecretControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.dataCenterControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.listDelimiterControl"></novo-control>
-                </div>
-                <div class="novo-form-row">
-                    <novo-control [form]="form" [control]="formControls.dateFormatControl"></novo-control>
+                <div class="novo-form-row" *ngFor="let control of formControls">
+                    <novo-control [form]="form" [control]="control"></novo-control>
                 </div>
             </section>
         </novo-form>

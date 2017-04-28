@@ -15,36 +15,36 @@ export class Settings implements OnInit {
     }
 
     setupForm() {
-        this.formControls = {
-            usernameControl: new TextBoxControl({
+        this.formControls = [
+            new TextBoxControl({
                 type: 'text',
                 label: 'Username',
                 value: '',
                 required: true,
                 key: 'username'
             }),
-            passwordControl: new TextBoxControl({
+            new TextBoxControl({
                 type: 'text',
                 label: 'Password',
                 value: '',
                 required: true,
                 key: 'password'
             }),
-            clientIdControl: new TextBoxControl({
+            new TextBoxControl({
                 type: 'text',
                 label: 'Client ID',
                 value: '',
                 required: true,
                 key: 'clientId'
             }),
-            clientSecretControl: new TextBoxControl({
+            new TextBoxControl({
                 type: 'text',
                 label: 'Client Secret',
                 value: '',
                 required: true,
                 key: 'clientSecret'
             }),
-            dataCenterControl: new TilesControl({
+            new TilesControl({
                 key: 'dataCenter',
                 label: 'Data Center',
                 value: 'east',
@@ -72,23 +72,23 @@ export class Settings implements OnInit {
                     }
                 ]
             }),
-            listDelimiterControl: new TextBoxControl({
+            new TextBoxControl({
                 type: 'text',
                 label: 'List Delimiter',
                 value: ';',
                 required: true,
                 key: 'listDelimiter'
             }),
-            dateFormatControl: new TextBoxControl({
+            new TextBoxControl({
                 type: 'text',
                 label: 'Date Format',
                 value: 'MM/dd/yy HH:mm',
                 required: true,
                 key: 'dateFormat'
             })
-        };
+        ];
 
-        this.form = this.formUtils.toFormGroup([this.formControls.usernameControl, this.formControls.passwordControl, this.formControls.clientIdControl, this.formControls.clientSecretControl, this.formControls.dataCenterControl, this.formControls.listDelimiterControl, this.formControls.dateFormatControl]);
+        this.form = this.formUtils.toFormGroup(this.formControls);
     }
 
     save() {
