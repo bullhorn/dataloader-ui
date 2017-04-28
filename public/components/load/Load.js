@@ -4,6 +4,7 @@ import { FormUtils, FileControl } from 'novo-elements';
 const spawn = require('child_process').spawn;
 const shell = require('electron').shell;
 const os = require('os');
+const csv = require("fast-csv");
 
 @Component({
     selector: 'load',
@@ -21,6 +22,64 @@ export class Load implements OnInit {
 
     ngOnInit() {
         this.setupForm();
+
+        let filePath = "dataloader/examples/load/CandidateTest.csv";
+        this.getCsvPreviewData(filePath, this.onFileParsed.bind(this));
+    }
+
+    getCsvPreviewData(filePath, successCallback) {
+        let rowCount = 0;
+        let previewData = [];
+        let options = {
+            headers: true
+        };
+
+        let csvStream = csv.fromPath(filePath, options)
+            .on("data", function (row) {
+                previewData.push(row);
+                ++rowCount;
+                if (rowCount >= 3) {
+                    csvStream.pause();
+                    csvStream.unpipe();
+                    successCallback(previewData);
+                }
+            })
+            .on("error", function (error) {
+                console.log(error)
+            });
+
+        return previewData;
+    }
+
+    onFileParsed(data) {
+        let columns = this.createGenericColumns(data);
+        console.log('previewData:', data);
+        console.log('tableColumns:', columns);
+    }
+
+    toBookCase(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
+            return index === 0 ? letter.toUpperCase() : letter = " " + letter;
+        }).replace(/_\w/g, function (letter, index) {
+            return letter === '_' ? ' ' : letter.toUpperCase();
+        }).replace(/_/g, ' ');
+    };
+
+    createGenericColumns(data) {
+        let columns = [];
+
+        if (data && data['0']) {
+            for (const property in data[0]) {
+                columns.push({
+                    title: this.toBookCase(property),
+                    name: property,
+                    ordering: true,
+                    filtering: true
+                });
+            }
+        }
+
+        return columns;
     }
 
     setupForm() {
