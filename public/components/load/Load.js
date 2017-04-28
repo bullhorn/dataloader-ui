@@ -121,7 +121,7 @@ export class Load implements OnInit {
         shell.showItemInFolder(filePath);
     }
 
-    loadSample(form) {
+    loadSample() {
         debugger;
         this.response = 'loading';
         process.chdir('dataloader');
@@ -152,6 +152,10 @@ export class Load implements OnInit {
         // ls.stderr.on('data', (data) => {
         //     console.log(`stderr: ${data}`);
         // });
+    }
+
+    cancel() {
+        // TODO
     }
 
     captureResponse(code) {
