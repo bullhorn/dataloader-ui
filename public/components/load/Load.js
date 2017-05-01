@@ -16,6 +16,7 @@ export class Load implements OnInit {
         this.response = 'nothing yet';
         this.changeRef = changeRef;
         this.formUtils = formUtils;
+        this.previewTable = {};
         // ipcRenderer.on('loadSample', this.open.bind(this));
         // ipcRenderer.on('save-file', this.save.bind(this));
     }
@@ -55,15 +56,9 @@ export class Load implements OnInit {
         let columns = this.createGenericColumns(data);
         console.log('previewData:', data);
         console.log('tableColumns:', columns);
+        this.previewTable.columns = columns;
+        this.previewTable.rows = data;
     }
-
-    toBookCase(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
-            return index === 0 ? letter.toUpperCase() : letter = " " + letter;
-        }).replace(/_\w/g, function (letter, index) {
-            return letter === '_' ? ' ' : letter.toUpperCase();
-        }).replace(/_/g, ' ');
-    };
 
     createGenericColumns(data) {
         let columns = [];
@@ -71,7 +66,7 @@ export class Load implements OnInit {
         if (data && data['0']) {
             for (const property in data[0]) {
                 columns.push({
-                    title: this.toBookCase(property),
+                    title: property,
                     name: property,
                     ordering: true,
                     filtering: true
@@ -90,58 +85,16 @@ export class Load implements OnInit {
         });
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
 
-        let columns = [
-            {
-                title: 'Column',
-                name: 'column',
-                ordering: true,
-                filtering: true
-            }, {
-                title: 'Row 1',
-                name: 'row_1',
-                ordering: true,
-                filtering: true
-            }, {
-                title: 'Row 2',
-                name: 'row_2',
-                ordering: true,
-                filtering: true
-            }, {
-                title: 'Row 3',
-                name: 'row_3',
-                ordering: true,
-                filtering: true
-            }
-        ];
-
-        const TableData = [
-            {
-                'column': 'Victoria Cantrell',
-                'row_1': 'Integer Corporation',
-                'row_2': '8262',
-                'row_3': 208178
-            }, {
-                'column': 'Pearl Crosby',
-                'row_1': 'In PC',
-                'row_2': '8262',
-                'row_3': 114367
-            }, {
-                'column': 'Colette Foley',
-                'row_1': 'Lorem Inc.',
-                'row_2': '8262',
-                'row_3': 721473
-            }];
-
-        this.preview = {
-            columns: columns.slice(),
-            rows: TableData.slice(),
+        this.previewTable = {
+            columns: [],
+            rows: [],
             config: {
                 paging: {
                     current: 1,
                     itemsPerPage: 10,
                     onPageChange: event => {
-                        this.preview.config.paging.current = event.page;
-                        this.preview.config.paging.itemsPerPage = event.itemsPerPage;
+                        this.previewTable.config.paging.current = event.page;
+                        this.previewTable.config.paging.itemsPerPage = event.itemsPerPage;
                     }
                 },
                 sorting: true,

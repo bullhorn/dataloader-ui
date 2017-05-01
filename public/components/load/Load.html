@@ -6,7 +6,7 @@
                 <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
             </div>
         </novo-form>
-        <novo-table [rows]="preview.rows" [columns]="preview.columns" [config]="preview.config" #table></novo-table>
+        <novo-table [rows]="previewTable.rows" [columns]="previewTable.columns" [config]="previewTable.config" #table></novo-table>
         <novo-list class="output-files" direction="vertical">
             <novo-list-item *ngFor="let item of outputFiles">
                 <item-header>
