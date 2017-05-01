@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormUtils, TextBoxControl, TilesControl } from 'novo-elements';
+const fs = require('fs');
 
 @Component({
     selector: 'settings',
@@ -92,5 +93,14 @@ export class Settings implements OnInit {
     }
 
     save() {
+        console.log('this.form.value:', this.form.value);
+        const settingsFile = 'settings.json';
+        fs.writeFile(settingsFile, JSON.stringify(this.form.value, null, 2), function (err) {
+            if (err) {
+                return console.log(err);
+            }
+
+            console.log("Saved settings to: " + settingsFile);
+        });
     }
 }

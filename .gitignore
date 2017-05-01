@@ -39,3 +39,9 @@ node_modules
 browser/jspm_packages
 typings
 dist
+
+# Dataloader CLI
+dataloader/
+
+# User's Settings
+settings.json
