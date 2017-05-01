@@ -24,7 +24,7 @@ export class Load implements OnInit {
     ngOnInit() {
         this.setupForm();
 
-        let filePath = "dataloader/examples/load/CandidateTest.csv";
+        let filePath = "dataloader/examples/load/Candidate.csv";
         this.getCsvPreviewData(filePath, this.onFileParsed.bind(this));
     }
 
@@ -45,6 +45,9 @@ export class Load implements OnInit {
                     successCallback(previewData);
                 }
             })
+            .on("end", function () {
+                successCallback(previewData);
+            })
             .on("error", function (error) {
                 console.log(error)
             });
@@ -53,28 +56,28 @@ export class Load implements OnInit {
     }
 
     onFileParsed(data) {
-        let columns = this.createGenericColumns(data);
-        console.log('previewData:', data);
-        console.log('tableColumns:', columns);
-        this.previewTable.columns = columns;
-        this.previewTable.rows = data;
+        this.previewTable.rows = this.swapColumnsAndRows(data);
     }
 
-    createGenericColumns(data) {
-        let columns = [];
+    swapColumnsAndRows(data) {
+        let swapped = [];
 
-        if (data && data['0']) {
-            for (const property in data[0]) {
-                columns.push({
-                    title: property,
-                    name: property,
-                    ordering: true,
-                    filtering: true
-                });
+        let rowCount = 0;
+        for (const row of data) {
+
+            let colCount = 0;
+            for (const col in row) {
+                if (rowCount === 0) {
+                    swapped.push({ column: col });
+                }
+                let swappedRow = swapped[colCount];
+                swappedRow['row_' + (rowCount + 1)] = row[col];
+                colCount++;
             }
+            rowCount++;
         }
 
-        return columns;
+        return swapped;
     }
 
     setupForm() {
@@ -86,7 +89,15 @@ export class Load implements OnInit {
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
 
         this.previewTable = {
-            columns: [],
+            columns: [{
+                title: 'Column', name: 'column', ordering: true, filtering: true
+            }, {
+                title: 'Row 1', name: 'row_1', ordering: true, filtering: true
+            }, {
+                title: 'Row 2', name: 'row_2', ordering: true, filtering: true
+            }, {
+                title: 'Row 3', name: 'row_3', ordering: true, filtering: true
+            }],
             rows: [],
             config: {
                 paging: {
