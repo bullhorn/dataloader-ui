@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormUtils, FileControl } from 'novo-elements';
+import { FormUtils, FileControl, CheckboxControl } from 'novo-elements';
 // import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
 const shell = require('electron').shell;
@@ -68,7 +68,16 @@ export class Load implements OnInit {
             let colCount = 0;
             for (const col in row) {
                 if (rowCount === 0) {
-                    swapped.push({ column: col });
+                    let entry = { column: col };
+
+                    // TODO: Logic here to create meaningful default
+                    if (colCount === 0) {
+                        entry.duplicateCheck = true;
+                    } else {
+                        entry.duplicateCheck = false;
+                    }
+
+                    swapped.push(entry);
                 }
                 let swappedRow = swapped[colCount];
                 swappedRow['row_' + (rowCount + 1)] = row[col];
@@ -89,15 +98,13 @@ export class Load implements OnInit {
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
 
         this.previewTable = {
-            columns: [{
-                title: 'Column', name: 'column', ordering: true, filtering: true
-            }, {
-                title: 'Row 1', name: 'row_1', ordering: true, filtering: true
-            }, {
-                title: 'Row 2', name: 'row_2', ordering: true, filtering: true
-            }, {
-                title: 'Row 3', name: 'row_3', ordering: true, filtering: true
-            }],
+            columns: [
+                { title: 'Duplicate Check', name: 'duplicateCheck', ordering: true, filtering: true, editor: new CheckboxControl({ key: 'duplicateCheck' }) },
+                { title: 'Column', name: 'column', ordering: true, filtering: true },
+                { title: 'Row 1', name: 'row_1', ordering: true, filtering: true },
+                { title: 'Row 2', name: 'row_2', ordering: true, filtering: true },
+                { title: 'Row 3', name: 'row_3', ordering: true, filtering: true }
+            ],
             rows: [],
             config: {
                 paging: {
@@ -111,9 +118,7 @@ export class Load implements OnInit {
                 sorting: true,
                 filtering: true,
                 ordering: true,
-                resizing: true,
-                selectAllEnabled: true,
-                rowSelectionStyle: 'checkbox'
+                resizing: true
             }
         };
 

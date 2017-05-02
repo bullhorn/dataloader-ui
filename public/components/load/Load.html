@@ -6,7 +6,16 @@
                 <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
             </div>
         </novo-form>
-        <novo-table [rows]="previewTable.rows" [columns]="previewTable.columns" [config]="previewTable.config" #table></novo-table>
+        <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns" [config]="previewTable.config" [editable]="true" #table>
+            <novo-table-header class="table-header">
+                <h4>Duplicate Checked Columns and File Preview</h4>
+                <div>
+                    <button theme="secondary" (click)="table.setTableEdit()" *ngIf="!table.editing">Edit</button>
+                    <button theme="secondary" (click)="table.cancelEditing()" *ngIf="table.editing">Cancel</button>
+                    <button theme="primary" (click)="save(table)" *ngIf="table.editing">Save</button>
+                </div>
+            </novo-table-header>
+        </novo-table>
         <novo-list class="output-files" direction="vertical">
             <novo-list-item *ngFor="let item of outputFiles">
                 <item-header>
