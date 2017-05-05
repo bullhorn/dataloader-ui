@@ -5,6 +5,7 @@ const spawn = require('child_process').spawn;
 const shell = require('electron').shell;
 const os = require('os');
 const csv = require("fast-csv");
+const fs = require('fs');
 
 @Component({
     selector: 'load',
@@ -17,15 +18,13 @@ export class Load implements OnInit {
         this.changeRef = changeRef;
         this.formUtils = formUtils;
         this.previewTable = {};
+        this.filePath = null;
         // ipcRenderer.on('load', this.open.bind(this));
         // ipcRenderer.on('save-file', this.save.bind(this));
     }
 
     ngOnInit() {
         this.setupForm();
-
-        let filePath = "dataloader/examples/load/Candidate.csv";
-        this.getCsvPreviewData(filePath, this.onFileParsed.bind(this));
     }
 
     getCsvPreviewData(filePath, successCallback) {
@@ -90,10 +89,19 @@ export class Load implements OnInit {
     }
 
     setupForm() {
+        let onFileControlChange = (form) => {
+            this.filePath = form.value.file[0].file.path;
+            this.getCsvPreviewData(this.filePath, this.onFileParsed.bind(this));
+        };
+
+        // TODO: Only allow for a single file (not planning to support multiple in this interface)
         this.fileControl = new FileControl({
             key: 'file',
             name: 'file',
-            label: 'File'
+            label: 'CSV File',
+            value: null,
+            multiple: false,
+            interactions: [{ event: 'change', script: onFileControlChange }]
         });
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
 
@@ -150,11 +158,26 @@ export class Load implements OnInit {
     }
 
     load() {
-        debugger;
-        this.response = 'loading';
-        process.chdir('dataloader');
+        this.response = 'Loading...';
 
-        const basic_load = spawn('./dataloader', ['help']);
+        let settings = JSON.parse(fs.readFileSync('settings.json', 'utf8'));
+
+        let params = [];
+        params = params.concat(['username', settings.username]);
+        params = params.concat(['password', settings.password]);
+        params = params.concat(['clientId', settings.clientId]);
+        params = params.concat(['clientSecret', settings.clientSecret]);
+        params = params.concat(['listDelimiter', settings.listDelimiter]);
+        params = params.concat(['dateFormat', settings.dateFormat]);
+        // TODO: set data center urls
+        // if (params.dataCenter === 'west') {
+        //     params = params.concat(['dateFormat', settings.dateFormat]);
+        // }
+
+        params = params.concat(['load', this.filePath]);
+
+        process.chdir('dataloader');
+        const basic_load = spawn('./dataloader', params);
 
         basic_load.stdout.on('data', this.captureResponse.bind(this));
         basic_load.stdout.on('data', (data) => {
@@ -168,18 +191,9 @@ export class Load implements OnInit {
 
         basic_load.on('close', function (code) {
             console.log('closing code: ' + code);
-            debugger;
-            response = code;
+            this.response = code;
             //Here you can get the exit code of the script
         });
-
-        // const ls = spawn('ls');
-        //
-        // ls.stdout.on('data', this.captureResponse.bind(this));
-        //
-        // ls.stderr.on('data', (data) => {
-        //     console.log(`stderr: ${data}`);
-        // });
     }
 
     cancel() {
@@ -194,5 +208,4 @@ export class Load implements OnInit {
         this.response = code.toString();
         this.changeRef.detectChanges();
     }
-
 }
