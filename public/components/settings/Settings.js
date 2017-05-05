@@ -9,10 +9,12 @@ const fs = require('fs');
 export class Settings implements OnInit {
     constructor(formUtils: FormUtils) {
         this.formUtils = formUtils;
+        this.settingsFile = 'settings.json';
     }
 
     ngOnInit() {
         this.setupForm();
+        this.load();
     }
 
     setupForm() {
@@ -51,27 +53,10 @@ export class Settings implements OnInit {
                 value: 'east',
                 required: false,
                 options: [
-                    {
-                        label: 'US-East',
-                        value: 'east'
-                    },
-                    {
-                        label: 'US-West',
-                        value: 'west'
-                    },
-                    {
-                        label: 'US-BHNext',
-                        value: 'bhnext'
-                    },
-                    {
-                        label: 'UK',
-                        value: 'uk'
-                    },
-                    {
-                        label: 'Other',
-                        value: 'other'
-                    }
-                ]
+                    { label: 'US-East', value: 'east' },
+                    { label: 'US-West', value: 'west' },
+                    { label: 'US-BHNext', value: 'bhnext' },
+                    { label: 'UK', value: 'uk' }]
             }),
             new TextBoxControl({
                 type: 'text',
@@ -92,15 +77,20 @@ export class Settings implements OnInit {
         this.form = this.formUtils.toFormGroup(this.formControls);
     }
 
-    save() {
-        console.log('this.form.value:', this.form.value);
-        const settingsFile = 'settings.json';
-        fs.writeFile(settingsFile, JSON.stringify(this.form.value, null, 2), function (err) {
+    load() {
+        fs.readFile(this.settingsFile, 'utf8', (err, data) => {
             if (err) {
                 return console.log(err);
             }
+            this.form.setValue(JSON.parse(data));
+        });
+    }
 
-            console.log("Saved settings to: " + settingsFile);
+    save() {
+        fs.writeFile(this.settingsFile, JSON.stringify(this.form.value, null, 2), function (err) {
+            if (err) {
+                return console.log(err);
+            }
         });
     }
 }

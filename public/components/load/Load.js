@@ -17,7 +17,7 @@ export class Load implements OnInit {
         this.changeRef = changeRef;
         this.formUtils = formUtils;
         this.previewTable = {};
-        // ipcRenderer.on('loadSample', this.open.bind(this));
+        // ipcRenderer.on('load', this.open.bind(this));
         // ipcRenderer.on('save-file', this.save.bind(this));
     }
 
@@ -149,7 +149,7 @@ export class Load implements OnInit {
         shell.showItemInFolder(filePath);
     }
 
-    loadSample() {
+    load() {
         debugger;
         this.response = 'loading';
         process.chdir('dataloader');
