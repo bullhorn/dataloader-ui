@@ -9,6 +9,7 @@ dataloader-ui {
         flex: 1;
         display: flex;
         flex-direction: row;
+        max-height: 700px;
         >bowling-alley {
             width: $bowling-alley-width;
             min-width: $bowling-alley-width;
