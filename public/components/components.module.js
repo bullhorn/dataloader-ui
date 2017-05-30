@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 // Vendor
 import { NovoElementsModule } from 'novo-elements';
 // APP
@@ -24,7 +25,7 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-    imports: [CommonModule, FormsModule, NovoElementsModule],
+    imports: [CommonModule, FormsModule, NovoElementsModule, RouterModule],
     declarations: [...COMPONENTS],
     entryComponents: [...COMPONENTS],
     exports: [...COMPONENTS]

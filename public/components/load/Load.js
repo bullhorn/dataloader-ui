@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormUtils, FileControl, CheckboxControl } from 'novo-elements';
 // import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
@@ -12,12 +12,14 @@ const fs = require('fs');
     template: require('./Load.html')
 })
 export class Load implements OnInit {
+    @ViewChild('table') table: ElementRef;
     constructor(changeRef: ChangeDetectorRef, formUtils: FormUtils) {
         this.app = 'dataloader';
         this.response = 'nothing yet';
         this.changeRef = changeRef;
         this.formUtils = formUtils;
         this.previewTable = {};
+        this.rows = [];
         this.filePath = null;
         // ipcRenderer.on('load', this.open.bind(this));
         // ipcRenderer.on('save-file', this.save.bind(this));
@@ -56,6 +58,7 @@ export class Load implements OnInit {
 
     onFileParsed(data) {
         this.previewTable.rows = this.swapColumnsAndRows(data);
+        this.changeRef.detectChanges();
     }
 
     swapColumnsAndRows(data) {
@@ -92,6 +95,8 @@ export class Load implements OnInit {
         let onFileControlChange = (form) => {
             this.filePath = form.value.file[0].file.path;
             this.getCsvPreviewData(this.filePath, this.onFileParsed.bind(this));
+            this.cats = true;
+            // debugger;
         };
 
         // TODO: Only allow for a single file (not planning to support multiple in this interface)
@@ -107,7 +112,6 @@ export class Load implements OnInit {
 
         this.previewTable = {
             columns: [
-                { title: 'Duplicate Check', name: 'duplicateCheck', ordering: true, filtering: true, editor: new CheckboxControl({ key: 'duplicateCheck' }) },
                 { title: 'Column', name: 'column', ordering: true, filtering: true },
                 { title: 'Row 1', name: 'row_1', ordering: true, filtering: true },
                 { title: 'Row 2', name: 'row_2', ordering: true, filtering: true },
@@ -123,6 +127,7 @@ export class Load implements OnInit {
                         this.previewTable.config.paging.itemsPerPage = event.itemsPerPage;
                     }
                 },
+                rowSelectionStyle: 'checkbox',
                 sorting: true,
                 filtering: true,
                 ordering: true,

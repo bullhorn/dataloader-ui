@@ -17,7 +17,7 @@ import { Settings, Load } from './components/all';
 export const routes = [
     { path: '', redirectTo: '/load', pathMatch: 'full' },
     { path: 'load', component: Load },
-    { path: 'settings', component: Settings },
+    { path: 'settings', component: Settings }
 ];
 
 @NgModule({
