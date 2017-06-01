@@ -1,53 +1,52 @@
 <section class="load">
-    <h1 class="title">Load</h1>
+    <h1 class="title" *ngIf="!results">Load</h1>
+    <h1 class="title" *ngIf="results">Results</h1>
     <section class="content">
-        <novo-form [form]="fileForm" layout="vertical">
-            <div class="novo-form-row">
-                <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
-            </div>
-        </novo-form>
-        <div *ngIf="previewTable.rows.length > 0">
-            <h1>cats!</h1>
-        </div>
-        <novo-table *ngIf="previewTable.rows.length > 0" [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns" [config]="previewTable.config" #table>
-            <novo-table-header class="table-header">
-                <h4>Duplicate Checked Columns and File Preview</h4>
-                <!--<div>-->
-                    <!--<button theme="secondary" (click)="table.setTableEdit()" *ngIf="!table.editing">Edit</button>-->
-                    <!--<button theme="secondary" (click)="table.cancelEditing()" *ngIf="table.editing">Cancel</button>-->
-                    <!--<button theme="primary" (click)="save(table)" *ngIf="table.editing">Save</button>-->
-                <!--</div>-->
-            </novo-table-header>
-        </novo-table>
-        <!--<novo-list class="output-files" direction="vertical">-->
-            <!--<novo-list-item *ngFor="let item of outputFiles">-->
-                <!--<item-header>-->
-                    <!--<item-avatar [icon]="item.icon"></item-avatar>-->
-                    <!--<item-title>{{item.name}}</item-title>-->
-                    <!--<item-header-end>-->
-                <!--<span>-->
-                    <!--<i class="bhi-clock"></i>-->
-                    <!--{{item.dateCreated}}-->
-                <!--</span>-->
-                    <!--</item-header-end>-->
-                <!--</item-header>-->
-                <!--<item-content direction="vertical">-->
-                    <!--<p class="errors" *ngIf="item.errors">-->
-                        <!--<i class="bhi-caution"></i>-->
-                        <!--{{item.errors}} Errors-->
-                    <!--</p>-->
-                    <!--<p class="warnings" *ngIf="item.warnings">-->
-                        <!--<i class="bhi-info"></i>-->
-                        <!--{{item.warnings}} Warnings-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<a class="link" (click)="openFile(item.filePath);">{{item.filePath}}</a>-->
-                    <!--</p>-->
-                <!--</item-content>-->
-            <!--</novo-list-item>-->
-        <!--</novo-list>-->
-        <!--<div class="output">{{response}}</div>-->
-        <!--<button theme="primary" class="load" (click)="load()" icon="publish">Load</button>-->
-        <!--<button theme="primary" class="cancel" color="negative" (click)="cancel()" icon="times">Stop</button>-->
+        <section *ngIf="!results">
+            <novo-form [form]="fileForm" layout="vertical">
+                <div class="novo-form-row">
+                    <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
+                </div>
+            </novo-form>
+            <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns" [config]="previewTable.config" #table>
+                <novo-table-header class="table-header">
+                    <h4>Duplicate Checked Columns and File Preview</h4>
+                </novo-table-header>
+            </novo-table>
+            <footer>
+                <button theme="primary" class="cancel" [disabled]="previewTable.rows.length === 0" color="negative" (click)="cancel()" icon="times">Stop</button>
+                <button theme="primary" class="load" [disabled]="previewTable.rows.length === 0" [loading]="saving" (click)="load()" icon="publish">Load</button>
+            </footer>
+        </section>
+        <section *ngIf="results">
+            <novo-list class="output-files" direction="vertical">
+            <novo-list-item *ngFor="let item of outputFiles">
+            <item-header>
+            <item-avatar [icon]="item.icon"></item-avatar>
+            <item-title>{{item.name}}</item-title>
+            <item-header-end>
+            <span>
+            <i class="bhi-clock"></i>
+            {{item.dateCreated}}
+            </span>
+            </item-header-end>
+            </item-header>
+            <item-content direction="vertical">
+            <p class="errors" *ngIf="item.errors">
+            <i class="bhi-caution"></i>
+            {{item.errors}} Errors
+            </p>
+            <p class="warnings" *ngIf="item.warnings">
+            <i class="bhi-info"></i>
+            {{item.warnings}} Warnings
+            </p>
+            <p>
+            <a class="link" (click)="openFile(item.filePath);">{{item.filePath}}</a>
+            </p>
+            </item-content>
+            </novo-list-item>
+            </novo-list>
+            <div class="output">{{response}}</div>
+        </section>
     </section>
 </section>

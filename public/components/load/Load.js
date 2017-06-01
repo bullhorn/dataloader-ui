@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { FormUtils, FileControl, CheckboxControl } from 'novo-elements';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { FormUtils, FileControl, CheckboxControl, NovoTable } from 'novo-elements';
 // import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
 const shell = require('electron').shell;
@@ -12,15 +12,17 @@ const fs = require('fs');
     template: require('./Load.html')
 })
 export class Load implements OnInit {
-    @ViewChild('table') table: ElementRef;
-    constructor(changeRef: ChangeDetectorRef, formUtils: FormUtils) {
+    @ViewChild('table') novoTable: NovoTable;
+    constructor(zone: NgZone, changeRef: ChangeDetectorRef, formUtils: FormUtils) {
+        this.zone = zone;
         this.app = 'dataloader';
         this.response = 'nothing yet';
         this.changeRef = changeRef;
         this.formUtils = formUtils;
         this.previewTable = {};
-        this.rows = [];
         this.filePath = null;
+        this.saving = false;
+        this.results = false;
         // ipcRenderer.on('load', this.open.bind(this));
         // ipcRenderer.on('save-file', this.save.bind(this));
     }
@@ -57,8 +59,10 @@ export class Load implements OnInit {
     }
 
     onFileParsed(data) {
-        this.previewTable.rows = this.swapColumnsAndRows(data);
-        this.changeRef.detectChanges();
+        this.zone.run(()=> {
+            this.previewTable.rows = this.swapColumnsAndRows(data);
+            this.novoTable.setTableEdit();
+        });
     }
 
     swapColumnsAndRows(data) {
@@ -93,10 +97,12 @@ export class Load implements OnInit {
 
     setupForm() {
         let onFileControlChange = (form) => {
-            this.filePath = form.value.file[0].file.path;
-            this.getCsvPreviewData(this.filePath, this.onFileParsed.bind(this));
-            this.cats = true;
-            // debugger;
+            if (form.value.file.length > 0) {
+                this.filePath = form.value.file[0].file.path;
+                this.getCsvPreviewData(this.filePath, this.onFileParsed.bind(this));
+            } else {
+                this.previewTable.rows = [];
+            }
         };
 
         // TODO: Only allow for a single file (not planning to support multiple in this interface)
@@ -110,8 +116,10 @@ export class Load implements OnInit {
         });
         this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
 
+        //todo : fix paging
         this.previewTable = {
             columns: [
+                { title: 'Duplicate Check', name: 'duplicateCheck', ordering: true, filtering: true, editor: new CheckboxControl({ key: 'duplicateCheck' }) },
                 { title: 'Column', name: 'column', ordering: true, filtering: true },
                 { title: 'Row 1', name: 'row_1', ordering: true, filtering: true },
                 { title: 'Row 2', name: 'row_2', ordering: true, filtering: true },
@@ -127,7 +135,6 @@ export class Load implements OnInit {
                         this.previewTable.config.paging.itemsPerPage = event.itemsPerPage;
                     }
                 },
-                rowSelectionStyle: 'checkbox',
                 sorting: true,
                 filtering: true,
                 ordering: true,
@@ -163,6 +170,7 @@ export class Load implements OnInit {
     }
 
     load() {
+        this.saving = true;
         this.response = 'Loading...';
 
         let settings = JSON.parse(fs.readFileSync('settings.json', 'utf8'));
@@ -194,15 +202,19 @@ export class Load implements OnInit {
             console.log(`stderr: ${data}`);
         });
 
-        basic_load.on('close', function (code) {
-            console.log('closing code: ' + code);
-            this.response = code;
-            //Here you can get the exit code of the script
-        });
+        basic_load.on('close',this.onClose.bind(this));
     }
 
     cancel() {
         // TODO
+    }
+
+    onClose(code) {
+        console.log('closing code: ' + code);
+        this.saving = false;
+        this.results = true;
+        this.response = code.toString();
+        this.changeRef.detectChanges();
     }
 
     captureResponse(code) {
