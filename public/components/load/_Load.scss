@@ -3,6 +3,16 @@ load {
     width: 100%;
     margin-bottom: 50px;
 
+    .novo-form-row {
+        margin-top: 25px;
+    }
+
+    .novo-control-input {
+        &.file {
+            margin-bottom: 50px;
+        }
+    }
+
     .title {
         color: $white;
         background: $candidate;

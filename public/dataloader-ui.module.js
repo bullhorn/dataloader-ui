@@ -13,6 +13,7 @@ import { DataloaderUI } from './app/DataloaderUI';
 import './dataloader-ui.module.scss';
 import { ComponentsModule } from './components/components.module';
 import { Settings, Load } from './components/all';
+import { ReloadService } from './services/all';
 
 export const routes = [
     { path: '', redirectTo: '/load', pathMatch: 'full' },
@@ -36,7 +37,8 @@ export const routes = [
     ],
     providers: [
         { provide: APP_BASE_HREF, useValue : '' },
-        FormUtils
+        FormUtils,
+        ReloadService
     ],
     entryComponents: [
         DataloaderUI

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormUtils, FileControl, CheckboxControl, NovoTable } from 'novo-elements';
+import { ReloadService } from '../../services/all';
 // import { ipcRenderer } from 'electron';
 const spawn = require('child_process').spawn;
 const shell = require('electron').shell;
@@ -13,8 +14,9 @@ const fs = require('fs');
 })
 export class Load implements OnInit {
     @ViewChild('table') novoTable: NovoTable;
-    constructor(zone: NgZone, changeRef: ChangeDetectorRef, formUtils: FormUtils) {
+    constructor(zone: NgZone, changeRef: ChangeDetectorRef, formUtils: FormUtils, reload: ReloadService) {
         this.zone = zone;
+        this.reload = reload;
         this.app = 'dataloader';
         this.response = 'nothing yet';
         this.changeRef = changeRef;
@@ -29,6 +31,13 @@ export class Load implements OnInit {
 
     ngOnInit() {
         this.setupForm();
+        this.reload.openCleanLoadPage.subscribe(val => {
+            this.previewTable = {};
+            this.filePath = null;
+            this.saving = false;
+            this.results = false;
+            this.setupForm();
+        });
     }
 
     getCsvPreviewData(filePath, successCallback) {

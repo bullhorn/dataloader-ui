@@ -14,7 +14,7 @@
                 </novo-table-header>
             </novo-table>
             <footer>
-                <button theme="primary" class="cancel" [disabled]="previewTable.rows.length === 0" color="negative" (click)="cancel()" icon="times">Stop</button>
+                <button theme="primary" class="cancel" [disabled]="previewTable.rows.length === 0 || !saving" color="negative" (click)="cancel()" icon="times">Stop</button>
                 <button theme="primary" class="load" [disabled]="previewTable.rows.length === 0" [loading]="saving" (click)="load()" icon="publish">Load</button>
             </footer>
         </section>
