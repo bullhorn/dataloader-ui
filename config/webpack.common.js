@@ -147,11 +147,6 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['polyfills', 'vendor'].reverse()
         }),
-
-        // Use copy-webpack-plugin to copy static assets into the dist folder
-        new CopyWebpackPlugin([
-            { from: 'static/assets/' }
-        ])
     ],
 
     // Include polyfills or mocks for various node stuff

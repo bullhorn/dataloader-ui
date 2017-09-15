@@ -16,11 +16,8 @@ import {
 } from './all';
 
 const COMPONENTS = [
-    BowlingAlley,
-    DropArea,
     Header,
     Load,
-    Menu,
     Settings
 ];
 
