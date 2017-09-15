@@ -1,0 +1,9 @@
+{
+  "username": "",
+  "password": "",
+  "clientId": "",
+  "clientSecret": "",
+  "dataCenter": "bhnext",
+  "listDelimiter": ";",
+  "dateFormat": "MM/dd/yy HH:mm"
+}
