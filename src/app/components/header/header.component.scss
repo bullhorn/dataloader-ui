@@ -1,0 +1,30 @@
+header {
+  display: flex;
+  flex-direction: row;
+  background: #2f384f;
+  align-items: center;
+  padding-right: 25px;
+
+  i.bhi-configure-o {
+    color: #FFF;
+    font-size: 2em;
+    padding-left: 25px;
+  }
+
+  .bullhorn-logo {
+    svg {
+      height: 38px;
+      width: 200px;
+    }
+  }
+
+  .dataloader-logo {
+    margin-left: auto;
+    margin-right: auto;
+
+    svg {
+      min-width: 250px;
+      min-height: 55px;
+    }
+  }
+}

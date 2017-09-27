@@ -1,0 +1,17 @@
+@import "novo-elements.scss";
+
+.settings {
+  background: $white;
+  width: 100%;
+  margin-bottom: 50px;
+
+  .title {
+    color: $white;
+    background: $note;
+    padding-left: 20px;
+  }
+
+  .content {
+    margin: 20px;
+  }
+}
