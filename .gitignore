@@ -13,7 +13,6 @@ settings.json
 
 # IDEs and editors
 /.idea
-/.idea/workspace.xml
 .project
 .classpath
 .c9/
@@ -36,10 +35,6 @@ settings.json
 npm-debug.log
 testem.log
 /typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
 
 # System Files
 .DS_Store
