@@ -1,9 +1,0 @@
-{
-  "username": "Billy Bobbie",
-  "password": "password123",
-  "clientId": "12346789",
-  "clientSecret": "12312312313",
-  "dataCenter": "east",
-  "listDelimiter": ";",
-  "dateFormat": "MM/dd/yy HH:mm"
-}

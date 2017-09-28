@@ -22,12 +22,13 @@ declare global {
 @Injectable()
 export class ElectronService {
 
+  csv: any;
+  fs: any;
   ipcRenderer: any;
+  os: any;
+  process: any;
   shell: any;
   spawn: any;
-  fs: any;
-  os: any;
-  csv: any;
 
   /**
    * Conditional Imports of Electron Dependencies, so we can run in `ng serve` mode for dev testing.
@@ -37,12 +38,13 @@ export class ElectronService {
    */
   constructor() {
     if (this.isElectron()) {
+      this.csv = window.require('fast-csv');
+      this.fs = window.require('fs');
       this.ipcRenderer = window.require('electron').ipcRenderer;
+      this.os = window.require('os');
+      this.process = window['process'];
       this.shell = window.require('electron').shell;
       this.spawn = window.require('child_process').spawn;
-      this.fs = window.require('fs');
-      this.os = window.require('os');
-      this.csv = window.require('fast-csv');
     }
   }
 
