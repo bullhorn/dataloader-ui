@@ -4,26 +4,30 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 // Vendor
-import { NovoElementsModule, NovoElementProviders } from 'novo-elements';
+import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
 import { AppComponent } from './app.component';
-import { routing } from './app.routes';
-import { SettingsComponent } from './components/settings/settings.component';
+import { DataloaderService } from './providers/dataloader/dataloader.service';
+import { ElectronService } from './providers/electron/electron.service';
+import { FileService } from './providers/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
-import { ElectronService } from './providers/electron.service';
+import { ResultsComponent } from './components/results/results.component';
+import { routing } from './app.routes';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SettingsComponent,
     HeaderComponent,
     LoadComponent,
+    ResultsComponent,
+    SettingsComponent,
   ],
   imports: [
     // Angular
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
     HttpModule,
     // Vendor
     NovoElementsModule,
@@ -31,7 +35,7 @@ import { ElectronService } from './providers/electron.service';
     // App
     routing,
   ],
-  providers: [ElectronService],
+  providers: [DataloaderService, ElectronService, FileService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

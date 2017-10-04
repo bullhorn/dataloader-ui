@@ -1,5 +1,4 @@
-/* SystemJS module definition */
-declare var module: NodeModule;
-interface NodeModule {
-  id: string;
+// Required to satisfy Typescript not knowing about the Electron provided 'window.require'
+interface Window {
+  require: any;
 }

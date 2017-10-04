@@ -10,7 +10,7 @@
     "ng": "ng",
     "start": "npm run build-electron && electron dist/main.js",
     "build": "ng build",
-    "build-electron": "ng build --base-href . && cp electron/* dist",
+    "build-electron": "ng build --base-href . && tsc ./electron/* --outDir dist",
     "test": "ng test",
     "lint": "ng lint"
   },

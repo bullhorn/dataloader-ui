@@ -1,8 +1,9 @@
 // Angular
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 // App
 import { AppComponent } from './app.component';
 import { LoadComponent } from './components/load/load.component';
+import { ResultsComponent } from './components/results/results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
@@ -12,6 +13,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'load', pathMatch: 'full' },
       { path: 'load', component: LoadComponent },
+      { path: 'results', component: ResultsComponent },
       { path: 'settings', component: SettingsComponent },
     ],
   },

@@ -1,6 +1,9 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
+// Vendor
 import { FormUtils, TextBoxControl, TilesControl } from 'novo-elements';
-import { ElectronService } from '../../providers/electron.service';
+// App
+import { ElectronService } from '../../providers/electron/electron.service';
 
 @Component({
   selector: 'app-settings',
@@ -22,7 +25,7 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
-    if (this.electronService.fs) {
+    if (ElectronService.isElectron()) {
       this.electronService.fs.readFile(this.settingsFile, 'utf8', (err, data) => {
         if (err) {
           // noinspection TsLint
@@ -34,7 +37,7 @@ export class SettingsComponent implements OnInit {
   }
 
   save(): void {
-    if (this.electronService.fs) {
+    if (ElectronService.isElectron()) {
       this.electronService.fs.writeFile(this.settingsFile, JSON.stringify(this.form.value, null, 2), (err) => {
         if (err) {
           // noinspection TsLint
@@ -100,6 +103,11 @@ export class SettingsComponent implements OnInit {
         key: 'dateFormat',
       }),
     ];
+
+    // TODO: Setup data center URL shortcuts as field interactions
+    // if (params.dataCenter === 'west') {
+    //     params = params.concat(['dateFormat', settings.dateFormat]);
+    // }
 
     this.form = this.formUtils.toFormGroup(this.formControls);
   }
