@@ -1,14 +1,21 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
 
+// The --serve argument will run electron in development mode
+const args: string[] = process.argv.slice(1);
+const serve: boolean = args.some((arg) => arg === '--serve');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow = null;
 
 function createWindow(): void {
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({ width: 800, height: 600 });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow.webContents.openDevTools();
+
+  if (serve) {
+    mainWindow.webContents.openDevTools();
+  }
 
   mainWindow.on('closed', () => {
     // Dereference the window object.
