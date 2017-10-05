@@ -1,6 +1,6 @@
 {
   "name": "dataloader-ui",
-  "productName": "DataLoader",
+  "productName": "Bullhorn DataLoader",
   "version": "1.0.0",
   "description": "Bullhorn DataLoader Desktop Application",
   "repository": "https://github.com/bullhorn/dataloader-ui",
@@ -9,13 +9,13 @@
   "private": true,
   "scripts": {
     "build": "ng build --aot --base-href . && npm run compile",
-    "build:prod": "ng build --prod --base-href .  && npm run compile",
-    "compile": "tsc ./electron/* --outDir dist",
+    "build:prod": "ng build --prod --base-href . && npm run compile",
+    "compile": "tsc ./main-process/* --outDir dist",
     "lint": "ng lint",
-    "pack": "cd dist && electron-builder",
-    "package": "npm run build:prod && npm run stage && npm run pack",
+    "dist": "cd dist && electron-builder",
+    "package": "npm run build:prod && npm run stage && npm run dist",
     "serve": "electron dist/main.js",
-    "stage": "copyfiles package.json dist && cd dist && npm install --prod && cd ..",
+    "stage": "copyfiles package.json build/* dist && cd dist && npm install --prod && cd ..",
     "start": "npm run build && npm run serve",
     "test": "ng test"
   },
