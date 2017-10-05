@@ -21,7 +21,8 @@ npm start
 ### Make distributable executable
 
 ```
-TODO: Add Electron Packager
+# Generate installer for current OS 
+npm run package
 ```
 
 ### WebApp-only development server
