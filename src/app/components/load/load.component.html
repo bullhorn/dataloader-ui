@@ -13,11 +13,11 @@
     </novo-table-header>
   </novo-table>
   <footer>
-    <button theme="primary" class="cancel-button" [disabled]="previewTable.rows.length === 0 || !saving"
-            color="negative" (click)="cancel()" icon="times">Stop
+    <button theme="primary" class="cancel-button" [disabled]="previewTable.rows.length === 0" (click)="cancel()"
+            color="negative" icon="times">Stop
     </button>
-    <button theme="primary" class="load-button" [disabled]="previewTable.rows.length === 0" [loading]="saving"
-            (click)="load()" icon="publish">Load
+    <button theme="primary" class="load-button" [disabled]="previewTable.rows.length === 0" (click)="load()"
+            icon="publish">Load
     </button>
   </footer>
 </section>

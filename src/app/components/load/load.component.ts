@@ -79,6 +79,10 @@ export class LoadComponent implements OnInit {
     this.router.navigate(['/results']);
   }
 
+  cancel(): void {
+    // TODO
+  }
+
   private onFileSelected(fieldInteractionApi: FieldInteractionApi): void {
     if (fieldInteractionApi.form.value.file.length > 0) {
       this.filePath = fieldInteractionApi.form.value.file[0].file.path;
