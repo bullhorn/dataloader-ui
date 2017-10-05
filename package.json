@@ -6,15 +6,19 @@
   "repository": "https://github.com/bullhorn/dataloader-ui",
   "author": "Nathan Dickerson",
   "license": "AGPL-3.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "npm run build-electron && electron dist/main.js",
-    "build": "ng build",
-    "build-electron": "ng build --base-href . && tsc ./electron/* --outDir dist",
-    "test": "ng test",
-    "lint": "ng lint"
-  },
   "private": true,
+  "scripts": {
+    "build": "ng build --aot --base-href . && npm run compile",
+    "build:prod": "ng build --prod --base-href .  && npm run compile",
+    "compile": "tsc ./electron/* --outDir dist",
+    "lint": "ng lint",
+    "package": "npm run build:prod && npm run stage && electron-packager ./dist --overwrite",
+    "serve": "electron dist/main.js",
+    "stage": "npm run compile && copyfiles package.json dist && cd dist && npm install --prod && cd ..",
+    "start": "npm run build && npm run serve",
+    "test": "ng test"
+  },
+  "main": "main.js",
   "dependencies": {
     "@angular/animations": "^4.4.4",
     "@angular/common": "^4.4.4",
@@ -39,7 +43,10 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.0.32",
     "codelyzer": "~3.2.0",
+    "copyfiles": "^1.2.0",
     "electron": "1.7.8",
+    "electron-builder": "^19.34.1",
+    "electron-packager": "^9.1.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
@@ -50,7 +57,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "ts-node": "~3.3.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.5.3",
+    "typescript": "~2.3.3",
     "vrsource-tslint-rules": "^5.1.1"
   }
 }
