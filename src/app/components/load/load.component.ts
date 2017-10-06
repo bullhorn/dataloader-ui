@@ -8,7 +8,7 @@ import {
   FileControl,
   FormUtils,
   NovoFormGroup,
-  NovoTableElement
+  NovoTableElement,
 } from 'novo-elements';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
