@@ -1,17 +1,24 @@
 <app-header></app-header>
 <section class="load">
-  <h1 class="title">Load</h1>
-  <novo-form [form]="fileForm" layout="vertical">
-    <div class="novo-form-row">
-      <novo-control [form]="fileForm" [control]="fileControl"></novo-control>
-    </div>
-  </novo-form>
-  <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns"
-              [config]="previewTable.config" #table>
-    <novo-table-header class="table-header">
-      <h4>Duplicate Checked Columns and File Preview</h4>
-    </novo-table-header>
-  </novo-table>
+  <div class="subtitle">
+    <i class="bhi-publish"></i>
+    <h1>Load</h1>
+  </div>
+  <div class="input-file-form">
+    <novo-form [form]="inputFileForm" layout="vertical">
+      <div class="novo-form-row">
+        <novo-control [form]="inputFileForm" [control]="inputFileControl"></novo-control>
+      </div>
+    </novo-form>
+  </div>
+  <div class="preview">
+    <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns"
+                [config]="previewTable.config" #table>
+      <novo-table-header class="table-header">
+        <h4>Duplicate Checked Columns and File Preview</h4>
+      </novo-table-header>
+    </novo-table>
+  </div>
   <footer>
     <button theme="primary" class="cancel-button" [disabled]="previewTable.rows.length === 0" (click)="cancel()"
             color="negative" icon="times">Stop

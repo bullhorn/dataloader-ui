@@ -1,6 +1,10 @@
 <app-header></app-header>
 <section class="results">
-  <h1 class="title">Results</h1>
+  <div class="subtitle">
+    <i class="bhi-report"></i>
+    <h1>Results</h1>
+  </div>
+  <!--<div class="output">{{response}}</div>-->
   <novo-list class="output-files" direction="vertical">
     <novo-list-item *ngFor="let item of outputFiles">
       <item-header>
@@ -28,5 +32,4 @@
       </item-content>
     </novo-list-item>
   </novo-list>
-  <!--<div class="output">{{response}}</div>-->
 </section>

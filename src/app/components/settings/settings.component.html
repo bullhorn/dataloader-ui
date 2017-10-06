@@ -1,17 +1,18 @@
 <app-header></app-header>
 <section class="settings">
-  <h1 class="title">Settings</h1>
-  <section class="content">
+  <div class="subtitle">
+    <i class="bhi-configure-o"></i>
+    <h1>Settings</h1>
+  </div>
+  <div class="settings-form">
     <novo-form [form]="form" layout="vertical">
-      <section>
-        <div class="novo-form-row" *ngFor="let control of formControls">
-          <novo-control [form]="form" [control]="control"></novo-control>
-        </div>
-      </section>
+      <div class="novo-form-row" *ngFor="let control of formControls">
+        <novo-control [form]="form" [control]="control"></novo-control>
+      </div>
     </novo-form>
-    <footer>
-      <button theme="primary" class="cancel" color="negative" icon="times" routerLink="/load">Cancel</button>
-      <button theme="primary" class="save" icon="check" (click)="save()" routerLink="/load">Save</button>
-    </footer>
-  </section>
+  </div>
+  <footer>
+    <button theme="primary" class="cancel" color="negative" icon="times" routerLink="/load">Cancel</button>
+    <button theme="primary" class="save" icon="check" (click)="save()" routerLink="/load">Save</button>
+  </footer>
 </section>

@@ -1,23 +1,35 @@
 @import "novo-elements.scss";
 
 .load {
-  background: $white;
-  width: 100%;
-  margin-bottom: 50px;
+  .subtitle {
+    display: flex;
+    align-items: center;
+    color: $white;
+    background: $neutral;
+    padding-left: 20px;
 
-  .novo-form-row {
-    margin-top: 25px;
-  }
-
-  .novo-control-input {
-    &.file {
-      margin-bottom: 50px;
+    h1 {
+      padding-left: 10px;
+      font-size: 1.7em;
     }
   }
 
-  .title {
-    color: $white;
-    background: $candidate;
-    padding-left: 20px;
+  .input-file-form {
+    margin-top: 20px;
+  }
+
+  .preview {
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      input {
+        width: 70px;
+        color: $dark;
+        padding: 0.6em;
+      }
+    }
   }
 }

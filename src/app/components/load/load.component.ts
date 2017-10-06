@@ -2,7 +2,14 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 // Vendor
-import { CheckboxControl, FieldInteractionApi, FileControl, FormUtils, NovoTableElement } from 'novo-elements';
+import {
+  CheckboxControl,
+  FieldInteractionApi,
+  FileControl,
+  FormUtils,
+  NovoFormGroup,
+  NovoTableElement
+} from 'novo-elements';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
@@ -13,10 +20,10 @@ import { FileService } from '../../providers/file/file.service';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
+  inputFileForm: NovoFormGroup = null;
+  inputFileControl: FileControl = null;
+  inputFilePath = null;
   previewTable: any = {};
-  fileForm = {};
-  fileControl = {};
-  filePath = null;
 
   @ViewChild('table') table: NovoTableElement;
 
@@ -32,7 +39,7 @@ export class LoadComponent implements OnInit {
   }
 
   setupForm(): void {
-    this.fileControl = new FileControl({
+    this.inputFileControl = new FileControl({
       key: 'file',
       name: 'file',
       label: 'CSV Input File',
@@ -40,7 +47,7 @@ export class LoadComponent implements OnInit {
       multiple: false,
       interactions: [{ event: 'change', script: this.onFileSelected.bind(this) }],
     });
-    this.fileForm = this.formUtils.toFormGroup([this.fileControl]);
+    this.inputFileForm = this.formUtils.toFormGroup([this.inputFileControl]);
 
     this.previewTable = {
       columns: [
@@ -75,7 +82,7 @@ export class LoadComponent implements OnInit {
   }
 
   load(): void {
-    this.dataloaderService.start(this.filePath);
+    this.dataloaderService.start(this.inputFilePath);
     this.router.navigate(['/results']);
   }
 
@@ -85,8 +92,8 @@ export class LoadComponent implements OnInit {
 
   private onFileSelected(fieldInteractionApi: FieldInteractionApi): void {
     if (fieldInteractionApi.form.value.file.length > 0) {
-      this.filePath = fieldInteractionApi.form.value.file[0].file.path;
-      this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this));
+      this.inputFilePath = fieldInteractionApi.form.value.file[0].file.path;
+      this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
     } else {
       this.previewTable.rows = [];
     }

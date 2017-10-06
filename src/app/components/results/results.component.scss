@@ -1,20 +1,24 @@
 @import "novo-elements.scss";
 
-.content {
-  margin: 20px;
+.results {
+  .subtitle {
+    display: flex;
+    align-items: center;
+    color: $white;
+    background: $neutral;
+    padding-left: 20px;
+
+    h1 {
+      padding-left: 10px;
+      font-size: 1.7em;
+    }
+  }
 
   .output {
     margin: 20px;
   }
 
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    input {
-      width: 70px;
-      color: $dark;
-      padding: 0.6em;
-    }
+  .output-files {
+    margin: 20px;
   }
 }
