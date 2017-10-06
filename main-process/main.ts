@@ -49,18 +49,18 @@ app.on('activate', () => {
  * Inter-process Communication with DataLoader CLI
  *
  * Incoming events:
- *  - start(args: string[]): kick off CLI with given arguments array
+ *  - start(params: string[]): kick off CLI with given arguments array
  *
  * Outgoing events:
  *  - data(text: string): line of text output from CLI
  *  - close(): CLI is finished
  */
-ipcMain.on('start', (event: Electron.Event, args: string[]) => {
+ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   // TODO: Save the dataloader cli location in config
   process.chdir('../dataloader/');
 
   // Execute dataloader in a separate process
-  const dataloaderProcess: ChildProcess = spawn('dataloader', args);
+  const dataloaderProcess: ChildProcess = spawn('dataloader', params);
 
   dataloaderProcess.stdout.on('data', (data) => {
     event.sender.send('print', data.toString());
