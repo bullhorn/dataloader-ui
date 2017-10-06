@@ -12,6 +12,7 @@ import { ElectronService } from '../../providers/electron/electron.service';
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 
+  running: boolean = false;
   outputFiles = [{
     name: 'Successful Records',
     records: 103,
@@ -44,6 +45,10 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dataloaderService.removePrintListeners();
+  }
+
+  stop(): void {
+    // TODO
   }
 
   private openFile(filePath: string): void {

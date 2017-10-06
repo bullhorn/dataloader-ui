@@ -13,6 +13,8 @@
   </div>
   <footer>
     <button theme="primary" class="cancel" color="negative" icon="times" routerLink="/load">Cancel</button>
-    <button theme="primary" class="save" icon="check" (click)="save()" routerLink="/load">Save</button>
+    <button theme="primary" class="save" icon="check" (click)="save()" [disabled]="form.invalid" routerLink="/load">
+      Save
+    </button>
   </footer>
 </section>

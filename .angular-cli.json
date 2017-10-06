@@ -22,6 +22,7 @@
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
+          ".",
           "../node_modules/hint.css/src",
           "../node_modules/novo-elements"
         ]

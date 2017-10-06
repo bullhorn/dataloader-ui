@@ -1,1 +1,30 @@
-@import "novo-elements.scss";
+@import 'novo-elements.scss';
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  color: $white;
+  background: $neutral;
+  padding-left: 20px;
+
+  h1 {
+    padding-left: 10px;
+    font-size: 1.7em;
+  }
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 10px 15px;
+  z-index: 100;
+  background-color: $background;
+
+  button[theme="primary"] {
+    margin-left: 15px;
+  }
+}

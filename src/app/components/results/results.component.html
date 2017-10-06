@@ -32,4 +32,9 @@
       </item-content>
     </novo-list-item>
   </novo-list>
+  <footer>
+    <button theme="primary" class="cancel-button" [disabled]="!running" (click)="stop()" color="negative" icon="times">
+      Stop
+    </button>
+  </footer>
 </section>

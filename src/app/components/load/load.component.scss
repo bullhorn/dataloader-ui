@@ -1,25 +1,12 @@
-@import "novo-elements.scss";
+@import 'novo-elements.scss';
+@import 'styles.scss';
 
 .load {
-  .subtitle {
-    display: flex;
-    align-items: center;
-    color: $white;
-    background: $neutral;
-    padding-left: 20px;
-
-    h1 {
-      padding-left: 10px;
-      font-size: 1.7em;
-    }
-  }
-
   .input-file-form {
     margin-top: 20px;
   }
 
   .preview {
-
     .table-header {
       display: flex;
       justify-content: space-between;

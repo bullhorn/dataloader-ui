@@ -1,19 +1,7 @@
-@import "novo-elements.scss";
+@import 'novo-elements.scss';
+@import 'styles.scss';
 
 .settings {
-  .subtitle {
-    display: flex;
-    align-items: center;
-    color: $white;
-    background: $neutral;
-    padding-left: 20px;
-
-    h1 {
-      padding-left: 10px;
-      font-size: 1.7em;
-    }
-  }
-
   .settings-form {
     margin: 20px;
   }
