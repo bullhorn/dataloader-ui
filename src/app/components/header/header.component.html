@@ -1,5 +1,4 @@
 <header>
-  <a tooltip="Settings" tooltipPosition="bottom-right" routerLink="/settings"><i class="bhi-configure-o"></i></a>
   <div class="bullhorn-logo">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="988px" height="267.7px" viewBox="0 0 988 267.7" style="enable-background:new 0 0 988 267.7;" xml:space="preserve">
                 <style type="text/css">
@@ -166,5 +165,11 @@
 	></path>
 </svg>
   </div>
-  <button theme="primary" icon="publish" routerLink="/load">Load New</button>
+  <button class="load-button" theme="dialogue" inverse color="white" icon="publish" side="left" routerLink="/load">
+    Load New
+  </button>
+  <button class="settings-button" theme="dialogue" inverse color="white" icon="configure-o" side="left"
+          routerLink="/settings">
+    Settings
+  </button>
 </header>

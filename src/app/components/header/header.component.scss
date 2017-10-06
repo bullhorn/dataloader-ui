@@ -1,17 +1,13 @@
 header {
+  height: 50px;
   display: flex;
-  flex-direction: row;
-  background: #2f384f;
   align-items: center;
-  padding-right: 25px;
-
-  i.bhi-configure-o {
-    color: #FFF;
-    font-size: 2em;
-    padding-left: 25px;
-  }
+  padding-right: 10px;
+  background: #2f384f;
 
   .bullhorn-logo {
+    margin-left: -8px;
+
     svg {
       height: 38px;
       width: 200px;
@@ -23,8 +19,7 @@ header {
     margin-right: auto;
 
     svg {
-      min-width: 250px;
-      min-height: 55px;
+      width: 200px;
     }
   }
 }
