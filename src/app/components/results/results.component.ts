@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 // Vendor
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
@@ -11,8 +11,8 @@ import { ElectronService } from '../../providers/electron/electron.service';
   styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
-
   running: boolean = false;
+  output: string = '';
   outputFiles = [{
     name: 'Successful Records',
     records: 103,
@@ -35,12 +35,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
     icon: 'bhi-note',
   }];
 
-  constructor(private electronService: ElectronService,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private electronService: ElectronService,
               private dataloaderService: DataloaderService) {
   }
 
   ngOnInit(): void {
-    this.dataloaderService.onPrint(this.onPrint);
+    this.dataloaderService.onPrint(this.onPrint.bind(this));
+    this.dataloaderService.onPrint(this.onPrint.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -58,12 +60,13 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onPrint(text: string): void {
-    console.log('text:', text);
+    this.output = this.output.concat(text);
+    this.changeDetectorRef.detectChanges();
   }
 
   // onLoadProcessFinished(code: any): void {
   //   this.response = code.toString();
-  //   this.changeRef.detectChanges();
+  //   this.changeDetectorRef.detectChanges();
   // }
   //
   // captureResponse(code: any): void {

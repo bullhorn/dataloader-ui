@@ -98,7 +98,6 @@ export class LoadComponent implements OnInit {
   private onPreviewData(data: any): void {
     this.zone.run(() => {
       this.previewTable.rows = data;
-      this.table.setTableEdit();
     });
   }
 }
