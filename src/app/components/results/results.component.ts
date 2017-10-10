@@ -11,7 +11,7 @@ import { FileService } from '../../providers/file/file.service';
   styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
-  running: boolean = false;
+  running: boolean = true;
   output: string = '';
   outputFiles = [{
     name: 'Successful Records',
@@ -65,5 +65,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   private onDone(code: string): void {
     let notification: Notification = new Notification('Loaded 1301 Candidate Records in XX:XX',
       { body: '  Inserted: 1202\n  Updated: 90\n  Failed: 9' });
+    this.running = false;
+    this.changeDetectorRef.detectChanges();
   }
 }
