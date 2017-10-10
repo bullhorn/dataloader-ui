@@ -50,8 +50,12 @@ export class Utils {
     args = args.concat(['password', settings.password]);
     args = args.concat(['clientId', settings.clientId]);
     args = args.concat(['clientSecret', settings.clientSecret]);
+    args = args.concat(['authorizeUrl', settings.authorizeUrl]);
+    args = args.concat(['loginUrl', settings.loginUrl]);
+    args = args.concat(['tokenUrl', settings.tokenUrl]);
     args = args.concat(['listDelimiter', settings.listDelimiter]);
     args = args.concat(['dateFormat', settings.dateFormat]);
+    args = args.concat(['numThreads', settings.numThreads]);
     args = args.concat(['load', filePath]);
     return args;
   }

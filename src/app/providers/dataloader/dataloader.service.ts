@@ -29,19 +29,34 @@ export class DataloaderService {
    * Subscribe to real time printouts from the DataLoader CLI
    */
   onPrint(callback: (text: string) => void): void {
+    this.subscribe('print', callback);
+  }
+
+  /**
+   * Subscribe to the done message from the DataLoader CLI
+   */
+  onDone(callback: (code: string) => void): void {
+    this.subscribe('done', callback);
+  }
+
+  /**
+   * Unsubscribe from all events from the DataLoader CLI
+   */
+  unsubscribe(): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.on('print', (event, text) => {
-        callback(text);
-      });
+      this.electronService.ipcRenderer.removeAllListeners('print');
+      this.electronService.ipcRenderer.removeAllListeners('done');
     }
   }
 
   /**
-   * Unsubscribe from printouts from the DataLoader CLI
+   * Subscribe to real time printouts from the DataLoader CLI
    */
-  removePrintListeners(): void {
+  private subscribe(channel: string, callback: (text: string) => void): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.removeAllListeners('print');
+      this.electronService.ipcRenderer.on(channel, (event, text) => {
+        callback(text);
+      });
     }
   }
 }

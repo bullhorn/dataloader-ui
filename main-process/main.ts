@@ -70,7 +70,7 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
     event.sender.send('print', data.toString());
   });
 
-  dataloaderProcess.on('close', (data) => {
-    event.sender.send('done', data.toString());
+  dataloaderProcess.on('close', (code) => {
+    event.sender.send('done', code.toString());
   });
 });
