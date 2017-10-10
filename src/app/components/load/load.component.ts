@@ -1,18 +1,12 @@
 // Angular
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Vendor
-import {
-  CheckboxControl,
-  FieldInteractionApi,
-  FileControl,
-  FormUtils,
-  NovoFormGroup,
-  NovoTableElement,
-} from 'novo-elements';
+import { FieldInteractionApi, FileControl, FormUtils, NovoFormGroup, } from 'novo-elements';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
 
 @Component({
   selector: 'app-load',
@@ -23,9 +17,8 @@ export class LoadComponent implements OnInit {
   inputFileForm: NovoFormGroup = null;
   inputFileControl: FileControl = null;
   inputFilePath = null;
+  previewData: IPreviewData = null;
   previewTable: any = {};
-
-  @ViewChild('table') table: NovoTableElement;
 
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
@@ -50,29 +43,9 @@ export class LoadComponent implements OnInit {
     this.inputFileForm = this.formUtils.toFormGroup([this.inputFileControl]);
 
     this.previewTable = {
-      columns: [
-        {
-          title: 'Duplicate Check',
-          name: 'duplicateCheck',
-          ordering: true,
-          filtering: true,
-          editor: new CheckboxControl({ key: 'duplicateCheck' }),
-        },
-        { title: 'Column', name: 'column', ordering: true, filtering: true },
-        { title: 'Row 1', name: 'row_1', ordering: true, filtering: true },
-        { title: 'Row 2', name: 'row_2', ordering: true, filtering: true },
-        { title: 'Row 3', name: 'row_3', ordering: true, filtering: true },
-      ],
+      columns: [],
       rows: [],
       config: {
-        paging: {
-          current: 1,
-          itemsPerPage: 10,
-          onPageChange: (event) => {
-            this.previewTable.config.paging.current = event.page;
-            this.previewTable.config.paging.itemsPerPage = event.itemsPerPage;
-          },
-        },
         sorting: true,
         filtering: true,
         ordering: true,
@@ -86,18 +59,35 @@ export class LoadComponent implements OnInit {
     this.router.navigate(['/results']);
   }
 
-  private onFileSelected(fieldInteractionApi: FieldInteractionApi): void {
-    if (fieldInteractionApi.form.value.file.length > 0) {
-      this.inputFilePath = fieldInteractionApi.form.value.file[0].file.path;
+  private onFileSelected(API: FieldInteractionApi): void {
+    if (API.form.value.file.length > 0) {
+      this.inputFilePath = API.form.value.file[0].file.path;
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
     } else {
+      this.previewData = null;
+      this.previewTable.columns = [];
       this.previewTable.rows = [];
     }
   }
 
-  private onPreviewData(data: any): void {
+  private onPreviewData(previewData: IPreviewData): void {
     this.zone.run(() => {
-      this.previewTable.rows = data;
+      this.previewData = previewData;
+      this.previewTable.columns = this.createColumnConfig(previewData.data);
+      this.previewTable.rows = previewData.data;
     });
+  }
+
+  private createColumnConfig(data: any[]): any[] {
+    let columnConfig: any[] = [];
+
+    for (let key in data[0]) {
+      columnConfig.push({
+        name: key,
+        title: key,
+      });
+    }
+
+    return columnConfig;
   }
 }

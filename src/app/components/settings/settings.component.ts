@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FieldInteractionApi, FormUtils } from 'novo-elements';
 // App
 import { FileService } from '../../providers/file/file.service';
+import { ISettings } from '../../../interfaces/ISettings';
 
 @Component({
   selector: 'app-settings',
@@ -17,8 +18,7 @@ export class SettingsComponent implements OnInit {
   constructor(private fileService: FileService, private formUtils: FormUtils) {
   }
 
-  // TODO: Create ISettings interface to strongly type this data
-  private static setDefaults(value: any): any {
+  private static setDefaults(value: ISettings): ISettings {
     const defaultValues: any = {
       username: '',
       password: '',

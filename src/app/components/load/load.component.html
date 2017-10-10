@@ -4,24 +4,22 @@
     <i class="bhi-publish"></i>
     <h1>Load</h1>
   </div>
-  <div class="input-file-form" *ngIf="previewTable.rows.length === 0">
+  <div class="input-file-form" *ngIf="!previewData">
     <novo-form [form]="inputFileForm" layout="vertical">
       <div class="novo-form-row">
         <novo-control [form]="inputFileForm" [control]="inputFileControl"></novo-control>
       </div>
     </novo-form>
   </div>
-  <div class="preview" *ngIf="previewTable.rows.length > 0">
+  <div class="preview" *ngIf="previewData">
     <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns"
-                [config]="previewTable.config" #table>
+                [config]="previewTable.config">
       <novo-table-header class="table-header">
-        <h4>Duplicate Checked Columns and File Preview</h4>
+        <h4>CSV Input File Preview</h4>
       </novo-table-header>
     </novo-table>
   </div>
   <footer>
-    <button theme="primary" class="load-button" [disabled]="previewTable.rows.length === 0" (click)="load()"
-            icon="publish">Load
-    </button>
+    <button theme="primary" class="load-button" [disabled]="!previewData" (click)="load()" icon="publish">Load</button>
   </footer>
 </section>
