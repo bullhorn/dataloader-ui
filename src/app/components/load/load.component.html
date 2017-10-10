@@ -4,7 +4,7 @@
     <i class="bhi-publish"></i>
     <h1>Load</h1>
   </div>
-  <div class="input-file-form">
+  <div class="input-file-form" *ngIf="previewTable.rows.length === 0">
     <novo-form [form]="inputFileForm" layout="vertical">
       <div class="novo-form-row">
         <novo-control [form]="inputFileForm" [control]="inputFileControl"></novo-control>

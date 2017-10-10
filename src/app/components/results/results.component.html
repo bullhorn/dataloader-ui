@@ -4,11 +4,7 @@
     <i class="bhi-report"></i>
     <h1>Results</h1>
   </div>
-  <div class="output">
-    <pre>
-      <code>{{output}}</code>
-    </pre>
-  </div>
+  <div class="output">{{output}}</div>
   <novo-list *ngIf="running" class="output-files" direction="vertical">
     <novo-list-item *ngFor="let item of outputFiles">
       <item-header>

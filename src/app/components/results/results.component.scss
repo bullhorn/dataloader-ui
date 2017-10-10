@@ -4,6 +4,13 @@
 .results {
   .output {
     margin: 20px;
+    padding: 20px;
+    font-family: monospace;
+    white-space: pre-line;
+    color: white;
+    background: $dark;
+    max-height: 70vh;
+    overflow: scroll;
   }
 
   .output-files {
