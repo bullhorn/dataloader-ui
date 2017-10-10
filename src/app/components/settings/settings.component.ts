@@ -17,12 +17,42 @@ export class SettingsComponent implements OnInit {
   constructor(private fileService: FileService, private formUtils: FormUtils) {
   }
 
+  // TODO: Create ISettings interface to strongly type this data
+  private static setDefaults(value: any): any {
+    const defaultValues: any = {
+      username: '',
+      password: '',
+      clientId: '',
+      clientSecret: '',
+      dataCenter: 'bhnext',
+      listDelimiter: ';',
+      dateFormat: 'MM/dd/yy HH:mm',
+      authorizeUrl: '',
+      loginUrl: '',
+      tokenUrl: '',
+      numThreads: 15,
+    };
+
+    let result: any = Object.assign({}, value);
+    for (let key in defaultValues) {
+      if (!result.hasOwnProperty(key)) {
+        result[key] = defaultValues[key];
+      }
+    }
+    return result;
+  }
+
   /**
    * Auto set the Environment URLs based on the data center quick selection
    */
   private static onDataCenterChange(API: FieldInteractionApi): void {
     // Predefined URLs for known data centers
     const dataCenterUrls: any = {
+      bhnext: {
+        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
+      },
       east: {
         authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
@@ -32,11 +62,6 @@ export class SettingsComponent implements OnInit {
         authorizeUrl: 'https://auth-west.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-west.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-west.bullhornstaffing.com/rest-services/login',
-      },
-      bhnext: {
-        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
-        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
-        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
       },
       uk: {
         authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
@@ -60,7 +85,7 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
-    this.form.setValue(this.fileService.readSettings());
+    this.form.setValue(SettingsComponent.setDefaults(this.fileService.readSettings()));
   }
 
   save(): void {
@@ -70,29 +95,29 @@ export class SettingsComponent implements OnInit {
   private setupForm(): void {
     let meta: any = {
       sectionHeaders: [{
-        'label': 'Credentials',
-        'name': 'credentials',
-        'icon': 'bhi-user',
-        'sortOrder': 10,
-        'enabled': true,
+        label: 'Credentials',
+        name: 'credentials',
+        icon: 'bhi-user',
+        sortOrder: 10,
+        enabled: true,
       }, {
-        'label': 'Environment URLs',
-        'name': 'environmentUrls',
-        'icon': 'bhi-tools',
-        'sortOrder': 20,
-        'enabled': true,
+        label: 'Environment URLs',
+        name: 'environmentUrls',
+        icon: 'bhi-tools',
+        sortOrder: 20,
+        enabled: true,
       }, {
-        'label': 'Formatting',
-        'name': 'formatting',
-        'icon': 'bhi-configure-o',
-        'sortOrder': 30,
-        'enabled': true,
+        label: 'Formatting',
+        name: 'formatting',
+        icon: 'bhi-configure-o',
+        sortOrder: 30,
+        enabled: true,
       }, {
-        'label': 'Performance',
-        'name': 'performance',
-        'icon': 'bhi-dashboard-o',
-        'sortOrder': 40,
-        'enabled': true,
+        label: 'Performance',
+        name: 'performance',
+        icon: 'bhi-dashboard-o',
+        sortOrder: 40,
+        enabled: true,
       }],
       fields: [{
         name: 'username',
@@ -134,9 +159,9 @@ export class SettingsComponent implements OnInit {
         required: true,
         description: 'The location of the Bullhorn REST server endpoints to use when loading data.',
         options: [
+          { label: 'US BHNext', value: 'bhnext' },
           { label: 'US East', value: 'east' },
           { label: 'US West', value: 'west' },
-          { label: 'US BHNext', value: 'bhnext' },
           { label: 'UK', value: 'uk' },
           { label: 'Other', value: 'other' }],
         sortOrder: 21,

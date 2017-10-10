@@ -11,7 +11,7 @@
       </div>
     </novo-form>
   </div>
-  <div class="preview">
+  <div class="preview" *ngIf="previewTable.rows.length > 0">
     <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns"
                 [config]="previewTable.config" #table>
       <novo-table-header class="table-header">
