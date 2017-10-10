@@ -42,7 +42,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataloaderService.onPrint(this.onPrint.bind(this));
-    this.dataloaderService.onPrint(this.onPrint.bind(this));
   }
 
   ngOnDestroy(): void {
