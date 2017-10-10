@@ -55,4 +55,10 @@ export class FileService {
         });
     }
   }
+
+  openFile(filePath: string): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.shell.showItemInFolder(filePath);
+    }
+  }
 }

@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 // Vendor
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
-import { ElectronService } from '../../providers/electron/electron.service';
+import { FileService } from '../../providers/file/file.service';
 
 @Component({
   selector: 'app-results',
@@ -36,8 +36,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }];
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
-              private electronService: ElectronService,
-              private dataloaderService: DataloaderService) {
+              private dataloaderService: DataloaderService,
+              private fileService: FileService) {
   }
 
   ngOnInit(): void {
@@ -53,9 +53,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private openFile(filePath: string): void {
-    if (ElectronService.isElectron()) {
-      this.electronService.shell.showItemInFolder(filePath);
-    }
+    this.fileService.openFile(filePath);
   }
 
   private onPrint(text: string): void {
