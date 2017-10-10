@@ -19,7 +19,7 @@ export class DataloaderService {
    */
   start(filePath: string): void {
     if (ElectronService.isElectron()) {
-      let settings: any = this.fileService.getSettings();
+      let settings: any = this.fileService.readSettings();
       let args: string[] = Utils.createArgs(settings, filePath);
       this.electronService.ipcRenderer.send('start', args);
     }

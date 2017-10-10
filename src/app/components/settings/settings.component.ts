@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils } from 'novo-elements';
 // App
-import { ElectronService } from '../../providers/electron/electron.service';
+import { FileService } from '../../providers/file/file.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,9 +13,8 @@ import { ElectronService } from '../../providers/electron/electron.service';
 export class SettingsComponent implements OnInit {
   form: any;
   fieldSets: any[];
-  private settingsFile: string = 'settings.json';
 
-  constructor(private electronService: ElectronService, private formUtils: FormUtils) {
+  constructor(private fileService: FileService, private formUtils: FormUtils) {
   }
 
   /**
@@ -61,26 +60,11 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
-    // TODO: Use the file service to read the file
-    if (ElectronService.isElectron()) {
-      this.electronService.fs.readFile(this.settingsFile, 'utf8', (err, data) => {
-        if (err) {
-          return console.error(err); // tslint:disable-line:no-console
-        }
-        this.form.setValue(JSON.parse(data));
-      });
-    }
+    this.form.setValue(this.fileService.readSettings());
   }
 
   save(): void {
-    // TODO: Use the file service to save the file
-    if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFile(this.settingsFile, JSON.stringify(this.form.value, null, 2), (err) => {
-        if (err) {
-          return console.error(err); // tslint:disable-line:no-console
-        }
-      });
-    }
+    this.fileService.writeSettings(this.form.value);
   }
 
   private setupForm(): void {

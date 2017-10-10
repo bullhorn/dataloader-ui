@@ -6,12 +6,27 @@ import { Utils } from '../../utils/utils';
 
 @Injectable()
 export class FileService {
+  private settingsFile: string = 'settings.json';
 
   constructor(private electronService: ElectronService) {
   }
 
-  getSettings(): any {
-    return JSON.parse(this.electronService.fs.readFileSync('settings.json', 'utf8'));
+  readSettings(): any {
+    let settings: any = {};
+    if (ElectronService.isElectron()) {
+      settings = JSON.parse(this.electronService.fs.readFileSync('settings.json', 'utf8'));
+    }
+    return settings;
+  }
+
+  writeSettings(value: any): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.writeFile(this.settingsFile, JSON.stringify(value, null, 2), (err) => {
+        if (err) {
+          return console.error(err); // tslint:disable-line:no-console
+        }
+      });
+    }
   }
 
   getCsvPreviewData(filePath: string, onSuccess: any): void {
