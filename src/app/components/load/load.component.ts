@@ -7,6 +7,7 @@ import { FieldInteractionApi, FileControl, FormUtils, NovoFormGroup, } from 'nov
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-load',
@@ -73,21 +74,8 @@ export class LoadComponent implements OnInit {
   private onPreviewData(previewData: IPreviewData): void {
     this.zone.run(() => {
       this.previewData = previewData;
-      this.previewTable.columns = this.createColumnConfig(previewData.data);
+      this.previewTable.columns = Utils.createColumnConfig(previewData.data);
       this.previewTable.rows = previewData.data;
     });
-  }
-
-  private createColumnConfig(data: any[]): any[] {
-    let columnConfig: any[] = [];
-
-    for (let key in data[0]) {
-      columnConfig.push({
-        name: key,
-        title: key,
-      });
-    }
-
-    return columnConfig;
   }
 }

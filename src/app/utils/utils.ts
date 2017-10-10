@@ -52,4 +52,17 @@ export class Utils {
   static getIcon(longName: string): string {
     return this.ENTITY_ICONS[longName];
   }
+
+  static createColumnConfig(data: any[]): any[] {
+    let columnConfig: any[] = [];
+
+    for (let key in data[0]) {
+      columnConfig.push({
+        name: key,
+        title: key,
+      });
+    }
+
+    return columnConfig;
+  }
 }
