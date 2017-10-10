@@ -4,10 +4,10 @@ export interface ISettings {
   clientId: string;
   clientSecret: string;
   dataCenter: string;
+  authorizeUrl: string;
+  tokenUrl: string;
+  loginUrl: string;
   listDelimiter: string;
   dateFormat: string;
-  authorizeUrl: string;
-  loginUrl: string;
-  tokenUrl: string;
   numThreads: number;
 }
