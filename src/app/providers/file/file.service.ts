@@ -36,8 +36,7 @@ export class FileService {
           onSuccess(Utils.swapColumnsAndRows(previewData));
         })
         .on('error', (error) => {
-          // noinspection TsLint
-          console.error(error);
+          console.error(error); // tslint:disable-line:no-console
         });
     }
   }

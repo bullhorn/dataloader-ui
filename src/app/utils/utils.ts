@@ -55,4 +55,31 @@ export class Utils {
     args = args.concat(['load', filePath]);
     return args;
   }
+
+  static get ENTITY_ICONS(): any {
+    return {
+      Appointment: 'appointment',
+      Candidate: 'candidate',
+      CandidateEducation: 'education',
+      CandidateReference: 'users',
+      CandidateWorkHistory: 'job',
+      ClientContact: 'person',
+      ClientCorporation: 'company',
+      CustomObject: 'custom-objects',
+      DistributionList: 'users',
+      JobOrder: 'job',
+      Lead: 'lead',
+      Note: 'note',
+      Opportunity: 'opportunity',
+      Placement: 'star',
+      Task: 'check-o',
+      JobSubmission: 'star-o',
+      Sendout: 'sendout',
+      PlacementChangeRequest: 'republish'
+    };
+  }
+
+  static getIcon(longName: string): string {
+    return this.ENTITY_ICONS[longName];
+  }
 }

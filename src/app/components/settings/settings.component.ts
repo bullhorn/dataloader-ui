@@ -1,7 +1,7 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 // Vendor
-import { FormUtils, TextBoxControl, TilesControl } from 'novo-elements';
+import { FieldInteractionApi, FormUtils } from 'novo-elements';
 // App
 import { ElectronService } from '../../providers/electron/electron.service';
 
@@ -12,11 +12,47 @@ import { ElectronService } from '../../providers/electron/electron.service';
 })
 export class SettingsComponent implements OnInit {
   form: any;
-  formControls: any[];
-  private settingsFile: string;
+  fieldSets: any[];
+  private settingsFile: string = 'settings.json';
 
   constructor(private electronService: ElectronService, private formUtils: FormUtils) {
-    this.settingsFile = 'settings.json';
+  }
+
+  /**
+   * Auto set the Environment URLs based on the data center quick selection
+   */
+  private static onDataCenterChange(API: FieldInteractionApi): void {
+    // Predefined URLs for known data centers
+    const dataCenterUrls: any = {
+      east: {
+        authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
+      },
+      west: {
+        authorizeUrl: 'https://auth-west.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west.bullhornstaffing.com/rest-services/login',
+      },
+      bhnext: {
+        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
+      },
+      uk: {
+        authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
+      },
+    };
+
+    let currentValue: string = API.getActiveValue();
+    if (dataCenterUrls[currentValue]) {
+      let urls: any = dataCenterUrls[currentValue];
+      for (let key in urls) {
+        API.setValue(key, urls[key]);
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -25,11 +61,11 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
+    // TODO: Use the file service to read the file
     if (ElectronService.isElectron()) {
       this.electronService.fs.readFile(this.settingsFile, 'utf8', (err, data) => {
         if (err) {
-          // noinspection TsLint
-          return console.error(err);
+          return console.error(err); // tslint:disable-line:no-console
         }
         this.form.setValue(JSON.parse(data));
       });
@@ -37,78 +73,150 @@ export class SettingsComponent implements OnInit {
   }
 
   save(): void {
+    // TODO: Use the file service to save the file
     if (ElectronService.isElectron()) {
       this.electronService.fs.writeFile(this.settingsFile, JSON.stringify(this.form.value, null, 2), (err) => {
         if (err) {
-          // noinspection TsLint
-          return console.error(err);
+          return console.error(err); // tslint:disable-line:no-console
         }
       });
     }
   }
 
   private setupForm(): void {
-    this.formControls = [
-      new TextBoxControl({
+    let meta: any = {
+      sectionHeaders: [{
+        'label': 'Credentials',
+        'name': 'credentials',
+        'icon': 'bhi-user',
+        'sortOrder': 10,
+        'enabled': true,
+      }, {
+        'label': 'Environment URLs',
+        'name': 'environmentUrls',
+        'icon': 'bhi-tools',
+        'sortOrder': 20,
+        'enabled': true,
+      }, {
+        'label': 'Formatting',
+        'name': 'formatting',
+        'icon': 'bhi-configure-o',
+        'sortOrder': 30,
+        'enabled': true,
+      }, {
+        'label': 'Performance',
+        'name': 'performance',
+        'icon': 'bhi-dashboard-o',
+        'sortOrder': 40,
+        'enabled': true,
+      }],
+      fields: [{
+        name: 'username',
         type: 'text',
+        dataType: 'String',
         label: 'Username',
-        value: '',
         required: true,
-        key: 'username',
-      }),
-      new TextBoxControl({
+        description: 'Bullhorn User ID of the data loading user (a specialized user on the corp)',
+        sortOrder: 11,
+      }, {
+        name: 'password',
         type: 'text',
+        dataType: 'String',
         label: 'Password',
-        value: '',
         required: true,
-        key: 'password',
-      }),
-      new TextBoxControl({
+        description: 'Bullhorn Password of data loading user',
+        sortOrder: 12,
+      }, {
+        name: 'clientId',
         type: 'text',
+        dataType: 'String',
         label: 'Client ID',
-        value: '',
         required: true,
-        key: 'clientId',
-      }),
-      new TextBoxControl({
+        description: 'Required when making REST calls. To retrieve your clientId, contact Bullhorn Support.',
+        sortOrder: 13,
+      }, {
+        name: 'clientSecret',
         type: 'text',
+        dataType: 'String',
         label: 'Client Secret',
-        value: '',
         required: true,
-        key: 'clientSecret',
-      }),
-      new TilesControl({
-        key: 'dataCenter',
+        description: 'Required when making REST calls. To retrieve your clientSecret, contact Bullhorn Support.',
+        sortOrder: 14,
+      }, {
+        name: 'dataCenter',
+        type: 'tiles',
+        dataType: 'String',
         label: 'Data Center',
-        value: 'east',
-        required: false,
+        required: true,
+        description: 'The location of the Bullhorn REST server endpoints to use when loading data.',
         options: [
-          { label: 'US-East', value: 'east' },
-          { label: 'US-West', value: 'west' },
-          { label: 'US-BHNext', value: 'bhnext' },
-          { label: 'UK', value: 'uk' }],
-      }),
-      new TextBoxControl({
+          { label: 'US East', value: 'east' },
+          { label: 'US West', value: 'west' },
+          { label: 'US BHNext', value: 'bhnext' },
+          { label: 'UK', value: 'uk' },
+          { label: 'Other', value: 'other' }],
+        sortOrder: 21,
+      }, {
+        name: 'authorizeUrl',
         type: 'text',
+        dataType: 'String',
+        label: 'Authorize URL',
+        required: true,
+        description: 'The location of your Bullhorn authorization server.',
+        sortOrder: 22,
+      }, {
+        name: 'tokenUrl',
+        type: 'text',
+        dataType: 'String',
+        label: 'Token URL',
+        required: true,
+        description: 'The location of your Bullhorn REST token server.',
+        sortOrder: 23,
+      }, {
+        name: 'loginUrl',
+        type: 'text',
+        dataType: 'String',
+        label: 'Login URL',
+        required: true,
+        description: 'The location of your Bullhorn REST login server.',
+        sortOrder: 24,
+      }, {
+        name: 'listDelimiter',
+        type: 'text',
+        dataType: 'String',
         label: 'List Delimiter',
-        value: ';',
         required: true,
-        key: 'listDelimiter',
-      }),
-      new TextBoxControl({
+        description: 'Used to separate individual values in a single field when that field supports multiple values. ' +
+        'For example, when listDeliminator=;, multiple categories can be specified as: A;B;C. Commas can also be used ' +
+        'as the list delimiter value, provided quotes are used around the value, such as: "A,B,C".',
+        sortOrder: 31,
+      }, {
+        name: 'dateFormat',
         type: 'text',
+        dataType: 'String',
         label: 'Date Format',
-        value: 'MM/dd/yy HH:mm',
         required: true,
-        key: 'dateFormat',
-      }),
+        description: 'Default value is MM/dd/yy HH:mm. ' +
+        'Documentation: http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html',
+        sortOrder: 32,
+      }, {
+        name: 'numThreads',
+        type: 'number',
+        dataType: 'Integer',
+        label: 'Number of Threads',
+        required: true,
+        description: 'Number of threads to concurrently upload rows. Min: 1, Max: 15.',
+        sortOrder: 41,
+        min: 1,
+        max: 15,
+      }],
+    };
+
+    this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
+    this.fieldSets[2].controls[0].interactions = [
+      { event: 'init', script: SettingsComponent.onDataCenterChange },
+      { event: 'change', script: SettingsComponent.onDataCenterChange },
     ];
-
-    // TODO: Setup data center URL shortcuts as field interactions
-    // if (params.dataCenter === 'west') {
-    //     params = params.concat(['dateFormat', settings.dateFormat]);
-    // }
-
-    this.form = this.formUtils.toFormGroup(this.formControls);
+    this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
   }
 }
