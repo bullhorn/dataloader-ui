@@ -45,12 +45,84 @@ export class Utils {
       Task: 'check-o',
       JobSubmission: 'star-o',
       Sendout: 'sendout',
-      PlacementChangeRequest: 'republish'
+      PlacementChangeRequest: 'republish',
     };
   }
 
-  static getIcon(longName: string): string {
-    return this.ENTITY_ICONS[longName];
+  static get ENTITY_NAMES(): string[] {
+    return [
+      'Appointment',
+      'AppointmentAttendee',
+      'Candidate',
+      'CandidateCertification',
+      'CandidateEducation',
+      'CandidateReference',
+      'CandidateWorkHistory',
+      'ClientContact',
+      'ClientCorporation',
+      'HousingComplex',
+      'JobOrder',
+      'JobSubmission',
+      'Lead',
+      'Note',
+      'NoteEntity',
+      'Opportunity',
+      'Placement',
+      'PlacementCommission',
+      'Sendout',
+      'Task',
+      'Tearsheet',
+      'ClientCorporationCustomObjectInstance1',
+      'ClientCorporationCustomObjectInstance2',
+      'ClientCorporationCustomObjectInstance3',
+      'ClientCorporationCustomObjectInstance4',
+      'ClientCorporationCustomObjectInstance5',
+      'ClientCorporationCustomObjectInstance6',
+      'ClientCorporationCustomObjectInstance7',
+      'ClientCorporationCustomObjectInstance8',
+      'ClientCorporationCustomObjectInstance9',
+      'ClientCorporationCustomObjectInstance10',
+      'JobOrderCustomObjectInstance1',
+      'JobOrderCustomObjectInstance2',
+      'JobOrderCustomObjectInstance3',
+      'JobOrderCustomObjectInstance4',
+      'JobOrderCustomObjectInstance5',
+      'JobOrderCustomObjectInstance6',
+      'JobOrderCustomObjectInstance7',
+      'JobOrderCustomObjectInstance8',
+      'JobOrderCustomObjectInstance9',
+      'JobOrderCustomObjectInstance10',
+      'OpportunityCustomObjectInstance1',
+      'OpportunityCustomObjectInstance2',
+      'OpportunityCustomObjectInstance3',
+      'OpportunityCustomObjectInstance4',
+      'OpportunityCustomObjectInstance5',
+      'OpportunityCustomObjectInstance6',
+      'OpportunityCustomObjectInstance7',
+      'OpportunityCustomObjectInstance8',
+      'OpportunityCustomObjectInstance9',
+      'OpportunityCustomObjectInstance10',
+      'PersonCustomObjectInstance1',
+      'PersonCustomObjectInstance2',
+      'PersonCustomObjectInstance3',
+      'PersonCustomObjectInstance4',
+      'PersonCustomObjectInstance5',
+      'PersonCustomObjectInstance6',
+      'PersonCustomObjectInstance7',
+      'PersonCustomObjectInstance8',
+      'PersonCustomObjectInstance9',
+      'PersonCustomObjectInstance10',
+      'PlacementCustomObjectInstance1',
+      'PlacementCustomObjectInstance2',
+      'PlacementCustomObjectInstance3',
+      'PlacementCustomObjectInstance4',
+      'PlacementCustomObjectInstance5',
+      'PlacementCustomObjectInstance6',
+      'PlacementCustomObjectInstance7',
+      'PlacementCustomObjectInstance8',
+      'PlacementCustomObjectInstance9',
+      'PlacementCustomObjectInstance10',
+    ];
   }
 
   static createColumnConfig(data: any[]): any[] {
@@ -64,5 +136,37 @@ export class Utils {
     }
 
     return columnConfig;
+  }
+
+  static getIconForFilename(filePath: string): string {
+    let icon: string = 'circle';
+    let entityName: string = Utils.getEntityNameFromFile(filePath);
+    if (entityName && Utils.ENTITY_ICONS[entityName]) {
+      icon = Utils.ENTITY_ICONS[entityName];
+    }
+    return icon;
+  }
+
+  static getThemeForFilename(filePath: string): string {
+    let fileName: string = Utils.getEntityNameFromFile(filePath);
+    return fileName;
+  }
+
+  static getEntityNameFromFile(filePath: string): string {
+    let fileName: string = Utils.getFilenameFromPath(filePath);
+    let bestMatch: string = '';
+    Utils.ENTITY_NAMES.forEach((entityName) => {
+      if (fileName.toUpperCase().startsWith(entityName.toUpperCase())) {
+        if (bestMatch.length < entityName.length) {
+          // longer name is better
+          bestMatch = entityName;
+        }
+      }
+    });
+    return bestMatch;
+  }
+
+  static getFilenameFromPath(filePath: string): string {
+    return filePath.replace(/^.*[\\\/]/, '');
   }
 }
