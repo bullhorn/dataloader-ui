@@ -2,7 +2,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Vendor
-import { FieldInteractionApi, FileControl, FormUtils, NovoFormGroup, } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
@@ -15,11 +15,11 @@ import { Utils } from '../../utils/utils';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-  inputFileForm: NovoFormGroup = null;
-  inputFileControl: FileControl = null;
+  form: any;
+  fieldSets: any[];
+  previewTable: any = {};
   inputFilePath = null;
   previewData: IPreviewData = null;
-  previewTable: any = {};
   icon: string = '';
   theme: string = '';
   fileName: string = '';
@@ -36,15 +36,19 @@ export class LoadComponent implements OnInit {
   }
 
   setupForm(): void {
-    this.inputFileControl = new FileControl({
-      key: 'file',
-      name: 'file',
-      label: 'CSV Input File',
-      value: null,
-      multiple: false,
-      interactions: [{ event: 'change', script: this.onFileSelected.bind(this) }],
-    });
-    this.inputFileForm = this.formUtils.toFormGroup([this.inputFileControl]);
+    let meta: any = {
+      fields: [{
+        name: 'file',
+        type: 'file',
+        label: 'CSV Input File',
+      }],
+    };
+
+    this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
+    this.fieldSets[0].controls[0].interactions = [
+      { event: 'change', script: this.onFileSelected.bind(this) },
+    ];
+    this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
 
     this.previewTable = {
       columns: [],

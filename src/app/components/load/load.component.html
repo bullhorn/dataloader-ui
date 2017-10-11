@@ -4,13 +4,7 @@
     <i class="bhi-publish"></i>
     <h1>Load</h1>
   </div>
-  <div class="input-file-form" *ngIf="!previewData">
-    <novo-form [form]="inputFileForm" layout="vertical">
-      <div class="novo-form-row">
-        <novo-control [form]="inputFileForm" [control]="inputFileControl"></novo-control>
-      </div>
-    </novo-form>
-  </div>
+  <novo-dynamic-form class="load-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
   <div class="preview" *ngIf="previewData">
     <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"
                 [config]="previewTable.config">
