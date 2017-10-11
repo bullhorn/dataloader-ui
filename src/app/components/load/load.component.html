@@ -12,10 +12,11 @@
     </novo-form>
   </div>
   <div class="preview" *ngIf="previewData">
-    <novo-table [theme]="'grass'" [rows]="previewTable.rows" [columns]="previewTable.columns"
+    <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"
                 [config]="previewTable.config">
       <novo-table-header class="table-header">
-        <h4>CSV Input File Preview</h4>
+        <i [class]="icon"></i>
+        <h4>{{fileName}} - {{previewData.total}} Rows</h4>
       </novo-table-header>
     </novo-table>
   </div>

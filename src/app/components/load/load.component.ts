@@ -20,6 +20,9 @@ export class LoadComponent implements OnInit {
   inputFilePath = null;
   previewData: IPreviewData = null;
   previewTable: any = {};
+  icon: string = '';
+  theme: string = '';
+  fileName: string = '';
 
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
@@ -62,7 +65,7 @@ export class LoadComponent implements OnInit {
 
   private onFileSelected(API: FieldInteractionApi): void {
     if (API.form.value.file.length > 0) {
-      this.inputFilePath = API.form.value.file[0].file.path;
+      this.inputFilePath = API.form.value.file[0].file.path || API.form.value.file[0].file.name;
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
     } else {
       this.previewData = null;
@@ -76,6 +79,9 @@ export class LoadComponent implements OnInit {
       this.previewData = previewData;
       this.previewTable.columns = Utils.createColumnConfig(previewData.data);
       this.previewTable.rows = previewData.data;
+      this.icon = Utils.getIconForFilename(this.inputFilePath);
+      this.theme = Utils.getThemeForFilename(this.inputFilePath);
+      this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
     });
   }
 }

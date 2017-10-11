@@ -30,6 +30,7 @@ export class Utils {
     return {
       Appointment: 'appointment',
       Candidate: 'candidate',
+      CandidateCertification: 'certification',
       CandidateEducation: 'education',
       CandidateReference: 'users',
       CandidateWorkHistory: 'job',
@@ -43,9 +44,25 @@ export class Utils {
       Opportunity: 'opportunity',
       Placement: 'star',
       Task: 'check-o',
+      Tearsheet: 'tearsheet',
       JobSubmission: 'star-o',
       Sendout: 'sendout',
       PlacementChangeRequest: 'republish',
+    };
+  }
+
+  static get ENTITY_THEMES(): any {
+    return {
+      ClientCorporation: 'company',
+      Candidate: 'candidate',
+      Lead: 'lead',
+      ClientContact: 'contact',
+      Opportunity: 'opportunity',
+      JobOrder: 'job',
+      Submission: 'submission',
+      Sendout: 'sendout',
+      Placement: 'placement',
+      Note: 'note',
     };
   }
 
@@ -141,15 +158,22 @@ export class Utils {
   static getIconForFilename(filePath: string): string {
     let icon: string = 'circle';
     let entityName: string = Utils.getEntityNameFromFile(filePath);
+    if (entityName.includes('CustomObject')) {
+      entityName = 'CustomObject';
+    }
     if (entityName && Utils.ENTITY_ICONS[entityName]) {
       icon = Utils.ENTITY_ICONS[entityName];
     }
-    return icon;
+    return 'bhi-' + icon;
   }
 
   static getThemeForFilename(filePath: string): string {
-    let fileName: string = Utils.getEntityNameFromFile(filePath);
-    return fileName;
+    let theme: string = 'note';
+    let entityName: string = Utils.getEntityNameFromFile(filePath);
+    if (entityName && Utils.ENTITY_THEMES[entityName]) {
+      theme = Utils.ENTITY_THEMES[entityName];
+    }
+    return theme;
   }
 
   static getEntityNameFromFile(filePath: string): string {

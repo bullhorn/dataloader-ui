@@ -11,13 +11,11 @@
 
     .table-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
 
-      input {
-        width: 70px;
-        color: $dark;
-        padding: 0.6em;
+      i {
+        margin: 10px;
       }
     }
   }
