@@ -41,12 +41,29 @@ export class LoadComponent implements OnInit {
         name: 'file',
         type: 'file',
         label: 'CSV Input File',
+        sortOrder: 1,
+      }, {
+        name: 'duplicateCheck',
+        type: 'tiles',
+        label: 'Duplicate Check',
+        description: 'Enables checking against selected fields in order to update existing records instead of inserting duplicate records.',
+        options: [
+          { label: 'No', value: 'no' },
+          { label: 'Yes', value: 'yes' },
+        ],
+        defaultValue: 'no',
+        sortOrder: 2,
       }],
     };
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
     this.fieldSets[0].controls[0].interactions = [
-      { event: 'change', script: this.onFileSelected.bind(this) },
+      { event: 'init', script: this.onFileChange.bind(this) },
+      { event: 'change', script: this.onFileChange.bind(this) },
+    ];
+    this.fieldSets[0].controls[1].interactions = [
+      { event: 'init', script: this.onDuplicateCheckChange.bind(this) },
+      { event: 'change', script: this.onDuplicateCheckChange.bind(this) },
     ];
     this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
 
@@ -67,14 +84,38 @@ export class LoadComponent implements OnInit {
     this.router.navigate(['/results']);
   }
 
-  private onFileSelected(API: FieldInteractionApi): void {
-    if (API.form.value.file.length > 0) {
-      this.inputFilePath = API.form.value.file[0].file.path || API.form.value.file[0].file.name;
+  private onFileChange(API: FieldInteractionApi): void {
+    let selectedFiles: any = API.form.value.file;
+    if (selectedFiles.length) {
+      this.inputFilePath = selectedFiles[0].file.path || selectedFiles[0].file.name;
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
     } else {
       this.previewData = null;
       this.previewTable.columns = [];
       this.previewTable.rows = [];
+    }
+
+    API.getControl('duplicateCheck').setReadOnly(selectedFiles.length === 0);
+  }
+
+  private onDuplicateCheckChange(API: FieldInteractionApi): void {
+    let value: any = API.form.value.duplicateCheck;
+    if (value === 'yes') {
+      let existFieldsMeta: any = {
+        name: 'existFields',
+        type: 'chips',
+        label: 'Duplicate Check Fields',
+        description: 'Fields to compare against in order to insert vs. update vs. insert.',
+        options: [
+          { label: 'firstName', value: 'firstName' },
+          { label: 'lastName', value: 'lastName' },
+          { label: 'email', value: 'email' },
+        ],
+        sortOrder: 3,
+      };
+      API.addControl('duplicateCheck', existFieldsMeta, FieldInteractionApi.FIELD_POSITIONS.BOTTOM_OF_FORM);
+    } else {
+      API.removeControl('existFields');
     }
   }
 
