@@ -122,7 +122,6 @@ export class SettingsComponent implements OnInit {
       fields: [{
         name: 'username',
         type: 'text',
-        dataType: 'String',
         label: 'Username',
         required: true,
         description: 'Bullhorn User ID of the data loading user (a specialized user on the corp)',
@@ -130,7 +129,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'password',
         type: 'text',
-        dataType: 'String',
         label: 'Password',
         required: true,
         description: 'Bullhorn Password of data loading user',
@@ -138,7 +136,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'clientId',
         type: 'text',
-        dataType: 'String',
         label: 'Client ID',
         required: true,
         description: 'Required when making REST calls. To retrieve your clientId, contact Bullhorn Support.',
@@ -146,7 +143,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'clientSecret',
         type: 'text',
-        dataType: 'String',
         label: 'Client Secret',
         required: true,
         description: 'Required when making REST calls. To retrieve your clientSecret, contact Bullhorn Support.',
@@ -154,7 +150,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'dataCenter',
         type: 'tiles',
-        dataType: 'String',
         label: 'Data Center',
         required: true,
         description: 'The location of the Bullhorn REST server endpoints to use when loading data.',
@@ -168,7 +163,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'authorizeUrl',
         type: 'text',
-        dataType: 'String',
         label: 'Authorize URL',
         required: true,
         description: 'The location of your Bullhorn authorization server.',
@@ -176,7 +170,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'tokenUrl',
         type: 'text',
-        dataType: 'String',
         label: 'Token URL',
         required: true,
         description: 'The location of your Bullhorn REST token server.',
@@ -184,7 +177,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'loginUrl',
         type: 'text',
-        dataType: 'String',
         label: 'Login URL',
         required: true,
         description: 'The location of your Bullhorn REST login server.',
@@ -192,7 +184,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'listDelimiter',
         type: 'text',
-        dataType: 'String',
         label: 'List Delimiter',
         required: true,
         description: 'Used to separate individual values in a single field when that field supports multiple values. ' +
@@ -202,7 +193,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'dateFormat',
         type: 'text',
-        dataType: 'String',
         label: 'Date Format',
         required: true,
         description: 'Default value is MM/dd/yy HH:mm. ' +
@@ -211,7 +201,6 @@ export class SettingsComponent implements OnInit {
       }, {
         name: 'numThreads',
         type: 'number',
-        dataType: 'Integer',
         label: 'Number of Threads',
         required: true,
         description: 'Number of threads to concurrently upload rows. Min: 1, Max: 15.',
