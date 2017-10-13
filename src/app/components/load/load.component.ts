@@ -106,11 +106,12 @@ export class LoadComponent implements OnInit {
         type: 'chips',
         label: 'Duplicate Check Fields',
         description: 'Fields to compare against in order to insert vs. update vs. insert.',
-        options: [
-          { label: 'firstName', value: 'firstName' },
-          { label: 'lastName', value: 'lastName' },
-          { label: 'email', value: 'email' },
-        ],
+        options: this.previewData.headers.map((header) => {
+          return {
+            label: header,
+            value: header,
+          };
+        }),
         sortOrder: 3,
       };
       API.addControl('duplicateCheck', existFieldsMeta, FieldInteractionApi.FIELD_POSITIONS.BOTTOM_OF_FORM);

@@ -52,12 +52,16 @@ export class FileService {
       let maxRows: number = 100;
       let previewData: IPreviewData = {
         total: 0,
+        headers: [],
         data: [],
       };
 
       this.electronService.csv.fromPath(filePath, { headers: true, })
         .on('data', (row) => {
           previewData.total++;
+          if (previewData.headers.length === 0) {
+            previewData.headers = Object.keys(row);
+          }
           if (previewData.total <= maxRows) {
             previewData.data.push(row);
           }
@@ -68,6 +72,25 @@ export class FileService {
         .on('error', (error) => {
           console.error(error); // tslint:disable-line:no-console
         });
+    } else {
+      // Call with fake test data for running in `ng serve` mode
+      onSuccess({
+        total: 3,
+        headers: ['firstName', 'lastName', 'email'],
+        data: [{
+          firstName: 'John',
+          lastName: 'Smith',
+          email: 'jsmith@example.com',
+        }, {
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'jdoe@example.com',
+        }, {
+          firstName: 'Jane',
+          lastName: 'Doe',
+          email: 'jdoe@example.com',
+        }],
+      });
     }
   }
 
