@@ -16,6 +16,21 @@ export class FileService {
     let settings: any = {};
     if (ElectronService.isElectron()) {
       settings = JSON.parse(this.electronService.fs.readFileSync('settings.json', 'utf8'));
+    } else {
+      // Call with fake test data for running in `ng serve` mode
+      settings = {
+        username: 'jsmith',
+        password: 'password!',
+        clientId: '12345',
+        clientSecret: '67890',
+        dataCenter: 'west',
+        authorizeUrl: '',
+        tokenUrl: '',
+        loginUrl: '',
+        listDelimiter: ';',
+        dateFormat: 'MM/dd/yyyy',
+        numThreads: 15,
+      };
     }
     return settings;
   }
@@ -35,6 +50,7 @@ export class FileService {
    *
    * {
    *    total: 12345,
+   *    headers: ['firstName', 'lastName'],
    *    data: [{
    *        firstName: 'Jack',
    *        lastName: 'Ryan'
