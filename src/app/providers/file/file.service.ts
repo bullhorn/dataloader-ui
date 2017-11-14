@@ -65,7 +65,7 @@ export class FileService {
    */
   getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}): void {
     if (ElectronService.isElectron()) {
-      let maxRows: number = 100;
+      const MAX_ROWS: number = 100;
       let previewData: IPreviewData = {
         total: 0,
         headers: [],
@@ -78,7 +78,7 @@ export class FileService {
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
           }
-          if (previewData.total <= maxRows) {
+          if (previewData.total <= MAX_ROWS) {
             previewData.data.push(row);
           }
         })
