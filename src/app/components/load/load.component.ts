@@ -105,7 +105,7 @@ export class LoadComponent implements OnInit {
         name: 'existFields',
         type: 'chips',
         label: 'Duplicate Check Fields',
-        description: 'Fields to compare against in order to insert vs. update vs. insert.',
+        description: 'Field(s) to compare in order to determine when to update an existing record instead of inserting a new record.',
         options: this.previewData.headers.map((header) => {
           return {
             label: header,
