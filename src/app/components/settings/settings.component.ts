@@ -128,7 +128,7 @@ export class SettingsComponent implements OnInit {
         sortOrder: 11,
       }, {
         name: 'password',
-        type: 'text',
+        type: 'password',
         label: 'Password',
         required: true,
         description: 'Bullhorn Password of data loading user',
@@ -142,7 +142,7 @@ export class SettingsComponent implements OnInit {
         sortOrder: 13,
       }, {
         name: 'clientSecret',
-        type: 'text',
+        type: 'password',
         label: 'Client Secret',
         required: true,
         description: 'Required when making REST calls. To retrieve your clientSecret, contact Bullhorn Support.',
