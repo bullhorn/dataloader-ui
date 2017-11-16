@@ -5,7 +5,25 @@
     <h1>Results</h1>
   </div>
   <div class="output">{{output}}</div>
-  <novo-list *ngIf="!running" class="output-files" direction="vertical">
+  <novo-list class="totals" direction="vertical">
+    <novo-list-item>
+      <item-header>
+        <item-title>Total Records Loaded</item-title>
+      </item-header>
+      <item-content>{{ results?.total }}</item-content>
+    </novo-list-item>
+    <novo-list-item>
+      <item-header>
+        <item-title>Successful Records</item-title>
+      </item-header>
+      <item-content>{{ results?.success }}</item-content>
+    </novo-list-item>
+    <novo-list-item>
+      <item-header>
+        <item-title>Failed Records</item-title>
+      </item-header>
+      <item-content>{{ results?.failure }}</item-content>
+    </novo-list-item>
     <novo-list-item *ngFor="let item of outputFiles">
       <item-header>
         <item-avatar [icon]="item.icon"></item-avatar>

@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
+import { IResults } from '../../../interfaces/IResults';
 
 @Component({
   selector: 'app-results',
@@ -12,6 +13,7 @@ import { FileService } from '../../providers/file/file.service';
 })
 export class ResultsComponent implements OnInit, OnDestroy {
   running: boolean = true;
+  results: IResults;
   output: string = '';
   outputFiles = [{
     name: 'Successful Records',
@@ -43,10 +45,12 @@ export class ResultsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
+    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
   }
 
   ngOnDestroy(): void {
     this.dataloaderService.unsubscribe();
+    this.fileService.unsubscribe();
   }
 
   stop(): void {
@@ -63,9 +67,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onDone(code: string): void {
-    let notification: Notification = new Notification('Loaded 1301 Candidate Records in XX:XX',
+    new Notification('Loaded 1301 Candidate Records in XX:XX',
       { body: '  Inserted: 1202\n  Updated: 90\n  Failed: 9' });
     this.running = false;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private onResultsFileChange(results: IResults): void {
+    this.results = results;
     this.changeDetectorRef.detectChanges();
   }
 }

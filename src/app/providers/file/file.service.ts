@@ -4,18 +4,21 @@ import { Injectable } from '@angular/core';
 import { ElectronService } from '../electron/electron.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { ISettings } from '../../../interfaces/ISettings';
+import { IResults } from '../../../interfaces/IResults';
 
 @Injectable()
 export class FileService {
   private settingsFile: string = 'settings.json';
+  static RESULTS_FILE = './results.json';
+  static SETTINGS_FILE = './settings.json';
 
   constructor(private electronService: ElectronService) {
   }
 
   readSettings(): ISettings {
-    let settings: any = {};
+    let settings: ISettings;
     if (ElectronService.isElectron()) {
-      settings = JSON.parse(this.electronService.fs.readFileSync('settings.json', 'utf8'));
+      settings = JSON.parse(this.electronService.fs.readFileSync(FileService.SETTINGS_FILE, 'utf8'));
     } else {
       // Call with fake test data for running in `ng serve` mode
       settings = {
@@ -114,5 +117,35 @@ export class FileService {
     if (ElectronService.isElectron()) {
       this.electronService.shell.showItemInFolder(filePath);
     }
+  }
+
+  onResultsFileChange(onChange: (results: IResults) => {}): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.watchFile(FileService.RESULTS_FILE, this.readResultsFile.bind(this, onChange));
+    } else {
+      // Call with fake test data for running in `ng serve` mode
+      let fakeResults: IResults = {
+        total: 0,
+        success: 0,
+        failure: 0,
+      };
+      setInterval(() => {
+        fakeResults.total += 3;
+        fakeResults.success += 2;
+        fakeResults.failure += 1;
+        onChange(fakeResults);
+      }, 1000);
+    }
+  }
+
+  unsubscribe() {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.unwatchFile(FileService.RESULTS_FILE);
+    }
+  }
+
+  private readResultsFile(onChange: (results: IResults) => {}): void {
+    let results: IResults = JSON.parse(this.electronService.fs.readFileSync(FileService.RESULTS_FILE, 'utf8'));
+    onChange(results);
   }
 }
