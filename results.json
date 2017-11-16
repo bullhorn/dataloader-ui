@@ -1,8 +1,5 @@
 {
-  "total": 18,
-  "success": 11,
-  "failure": 3,
-  "successFile": "results/Candidate_12345_success.csv",
-  "failureFile": "results/Candidate_12345_failure.csv",
-  "logFile": "results/Candidate_12345_failure.csv"
+  "total": 0,
+  "success": 0,
+  "failure": 0
 }
