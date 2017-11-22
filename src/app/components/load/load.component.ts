@@ -81,7 +81,7 @@ export class LoadComponent implements OnInit {
 
   load(): void {
     this.dataloaderService.start(this.inputFilePath);
-    this.router.navigate(['/results']);
+    this.router.navigate(['/results']); // TODO: Pass along inputFilePath and the preview data for use in the results
   }
 
   private onFileChange(API: FieldInteractionApi): void {
@@ -105,7 +105,7 @@ export class LoadComponent implements OnInit {
         name: 'existFields',
         type: 'chips',
         label: 'Duplicate Check Fields',
-        description: 'Field(s) to compare in order to determine when to update an existing record instead of inserting a new record.',
+        description: 'If all specified fields match a single existing record, that record will be updated',
         options: this.previewData.headers.map((header) => {
           return {
             label: header,

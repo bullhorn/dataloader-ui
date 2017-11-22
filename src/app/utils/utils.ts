@@ -22,6 +22,7 @@ export class Utils {
     args = args.concat(['listDelimiter', settings.listDelimiter]);
     args = args.concat(['dateFormat', settings.dateFormat]);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
+    args = args.concat(['generateResultsFile', 'true']);
     args = args.concat(['load', filePath]);
     return args;
   }

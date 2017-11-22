@@ -4,52 +4,63 @@
     <i class="bhi-report"></i>
     <h1>Results</h1>
   </div>
-  <div class="output">{{output}}</div>
   <novo-list class="totals" direction="vertical">
     <novo-list-item>
       <item-header>
-        <item-title>Total Records Loaded</item-title>
+        <item-title>Total Records Processed</item-title>
       </item-header>
-      <item-content>{{ results?.total }}</item-content>
+      <item-content>{{ results?.processed }}</item-content>
     </novo-list-item>
     <novo-list-item>
       <item-header>
-        <item-title>Successful Records</item-title>
+        <item-title>Inserted</item-title>
       </item-header>
-      <item-content>{{ results?.success }}</item-content>
+      <item-content>{{ results?.inserted }}</item-content>
     </novo-list-item>
     <novo-list-item>
       <item-header>
-        <item-title>Failed Records</item-title>
+        <item-title>Updated</item-title>
       </item-header>
-      <item-content>{{ results?.failure }}</item-content>
+      <item-content>{{ results?.updated }}</item-content>
     </novo-list-item>
-    <novo-list-item *ngFor="let item of outputFiles">
+    <novo-list-item>
       <item-header>
-        <item-avatar [icon]="item.icon"></item-avatar>
-        <item-title>{{ item.name }}</item-title>
+        <item-title>Failed</item-title>
+      </item-header>
+      <item-content>{{ results?.failed }}</item-content>
+    </novo-list-item>
+    <novo-list-item *ngIf="results?.successFile">
+      <item-header>
+        <item-avatar icon="bhi-certification"></item-avatar>
+        <item-title>Success File</item-title>
         <item-header-end>
         <span>
         <i class="bhi-clock"></i>
-        {{ item.dateCreated }}
+        {{ results?.startTime | date }}
         </span>
         </item-header-end>
       </item-header>
-      <item-content direction="vertical">
-        <p class="errors" *ngIf="item.errors">
-          <i class="bhi-caution"></i>
-          {{ item.errors }} Errors
-        </p>
-        <p class="warnings" *ngIf="item.warnings">
-          <i class="bhi-info"></i>
-          {{ item.warnings }} Warnings
-        </p>
-        <p>
-          <a class="link" (click)="openFile(item.filePath);">{{ item.filePath }}</a>
-        </p>
+      <item-content>
+        <a class="link" (click)="openFile(results?.successFile);">{{ results?.successFile }}</a>
+      </item-content>
+    </novo-list-item>
+    <novo-list-item *ngIf="results?.failureFile">
+      <item-header>
+        <item-avatar icon="bhi-caution"></item-avatar>
+        <item-title>Failure File</item-title>
+        <item-header-end>
+        <span>
+        <i class="bhi-clock"></i>
+        {{ results?.startTime | date }}
+        </span>
+        </item-header-end>
+      </item-header>
+      <item-content>
+        <a class="link" (click)="openFile(results?.failureFile);">{{ results?.failureFile }}</a>
       </item-content>
     </novo-list-item>
   </novo-list>
+  <div class="output">{{output}}</div>
   <footer>
     <button theme="primary" class="cancel-button" [disabled]="!running" (click)="stop()" color="negative" icon="times">
       Stop

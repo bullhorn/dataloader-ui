@@ -9,7 +9,7 @@ import { IResults } from '../../../interfaces/IResults';
 @Injectable()
 export class FileService {
   private settingsFile: string = 'settings.json';
-  static RESULTS_FILE = './results.json';
+  static RESULTS_FILE = '../dataloader/results.json';
   static SETTINGS_FILE = './settings.json';
 
   constructor(private electronService: ElectronService) {
@@ -94,7 +94,7 @@ export class FileService {
     } else {
       // Call with fake test data for running in `ng serve` mode
       onSuccess({
-        total: 3,
+        total: 1131,
         headers: ['firstName', 'lastName', 'email'],
         data: [{
           firstName: 'John',
@@ -119,20 +119,36 @@ export class FileService {
     }
   }
 
+  // TODO: Move fakes out to STATIC file.service.fakes.ts
   onResultsFileChange(onChange: (results: IResults) => {}): void {
     if (ElectronService.isElectron()) {
       this.electronService.fs.watchFile(FileService.RESULTS_FILE, this.readResultsFile.bind(this, onChange));
     } else {
       // Call with fake test data for running in `ng serve` mode
       let fakeResults: IResults = {
-        total: 0,
-        success: 0,
-        failure: 0,
+        processed: 0,
+        inserted: 0,
+        updated: 0,
+        deleted: 0,
+        failed: 0,
+        successFile: '/Users/nathandickerson/Source/dataloader/results/Candidate_load_2017-11-21_07.20.06_success.csv',
+        failureFile: '/Users/nathandickerson/Source/dataloader/results/Candidate_load_2017-11-21_07.20.06_failure.csv',
+        logFile: '/Users/nathandickerson/Source/dataloader/log/dataloader_2017-11-20_08.22.21.log',
+        startTime: 1511182001000,
+        durationMsec: 0,
+        errors: [],
       };
       setInterval(() => {
-        fakeResults.total += 3;
-        fakeResults.success += 2;
-        fakeResults.failure += 1;
+        fakeResults.processed += 6;
+        fakeResults.inserted += 3;
+        fakeResults.updated += 2;
+        fakeResults.failed += 1;
+        fakeResults.durationMsec += 1000;
+        fakeResults.errors.push({
+          row: fakeResults.failed,
+          id: fakeResults.failed + 111,
+          message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\''
+        });
         onChange(fakeResults);
       }, 1000);
     }
