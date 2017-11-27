@@ -51,7 +51,7 @@
         <item-header-end>
         <span>
         <i class="bhi-clock"></i>
-        {{ results?.startTime | date }}
+        {{ results?.durationMsec | date }}
         </span>
         </item-header-end>
       </item-header>
@@ -59,8 +59,17 @@
         <a class="link" (click)="openFile(results?.failureFile);">{{ results?.failureFile }}</a>
       </item-content>
     </novo-list-item>
+    <novo-list-item *ngIf="results?.logFile">
+      <item-header>
+        <item-avatar icon="bhi-note"></item-avatar>
+        <item-title>Log File</item-title>
+      </item-header>
+      <item-content>
+        <a class="link" (click)="openFile(results?.logFile);">{{ results?.logFile }}</a>
+      </item-content>
+    </novo-list-item>
   </novo-list>
-  <div class="output">{{output}}</div>
+  <div class="output">{{ output }}</div>
   <footer>
     <button theme="primary" class="cancel-button" [disabled]="!running" (click)="stop()" color="negative" icon="times">
       Stop

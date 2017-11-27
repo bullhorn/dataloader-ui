@@ -46,6 +46,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onDone(code: string): void {
+    // TODO: Output System Notification and Long-Lived Toast
     new Notification('Loaded 1301 Candidate Records in XX:XX',
       { body: '  Inserted: 1202\n  Updated: 90\n  Failed: 9' });
     this.running = false;

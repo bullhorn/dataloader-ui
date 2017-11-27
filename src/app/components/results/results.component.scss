@@ -2,6 +2,8 @@
 @import 'styles.scss';
 
 .results {
+  margin-bottom: 100px;
+
   .output {
     margin: 20px;
     padding: 20px;
@@ -9,7 +11,7 @@
     white-space: pre-line;
     color: white;
     background: $dark;
-    max-height: 70vh;
+    max-height: 400px;
     overflow: scroll;
   }
 

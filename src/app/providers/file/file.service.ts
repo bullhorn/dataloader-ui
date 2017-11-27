@@ -8,9 +8,9 @@ import { IResults } from '../../../interfaces/IResults';
 
 @Injectable()
 export class FileService {
-  private settingsFile: string = 'settings.json';
-  static RESULTS_FILE = '../dataloader/results.json';
-  static SETTINGS_FILE = './settings.json';
+  public static DATALOADER_ROOT = '../dataloader/';
+  public static RESULTS_FILE = FileService.DATALOADER_ROOT + 'results.json';
+  public static SETTINGS_FILE = './settings.json';
 
   constructor(private electronService: ElectronService) {
   }
@@ -40,7 +40,7 @@ export class FileService {
 
   writeSettings(value: ISettings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFile(this.settingsFile, JSON.stringify(value, null, 2), (err) => {
+      this.electronService.fs.writeFile(FileService.SETTINGS_FILE, JSON.stringify(value, null, 2), (err) => {
         if (err) {
           return console.error(err); // tslint:disable-line:no-console
         }
@@ -115,7 +115,7 @@ export class FileService {
 
   openFile(filePath: string): void {
     if (ElectronService.isElectron()) {
-      this.electronService.shell.showItemInFolder(filePath);
+      this.electronService.shell.showItemInFolder(FileService.DATALOADER_ROOT + filePath);
     }
   }
 
