@@ -23,6 +23,8 @@ export class Utils {
     args = args.concat(['dateFormat', settings.dateFormat]);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
     args = args.concat(['resultsFileEnabled', 'true']);
+    args = args.concat(['resultsFilePath', './results.json']);
+    args = args.concat(['resultsFileWriteIntervalMsec', '500']);
     args = args.concat(['load', filePath]);
     return args;
   }

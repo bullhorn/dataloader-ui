@@ -122,7 +122,8 @@ export class FileService {
   // TODO: Move fakes out to STATIC file.service.fakes.ts
   onResultsFileChange(onChange: (results: IResults) => {}): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.watchFile(FileService.RESULTS_FILE, this.readResultsFile.bind(this, onChange));
+      let options = { persistent: true, interval: 500 };
+      this.electronService.fs.watchFile(FileService.RESULTS_FILE, options, this.readResultsFile.bind(this, onChange));
     } else {
       // Call with fake test data for running in `ng serve` mode
       let fakeResults: IResults = {
@@ -150,7 +151,7 @@ export class FileService {
           message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\''
         });
         onChange(fakeResults);
-      }, 1000);
+      }, 500);
     }
   }
 
