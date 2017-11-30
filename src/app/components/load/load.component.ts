@@ -81,7 +81,7 @@ export class LoadComponent implements OnInit {
 
   load(): void {
     this.dataloaderService.start(this.inputFilePath);
-    this.router.navigate(['/results']); // TODO: Pass along inputFilePath and the preview data for use in the results
+    this.router.navigate(['/results']);
   }
 
   private onFileChange(API: FieldInteractionApi): void {

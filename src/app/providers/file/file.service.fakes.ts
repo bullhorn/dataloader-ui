@@ -24,6 +24,7 @@ export class FileServiceFakes {
   };
 
   public static PREVIEW_DATA: IPreviewData = {
+    filePath: '../Path/to/dataloader/data/Candidate.csv',
     total: 210,
     headers: ['firstName', 'lastName', 'email'],
     data: [{

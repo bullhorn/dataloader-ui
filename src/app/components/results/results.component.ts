@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 // App
 import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 
 @Component({
@@ -15,6 +16,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   running: boolean = true;
   results: IResults;
   output: string = '';
+  previewData: IPreviewData;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private dataloaderService: DataloaderService,
@@ -22,6 +24,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.previewData = this.fileService.previewData;
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));

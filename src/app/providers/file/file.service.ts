@@ -13,6 +13,9 @@ export class FileService {
   public static RESULTS_FILE = FileService.DATALOADER_ROOT + 'results.json';
   public static SETTINGS_FILE = './settings.json';
 
+  // The last file preview is stored here for access by all components
+  public previewData: IPreviewData;
+
   constructor(private electronService: ElectronService) {
   }
 
@@ -38,6 +41,7 @@ export class FileService {
    * Returns the total number of rows and the first 100 rows of CSV data with the following format:
    *
    * {
+   *    filePath: 'Path/to/Candidate.csv',
    *    total: 12345,
    *    headers: ['firstName', 'lastName'],
    *    data: [{
@@ -48,14 +52,12 @@ export class FileService {
    *        lastName: 'Bryan'
    *    }]
    * }
-   *
-   * @param {string} filePath
-   * @param onSuccess
    */
   getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}): void {
     if (ElectronService.isElectron()) {
       const MAX_ROWS: number = 100;
       let previewData: IPreviewData = {
+        filePath: filePath,
         total: 0,
         headers: [],
         data: [],
@@ -72,12 +74,14 @@ export class FileService {
           }
         })
         .on('end', () => {
+          this.previewData = previewData;
           onSuccess(previewData);
         })
         .on('error', (error) => {
           console.error(error); // tslint:disable-line:no-console
         });
     } else {
+      this.previewData = FileServiceFakes.PREVIEW_DATA;
       onSuccess(FileServiceFakes.PREVIEW_DATA);
     }
   }
