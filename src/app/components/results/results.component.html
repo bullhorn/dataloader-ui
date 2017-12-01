@@ -9,7 +9,10 @@
       <item-header>
         <item-title>Records Processed</item-title>
       </item-header>
-      <item-content>{{ results?.processed }} / {{ previewData?.total }}</item-content>
+      <item-content>
+        <!--TODO: Set a class on the chart when there is a failure, and change the color to red, and add "With Errors"-->
+        <novo-card-chart-donut [value]="percentComplete" [label]="chartLabel" color="#662255"></novo-card-chart-donut>
+      </item-content>
     </novo-list-item>
     <novo-list-item>
       <item-header>
