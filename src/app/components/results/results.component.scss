@@ -4,7 +4,9 @@
 .results {
   margin-bottom: 100px;
   novo-nav-content {
-    margin: 20px;
+    &.tab-overview {
+      margin: 20px;
+    }
     .overview {
       display: flex;
       align-items: flex-end;
@@ -31,8 +33,12 @@
       white-space: pre-line;
       color: white;
       background: $dark;
-      max-height: 400px;
       overflow: scroll;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 139px;
+      bottom: 58px;
     }
   }
 }
