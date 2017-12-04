@@ -3,19 +3,36 @@
 
 .results {
   margin-bottom: 100px;
-
-  .output {
+  novo-nav-content {
     margin: 20px;
-    padding: 20px;
-    font-family: monospace;
-    white-space: pre-line;
-    color: white;
-    background: $dark;
-    max-height: 400px;
-    overflow: scroll;
-  }
-
-  .output-files {
-    margin: 20px;
+    .overview {
+      display: flex;
+      align-items: flex-end;
+      .chart {
+        width: 50%;
+        text-align: center;
+        novo-card-chart-donut {
+          aside:before {
+            font-weight: 600;
+          }
+        }
+      }
+      .totals {
+        width: 50%;
+      }
+    }
+    .files {
+    }
+    .errors {
+    }
+    .output {
+      padding: 20px;
+      font-family: monospace;
+      white-space: pre-line;
+      color: white;
+      background: $dark;
+      max-height: 400px;
+      overflow: scroll;
+    }
   }
 }

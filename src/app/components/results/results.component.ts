@@ -17,8 +17,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
   results: IResults;
   output: string = '';
   previewData: IPreviewData;
-  percentComplete: number = 0.0;
-  chartLabel: string = '';
+  loadedPercent: number = 0.0;
+  loadedLabel: string = '';
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private dataloaderService: DataloaderService,
@@ -60,8 +60,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   private onResultsFileChange(results: IResults): void {
     this.results = results;
-    this.percentComplete = this.results.processed / this.previewData.total;
-    this.chartLabel = this.results.processed + ' of ' + this.previewData.total;
+    this.loadedPercent = (this.results.inserted + this.results.updated) / this.previewData.total;
+    this.loadedLabel = (this.results.inserted + this.results.updated) + ' / ' + this.previewData.total + ' LOADED';
     this.changeDetectorRef.detectChanges();
   }
 }

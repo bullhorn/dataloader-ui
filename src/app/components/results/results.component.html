@@ -10,75 +10,77 @@
   </novo-nav>
   <novo-nav-outlet #tabs>
     <novo-nav-content class="tab-overview">
-      <novo-list class="totals" direction="vertical">
-        <novo-list-item>
-          <item-header>
-            <item-title>Records Processed</item-title>
-          </item-header>
-          <item-content>
-            <!--TODO: Set a class on the chart when there is a failure, and change the color to red, and add "With Errors"-->
-            <novo-card-chart-donut [value]="percentComplete" [label]="chartLabel"
-                                   color="#662255"></novo-card-chart-donut>
-          </item-content>
-        </novo-list-item>
-        <novo-list-item>
-          <item-header>
-            <item-title>Inserted</item-title>
-          </item-header>
-          <item-content>{{ results?.inserted }}</item-content>
-        </novo-list-item>
-        <novo-list-item>
-          <item-header>
-            <item-title>Updated</item-title>
-          </item-header>
-          <item-content>{{ results?.updated }}</item-content>
-        </novo-list-item>
-        <novo-list-item>
-          <item-header>
-            <item-title>Failed</item-title>
-          </item-header>
-          <item-content>{{ results?.failed }}</item-content>
-        </novo-list-item>
-        <novo-list-item *ngIf="results?.successFile">
-          <item-header>
-            <item-avatar icon="bhi-certification"></item-avatar>
-            <item-title>Success File</item-title>
-            <item-header-end>
-        <span>
-        <i class="bhi-clock"></i>
-        {{ results?.startTime | date }}
-        </span>
-            </item-header-end>
-          </item-header>
-          <item-content>
-            <a class="link" (click)="openFile(results?.successFile);">{{ results?.successFile }}</a>
-          </item-content>
-        </novo-list-item>
-        <novo-list-item *ngIf="results?.failureFile">
-          <item-header>
-            <item-avatar icon="bhi-caution"></item-avatar>
-            <item-title>Failure File</item-title>
-            <item-header-end>
-        <span>
-        <i class="bhi-clock"></i>
-        {{ results?.durationMsec | date }}
-        </span>
-            </item-header-end>
-          </item-header>
-          <item-content>
-            <a class="link" (click)="openFile(results?.failureFile);">{{ results?.failureFile }}</a>
-          </item-content>
-        </novo-list-item>
-        <novo-list-item *ngIf="results?.logFile">
-          <item-header>
-            <item-avatar icon="bhi-note"></item-avatar>
-            <item-title>Log File</item-title>
-          </item-header>
-          <item-content>
-            <a class="link" (click)="openFile(results?.logFile);">{{ results?.logFile }}</a>
-          </item-content>
-        </novo-list-item>
-      </novo-list>
+      <div class="overview">
+        <div class="chart">
+          <novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>
+        </div>
+        <div class="totals">
+          <novo-list direction="vertical">
+            <novo-list-item class="total inserted">
+              <item-header>
+                <item-avatar icon="bhi-star"></item-avatar>
+                <item-title><span class="amount">{{ results?.inserted }}</span> INSERTED</item-title>
+              </item-header>
+            </novo-list-item>
+            <novo-list-item class="total updated">
+              <item-header>
+                <item-avatar icon="bhi-edit"></item-avatar>
+                <item-title><span class="amount">{{ results?.updated }}</span> UPDATED</item-title>
+              </item-header>
+            </novo-list-item>
+            <novo-list-item class="total failed">
+              <item-header>
+                <item-avatar icon="bhi-caution"></item-avatar>
+                <item-title><span class="amount">{{ results?.failed }}</span> FAILED</item-title>
+              </item-header>
+            </novo-list-item>
+          </novo-list>
+        </div>
+      </div>
+      <div class="files">
+        <novo-list direction="vertical">
+          <novo-list-item *ngIf="results?.inserted || results?.updated">
+            <item-header>
+              <item-avatar icon="bhi-certification"></item-avatar>
+              <item-title>Success File</item-title>
+              <item-header-end>
+                <i class="bhi-clock"></i>
+                {{ results?.startTime | date }}
+              </item-header-end>
+            </item-header>
+            <item-content>
+              <a class="link" (click)="openFile(results?.successFile);">{{ results?.successFile }}</a>
+            </item-content>
+          </novo-list-item>
+          <novo-list-item *ngIf="results?.failed">
+            <item-header>
+              <item-avatar icon="bhi-caution"></item-avatar>
+              <item-title>Failure File</item-title>
+              <item-header-end>
+                <i class="bhi-clock"></i>
+                {{ results?.durationMsec | date }}
+              </item-header-end>
+            </item-header>
+            <item-content>
+              <a class="link" (click)="openFile(results?.failureFile);">{{ results?.failureFile }}</a>
+            </item-content>
+          </novo-list-item>
+          <novo-list-item *ngIf="results?.logFile">
+            <item-header>
+              <item-avatar icon="bhi-note"></item-avatar>
+              <item-title>Log File</item-title>
+            </item-header>
+            <item-content>
+              <a class="link" (click)="openFile(results?.logFile);">{{ results?.logFile }}</a>
+            </item-content>
+          </novo-list-item>
+        </novo-list>
+      </div>
+      <div class="errors">
+        <div class="error" *ngFor="let error of results?.errors">
+          Row: {{ error.row }} - ID: {{ error.id }} - Message: {{ error.message }}
+        </div>
+      </div>
     </novo-nav-content>
     <novo-nav-content class="tab-command-line">
       <div class="output">{{ output }}</div>
