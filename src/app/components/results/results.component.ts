@@ -63,7 +63,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   private onDone(code: number): void {
     new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`,
-      { body: `  ${this.results.inserted} Added\n  ${this.results.updated} Edited\n  ${this.results.failed} Errors` });
+      { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` });
     this.running = false;
     this.changeDetectorRef.detectChanges();
   }
