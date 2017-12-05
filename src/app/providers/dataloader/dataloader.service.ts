@@ -26,6 +26,15 @@ export class DataloaderService {
   }
 
   /**
+   * Stops the dataloader java process, same as pressing CTRL+C
+   */
+  stop(): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.send('stop');
+    }
+  }
+
+  /**
    * Subscribe to real time printouts from the DataLoader CLI
    */
   onPrint(callback: (text: string) => void): void {

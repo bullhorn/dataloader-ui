@@ -9,6 +9,9 @@ const serve: boolean = args.some((arg) => arg === '--serve');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow = null;
 
+// Keep a global reference to the single dataloader process that we spawn/kill
+let dataloaderProcess: ChildProcess = null;
+
 function createWindow(): void {
   mainWindow = new BrowserWindow({ width: 800, height: 600 });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -53,24 +56,30 @@ app.on('activate', () => {
  *
  * Outgoing events:
  *  - data(text: string): line of text output from CLI
- *  - close(): CLI is finished
+ *  - close(code: number): CLI is finished
  */
 ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   // TODO: Save the dataloader cli location in config
-  process.chdir('../dataloader/');
-
-  // Execute dataloader in a separate process
-  const dataloaderProcess: ChildProcess = spawn('dataloader', params);
+  // Execute dataloader in separate process
+  params.unshift('-jar', 'target/dataloader-3.7.1-SNAPSHOT.jar');
+  dataloaderProcess = spawn('java', params, {
+    cwd: '../dataloader',
+    detached: true
+  });
 
   dataloaderProcess.stdout.on('data', (data) => {
     event.sender.send('print', data.toString());
   });
-
   dataloaderProcess.stderr.on('data', (data) => {
     event.sender.send('print', data.toString());
   });
-
   dataloaderProcess.on('close', (code) => {
-    event.sender.send('done', code.toString());
+    event.sender.send('done', code);
   });
+});
+
+ipcMain.on('stop', () => {
+  if (dataloaderProcess) {
+    dataloaderProcess.kill('SIGINT');
+  }
 });

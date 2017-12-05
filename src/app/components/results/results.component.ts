@@ -17,6 +17,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   results: IResults;
   output: string = '';
   previewData: IPreviewData;
+  loaded: number = 0;
   loadedPercent: number = 0.0;
   loadedLabel: string = '';
 
@@ -38,7 +39,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   stop(): void {
-    // TODO
+    this.dataloaderService.stop();
   }
 
   openFile(filePath: string): void {
@@ -50,7 +51,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  private onDone(code: string): void {
+  private onDone(code: number): void {
     // TODO: Output System Notification and Long-Lived Toast
     new Notification('Loaded 1301 Candidate Records in XX:XX',
       { body: '  Inserted: 1202\n  Updated: 90\n  Failed: 9' });
@@ -60,8 +61,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   private onResultsFileChange(results: IResults): void {
     this.results = results;
-    this.loadedPercent = (this.results.inserted + this.results.updated) / this.previewData.total;
-    this.loadedLabel = (this.results.inserted + this.results.updated) + ' / ' + this.previewData.total + ' LOADED';
+    this.loaded = this.results.inserted + this.results.updated;
+    this.loadedPercent = this.loaded / this.previewData.total;
+    this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
     this.changeDetectorRef.detectChanges();
   }
 }
