@@ -6,6 +6,7 @@ import { DataloaderService } from '../../providers/dataloader/dataloader.service
 import { FileService } from '../../providers/file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-results',
@@ -20,6 +21,11 @@ export class ResultsComponent implements OnInit, OnDestroy {
   loaded: number = 0;
   loadedPercent: number = 0.0;
   loadedLabel: string = '';
+  duration: string = '';
+  entity: string = '';
+  icon: string = '';
+  theme: string = '';
+  fileName: string = '';
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private dataloaderService: DataloaderService,
@@ -28,6 +34,10 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.previewData = this.fileService.previewData;
+    this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
+    this.icon = Utils.getIconForFilename(this.previewData.filePath);
+    this.theme = Utils.getThemeForFilename(this.previewData.filePath);
+    this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
@@ -52,9 +62,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onDone(code: number): void {
-    // TODO: Output System Notification and Long-Lived Toast
-    new Notification('Loaded 1301 Candidate Records in XX:XX',
-      { body: '  Inserted: 1202\n  Updated: 90\n  Failed: 9' });
+    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`,
+      { body: `  Inserted: ${this.results.inserted}\n  Updated: ${this.results.updated}\n  Failed: ${this.results.failed}` });
     this.running = false;
     this.changeDetectorRef.detectChanges();
   }
@@ -64,6 +73,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.loaded = this.results.inserted + this.results.updated;
     this.loadedPercent = this.loaded / this.previewData.total;
     this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
+    this.duration = Utils.msecToHMS(this.results.durationMsec);
     this.changeDetectorRef.detectChanges();
   }
 }

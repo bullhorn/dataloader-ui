@@ -196,4 +196,10 @@ export class Utils {
   static getFilenameFromPath(filePath: string): string {
     return filePath.replace(/^.*[\\\/]/, '');
   }
+
+  static msecToHMS(milliseconds: number): string {
+    let date = new Date(null);
+    date.setMilliseconds(milliseconds);
+    return date.toISOString().substr(11, 8);
+  }
 }

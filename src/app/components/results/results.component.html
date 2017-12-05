@@ -44,8 +44,7 @@
               <item-avatar icon="bhi-certification"></item-avatar>
               <item-title>Success File</item-title>
               <item-header-end>
-                <i class="bhi-clock"></i>
-                {{ results?.startTime | date }}
+                Start Time: {{ results?.startTime | date:'medium' }}
               </item-header-end>
             </item-header>
             <item-content>
@@ -58,7 +57,7 @@
               <item-title>Failure File</item-title>
               <item-header-end>
                 <i class="bhi-clock"></i>
-                {{ results?.durationMsec | date }}
+                {{ this.duration }}
               </item-header-end>
             </item-header>
             <item-content>
