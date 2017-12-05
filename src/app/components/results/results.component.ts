@@ -69,11 +69,13 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onResultsFileChange(results: IResults): void {
-    this.results = results;
-    this.loaded = this.results.inserted + this.results.updated;
-    this.loadedPercent = this.loaded / this.previewData.total;
-    this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
-    this.duration = Utils.msecToHMS(this.results.durationMsec);
-    this.changeDetectorRef.detectChanges();
+    if (results && results.durationMsec) {
+      this.results = results;
+      this.loaded = this.results.inserted + this.results.updated;
+      this.loadedPercent = this.loaded / this.previewData.total;
+      this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
+      this.duration = Utils.msecToHMS(this.results.durationMsec);
+      this.changeDetectorRef.detectChanges();
+    }
   }
 }
