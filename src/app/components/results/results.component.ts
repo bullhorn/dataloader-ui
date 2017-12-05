@@ -62,6 +62,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onDone(code: number): void {
+    // TODO: Set DataLoader Icon in System Notification
     new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`,
       { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` });
     this.running = false;
