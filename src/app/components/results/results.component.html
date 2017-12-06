@@ -18,6 +18,9 @@
             <div class="duration">
               <i class="bhi-clock"></i> {{ this.duration }}
             </div>
+            <button class="log-file-button" theme="dialogue" icon="note"
+                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
+            </button>
           </div>
         </div>
         <div class="totals">
@@ -37,11 +40,6 @@
               <item-header>
                 <item-avatar icon="bhi-edit"></item-avatar>
                 <item-title><span class="amount">{{ results?.updated }}</span> Edited</item-title>
-                <item-header-end>
-                  <button class="log-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log
-                  </button>
-                </item-header-end>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total failed">
