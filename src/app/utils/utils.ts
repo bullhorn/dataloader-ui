@@ -158,7 +158,7 @@ export class Utils {
     return columnConfig;
   }
 
-  static getIconForFilename(filePath: string): string {
+  static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
     let icon: string = 'circle';
     let entityName: string = Utils.getEntityNameFromFile(filePath);
     if (entityName.includes('CustomObject')) {
@@ -167,7 +167,10 @@ export class Utils {
     if (entityName && Utils.ENTITY_ICONS[entityName]) {
       icon = Utils.ENTITY_ICONS[entityName];
     }
-    return 'bhi-' + icon;
+    if (useBhiPrefix) {
+      icon = 'bhi-' + icon;
+    }
+    return icon;
   }
 
   static getThemeForFilename(filePath: string): string {

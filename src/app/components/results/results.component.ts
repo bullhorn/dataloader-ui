@@ -35,7 +35,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.previewData = this.fileService.previewData;
     this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
-    this.icon = Utils.getIconForFilename(this.previewData.filePath);
+    this.icon = Utils.getIconForFilename(this.previewData.filePath, false);
     this.theme = Utils.getThemeForFilename(this.previewData.filePath);
     this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
     this.dataloaderService.onPrint(this.onPrint.bind(this));
