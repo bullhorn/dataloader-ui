@@ -9,7 +9,7 @@
     }
     .overview {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       .chart {
         width: 50%;
         text-align: center;
@@ -18,13 +18,16 @@
             font-weight: 600;
           }
         }
+        .time {
+          display: flex;
+          justify-content: space-around;
+          margin: 20px;
+          align-items: center;
+        }
       }
       .totals {
         width: 50%;
       }
-    }
-    .files {
-      margin-top: 20px;
     }
     .errors {
       margin-top: 20px;

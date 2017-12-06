@@ -1,9 +1,7 @@
 <app-header></app-header>
 <section class="results">
-  <div class="subtitle">
-    <i class="bhi-report"></i>
-    <h1>Results</h1>
-  </div>
+  <header title="{{fileName}} - {{previewData.total}} Rows" [subTitle]="previewData?.filePath"
+          [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal">
     <novo-tab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
@@ -13,6 +11,14 @@
       <div class="overview">
         <div class="chart">
           <novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>
+          <div class="time">
+            <div class="start-time">
+              {{ results?.startTime | date:'mediumTime' }}
+            </div>
+            <div class="duration">
+              <i class="bhi-clock"></i> {{ this.duration }}
+            </div>
+          </div>
         </div>
         <div class="totals">
           <novo-list direction="vertical">
@@ -20,60 +26,37 @@
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
                 <item-title><span class="amount">{{ results?.inserted }}</span> Added</item-title>
+                <item-header-end *ngIf="loaded > 0">
+                  <button class="success-file-button" theme="dialogue" icon="note"
+                          [tooltip]="results?.successFile" (click)="openFile(results?.successFile)">Loaded
+                  </button>
+                </item-header-end>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total updated">
               <item-header>
                 <item-avatar icon="bhi-edit"></item-avatar>
                 <item-title><span class="amount">{{ results?.updated }}</span> Edited</item-title>
+                <item-header-end>
+                  <button class="log-file-button" theme="dialogue" icon="note"
+                          [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log
+                  </button>
+                </item-header-end>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total failed">
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>
                 <item-title><span class="amount">{{ results?.failed }}</span> Errors</item-title>
+                <item-header-end *ngIf="results?.failed > 0">
+                  <button class="failure-file-button" theme="dialogue" icon="note"
+                          [tooltip]="results?.failureFile" (click)="openFile(results?.failureFile)">Failed
+                  </button>
+                </item-header-end>
               </item-header>
             </novo-list-item>
           </novo-list>
         </div>
-      </div>
-      <div class="files">
-        <novo-list direction="vertical">
-          <novo-list-item *ngIf="results?.inserted || results?.updated">
-            <item-header>
-              <item-avatar icon="bhi-certification"></item-avatar>
-              <item-title>Success File</item-title>
-              <item-header-end>
-                Start Time: {{ results?.startTime | date:'medium' }}
-              </item-header-end>
-            </item-header>
-            <item-content>
-              <a class="link" (click)="openFile(results?.successFile);">{{ results?.successFile }}</a>
-            </item-content>
-          </novo-list-item>
-          <novo-list-item *ngIf="results?.failed">
-            <item-header>
-              <item-avatar icon="bhi-caution"></item-avatar>
-              <item-title>Failure File</item-title>
-              <item-header-end>
-                <i class="bhi-clock"></i>
-                {{ this.duration }}
-              </item-header-end>
-            </item-header>
-            <item-content>
-              <a class="link" (click)="openFile(results?.failureFile);">{{ results?.failureFile }}</a>
-            </item-content>
-          </novo-list-item>
-          <novo-list-item *ngIf="results?.logFile">
-            <item-header>
-              <item-avatar icon="bhi-note"></item-avatar>
-              <item-title>Log File</item-title>
-            </item-header>
-            <item-content>
-              <a class="link" (click)="openFile(results?.logFile);">{{ results?.logFile }}</a>
-            </item-content>
-          </novo-list-item>
-        </novo-list>
       </div>
       <div class="errors">
         <div class="error" *ngFor="let error of results?.errors">
