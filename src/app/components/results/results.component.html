@@ -1,6 +1,6 @@
 <app-header></app-header>
 <section class="results">
-  <header title="{{fileName}} - {{previewData.total}} Rows" [subTitle]="previewData?.filePath"
+  <header title="{{ fileName }} - {{ previewData?.total }} Rows" [subTitle]="previewData?.filePath"
           [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal">
     <novo-tab>Overview</novo-tab>
@@ -56,10 +56,16 @@
           </novo-list>
         </div>
       </div>
-      <div class="errors">
-        <div class="error" *ngFor="let error of results?.errors">
-          Row: {{ error.row }} - ID: {{ error.id }} - Message: {{ error.message }}
-        </div>
+      <div class="errors" *ngIf="results?.errors">
+        <novo-table theme="grapefruit" [rows]="errorTable.rows" [columns]="errorTable.columns"
+                    [config]="errorTable.config">
+          <novo-table-header class="table-header">
+            <i class="header-icon bhi-caution"></i>
+            <div class="header-titles">
+              <h1>{{ results?.errors.length }} Errors</h1>
+            </div>
+          </novo-table-header>
+        </novo-table>
       </div>
     </novo-nav-content>
     <novo-nav-content class="tab-command-line">

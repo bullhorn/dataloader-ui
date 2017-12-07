@@ -26,6 +26,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   icon: string = '';
   theme: string = '';
   fileName: string = '';
+  errorTable: any = {};
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private dataloaderService: DataloaderService,
@@ -40,6 +41,25 @@ export class ResultsComponent implements OnInit, OnDestroy {
       this.theme = Utils.getThemeForFilename(this.previewData.filePath);
       this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
     }
+    this.errorTable = {
+      columns: [{
+        title: 'Row',
+        name: 'row',
+      }, {
+        title: 'ID',
+        name: 'id',
+      }, {
+        title: 'Message',
+        name: 'message',
+      }],
+      rows: [],
+      config: {
+        sorting: true,
+        filtering: true,
+        ordering: true,
+        resizing: true,
+      },
+    };
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
@@ -75,6 +95,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     if (results && results.durationMsec) {
       this.results = results;
       this.duration = Utils.msecToHMS(this.results.durationMsec);
+      this.errorTable.rows = results.errors.slice();
       this.loaded = this.results.inserted + this.results.updated;
       if (this.previewData && this.previewData.total) {
         this.loadedPercent = this.loaded / this.previewData.total;

@@ -17,6 +17,20 @@ novo-nav {
   background: $submission;
 }
 
+.table-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  i {
+    margin: 10px;
+  }
+  h1 {
+    font-size: 1.6em;
+    padding: 0;
+  }
+}
+
 footer {
   display: flex;
   justify-content: flex-end;
