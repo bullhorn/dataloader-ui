@@ -21,6 +21,15 @@ export class FileServiceFakes {
     listDelimiter: ';',
     dateFormat: 'MM/dd/yyyy',
     numThreads: 15,
+    existFields: [{
+      entity: 'Candidate',
+      enabled: true,
+      fields: ['email'],
+    }, {
+      entity: 'ClientContact',
+      enabled: true,
+      fields: ['firstName', 'lastName'],
+    }],
   };
 
   public static PREVIEW_DATA: IPreviewData = {

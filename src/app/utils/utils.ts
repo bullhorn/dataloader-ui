@@ -1,5 +1,6 @@
 // App
-import { ISettings } from '../../interfaces/ISettings';
+import { IExistField, ISettings } from '../../interfaces/ISettings';
+import { IPreviewData } from '../../interfaces/IPreviewData';
 
 export class Utils {
 
@@ -204,5 +205,39 @@ export class Utils {
     let date = new Date(null);
     date.setMilliseconds(milliseconds);
     return date.toISOString().substr(11, 8);
+  }
+
+  static getExistField(settings: ISettings, entity: string): IExistField {
+    let existField: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
+    if (!existField) {
+      existField = {
+        entity: entity,
+        enabled: false,
+        fields: [],
+      };
+    }
+    return existField;
+  }
+
+  static setExistField(settings: ISettings, existField: IExistField): void {
+    if (!settings.existFields) {
+      settings.existFields = [];
+    }
+    let existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === existField.entity);
+    if (existing) {
+      existing = existField;
+    } else {
+      settings.existFields.push(existField);
+    }
+  }
+
+  static getExistFieldOptions(previewData: IPreviewData) {
+    let options: any[] = [];
+    if (previewData && previewData.headers) {
+      options = previewData.headers.map((header) => {
+        return { label: header, value: header };
+      });
+    }
+    return options;
   }
 }

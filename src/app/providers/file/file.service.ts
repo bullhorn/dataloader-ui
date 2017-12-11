@@ -29,11 +29,7 @@ export class FileService {
 
   writeSettings(value: ISettings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFile(FileService.SETTINGS_FILE, JSON.stringify(value, null, 2), (err) => {
-        if (err) {
-          return console.error(err); // tslint:disable-line:no-console
-        }
-      });
+      this.electronService.fs.writeFileSync(FileService.SETTINGS_FILE, JSON.stringify(value, null, 2));
     }
   }
 
