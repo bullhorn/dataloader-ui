@@ -26,7 +26,20 @@ export class Utils {
     args = args.concat(['resultsFileEnabled', 'true']);
     args = args.concat(['resultsFilePath', './results.json']);
     args = args.concat(['resultsFileWriteIntervalMsec', '500']);
+    args = args.concat(Utils.createExistFieldArgs(settings, filePath));
     args = args.concat(['load', filePath]);
+    return args;
+  }
+
+  static createExistFieldArgs(settings: ISettings, filePath: string): string[] {
+    let args: string[] = [];
+    if (settings.existFields) {
+      let entity: string = Utils.getEntityNameFromFile(filePath);
+      let existField: IExistField = Utils.getExistField(settings, entity);
+      if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
+        args = args.concat([entity + 'ExistField', existField.fields.join(',')]);
+      }
+    }
     return args;
   }
 
@@ -226,9 +239,9 @@ export class Utils {
     if (!settings.existFields) {
       settings.existFields = [];
     }
-    let existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === existField.entity);
-    if (existing) {
-      existing = existField;
+    let index: number = settings.existFields.findIndex((ef: IExistField) => ef.entity === existField.entity);
+    if (index > -1) {
+      settings.existFields[index] = existField;
     } else {
       settings.existFields.push(existField);
     }
