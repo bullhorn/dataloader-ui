@@ -133,8 +133,12 @@ export class LoadComponent implements OnInit {
   }
 
   private onFieldsChange(API: FieldInteractionApi): void {
-    if (this.previewData) {
-      this.existField.fields = API.form.fields;
+    if (this.previewData && this.existField.enabled) {
+      if (API.form.value.fields) {
+        this.existField.fields = API.form.value.fields;
+      } else {
+        this.existField.fields = [];
+      }
     }
   }
 
