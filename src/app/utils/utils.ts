@@ -208,16 +208,18 @@ export class Utils {
   }
 
   static getExistField(settings: ISettings, entity: string): IExistField {
-    let existField: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
-    if (existField) {
-      return Object.assign({}, existField);
-    } else {
-      return {
-        entity: entity,
-        enabled: false,
-        fields: [],
-      };
+    let existField: IExistField = {
+      entity: entity,
+      enabled: false,
+      fields: [],
+    };
+    if (Array.isArray(settings.existFields)) {
+      let existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
+      if (existing) {
+        existField = Object.assign({}, existing);
+      }
     }
+    return existField;
   }
 
   static setExistField(settings: ISettings, existField: IExistField): void {
