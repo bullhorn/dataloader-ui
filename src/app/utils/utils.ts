@@ -209,14 +209,15 @@ export class Utils {
 
   static getExistField(settings: ISettings, entity: string): IExistField {
     let existField: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
-    if (!existField) {
-      existField = {
+    if (existField) {
+      return Object.assign({}, existField);
+    } else {
+      return {
         entity: entity,
         enabled: false,
         fields: [],
       };
     }
-    return existField;
   }
 
   static setExistField(settings: ISettings, existField: IExistField): void {
