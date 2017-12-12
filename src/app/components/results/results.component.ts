@@ -98,7 +98,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
     if (results && results.durationMsec) {
       this.results = results;
       this.duration = Utils.msecToHMS(this.results.durationMsec);
-      this.errorTable.rows = results.errors.slice();
+      if (results.errors) {
+        this.errorTable.rows = results.errors.slice();
+      }
       this.loaded = this.results.inserted + this.results.updated;
       if (this.previewData && this.previewData.total) {
         this.loadedPercent = this.loaded / this.previewData.total;
