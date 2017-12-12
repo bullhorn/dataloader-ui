@@ -21,7 +21,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   loaded: number = 0;
   loadedPercent: number = 0.0;
   loadedLabel: string = '';
-  duration: string = '';
+  duration: string = '00:00:00';
   entity: string = '';
   icon: string = '';
   theme: string = '';
@@ -85,8 +85,11 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   private onDone(code: number): void {
     // TODO: Set DataLoader Icon in System Notification
-    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`,
-      { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` });
+    let options: any = {};
+    if (this.results) {
+      options = { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` };
+    }
+    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options);
     this.running = false;
     this.changeDetectorRef.detectChanges();
   }
