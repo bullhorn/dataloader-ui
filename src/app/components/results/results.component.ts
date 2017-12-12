@@ -106,7 +106,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
         this.loadedPercent = this.loaded / this.previewData.total;
         this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
       }
-      this.changeDetectorRef.detectChanges();
     }
+    this.changeDetectorRef.detectChanges();
   }
 }
