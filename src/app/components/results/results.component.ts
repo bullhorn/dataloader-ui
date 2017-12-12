@@ -84,7 +84,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
   }
 
   private onDone(code: number): void {
-    // TODO: Set DataLoader Icon in System Notification
     let options: any = {};
     if (this.results) {
       options = { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` };
