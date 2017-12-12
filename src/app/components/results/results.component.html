@@ -1,6 +1,6 @@
 <app-header></app-header>
 <section class="results">
-  <header title="{{ running ? 'Loading ' : 'Finished Loading ' }}{{ fileName }} - {{ previewData?.total }} Rows"
+  <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total }} Rows"
           [subTitle]="previewData?.filePath" [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal">
     <novo-tab>Overview</novo-tab>
