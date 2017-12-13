@@ -80,7 +80,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   private onPrint(text: string): void {
     this.output = this.output.concat(text);
-    this.changeDetectorRef.markForCheck();
+    if (!this.changeDetectorRef['destroyed']) {
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   private onDone(code: number): void {
@@ -90,7 +92,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
     new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options);
     this.running = false;
-    this.changeDetectorRef.markForCheck();
+    if (!this.changeDetectorRef['destroyed']) {
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   private onResultsFileChange(results: IResults): void {
@@ -106,6 +110,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
         this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
       }
     }
-    this.changeDetectorRef.markForCheck();
+    if (!this.changeDetectorRef['destroyed']) {
+      this.changeDetectorRef.detectChanges();
+    }
   }
 }
