@@ -39,6 +39,7 @@ export class SettingsComponent implements OnInit {
         result[key] = defaultValues[key];
       }
     }
+    delete result.existFields;
     return result;
   }
 
