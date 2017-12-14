@@ -88,7 +88,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   private onDone(code: number): void {
     let options: any = {};
     if (this.results) {
-      options = { body: `${this.results.inserted} Added, ${this.results.updated} Edited, ${this.results.failed} Errors` };
+      options = { body: `${this.results.inserted} Added, ${this.results.updated} Updated, ${this.results.failed} Errors` };
     }
     new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options);
     this.running = false;
@@ -104,7 +104,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       if (results.errors) {
         this.errorTable.rows = results.errors.slice();
       }
-      this.loaded = this.results.inserted + this.results.updated;
+      this.loaded = this.results.processed;
       if (this.previewData && this.previewData.total) {
         this.loadedPercent = this.loaded / this.previewData.total;
         this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';

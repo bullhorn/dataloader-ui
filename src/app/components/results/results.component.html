@@ -1,7 +1,7 @@
 <app-header></app-header>
 <section class="results">
   <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total }} Rows"
-          [subTitle]="previewData?.filePath" [icon]="icon" [theme]="theme"></header>
+          [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal">
     <novo-tab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
@@ -38,8 +38,8 @@
             </novo-list-item>
             <novo-list-item class="total updated">
               <item-header>
-                <item-avatar icon="bhi-edit"></item-avatar>
-                <item-title><span class="amount">{{ results?.updated }}</span> Edited</item-title>
+                <item-avatar icon="bhi-refresh-o"></item-avatar>
+                <item-title><span class="amount">{{ results?.updated }}</span> Updated</item-title>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total failed">
