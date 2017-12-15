@@ -4,6 +4,10 @@ header {
   align-items: center;
   padding-right: 10px;
   background: #2f384f;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 
   .bullhorn-logo {
     margin-left: -8px;

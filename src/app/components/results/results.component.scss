@@ -8,6 +8,7 @@
     &.tab-overview {
       margin: 20px;
     }
+
     .overview {
       display: flex;
       align-items: center;
@@ -15,11 +16,13 @@
       .chart {
         width: 50%;
         text-align: center;
+
         novo-card-chart-donut {
           aside:before {
             font-weight: 600;
           }
         }
+
         .time {
           display: flex;
           justify-content: space-around;
@@ -27,13 +30,16 @@
           align-items: center;
         }
       }
+
       .totals {
         width: 50%;
       }
     }
+
     .errors {
       margin-top: 20px;
     }
+
     .output {
       padding: 20px;
       font-family: monospace;
