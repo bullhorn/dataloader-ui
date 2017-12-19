@@ -4,6 +4,7 @@
 settings.json
 
 # dataloader cli
+dataloader.zip
 dataloader/
 
 # compiled output
