@@ -47,6 +47,7 @@
     "copyfiles": "^1.2.0",
     "electron": "1.7.8",
     "electron-builder": "^19.34.1",
+    "extract-zip": "^1.6.6",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",

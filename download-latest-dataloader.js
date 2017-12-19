@@ -1,5 +1,7 @@
 let request = require('request');
 let fs = require('fs');
+let extract = require('extract-zip');
+let log = console.log;
 
 const TOKEN = '47728eb9ca3a3043ac064927cd8cb51c35f260a2';
 const BASE_URL = `https://${TOKEN}:@api.github.com/repos/bullhorn/dataloader`;
@@ -13,8 +15,7 @@ let latestReleaseAssets = {
 };
 
 request(latestReleaseAssets, (error, response, bodyString) => {
-  console.log('error:', error);
-  console.log('statusCode:', response && response.statusCode);
+  error ? log(error) : log('downloading...');
 
   let body = JSON.parse(bodyString);
   let assetID = body.assets.find((asset) => asset.name === FILE).id;
@@ -28,8 +29,13 @@ request(latestReleaseAssets, (error, response, bodyString) => {
   };
 
   request.get(downloadDataLoaderZip)
-    .on('error', (err) => {
-      console.log(err);
-    })
-    .pipe(fs.createWriteStream(FILE));
+    .pipe(fs.createWriteStream(FILE)
+      .on('finish', () => {
+        log('extracting...');
+        extract(FILE, { dir: process.cwd() }, (error) => {
+          error ? log(error) : log('deleting zip file...');
+          fs.unlinkSync(FILE);
+          log('done');
+        });
+      }));
 });
