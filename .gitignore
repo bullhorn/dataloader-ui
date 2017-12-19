@@ -3,6 +3,9 @@
 # user settings file
 settings.json
 
+# dataloader cli
+dataloader/
+
 # compiled output
 /dist
 /tmp
