@@ -1,3 +1,5 @@
+![DataLoader Logo](dataloader.png)
+
 # DataLoader UI
 
 DataLoader Desktop Application Powered by the [Bullhorn DataLoader](https://github.com/bullhorn/dataloader). An Angular CLI App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and [Electron](https://electron.atom.io/) to bring a rich user experience to DataLoader. 
