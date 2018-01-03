@@ -10,7 +10,7 @@
   "scripts": {
     "build": "ng build --aot --base-href . && npm run compile",
     "build:prod": "ng build --prod --base-href . && npm run compile",
-    "compile": "tsc ./main-process/* --outDir dist",
+    "compile": "tsc ./main-process/main.ts --outDir dist",
     "download": "node download-latest-dataloader.js",
     "lint": "ng lint",
     "dist": "cd dist && electron-builder -c.mac.identity=null",
