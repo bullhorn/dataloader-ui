@@ -24,7 +24,7 @@ request(latestReleaseAssets, (error, response, bodyString) => {
     log(`dataloader version: ${version} is up to date.`);
     process.exit();
   } else {
-    log(`downloading newer version: ${version}...`);
+    log(`downloading version: ${version}...`);
     rimraf.sync('./dataloader');
   }
 
