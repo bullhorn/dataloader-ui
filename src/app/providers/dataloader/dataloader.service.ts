@@ -44,7 +44,7 @@ export class DataloaderService {
   /**
    * Subscribe to the done message from the DataLoader CLI
    */
-  onDone(callback: (code: string) => void): void {
+  onDone(callback: (text: string) => void): void {
     this.subscribe('done', callback);
   }
 

@@ -85,7 +85,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onDone(code: number): void {
+  private onDone(text: string): void {
+    this.output = this.output.concat(text);
     let options: any = {};
     if (this.results) {
       options = { body: `${this.results.inserted} Added, ${this.results.updated} Updated, ${this.results.failed} Errors` };

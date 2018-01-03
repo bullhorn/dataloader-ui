@@ -9,9 +9,22 @@ import { ISettings } from '../../../interfaces/ISettings';
 
 @Injectable()
 export class FileService {
-  public static DATALOADER_ROOT = '../dataloader/';
+  public static DATALOADER_ROOT = './dataloader/';
   public static RESULTS_FILE = FileService.DATALOADER_ROOT + 'results.json';
   public static SETTINGS_FILE = './settings.json';
+  public static DEFAULT_SETTINGS = {
+    username: '',
+    password: '',
+    clientId: '',
+    clientSecret: '',
+    dataCenter: 'bhnext',
+    listDelimiter: ';',
+    dateFormat: 'MM/dd/yy HH:mm',
+    authorizeUrl: '',
+    loginUrl: '',
+    tokenUrl: '',
+    numThreads: 15,
+  };
 
   // The last file preview is stored here for access by all components
   public previewData: IPreviewData;
@@ -21,7 +34,11 @@ export class FileService {
 
   readSettings(): ISettings {
     if (ElectronService.isElectron()) {
-      return JSON.parse(this.electronService.fs.readFileSync(FileService.SETTINGS_FILE, 'utf8'));
+      if (this.electronService.fs.existsSync(FileService.SETTINGS_FILE)) {
+        return JSON.parse(this.electronService.fs.readFileSync(FileService.SETTINGS_FILE, 'utf8'));
+      } else {
+        return FileService.DEFAULT_SETTINGS;
+      }
     } else {
       return FileServiceFakes.SETTINGS;
     }
@@ -104,7 +121,11 @@ export class FileService {
   }
 
   private readResultsFile(onChange: (results: IResults) => {}): void {
-    let results: IResults = JSON.parse(this.electronService.fs.readFileSync(FileService.RESULTS_FILE, 'utf8'));
-    onChange(results);
+    this.electronService.fs.readFile(FileService.RESULTS_FILE, 'utf8', (err, data) => {
+      if (!err) {
+        let results: IResults = JSON.parse(data);
+        onChange(results);
+      }
+    });
   }
 }

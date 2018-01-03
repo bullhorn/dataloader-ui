@@ -18,27 +18,8 @@ export class SettingsComponent implements OnInit {
   constructor(private fileService: FileService, private formUtils: FormUtils) {
   }
 
-  private static setDefaults(value: ISettings): ISettings {
-    const defaultValues: any = {
-      username: '',
-      password: '',
-      clientId: '',
-      clientSecret: '',
-      dataCenter: 'bhnext',
-      listDelimiter: ';',
-      dateFormat: 'MM/dd/yy HH:mm',
-      authorizeUrl: '',
-      loginUrl: '',
-      tokenUrl: '',
-      numThreads: 15,
-    };
-
+  private static removeExistFields(value: ISettings): ISettings {
     let result: any = Object.assign({}, value);
-    for (let key in defaultValues) {
-      if (!result.hasOwnProperty(key)) {
-        result[key] = defaultValues[key];
-      }
-    }
     delete result.existFields;
     return result;
   }
@@ -86,7 +67,7 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
-    this.form.setValue(SettingsComponent.setDefaults(this.fileService.readSettings()));
+    this.form.setValue(SettingsComponent.removeExistFields(this.fileService.readSettings()));
   }
 
   save(): void {

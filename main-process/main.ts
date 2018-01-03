@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
+import { glob } from 'glob';
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -51,19 +52,27 @@ app.on('activate', () => {
 /**
  * Inter-process Communication with DataLoader CLI
  *
- * Incoming events:
+ * Incoming events from renderer process:
  *  - start(params: string[]): kick off CLI with given arguments array
  *
- * Outgoing events:
- *  - data(text: string): line of text output from CLI
- *  - close(code: number): CLI is finished
+ * Outgoing events to renderer process:
+ *  - print(text: string): line of text output from CLI
+ *  - done(error: string): CLI is finished, with error text only if there was an error
  */
 ipcMain.on('start', (event: Electron.Event, params: string[]) => {
-  // TODO: Save the dataloader cli location in config
+  const DATALOADER_ROOT = './dataloader/';
+
+  // Locate the jar file
+  let jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: DATALOADER_ROOT });
+  if (!jarFiles.length) {
+    event.sender.send('done', 'ERROR: DataLoader jar file missing. Something went wrong with the building of the app.');
+    return;
+  }
+
   // Execute dataloader in separate process
-  params.unshift('-jar', 'target/dataloader-3.7.1-SNAPSHOT.jar');
+  params.unshift('-jar', jarFiles[0]);
   dataloaderProcess = spawn('java', params, {
-    cwd: '../dataloader',
+    cwd: DATALOADER_ROOT,
     detached: true
   });
 
@@ -73,8 +82,8 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   dataloaderProcess.stderr.on('data', (data) => {
     event.sender.send('print', data.toString());
   });
-  dataloaderProcess.on('close', (code) => {
-    event.sender.send('done', code);
+  dataloaderProcess.on('close', () => {
+    event.sender.send('done', '');
   });
 });
 
