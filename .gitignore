@@ -5,7 +5,7 @@ settings.json
 
 # dataloader cli
 dataloader.zip
-dataloader/
+/dataloader
 
 # compiled output
 /dist
