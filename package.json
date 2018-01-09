@@ -16,7 +16,7 @@
     "dist": "cd dist && electron-builder -c.mac.identity=null",
     "package": "npm run download && npm run build:prod && npm run stage && npm run dist",
     "serve": "electron dist/main.js --serve",
-    "stage": "copyfiles package.json dist && cd dist && npm install --prod && cd ..",
+    "stage": "copyfiles package.json dataloader/*.jar dist && cd dist && npm install --prod && cd ..",
     "start": "npm run download && npm run build && npm run serve",
     "test": "ng test"
   },
