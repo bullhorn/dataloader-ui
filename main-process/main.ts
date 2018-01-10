@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -60,19 +62,30 @@ app.on('activate', () => {
  *  - done(error: string): CLI is finished, with error text only if there was an error
  */
 ipcMain.on('start', (event: Electron.Event, params: string[]) => {
-  const DATALOADER_ROOT = './dataloader/';
+  const userDataDir: string = serve ? path.resolve('userData') : app.getPath('userData');
+  const dataloaderDir: string = serve ? path.resolve('dataloader') : path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
 
   // Locate the jar file
-  let jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: DATALOADER_ROOT });
+  const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
   if (!jarFiles.length) {
-    event.sender.send('done', 'ERROR: DataLoader jar file missing. Something went wrong with the building of the app.');
+    event.sender.send('done', `ERROR: DataLoader jar file missing. Something went wrong with the building of the app. 
+      Cannot locate dataloader.jar file in directory: ${dataloaderDir}`);
     return;
   }
 
+  // Copy over the properties file if it does not already exist in the user's data directory
+  const propertiesFileOrigin: string = path.join(dataloaderDir, 'dataloader.properties');
+  const propertiesFileDestination: string = path.join(userDataDir, 'dataloader.properties');
+  if (fs.existsSync(propertiesFileOrigin) && !fs.existsSync(propertiesFileDestination)) {
+    // TODO: Replace with fs.copyFileSync after upgrading to latest node/electron versions
+    // fs.copyFileSync(propertiesFileOrigin, propertiesFileDestination);
+    fs.writeFileSync(propertiesFileDestination, fs.readFileSync(propertiesFileOrigin));
+  }
+
   // Execute dataloader in separate process
-  params.unshift('-jar', jarFiles[0]);
+  params.unshift('-jar', path.join(dataloaderDir, jarFiles[0]));
   dataloaderProcess = spawn('java', params, {
-    cwd: DATALOADER_ROOT,
+    cwd: userDataDir,
     detached: true
   });
 

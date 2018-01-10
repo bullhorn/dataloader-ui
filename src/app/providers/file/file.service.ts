@@ -6,13 +6,15 @@ import { FileServiceFakes } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
+import { environment } from '../../../environments/environment';
+import * as path from 'path';
 
 @Injectable()
 export class FileService {
-  public static DATALOADER_ROOT = './dataloader/';
-  public static RESULTS_FILE = FileService.DATALOADER_ROOT + 'results.json';
-  public static SETTINGS_FILE = './settings.json';
-  public static DEFAULT_SETTINGS = {
+  // The last file preview is stored here for access by all components
+  public previewData: IPreviewData;
+
+  private defaultSettings: ISettings = {
     username: '',
     password: '',
     clientId: '',
@@ -25,19 +27,24 @@ export class FileService {
     tokenUrl: '',
     numThreads: 15,
   };
-
-  // The last file preview is stored here for access by all components
-  public previewData: IPreviewData;
+  private userDataDir: string;
+  private resultsFile: string;
+  private settingsFile: string;
 
   constructor(private electronService: ElectronService) {
+    if (ElectronService.isElectron()) {
+      this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
+      this.resultsFile = path.join(this.userDataDir, 'results.json');
+      this.settingsFile = path.join(this.userDataDir, 'settings.json');
+    }
   }
 
   readSettings(): ISettings {
     if (ElectronService.isElectron()) {
-      if (this.electronService.fs.existsSync(FileService.SETTINGS_FILE)) {
-        return JSON.parse(this.electronService.fs.readFileSync(FileService.SETTINGS_FILE, 'utf8'));
+      if (this.electronService.fs.existsSync(this.settingsFile)) {
+        return JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
       } else {
-        return FileService.DEFAULT_SETTINGS;
+        return this.defaultSettings;
       }
     } else {
       return FileServiceFakes.SETTINGS;
@@ -46,7 +53,7 @@ export class FileService {
 
   writeSettings(value: ISettings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFileSync(FileService.SETTINGS_FILE, JSON.stringify(value, null, 2));
+      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(value, null, 2));
     }
   }
 
@@ -101,14 +108,14 @@ export class FileService {
 
   openFile(filePath: string): void {
     if (ElectronService.isElectron()) {
-      this.electronService.shell.showItemInFolder(FileService.DATALOADER_ROOT + filePath);
+      this.electronService.shell.showItemInFolder(path.join(this.userDataDir, filePath));
     }
   }
 
   onResultsFileChange(onChange: (results: IResults) => {}): void {
     if (ElectronService.isElectron()) {
       let options = { persistent: true, interval: 500 };
-      this.electronService.fs.watchFile(FileService.RESULTS_FILE, options, this.readResultsFile.bind(this, onChange));
+      this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
     } else {
       FileServiceFakes.generateFakeResults(onChange);
     }
@@ -116,12 +123,12 @@ export class FileService {
 
   unsubscribe() {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.unwatchFile(FileService.RESULTS_FILE);
+      this.electronService.fs.unwatchFile(this.resultsFile);
     }
   }
 
   private readResultsFile(onChange: (results: IResults) => {}): void {
-    this.electronService.fs.readFile(FileService.RESULTS_FILE, 'utf8', (err, data) => {
+    this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
       if (!err) {
         let results: IResults = JSON.parse(data);
         onChange(results);

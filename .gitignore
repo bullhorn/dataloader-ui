@@ -1,9 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# user settings file
-settings.json
-
-# dataloader cli
+# dataloader cli download
 dataloader.zip
 /dataloader
 
@@ -12,6 +9,9 @@ dataloader.zip
 /tmp
 /out-tsc
 /packages
+
+# Running electron in dev mode
+/userData
 
 # dependencies
 /node_modules
@@ -37,7 +37,6 @@ dataloader.zip
 /.sass-cache
 /connect.lock
 /coverage
-/libpeerconnection.log
 npm-debug.log
 testem.log
 /typings

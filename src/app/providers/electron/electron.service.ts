@@ -9,6 +9,7 @@ import { ipcRenderer, shell } from 'electron';
  */
 @Injectable()
 export class ElectronService {
+  app: any;
   csv: any;
   fs: any;
   ipcRenderer: any;
@@ -25,6 +26,7 @@ export class ElectronService {
    */
   constructor() {
     if (ElectronService.isElectron()) {
+      this.app = window.require('electron').remote.app;
       this.csv = window.require('fast-csv');
       this.fs = window.require('fs');
       this.ipcRenderer = window.require('electron').ipcRenderer;
