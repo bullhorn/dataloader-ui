@@ -35,28 +35,28 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
     label: 'View',
     submenu: [{
       label: 'Toggle Full Screen',
-      accelerator: (function () {
+      accelerator: (() => {
         if (process.platform === 'darwin') {
           return 'Ctrl+Command+F'
         } else {
           return 'F11'
         }
       })(),
-      click: function (item, focusedWindow) {
+      click: (item, focusedWindow) => {
         if (focusedWindow) {
           focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
         }
       }
     }, {
       label: 'Toggle Developer Tools',
-      accelerator: (function () {
+      accelerator: (() => {
         if (process.platform === 'darwin') {
           return 'Alt+Command+I'
         } else {
           return 'Ctrl+Shift+I'
         }
       })(),
-      click: function (item, focusedWindow) {
+      click: (item, focusedWindow) => {
         if (focusedWindow) {
           focusedWindow.webContents.toggleDevTools();
         }
@@ -68,7 +68,7 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
     role: 'help',
     submenu: [{
       label: 'About',
-      click: function (item, focusedWindow) {
+      click: (item, focusedWindow) => {
         if (focusedWindow) {
           const options = {
             type: 'info',
@@ -76,7 +76,7 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
             buttons: ['Close'],
             message: 'DataLoader UI Version: 1.0.0 - BETA.\n DataLoader Version: 3.7.1'
           };
-          dialog.showMessageBox(focusedWindow, options, function () {
+          dialog.showMessageBox(focusedWindow, options, () => {
           })
         }
       }
@@ -84,7 +84,7 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
       type: 'separator'
     }, {
       label: 'Wiki',
-      click: function () {
+      click: () => {
         shell.openExternal('http://github.com/bullhorn/dataloader/wiki')
       }
     }]
@@ -92,7 +92,7 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
 
 // Use standard menu submenu for the mac's app menu item
 if (process.platform === 'darwin') {
-  const name = app.getName();
+  const name: string = app.getName();
   menuTemplate.unshift(
     {
       label: name,
@@ -123,7 +123,7 @@ if (process.platform === 'darwin') {
       }, {
         label: 'Quit',
         accelerator: 'Command+Q',
-        click: function () {
+        click: () => {
           app.quit()
         }
       }]
