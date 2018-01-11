@@ -1,9 +1,12 @@
+@import 'novo-elements.scss';
+@import 'styles.scss';
+
 header {
   height: 50px;
   display: flex;
   align-items: center;
   padding-right: 10px;
-  background: #2f384f;
+  background: $navigation;
   position: fixed;
   top: 0;
   width: 100%;
@@ -25,6 +28,14 @@ header {
     svg {
       width: 200px;
     }
+  }
+
+  .beta-indicator {
+    color: $sunflower;
+    position: absolute;
+    margin-left: 47%;
+    bottom: 0;
+    font-size: 14px;
   }
 }
 
