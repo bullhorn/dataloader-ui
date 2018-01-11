@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
+import { menuTemplate } from './menu';
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -16,6 +17,9 @@ let mainWindow: Electron.BrowserWindow = null;
 let dataloaderProcess: ChildProcess = null;
 
 function createWindow(): void {
+  const menu: Electron.Menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+
   mainWindow = new BrowserWindow({ width: 800, height: 600 });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
