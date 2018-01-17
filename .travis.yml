@@ -7,8 +7,8 @@ language: node_js
 node_js: "9"
 
 env:
-  - ELECTRON_CACHE=$HOME/.cache/electron
-  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+- ELECTRON_CACHE=$HOME/.cache/electron
+- ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 cache:
   directories:
@@ -17,11 +17,10 @@ cache:
   - $HOME/.cache/electron-builder
 
 before_install:
-  - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v2.3.1/git-lfs-darwin-amd64-2.3.1.tar.gz | tar -xz -C /tmp/git-lfs --strip-components 1
-      export PATH="/tmp/git-lfs:$PATH"
+- brew install git-lfs
 
 before_script:
-  - git lfs pull
+- git lfs pull
 
 script:
   npm run package
