@@ -1,0 +1,29 @@
+os: osx
+
+osx_image: xcode9.2
+
+language: node_js
+
+node_js: "9"
+
+env:
+  - ELECTRON_CACHE=$HOME/.cache/electron
+  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+
+before_install:
+  - brew install git-lfs
+
+install:
+  - npm install
+
+before_script:
+  - git lfs pull
+
+script:
+  - npm run package
