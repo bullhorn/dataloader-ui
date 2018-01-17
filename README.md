@@ -8,7 +8,7 @@ DataLoader **Desktop Application** Powered by the [Bullhorn DataLoader](https://
  
     1. Verify that you have the latest version of java on the command line by typing: `java -version`, which should show: `java version "1.8"`
 
- 2. Download and run installer from the downloads section of the [Latest Release](https://github.com/bullhorn/dataloader/releases/latest)
+ 2. Download and run installer from the downloads section of the [Latest Release](https://github.com/bullhorn/dataloader-ui/releases/latest)
 
 ## For Developers
 
