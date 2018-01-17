@@ -1,10 +1,16 @@
 ![DataLoader Logo](dataloader.png)
 
-# DataLoader UI
+DataLoader **Desktop Application** Powered by the [Bullhorn DataLoader](https://github.com/bullhorn/dataloader). An Angular CLI App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and [Electron](https://electron.atom.io/) to bring a rich user experience to DataLoader. 
 
-DataLoader Desktop Application Powered by the [Bullhorn DataLoader](https://github.com/bullhorn/dataloader). An Angular CLI App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and [Electron](https://electron.atom.io/) to bring a rich user experience to DataLoader. 
+## Quick Start
 
-### Quick Start
+ 1. Install Java if you don't have it already (you won't need the development kit) - [Windows](http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182) | [Mac](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ 
+    1. Verify that you have the latest version of java on the command line by typing: `java -version`, which should show: `java version "1.8"`
+
+ 2. Download and run installer from the downloads section of the [Latest Release](https://github.com/bullhorn/dataloader/releases/latest)
+
+## For Developers
 
 ```
 # Clone the project
@@ -23,7 +29,7 @@ npm start
 ### Make distributable executable
 
 ```
-# Generate installer for current OS 
+# Generate installers for Windows and Mac (not bothering with Linux for now)
 npm run package
 ```
 
