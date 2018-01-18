@@ -4,9 +4,14 @@ let extract = require('extract-zip');
 let rimraf = require('rimraf');
 let log = console.log;
 
-const TOKEN = '47728eb9ca3a3043ac064927cd8cb51c35f260a2';
-const BASE_URL = `https://${TOKEN}:@api.github.com/repos/bullhorn/dataloader`;
+const GH_TOKEN = process.env.GH_TOKEN;
+const BASE_URL = `https://${GH_TOKEN}:@api.github.com/repos/bullhorn/dataloader`;
 const FILE = 'dataloader.zip';
+
+if (GH_TOKEN === undefined) {
+  log(`ERROR: cannot download latest dataloader CLI release - missing 'GH_TOKEN' environment variable with private repo access.`);
+  process.exit();
+}
 
 let latestReleaseAssets = {
   url: `${BASE_URL}/releases/latest`,
@@ -19,6 +24,11 @@ request(latestReleaseAssets, (error, response, bodyString) => {
   error ? log(error) : log('checking version...');
 
   let body = JSON.parse(bodyString);
+  if (!body.tag_name) {
+    log(`ERROR: invalid or insufficient GH_TOKEN environment - cannot contact dataloader CLI repo.`);
+    process.exit();
+  }
+
   let version = body.tag_name.slice(1); // `v1.2.3` minus the `v`
   if (fs.existsSync(`dataloader/dataloader-${version}.jar`)) {
     log(`dataloader version: ${version} is up to date.`);

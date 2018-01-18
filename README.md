@@ -12,6 +12,18 @@ DataLoader **Desktop Application** Powered by the [Bullhorn DataLoader](https://
 
 ## For Developers
 
+### Setup GitHub Token for API access to dataloader private repo
+
+ 1. Create GitHub Personal access token: [Personal access tokens](https://github.com/settings/tokens)
+
+    1. Generate new token
+    
+    2. Select just the first box, `repo` access - _Full control of private repos_
+ 
+ 2. Assign token value to a new `GH_TOKEN` environment variable on your machine
+
+### Quick Start
+
 ```
 # Clone the project
 git clone git@github.com:bullhorn/dataloader-ui.git
