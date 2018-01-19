@@ -2,9 +2,10 @@
 @import 'styles.scss';
 
 header {
-  height: 50px;
+  height: 63px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-right: 10px;
   background: $navigation;
   position: fixed;
@@ -39,6 +40,7 @@ header {
       .dataloader-text {
         color: $bittersweet;
         font-weight: 500;
+        cursor: default;
       }
     }
 
@@ -51,10 +53,11 @@ header {
       border: 1px solid $pulse;
       border-radius: 2px;
       box-shadow: 2px 2px 2px $black;
+      cursor: default;
     }
   }
 }
 
 .header-spacer {
-  height: 50px;
+  height: 63px;
 }
