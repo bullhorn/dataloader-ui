@@ -12,30 +12,46 @@ header {
   width: 100%;
   z-index: 100;
 
-  .bullhorn-logo {
-    margin-left: -8px;
+  .logo {
+    display: flex;
+    margin-left: 20px;
 
-    svg {
-      height: 38px;
-      width: 200px;
+    .forklift {
+
+      svg {
+        height: 50px;
+        width: 50px;
+      }
     }
-  }
 
-  .dataloader-logo {
-    margin-left: auto;
-    margin-right: auto;
+    .logo-text {
+      margin-left: 14px;
+      align-self: center;
 
-    svg {
-      width: 200px;
+      .bullhorn-text {
+
+        svg {
+          height: 17px;
+          width: 85px;
+        }
+      }
+
+      .dataloader-text {
+        color: $bittersweet;
+        font-weight: 500;
+      }
     }
-  }
 
-  .beta-indicator {
-    color: $sunflower;
-    position: absolute;
-    margin-left: 47%;
-    bottom: 0;
-    font-size: 14px;
+    .beta-indicator {
+      align-self: flex-end;
+      font-size: 10px;
+      margin: 9px;
+      padding: 2px 4px 2px 4px;
+      color: $pulse;
+      border: 1px solid $pulse;
+      border-radius: 2px;
+      box-shadow: 2px 2px 2px $black;
+    }
   }
 }
 
