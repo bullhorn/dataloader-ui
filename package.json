@@ -1,8 +1,8 @@
 {
   "name": "dataloader-ui",
-  "productName": "Bullhorn DataLoader",
-  "version": "1.0.0",
-  "description": "Bullhorn DataLoader Desktop Application",
+  "productName": "Bullhorn Data Loader",
+  "version": "0.0.1",
+  "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-ui",
   "author": "Bullhorn",
   "license": "AGPL-3.0",
@@ -16,7 +16,7 @@
     "dist": "cd dist && electron-builder -mw -c.mac.identity=null",
     "package": "npm run download && npm run build:prod && npm run stage && npm run dist",
     "serve": "electron dist/main.js --serve",
-    "stage": "copyfiles package*.json dataloader/* dist && cd dist && npm install --prod && cd ..",
+    "stage": "copyfiles package*.json 'dataloader/**/*' dist && cd dist && npm install --prod && cd ..",
     "start": "npm run download && npm run build && npm run serve",
     "test": "ng test"
   },

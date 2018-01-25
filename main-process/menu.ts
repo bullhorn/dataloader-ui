@@ -1,4 +1,5 @@
 import { app, BrowserWindow, dialog, shell } from 'electron';
+import * as path from 'path';
 
 export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
   {
@@ -48,19 +49,41 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
         }
       }
     }, {
-      label: 'Toggle Developer Tools',
-      accelerator: (() => {
-        if (process.platform === 'darwin') {
-          return 'Alt+Command+I'
-        } else {
-          return 'Ctrl+Shift+I'
-        }
-      })(),
-      click: (item, focusedWindow) => {
-        if (focusedWindow) {
-          focusedWindow.webContents.toggleDevTools();
-        }
+      type: 'separator'
+    }, {
+      label: 'Results Files',
+      click: () => {
+        shell.showItemInFolder(path.join(app.getPath('userData'), '/results'));
       }
+    }, {
+      label: 'Log Files',
+      click: () => {
+        shell.showItemInFolder(path.join(app.getPath('userData'), '/log'));
+      }
+    }, {
+      label: 'Example Files',
+      click: () => {
+        shell.showItemInFolder(path.join(app.getAppPath(), 'dataloader', 'examples', 'load', 'Appointment.csv').replace('app.asar', 'app.asar.unpacked'));
+      }
+    }, {
+      type: 'separator'
+    }, {
+      label: 'Developer',
+      submenu: [{
+        label: 'Toggle Developer Tools',
+        accelerator: (() => {
+          if (process.platform === 'darwin') {
+            return 'Alt+Command+I'
+          } else {
+            return 'Ctrl+Shift+I'
+          }
+        })(),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.webContents.toggleDevTools();
+          }
+        }
+      }]
     }]
   },
   {
