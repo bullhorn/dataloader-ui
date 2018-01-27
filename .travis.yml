@@ -9,6 +9,9 @@ node_js: "9"
 env:
   - ELECTRON_CACHE=$HOME/.cache/electron ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
+addons:
+  chrome: stable
+
 cache:
   directories:
     - node_modules
