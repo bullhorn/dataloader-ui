@@ -88,7 +88,7 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   params.unshift('-jar', path.join(dataloaderDir, jarFiles[0]));
   dataloaderProcess = spawn('java', params, {
     cwd: userDataDir,
-    detached: true
+    detached: true,
   });
 
   dataloaderProcess.stdout.on('data', (data) => {

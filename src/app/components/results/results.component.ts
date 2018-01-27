@@ -91,7 +91,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     if (this.results) {
       options = { body: `${this.results.inserted} Added, ${this.results.updated} Updated, ${this.results.failed} Errors` };
     }
-    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options);
+    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options); // tslint:disable-line
     this.running = false;
     if (!this.changeDetectorRef['destroyed']) {
       this.changeDetectorRef.detectChanges();

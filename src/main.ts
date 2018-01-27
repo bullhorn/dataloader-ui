@@ -10,4 +10,4 @@ if (environment.production) {
 
 // noinspection TsLint
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch((err) => console.log(err));
+  .catch((err) => console.log(err)); // tslint:disable-line
