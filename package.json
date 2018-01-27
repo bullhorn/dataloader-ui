@@ -5,7 +5,7 @@
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-ui",
   "author": "Bullhorn",
-  "license": "AGPL-3.0",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "build": "ng build --aot --base-href . && npm run compile",
