@@ -28,5 +28,6 @@ before_script:
   - git lfs pull
 
 script:
+  - npm run lint
   - npm run test
   - npm run package
