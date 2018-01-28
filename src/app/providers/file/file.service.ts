@@ -12,7 +12,7 @@ import * as path from 'path';
 @Injectable()
 export class FileService {
   // The last file preview is stored here for access by all components
-  public previewData: IPreviewData;
+  previewData: IPreviewData;
 
   private defaultSettings: ISettings = {
     username: '',
@@ -114,14 +114,14 @@ export class FileService {
 
   onResultsFileChange(onChange: (results: IResults) => {}): void {
     if (ElectronService.isElectron()) {
-      let options = { persistent: true, interval: 500 };
+      let options: { persistent?: boolean; interval?: number; } = { persistent: true, interval: 500 };
       this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
     } else {
       FileServiceFakes.generateFakeResults(onChange);
     }
   }
 
-  unsubscribe() {
+  unsubscribe(): void {
     if (ElectronService.isElectron()) {
       this.electronService.fs.unwatchFile(this.resultsFile);
     }

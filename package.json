@@ -5,7 +5,7 @@
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-ui",
   "author": "Bullhorn",
-  "license": "AGPL-3.0",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "build": "ng build --aot --base-href . && npm run compile",
@@ -19,8 +19,15 @@
     "stage": "copyfiles package*.json 'dataloader/**/*' dist && cd dist && npm install --prod && cd ..",
     "start": "npm run download && npm run build && npm run serve",
     "test": "ng test --code-coverage --watch false",
-    "test:watch": "ng test"
+    "test:watch": "ng test",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags origin master"
   },
+  "pre-commit": [
+    "precommit-msg",
+    "lint"
+  ],
   "main": "main.js",
   "build": {
     "appId": "com.bullhorn.dataloader",
@@ -67,7 +74,9 @@
     "karma-coverage-istanbul-reporter": "^1.3.3",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "pre-commit": "^1.2.2",
     "rimraf": "^2.6.2",
+    "standard-version": "^4.3.0",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.0",

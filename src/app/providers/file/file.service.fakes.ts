@@ -9,7 +9,7 @@ import Timer = NodeJS.Timer;
  */
 export class FileServiceFakes {
 
-  public static SETTINGS: ISettings = {
+  static SETTINGS: ISettings = {
     username: 'jsmith',
     password: 'password!',
     clientId: '12345',
@@ -32,7 +32,7 @@ export class FileServiceFakes {
     }],
   };
 
-  public static PREVIEW_DATA: IPreviewData = {
+  static PREVIEW_DATA: IPreviewData = {
     filePath: '../Path/to/dataloader/data/Candidate.csv',
     total: 210,
     headers: ['firstName', 'lastName', 'email'],
@@ -51,7 +51,7 @@ export class FileServiceFakes {
     }],
   };
 
-  public static generateFakeResults(callback: (results: IResults) => {}): void {
+  static generateFakeResults(callback: (results: IResults) => {}): void {
     let fakeResults: IResults = {
       processed: 0,
       inserted: 0,
@@ -76,7 +76,7 @@ export class FileServiceFakes {
       fakeResults.errors.push({
         row: fakeResults.failed,
         id: fakeResults.failed + 4,
-        message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\''
+        message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\'',
       });
       callback(fakeResults);
       if (++i >= MAX_ITERATIONS) {

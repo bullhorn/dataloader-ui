@@ -1,7 +1,7 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import { ipcRenderer, shell } from 'electron';
+import { ipcRenderer, shell } from 'electron'; // tslint:disable-line
 
 /**
  * If running `npm start`, this will grab the appropriate Electron imports in one place to hand to Angular.
