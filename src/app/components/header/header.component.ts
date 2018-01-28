@@ -9,7 +9,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class HeaderComponent {
   @Output() settingsClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  onSettingsClicked() {
+  onSettingsClicked(): void {
     this.settingsClicked.emit();
   }
 }

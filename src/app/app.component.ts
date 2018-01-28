@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  openSettingsModal() {
-    console.log('Opening settings modal from AppComponent');
+  openSettingsModal(): void {
+    // console.log('Opening settings modal from AppComponent');
   }
 }

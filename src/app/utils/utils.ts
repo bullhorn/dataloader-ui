@@ -215,7 +215,7 @@ export class Utils {
   }
 
   static msecToHMS(milliseconds: number): string {
-    let date = new Date(null);
+    let date: Date = new Date(null);
     date.setMilliseconds(milliseconds);
     return date.toISOString().substr(11, 8);
   }
@@ -247,7 +247,7 @@ export class Utils {
     }
   }
 
-  static getExistFieldOptions(previewData: IPreviewData) {
+  static getExistFieldOptions(previewData: IPreviewData): any[] {
     let options: any[] = [];
     if (previewData && previewData.headers) {
       options = previewData.headers.map((header) => {
