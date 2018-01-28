@@ -2,6 +2,8 @@
 
 DataLoader **Desktop Application** Powered by the [Bullhorn DataLoader](https://github.com/bullhorn/dataloader). An Angular CLI App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and [Electron](https://electron.atom.io/) to bring a rich user experience to DataLoader. 
 
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
 ## Quick Start
 
  1. Install Java if you don't have it already (you won't need the development kit) - [Windows](http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182) | [Mac](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
