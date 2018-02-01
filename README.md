@@ -2,6 +2,8 @@
 
 DataLoader **Desktop Application** Powered by the [Bullhorn DataLoader](https://github.com/bullhorn/dataloader). An Angular CLI App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and [Electron](https://electron.atom.io/) to bring a rich user experience to DataLoader. 
 
+[![Build Status](https://travis-ci.com/bullhorn/dataloader-ui.svg?token=Ta7yXSf1ut1W7VuGXTKA&branch=master)](https://travis-ci.com/bullhorn/dataloader-ui)
+[![Coverage Status](https://coveralls.io/repos/github/bullhorn/dataloader-ui/badge.svg?branch=master&t=gVrMsY)](https://coveralls.io/github/bullhorn/dataloader-ui?branch=master)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 ## Quick Start
