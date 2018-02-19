@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
 
 @Injectable()
@@ -15,12 +16,15 @@ export class DataloaderService {
    * Combines the filePath argument with all of the settings and sends it over to the main process for
    * executing the DataLoader in the correct directory.
    *
-   * @param {string} filePath the file provided by the user
+   * Saves off the previewData for the history.
+   *
+   * @param {IPreviewData} previewData
    */
-  start(filePath: string): void {
+  start(previewData: IPreviewData): void {
     if (ElectronService.isElectron()) {
       let settings: any = this.fileService.readSettings();
-      let args: string[] = Utils.createArgs(settings, filePath);
+      let resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
+      let args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
       this.electronService.ipcRenderer.send('start', args);
     }
   }

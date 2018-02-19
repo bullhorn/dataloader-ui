@@ -1,5 +1,7 @@
 // Angular
 import { Injectable } from '@angular/core';
+// Vendor
+import * as path from 'path';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { FileServiceFakes } from './file.service.fakes';
@@ -7,7 +9,6 @@ import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
 import { environment } from '../../../environments/environment';
-import * as path from 'path';
 
 @Injectable()
 export class FileService {
@@ -28,15 +29,36 @@ export class FileService {
     numThreads: 15,
   };
   private userDataDir: string;
+  private runDir: string;
   private resultsFile: string;
   private settingsFile: string;
 
   constructor(private electronService: ElectronService) {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
-      this.resultsFile = path.join(this.userDataDir, 'results.json');
       this.settingsFile = path.join(this.userDataDir, 'settings.json');
     }
+  }
+
+  /**
+   * Creates a directory for the current run and a place for the results.json file to be output by Data Loader.
+   *
+   * @param {IPreviewData} previewData the preview data to save in the current run folder
+   * @returns {string} the results filepath for Data Loader to use when outputting results
+   */
+  initializeResultsFile(previewData: IPreviewData): string {
+    if (ElectronService.isElectron()) {
+      // Create directory for the run where the dir name is the current timestamp
+      let date: Date = new Date();
+      let timestamp: string = date.getTime().toString();
+      this.runDir = path.join(this.userDataDir, 'runs', timestamp);
+      this.resultsFile = path.join(this.runDir, 'results.json');
+
+      // Save off previewData for this run
+      this.electronService.fs.mkdirSync(this.runDir);
+      this.writePreviewData(previewData, path.join(this.runDir, 'previewData.json'));
+    }
+    return this.resultsFile;
   }
 
   readSettings(): ISettings {
@@ -51,9 +73,9 @@ export class FileService {
     }
   }
 
-  writeSettings(value: ISettings): void {
+  writeSettings(settings: ISettings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(value, null, 2));
+      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(settings, null, 2));
     }
   }
 
@@ -103,6 +125,12 @@ export class FileService {
     } else {
       this.previewData = FileServiceFakes.PREVIEW_DATA;
       onSuccess(FileServiceFakes.PREVIEW_DATA);
+    }
+  }
+
+  writePreviewData(previewData: IPreviewData, filePath: string): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.writeFileSync(filePath, JSON.stringify(previewData, null, 2));
     }
   }
 
