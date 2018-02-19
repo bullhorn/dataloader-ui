@@ -97,8 +97,11 @@ export class LoadComponent implements OnInit {
   load(): void {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
-    this.dataloaderService.start(this.inputFilePath);
-    this.router.navigate(['/results']);
+    this.dataloaderService.start(this.previewData);
+    // TODO: Navigate inside the start method callback
+    setTimeout(() => {
+      this.router.navigate(['/results']);
+    }, 300);
   }
 
   private onFileChange(API: FieldInteractionApi): void {
