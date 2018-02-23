@@ -2,6 +2,7 @@
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { ISettings } from '../../../interfaces/ISettings';
 import { IResults } from '../../../interfaces/IResults';
+import { IRun } from '../../../interfaces/IRun';
 import Timer = NodeJS.Timer;
 
 /**
@@ -50,6 +51,23 @@ export class FileServiceFakes {
       email: 'jdoe@example.com',
     }],
   };
+
+  static FAKE_RUNS: IRun[] = [{
+    previewData: FileServiceFakes.PREVIEW_DATA,
+    results: {
+      processed: 101,
+      inserted: 90,
+      updated: 11,
+      deleted: 0,
+      failed: 0,
+      successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
+      failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
+      logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
+      startTime: 1511182001000,
+      durationMsec: 0,
+      errors: [],
+    },
+  }];
 
   static generateFakeResults(callback: (results: IResults) => {}): void {
     let fakeResults: IResults = {

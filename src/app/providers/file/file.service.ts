@@ -7,6 +7,7 @@ import { ElectronService } from '../electron/electron.service';
 import { FileServiceFakes } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
+import { IRun } from '../../../interfaces/IRun';
 import { ISettings } from '../../../interfaces/ISettings';
 import { environment } from '../../../environments/environment';
 
@@ -132,6 +133,10 @@ export class FileService {
     if (ElectronService.isElectron()) {
       this.electronService.fs.writeFileSync(filePath, JSON.stringify(previewData, null, 2));
     }
+  }
+
+  getAllRuns(): IRun[] {
+    return FileServiceFakes.FAKE_RUNS;
   }
 
   openFile(filePath: string): void {
