@@ -1,5 +1,22 @@
+@import 'novo-elements.scss';
+
 .run-tile-btn {
   height: 54px;
+  background-color: $off-white;
+  cursor: pointer;
+  transition: background-color .2s;
+
+  &:hover {
+    background-color: lighten($off-white, 5%);
+  }
+
+  &.dark {
+    background-color: darken($off-white, 5%);
+
+    &:hover {
+      background-color: darken($off-white, 10%);
+    }
+  }
 
   > div {
     display: flex;

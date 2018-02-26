@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // App
 import { AppComponent } from './app.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
@@ -17,6 +19,10 @@ import { ResultsComponent } from './components/results/results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RunListComponent } from './components/run-list/run-list.component';
 import { RunTileComponent } from './components/run-tile/run-tile.component';
+
+export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -33,7 +39,14 @@ import { RunTileComponent } from './components/run-tile/run-tile.component';
     BrowserAnimationsModule,
     BrowserModule,
     HttpModule,
-    TranslateModule.forRoot(),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient],
+      },
+    }),
     // Vendor
     NovoElementsModule,
     NovoElementProviders.forRoot(),
@@ -41,4 +54,9 @@ import { RunTileComponent } from './components/run-tile/run-tile.component';
   providers: [DataloaderService, ElectronService, FileService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(translate: TranslateService) {
+    // Default to English if current language isn't found
+    translate.setDefaultLang('en');
+  }
+}

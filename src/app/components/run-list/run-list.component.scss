@@ -4,6 +4,10 @@ $new-run-bg: #0B0F1A;
 
 .run-list-wrapper {
   width: 200px;
+  background: red;
+  position: fixed;
+  bottom: 0;
+  top: 63px;
 
   .new-run-btn {
     display: flex;
@@ -16,7 +20,7 @@ $new-run-bg: #0B0F1A;
     transition: background-color .2s;
 
     &:hover {
-      background-color: lighten($new-run-bg, 3%);
+      background-color: lighten($new-run-bg, 5%);
     }
 
     i {
@@ -24,5 +28,10 @@ $new-run-bg: #0B0F1A;
       bottom: 2px;
       margin-right: 5px;
     }
+  }
+
+  .historical-runs {
+    height: 100%;
+    overflow-y: auto;
   }
 }

@@ -1,4 +1,6 @@
 <app-header></app-header>
-<app-run-list [runs]="runs" (runSelected)="runSelected($event)"></app-run-list>
-<!--<app-load></app-load>-->
-<!--<app-results></app-results>-->
+<div class="body-wrapper">
+  <app-run-list [runs]="runs" (runSelected)="runSelected($event)"></app-run-list>
+  <app-load *ngIf="!selectedRun"></app-load>
+  <app-results *ngIf="selectedRun"></app-results>
+</div>

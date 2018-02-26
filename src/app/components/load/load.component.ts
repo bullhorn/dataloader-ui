@@ -1,6 +1,5 @@
 // NG
 import { Component, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
@@ -51,7 +50,6 @@ export class LoadComponent implements OnInit {
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
               private zone: NgZone,
-              private router: Router,
               private formUtils: FormUtils) {
   }
 
@@ -119,7 +117,7 @@ export class LoadComponent implements OnInit {
     this.dataloaderService.start(this.previewData);
     // TODO: Navigate inside the start method callback
     setTimeout(() => {
-      this.router.navigate(['/results']);
+      // this.router.navigate(['/results']);
     }, 300);
   }
 

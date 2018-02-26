@@ -9,10 +9,10 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-run-tile',
   template: `
-    <div class="run-tile-btn">
+    <div class="run-tile-btn" [ngClass]="{'dark': dark}">
       <div>
         <span>{{ localRunData.fileName }}</span>
-        <span>{{ run.previewData.total }} rows</span>
+        <span>{{ run.previewData.total }} {{ 'ROWS' | translate }}</span>
       </div>
       <div>
         <span>{{ localRunData.startTime }}</span>
@@ -24,6 +24,7 @@ import * as moment from 'moment';
 })
 export class RunTileComponent implements OnInit {
   @Input() run: IRun;
+  @Input() dark: boolean = false;
   localRunData: { fileName?: string, startTime?: string, duration?: string } = {};
 
   ngOnInit(): void {
