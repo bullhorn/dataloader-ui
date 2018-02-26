@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.runs = this.fileService.getAllRuns(this.onRunData.bind(this));
+    this.fileService.getAllRuns(this.onRunData.bind(this));
   }
 
   onRunData(runs: IRun[]): void {

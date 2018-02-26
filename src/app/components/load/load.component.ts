@@ -16,7 +16,8 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
     <section class="load">
       <novo-dynamic-form class="load-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
       <div class="preview" *ngIf="previewData">
-        <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"
+        <novo-table [theme]="theme" [rows]="previewTable.rows"
+                    [columns]="previewTable.columns"
                     [config]="previewTable.config">
           <novo-table-header class="table-header">
             <i class="header-icon" [class]="icon"></i>

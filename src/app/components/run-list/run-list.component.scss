@@ -1,0 +1,28 @@
+@import 'novo-elements.scss';
+
+$new-run-bg: #0B0F1A;
+
+.run-list-wrapper {
+  width: 200px;
+
+  .new-run-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 54px;
+    background-color: $new-run-bg;
+    color: $off-white;
+    cursor: pointer;
+    transition: background-color .2s;
+
+    &:hover {
+      background-color: lighten($new-run-bg, 3%);
+    }
+
+    i {
+      position: relative;
+      bottom: 2px;
+      margin-right: 5px;
+    }
+  }
+}
