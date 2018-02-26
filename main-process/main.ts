@@ -81,7 +81,7 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   const orig: string = path.join(dataloaderDir, 'dataloader.properties');
   const dest: string = path.join(userDataDir, 'dataloader.properties');
   if (fs.existsSync(orig) && !fs.existsSync(dest)) {
-    fs.copyFileSync(orig, dest);
+    fs.writeFileSync(dest, fs.readFileSync(orig));
   }
 
   // Execute dataloader in separate process
