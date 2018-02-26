@@ -45,21 +45,35 @@ export class FileService {
    * Creates a directory for the current run and a place for the results.json file to be output by Data Loader.
    *
    * @param {IPreviewData} previewData the preview data to save in the current run folder
-   * @returns {string} the results filepath for Data Loader to use when outputting results
+   * @returns {string} the relative results filepath for Data Loader to use when outputting results
    */
   initializeResultsFile(previewData: IPreviewData): string {
     if (ElectronService.isElectron()) {
-      // Create directory for the run where the dir name is the current timestamp
+      // Create directory for the run where the dir name is the current timestamp:
+      // <userData>/runs/<run timestamp>/results.json
       let date: Date = new Date();
       let timestamp: string = date.getTime().toString();
-      this.runDir = path.join(this.userDataDir, 'runs', timestamp);
+      let runsDir: string = path.join(this.userDataDir, 'runs');
+      this.runDir = path.join(runsDir, timestamp);
       this.resultsFile = path.join(this.runDir, 'results.json');
 
+      // Create runs directory if it does not exist
+      if (!this.electronService.fs.existsSync(runsDir)) {
+        this.electronService.fs.mkdirSync(runsDir);
+      }
+
+      // Create directory for this run if it does not exist
+      if (!this.electronService.fs.existsSync(this.runDir)) {
+        this.electronService.fs.mkdirSync(this.runDir);
+      }
+
       // Save off previewData for this run
-      this.electronService.fs.mkdirSync(this.runDir);
       this.writePreviewData(previewData, path.join(this.runDir, 'previewData.json'));
+
+      // Return the relative path for DataLoader arguments
+      return path.join('runs', timestamp, 'results.json');
     }
-    return this.resultsFile;
+    return '';
   }
 
   readSettings(): ISettings {
