@@ -171,11 +171,11 @@ export class FileService {
    */
   getAllRuns(onSuccess: (runs: IRun[]) => {}): void {
     if (ElectronService.isElectron()) {
-      let allRuns: IRun[] = [];
       this.electronService.fs.readdir(this.runsDir, (err: Error, files: string[]) => {
         if (err) {
           console.error(err); // tslint:disable-line:no-console
         } else {
+          let allRuns: IRun[] = [];
           files.forEach((file) => {
             let dir: string = path.join(this.runsDir, file);
             if (this.electronService.fs.statSync(dir).isDirectory()) {
