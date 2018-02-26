@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
+import { TranslateModule } from '@ngx-translate/core';
 // App
 import { AppComponent } from './app.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
@@ -32,6 +33,7 @@ import { RunTileComponent } from './components/run-tile/run-tile.component';
     BrowserAnimationsModule,
     BrowserModule,
     HttpModule,
+    TranslateModule.forRoot(),
     // Vendor
     NovoElementsModule,
     NovoElementProviders.forRoot(),
