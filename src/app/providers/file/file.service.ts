@@ -30,7 +30,7 @@ export class FileService {
     numThreads: 15,
   };
   private userDataDir: string;
-  private runDir: string;
+  private runsDir: string;
   private resultsFile: string;
   private settingsFile: string;
 
@@ -38,6 +38,12 @@ export class FileService {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
       this.settingsFile = path.join(this.userDataDir, 'settings.json');
+      this.runsDir = path.join(this.userDataDir, 'runs');
+
+      // Create runs directory if it does not exist
+      if (!this.electronService.fs.existsSync(this.runsDir)) {
+        this.electronService.fs.mkdirSync(this.runsDir);
+      }
     }
   }
 
@@ -53,24 +59,18 @@ export class FileService {
       // <userData>/runs/<run timestamp>/results.json
       let date: Date = new Date();
       let timestamp: string = date.getTime().toString();
-      let runsDir: string = path.join(this.userDataDir, 'runs');
-      this.runDir = path.join(runsDir, timestamp);
-      this.resultsFile = path.join(this.runDir, 'results.json');
-
-      // Create runs directory if it does not exist
-      if (!this.electronService.fs.existsSync(runsDir)) {
-        this.electronService.fs.mkdirSync(runsDir);
-      }
+      let runDir: string = path.join(this.runsDir, timestamp);
+      this.resultsFile = path.join(runDir, 'results.json');
 
       // Create directory for this run if it does not exist
-      if (!this.electronService.fs.existsSync(this.runDir)) {
-        this.electronService.fs.mkdirSync(this.runDir);
+      if (!this.electronService.fs.existsSync(runDir)) {
+        this.electronService.fs.mkdirSync(runDir);
       }
 
       // Save off previewData for this run
-      this.writePreviewData(previewData, path.join(this.runDir, 'previewData.json'));
+      this.writePreviewData(previewData, path.join(runDir, 'previewData.json'));
 
-      // Return the relative path for DataLoader arguments
+      // Return the relative path for CLI arguments
       return path.join('runs', timestamp, 'results.json');
     }
     return '';
@@ -134,8 +134,8 @@ export class FileService {
           this.previewData = previewData;
           onSuccess(previewData);
         })
-        .on('error', (error) => {
-          console.error(error); // tslint:disable-line:no-console
+        .on('error', (err) => {
+          console.error(err); // tslint:disable-line:no-console
         });
     } else {
       this.previewData = FileServiceFakes.PREVIEW_DATA;
@@ -164,9 +164,34 @@ export class FileService {
     }
   }
 
-  getAllRuns(onSuccess: (runs: IRun[]) => {}): any {
+  /**
+   * Returns all previous runs that are stored locally in the userData folder
+   *
+   * @param onSuccess - callback when runs are retrieved from disk
+   */
+  getAllRuns(onSuccess: (runs: IRun[]) => {}): void {
     if (ElectronService.isElectron()) {
-
+      let allRuns: IRun[] = [];
+      this.electronService.fs.readdir(this.runsDir, (err: Error, files: string[]) => {
+        if (err) {
+          console.error(err); // tslint:disable-line:no-console
+        } else {
+          files.forEach((file) => {
+            let dir: string = path.join(this.runsDir, file);
+            if (this.electronService.fs.statSync(dir).isDirectory()) {
+              let previewData: string = path.join(dir, 'previewData.json');
+              let results: string = path.join(dir, 'results.json');
+              if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
+                allRuns.push({
+                  previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
+                  results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
+                });
+              }
+            }
+          });
+          onSuccess(allRuns);
+        }
+      });
     } else {
       onSuccess(FileServiceFakes.ALL_RUNS);
     }
