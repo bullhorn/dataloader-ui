@@ -9,7 +9,6 @@ import Timer = NodeJS.Timer;
  * Fake test data for running in `ng serve` mode
  */
 export class FileServiceFakes {
-
   static SETTINGS: ISettings = {
     username: 'jsmith',
     password: 'password!',
@@ -52,37 +51,33 @@ export class FileServiceFakes {
     }],
   };
 
-  static FAKE_RUNS: IRun[] = [{
+  static RESULTS_DATA: IResults = {
+    processed: 0,
+    inserted: 0,
+    updated: 0,
+    deleted: 0,
+    failed: 0,
+    successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
+    failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
+    logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
+    startTime: 1511182001000,
+    durationMsec: 0,
+    errors: [],
+  };
+
+  static RUN: IRun = {
     previewData: FileServiceFakes.PREVIEW_DATA,
-    results: {
-      processed: 101,
-      inserted: 90,
-      updated: 11,
-      deleted: 0,
-      failed: 0,
-      successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
-      failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
-      logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
-      startTime: 1511182001000,
-      durationMsec: 0,
-      errors: [],
-    },
-  }];
+    results: FileServiceFakes.RESULTS_DATA,
+  };
+
+  static ALL_RUNS: IRun[] = [
+    FileServiceFakes.RUN,
+    FileServiceFakes.RUN,
+    FileServiceFakes.RUN,
+  ];
 
   static generateFakeResults(callback: (results: IResults) => {}): void {
-    let fakeResults: IResults = {
-      processed: 0,
-      inserted: 0,
-      updated: 0,
-      deleted: 0,
-      failed: 0,
-      successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
-      failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
-      logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
-      startTime: 1511182001000,
-      durationMsec: 0,
-      errors: [],
-    };
+    let fakeResults: IResults = FileServiceFakes.RESULTS_DATA;
     const MAX_ITERATIONS: number = 30;
     let i: number = 0;
     let interval: Timer = setInterval(() => {

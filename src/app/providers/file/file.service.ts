@@ -7,8 +7,8 @@ import { ElectronService } from '../electron/electron.service';
 import { FileServiceFakes } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
-import { IRun } from '../../../interfaces/IRun';
 import { ISettings } from '../../../interfaces/ISettings';
+import { IRun } from '../../../interfaces/IRun';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -149,10 +149,6 @@ export class FileService {
     }
   }
 
-  getAllRuns(): IRun[] {
-    return FileServiceFakes.FAKE_RUNS;
-  }
-
   openFile(filePath: string): void {
     if (ElectronService.isElectron()) {
       this.electronService.shell.showItemInFolder(path.join(this.userDataDir, filePath));
@@ -165,6 +161,14 @@ export class FileService {
       this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
     } else {
       FileServiceFakes.generateFakeResults(onChange);
+    }
+  }
+
+  getAllRuns(onSuccess: (runs: IRun[]) => {}): any {
+    if (ElectronService.isElectron()) {
+
+    } else {
+      onSuccess(FileServiceFakes.ALL_RUNS);
     }
   }
 
