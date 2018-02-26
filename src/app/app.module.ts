@@ -1,4 +1,4 @@
-// Angular
+// NG
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -13,8 +13,9 @@ import { FileService } from './providers/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
 import { ResultsComponent } from './components/results/results.component';
-import { routing } from './app.routes';
 import { SettingsComponent } from './components/settings/settings.component';
+import { RunListComponent } from './components/run-list/run-list.component';
+import { RunTileComponent } from './components/run-tile/run-tile.component';
 
 @NgModule({
   declarations: [
@@ -23,17 +24,17 @@ import { SettingsComponent } from './components/settings/settings.component';
     LoadComponent,
     ResultsComponent,
     SettingsComponent,
+    RunListComponent,
+    RunTileComponent,
   ],
   imports: [
-    // Angular
+    // NG
     BrowserAnimationsModule,
     BrowserModule,
     HttpModule,
     // Vendor
     NovoElementsModule,
     NovoElementProviders.forRoot(),
-    // App
-    routing,
   ],
   providers: [DataloaderService, ElectronService, FileService],
   bootstrap: [AppComponent],

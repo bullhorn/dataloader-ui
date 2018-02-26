@@ -1,4 +1,4 @@
-// Angular
+// NG
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Vendor
@@ -12,7 +12,25 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
 
 @Component({
   selector: 'app-load',
-  templateUrl: './load.component.html',
+  template: `
+    <section class="load">
+      <novo-dynamic-form class="load-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
+      <div class="preview" *ngIf="previewData">
+        <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"
+                    [config]="previewTable.config">
+          <novo-table-header class="table-header">
+            <i class="header-icon" [class]="icon"></i>
+            <div class="header-titles">
+              <h1>{{ fileName }} - {{ previewData.total }} Rows</h1>
+            </div>
+          </novo-table-header>
+        </novo-table>
+      </div>
+      <footer>
+        <button theme="primary" class="load-button" [disabled]="!previewData" (click)="load()" icon="upload">Load</button>
+      </footer>
+    </section>
+  `,
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {

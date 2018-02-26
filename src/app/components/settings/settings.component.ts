@@ -8,7 +8,17 @@ import { ISettings } from '../../../interfaces/ISettings';
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
+  template: `
+    <section class="settings">
+      <novo-dynamic-form class="settings-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
+      <footer>
+        <button theme="primary" class="cancel" color="negative" icon="times" routerLink="/load">Cancel</button>
+        <button theme="primary" class="save" icon="check" (click)="save()" [disabled]="form.invalid" routerLink="/load">
+          Save
+        </button>
+      </footer>
+    </section>
+  `,
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
