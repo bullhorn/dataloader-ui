@@ -4,18 +4,27 @@
   height: 54px;
   background-color: $off-white;
   cursor: pointer;
-  transition: background-color .2s;
+  transition: all .2s;
 
-  &:hover {
-    background-color: lighten($off-white, 5%);
+  &:not(.selected) {
+    &:hover {
+      background-color: lighten($off-white, 5%);
+      color: black;
+    }
+
+    &.dark {
+      background-color: darken($off-white, 5%);
+
+      &:hover {
+        background-color: darken($off-white, 10%);
+      }
+    }
   }
 
-  &.dark {
-    background-color: darken($off-white, 5%);
-
-    &:hover {
-      background-color: darken($off-white, 10%);
-    }
+  &.selected {
+    cursor: default;
+    background-color: $ocean;
+    color: $off-white;
   }
 
   > div {

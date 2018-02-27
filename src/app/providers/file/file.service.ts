@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import * as path from 'path';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { FileServiceFakes } from './file.service.fakes';
+import { FileServiceFakes, PreviewData } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
@@ -138,8 +138,8 @@ export class FileService {
           console.error(err); // tslint:disable-line:no-console
         });
     } else {
-      this.previewData = FileServiceFakes.PREVIEW_DATA;
-      onSuccess(FileServiceFakes.PREVIEW_DATA);
+      this.previewData = new PreviewData();
+      onSuccess(this.previewData);
     }
   }
 

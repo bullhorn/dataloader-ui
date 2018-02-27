@@ -1,4 +1,6 @@
 {
-  "ROWS": "rows",
-  "NEW_RUN": "NEW RUN"
+  "ROWS": "Rows",
+  "NEW_RUN": "New Run",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }

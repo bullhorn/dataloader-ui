@@ -3,6 +3,11 @@ import { Component, NgZone, OnInit } from '@angular/core';
 // Vendor
 import { FileService } from './providers/file/file.service';
 import { IRun } from '../interfaces/IRun';
+import * as moment from 'moment';
+import * as momentDurationFormatSetup from 'moment-duration-format';
+
+// Extend moment.duration with fn.format
+momentDurationFormatSetup(moment);
 
 @Component({
   selector: 'app-root',
@@ -25,9 +30,5 @@ export class AppComponent implements OnInit {
     this.zone.run(() => {
       this.runs = runs;
     });
-  }
-
-  runSelected(selectedRun: IRun): void {
-    this.selectedRun = selectedRun;
   }
 }

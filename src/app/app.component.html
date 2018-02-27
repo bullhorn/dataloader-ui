@@ -1,6 +1,7 @@
 <app-header></app-header>
 <div class="body-wrapper">
-  <app-run-list [runs]="runs" (runSelected)="runSelected($event)"></app-run-list>
+  <!-- TODO: Why is [()]="" syntax not working here? -->
+  <app-run-list [runs]="runs" [selectedRun]="selectedRun" (selectedRunChanged)="selectedRun=$event"></app-run-list>
   <app-load *ngIf="!selectedRun"></app-load>
   <app-results *ngIf="selectedRun"></app-results>
 </div>
