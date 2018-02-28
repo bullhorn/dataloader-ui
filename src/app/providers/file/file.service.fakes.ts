@@ -3,6 +3,7 @@ import { ISettings } from '../../../interfaces/ISettings';
 import { IErrors, IResults } from '../../../interfaces/IResults';
 import { IRun } from '../../../interfaces/IRun';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { Utils } from '../../utils/utils';
 import Timer = NodeJS.Timer;
 
 class ResultsData {
@@ -35,7 +36,8 @@ export class PreviewData {
   ];
 
   constructor() {
-    this.filePath = `../Path/to/dataloader/data/test-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
+    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * (Utils.ENTITY_NAMES.length))];
+    this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (10000000 - 1)) + 1;
   }
 }
