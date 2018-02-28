@@ -36,7 +36,7 @@ export class PreviewData {
 
   constructor() {
     this.filePath = `../Path/to/dataloader/data/test-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
-    this.total = Math.floor(Math.random() * (1000 - 1)) + 1;
+    this.total = Math.floor(Math.random() * (10000000 - 1)) + 1;
   }
 }
 

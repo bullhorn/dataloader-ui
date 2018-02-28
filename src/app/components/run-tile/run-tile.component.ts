@@ -14,7 +14,7 @@ import { Moment } from 'moment';
     <div class="run-tile-btn" [ngClass]="{'dark': dark, 'selected': isSelected}">
       <div>
         <span>{{ localRunData.fileName }}</span>
-        <span>{{ run.previewData.total }} {{ 'ROWS' | translate }}</span>
+        <span>{{ run.previewData.total | abbreviatedNumber }} {{ 'ROWS' | translate }}</span>
       </div>
       <div>
         <span>{{ localRunData.startTime }}</span>
