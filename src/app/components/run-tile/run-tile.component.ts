@@ -13,7 +13,7 @@ import { Moment } from 'moment';
   template: `
     <div class="run-tile-btn" [ngClass]="{'dark': dark, 'selected': isSelected}">
       <div class="run-tile-header">
-        <i class="run-tile-icon" [class]="icon"></i>
+        <i class="{{icon}} {{theme}}" theme="entity"></i>
         <div class="filename">{{ localRunData.fileName }}</div>
       </div>
       <div class="run-tile-details">

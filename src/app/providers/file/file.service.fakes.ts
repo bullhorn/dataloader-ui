@@ -36,7 +36,7 @@ export class PreviewData {
   ];
 
   constructor() {
-    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * (Utils.ENTITY_NAMES.length))];
+    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (10000000 - 1)) + 1;
   }
