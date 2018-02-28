@@ -12,13 +12,14 @@ import { Moment } from 'moment';
   selector: 'app-run-tile',
   template: `
     <div class="run-tile-btn" [ngClass]="{'dark': dark, 'selected': isSelected}">
-      <div>
-        <span>{{ localRunData.fileName }}</span>
-        <span>{{ run.previewData.total | abbreviatedNumber }} {{ 'ROWS' | translate }}</span>
+      <div class="run-tile-header">
+        <i class="run-tile-icon" [class]="icon"></i>
+        <div class="filename">{{ localRunData.fileName }}</div>
       </div>
-      <div>
-        <span>{{ localRunData.startTime }}</span>
-        <span>{{ localRunData.duration }}</span>
+      <div class="run-tile-details">
+        <div class="rows">{{ run.previewData.total | abbreviatedNumber }} {{ 'ROWS' | translate }}</div>
+        <div class="start-time">{{ localRunData.startTime }}</div>
+        <div class="duration">{{ localRunData.duration }}</div>
       </div>
     </div>
   `,
@@ -30,6 +31,8 @@ export class RunTileComponent implements OnInit {
   @Input() translations: { today: string, yesterday: string };
   @Input() isSelected: boolean = false;
   localRunData: { fileName?: string, startTime?: string, duration?: string } = {};
+  icon: string = '';
+  theme: string = '';
 
   ngOnInit(): void {
     this.localRunData.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
@@ -37,6 +40,8 @@ export class RunTileComponent implements OnInit {
     const duration: IDuration = moment.duration(this.run.results.durationMsec) as IDuration;
     this.localRunData.duration = duration.format(formatStr);
     this.localRunData.startTime = this.getStartTime(this.run.results.startTime);
+    this.icon = Utils.getIconForFilename(this.localRunData.fileName);
+    this.theme = Utils.getThemeForFilename(this.localRunData.fileName);
   }
 
   private getStartTime(startTime: Moment|number): string {
