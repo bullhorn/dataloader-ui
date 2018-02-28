@@ -3,6 +3,7 @@
 $new-run-bg: #0B0F1A;
 
 .run-list-wrapper {
+  position: fixed;
   width: 300px;
   bottom: 0;
   top: 63px;
@@ -39,4 +40,8 @@ $new-run-bg: #0B0F1A;
     height: 100%;
     overflow-y: auto;
   }
+}
+
+.run-list-spacer {
+  width: 300px;
 }

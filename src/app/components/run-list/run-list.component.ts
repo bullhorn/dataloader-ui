@@ -24,6 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
                       [isSelected]="selectedRun === run"></app-run-tile>
       </div>
     </div>
+    <div class="run-list-spacer"></div>
   `,
   styleUrls: ['./run-list.component.scss'],
 })

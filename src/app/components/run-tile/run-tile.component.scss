@@ -1,10 +1,10 @@
 @import 'novo-elements.scss';
 
 .run-tile-btn {
-  height: 54px;
   background-color: $off-white;
   cursor: pointer;
   transition: all .2s;
+  padding: 0.7em;
 
   &:not(.selected) {
     &:hover {
@@ -30,5 +30,40 @@
   > div {
     display: flex;
     justify-content: space-between;
+  }
+
+  .run-tile-header {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    justify-content: start;
+    margin: 0.3em;
+
+    i {
+      margin-right: 0.5em;
+    }
+
+    .filename {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .run-tile-details {
+    margin-left: 3em;
+    margin-right: 1em;
+
+    .rows {
+
+    }
+
+    .start-time {
+
+    }
+
+    .duration {
+
+    }
   }
 }
