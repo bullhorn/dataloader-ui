@@ -2,5 +2,14 @@
   "ROWS": "Rows",
   "NEW_RUN": "New Run",
   "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "YESTERDAY": "Yesterday",
+  "SELECT_FILE": "Select File",
+  "PREVIEW": "Preview",
+  "VIEW_RESULTS": "View Results",
+  "DRAG_AND_DROP": {
+    "HEADING": "Select a CSV to get started",
+    "SUB_HEADING_1": "Drag and drop anywhere on this page, or",
+    "SUB_HEADING_2": "click to browse",
+    "SUB_HEADING_3": "."
+  }
 }

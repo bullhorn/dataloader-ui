@@ -17,6 +17,7 @@ $new-run-bg: #0B0F1A;
     color: $off-white;
     cursor: pointer;
     transition: background-color .2s;
+    text-transform: uppercase;
 
     &.selected {
       cursor: default;

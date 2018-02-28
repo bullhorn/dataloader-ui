@@ -17,6 +17,7 @@ import { ResultsComponent } from './components/results/results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RunListComponent } from './components/run-list/run-list.component';
 import { RunTileComponent } from './components/run-tile/run-tile.component';
+import { LoadHeaderComponent } from './components/load-header/load-header.component';
 // Services
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
@@ -38,6 +39,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     RunListComponent,
     RunTileComponent,
     AbbreviatedNumberPipe,
+    LoadHeaderComponent,
   ],
   imports: [
     BrowserAnimationsModule,

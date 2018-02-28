@@ -1,17 +1,28 @@
 @import 'novo-elements.scss';
-@import 'styles.scss';
 
-.load {
+.load-wrapper {
+  height: 100%;
 
-  .load-form {
-    margin: 20px;
-  }
+  .first-step-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 54px;
+    padding-top: 100px;
 
-  .preview {
-    margin-bottom: 100px;
-  }
+    .drop-help-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
 
-  footer {
-    left: 300px;
+      i {
+        font-size: 70px;
+        color: darken($off-white, 25%);
+      }
+    }
   }
 }

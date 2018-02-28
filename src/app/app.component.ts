@@ -16,6 +16,7 @@ momentDurationFormatSetup(moment);
 })
 export class AppComponent implements OnInit {
   selectedRun: IRun|null = null;
+  currentRun: IRun|null = null;
   runs: IRun[];
 
   constructor(private fileService: FileService,
@@ -30,5 +31,9 @@ export class AppComponent implements OnInit {
     this.zone.run(() => {
       this.runs = runs;
     });
+  }
+
+  setCurrentRun(run: IRun): void {
+    this.currentRun = run;
   }
 }
