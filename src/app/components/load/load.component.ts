@@ -1,6 +1,5 @@
-// Angular
+// NG
 import { Component, NgZone, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
@@ -14,23 +13,29 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   selector: 'app-load',
   template: `
     <app-load-header [stepNumber]="stepNumber"></app-load-header>
-    <section class="load-wrapper">
-      <novo-dynamic-form class="load-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
-      <div class="preview" *ngIf="previewData">
-        <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"
-                    [config]="previewTable.config">
-          <novo-table-header class="table-header">
-            <i class="header-icon" [class]="icon"></i>
-            <div class="header-titles">
-              <h1>{{ fileName }} - {{ previewData.total }} Rows</h1>
-            </div>
-          </novo-table-header>
-        </novo-table>
+    <div class="load-wrapper">
+      <novo-dynamic-form class="load-form"
+                         layout="vertical"
+                         [fieldsets]="fieldSets"
+                         [(form)]="form"></novo-dynamic-form>
+      <!--<div class="preview" *ngIf="previewData">-->
+        <!--<novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"-->
+                    <!--[config]="previewTable.config">-->
+          <!--<novo-table-header class="table-header">-->
+            <!--<i class="header-icon" [class]="icon"></i>-->
+            <!--<div class="header-titles">-->
+              <!--<h1>{{ fileName }} - {{ previewData.total }} Rows</h1>-->
+            <!--</div>-->
+          <!--</novo-table-header>-->
+        <!--</novo-table>-->
+      <!--</div>-->
+      <div class="footer-wrapper" *ngIf="previewData">
+        <button theme="primary"
+                class="preview-button"
+                (click)="preview()"
+                icon="next">{{ 'PREVIEW' | translate }}</button>
       </div>
-      <footer>
-        <button theme="primary" class="load-button" [disabled]="!previewData" (click)="load()" icon="upload">Load</button>
-      </footer>
-    </section>
+    </div>
   `,
   styleUrls: ['./load.component.scss'],
 })
@@ -52,7 +57,6 @@ export class LoadComponent implements OnInit {
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
               private zone: NgZone,
-              // private router: Router,
               private formUtils: FormUtils) {
   }
 
@@ -63,33 +67,39 @@ export class LoadComponent implements OnInit {
 
   setupForm(): void {
     let meta: any = {
-      fields: [{
-        name: 'file',
-        type: 'file',
-        label: 'CSV Input File',
-        sortOrder: 1,
-      }, {
-        name: 'enabled',
-        type: 'tiles',
-        label: 'Duplicate Check',
-        description: 'Enables checking against selected fields in order to update existing records instead of inserting duplicate records.',
-        options: [
-          { label: 'No', value: 'no' },
-          { label: 'Yes', value: 'yes' },
-        ],
-        defaultValue: 'no',
-        sortOrder: 2,
-      }, {
-        name: 'fields',
-        type: 'chips',
-        label: 'Duplicate Check Columns',
-        description: 'The columns to check agaist in order to update existing records.',
-        options: [],
-        sortOrder: 3,
-      }],
+      fields: [
+        {
+          name: 'file',
+          type: 'file',
+          sortOrder: 1,
+          label: 'SELECTED FILE',
+        },
+        {
+          name: 'enabled',
+          type: 'tiles',
+          label: 'Duplicate Check',
+          description: 'Enables checking against selected fields in order to update existing records instead of inserting duplicate records.',
+          options: [
+            { label: 'No', value: 'no' },
+            { label: 'Yes', value: 'yes' },
+          ],
+          defaultValue: 'no',
+          sortOrder: 2,
+        },
+        {
+          name: 'fields',
+          type: 'chips',
+          label: 'Duplicate Check Columns',
+          description: 'The columns to check against in order to update existing records.',
+          options: [],
+          sortOrder: 3,
+        },
+      ],
     };
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
+    this.fieldSets[0].controls[0].layoutOptions.download = false;
+    this.fieldSets[0].controls[0].layoutOptions.labelStyle = 'no-box';
     this.fieldSets[0].controls[0].interactions = [
       { event: 'init', script: this.onFileChange.bind(this) },
       { event: 'change', script: this.onFileChange.bind(this) },
@@ -114,7 +124,7 @@ export class LoadComponent implements OnInit {
     };
   }
 
-  load(): void {
+  preview(): void {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
     this.dataloaderService.start(this.previewData);

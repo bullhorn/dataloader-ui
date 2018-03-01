@@ -1,29 +1,15 @@
 @import 'novo-elements.scss';
 
 .load-wrapper {
-  height: 100%;
+  height: calc(100% - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  .first-step-wrapper {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    margin-top: 54px;
-    padding-top: 100px;
-
-    .drop-help-wrapper {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-
-      i {
-        font-size: 70px;
-        color: darken($off-white, 25%);
-      }
-    }
+  .footer-wrapper {
+    padding: 10px 25px;
+    background-color: $off-white;
+    text-align: right;
   }
   footer {
     display: flex;
