@@ -1,29 +1,54 @@
 @import 'novo-elements.scss';
 
-.load-wrapper {
+.load-body-wrapper {
   height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+
+  .step-1a-wrapper {
+    margin-top: 100px;
+    align-self: center;
+    text-align: center;
+
+    i.bhi-dropzone {
+      font-size: 60px;
+      color: darken($off-white, 15%);
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    span, label {
+      font-size: .95rem;
+    }
+
+    .file-upload-link {
+      color: $ocean;
+      cursor: pointer;
+      font-weight: bold;
+
+       &:hover {
+         color: darken($ocean, 10%);
+       }
+    }
+
+    input[type=file] {
+      width: .1px;
+      height: .1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+  }
 
   .footer-wrapper {
     padding: 10px 25px;
     background-color: $off-white;
     text-align: right;
-  }
-  footer {
-    display: flex;
-    justify-content: flex-end;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    padding: 10px 15px;
-    z-index: 100;
-    background-color: $background;
-  
-    button[theme="primary"] {
-      margin-left: 15px;
-    }
   }
 }

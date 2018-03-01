@@ -1,5 +1,5 @@
 // NG
-import { Component, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnInit } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
@@ -13,33 +13,49 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   selector: 'app-load',
   template: `
     <app-load-header [stepNumber]="stepNumber"></app-load-header>
-    <div class="load-wrapper">
-      <novo-dynamic-form class="load-form"
-                         layout="vertical"
-                         [fieldsets]="fieldSets"
-                         [(form)]="form"></novo-dynamic-form>
-      <!--<div class="preview" *ngIf="previewData">-->
+    <div class="load-body-wrapper">
+      <div class="step-1a-wrapper" *ngIf="stepNumber === 1 && !file">
+        <i class="bhi-dropzone"></i>
+        <h2>{{ 'DRAG_AND_DROP.HEADING' | translate }}</h2>
+        <span>{{ 'DRAG_AND_DROP.SUB_HEADING_1' | translate }}</span>
+        <input type="file" id="file" class="input-file" accept=".csv, .xls, .xlsx">
+        <label class="file-upload-link" for="file">{{ 'DRAG_AND_DROP.SUB_HEADING_2' | translate }}</label>
+        <span>{{ 'DRAG_AND_DROP.SUB_HEADING_3' | translate }}</span>
+        <!--<bh-uploader theme="primary" icon="add-thin" multiple="true" [action]="uploadUri" (success)="refresh()" data-automation-id="files-no-data-add-button"></bh-uploader>-->
+      </div>
+      <div class="step-1b-wrapper" *ngIf="stepNumber === 1 && file">
+        <novo-dynamic-form class="load-form"
+                           layout="vertical"
+                           [fieldsets]="fieldSets"
+                           [(form)]="form"></novo-dynamic-form>
+        <div class="footer-wrapper" *ngIf="previewData">
+          <button theme="primary"
+                  class="preview-button"
+                  (click)="preview()"
+                  icon="next">{{ 'PREVIEW' | translate }}</button>
+        </div>
+      </div>
+      <div class="step-2-wrapper" *ngIf="stepNumber === 2">
+        <!--<div class="preview" *ngIf="previewData">-->
         <!--<novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"-->
-                    <!--[config]="previewTable.config">-->
-          <!--<novo-table-header class="table-header">-->
-            <!--<i class="header-icon" [class]="icon"></i>-->
-            <!--<div class="header-titles">-->
-              <!--<h1>{{ fileName }} - {{ previewData.total }} Rows</h1>-->
-            <!--</div>-->
-          <!--</novo-table-header>-->
+        <!--[config]="previewTable.config">-->
+        <!--<novo-table-header class="table-header">-->
+        <!--<i class="header-icon" [class]="icon"></i>-->
+        <!--<div class="header-titles">-->
+        <!--<h1>{{ fileName }} - {{ previewData.total }} Rows</h1>-->
+        <!--</div>-->
+        <!--</novo-table-header>-->
         <!--</novo-table>-->
-      <!--</div>-->
-      <div class="footer-wrapper" *ngIf="previewData">
-        <button theme="primary"
-                class="preview-button"
-                (click)="preview()"
-                icon="next">{{ 'PREVIEW' | translate }}</button>
+        <!--</div>-->
+      </div>
+      <div class="step-3-wrapper" *ngIf="stepNumber === 3">
+        <!--<app-results></app-results>-->
       </div>
     </div>
   `,
   styleUrls: ['./load.component.scss'],
 })
-export class LoadComponent implements OnInit {
+export class LoadComponent implements OnInit, AfterViewInit {
   form: any;
   fieldSets: any[];
   previewTable: any = {};
@@ -63,6 +79,21 @@ export class LoadComponent implements OnInit {
   ngOnInit(): void {
     this.settings = this.fileService.readSettings();
     this.setupForm();
+  }
+
+  ngAfterViewInit(): void {
+    const allowedFileTypes: string[] = [
+      '.csv',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ];
+    const fileInput: any = document.querySelectorAll('.input-file')[0];
+    fileInput.addEventListener('change', (): void => {
+      if (fileInput.files && fileInput.files.length && allowedFileTypes.includes(fileInput.files[0].type)) {
+        // console.log(fileInput.files[0]);
+        // Need to push this file into step 1B
+      }
+    });
   }
 
   setupForm(): void {
