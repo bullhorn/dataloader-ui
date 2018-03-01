@@ -24,6 +24,7 @@ import { ElectronService } from './providers/electron/electron.service';
 import { FileService } from './providers/file/file.service';
 // Pipes
 import { AbbreviatedNumberPipe } from './pipes/abbreviated-number/abbreviated-number.pipe';
+import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -40,7 +41,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     RunTileComponent,
     AbbreviatedNumberPipe,
     LoadHeaderComponent,
+    SettingsModalComponent,
   ],
+  entryComponents: [SettingsModalComponent],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,

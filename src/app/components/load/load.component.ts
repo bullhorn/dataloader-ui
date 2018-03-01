@@ -14,7 +14,7 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   selector: 'app-load',
   template: `
     <app-load-header [stepNumber]="stepNumber"></app-load-header>
-    <section class="load">
+    <section class="load-wrapper">
       <novo-dynamic-form class="load-form" [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
       <div class="preview" *ngIf="previewData">
         <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"

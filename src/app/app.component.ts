@@ -1,10 +1,11 @@
 // NG
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 // Vendor
 import { FileService } from './providers/file/file.service';
 import { IRun } from '../interfaces/IRun';
 import * as moment from 'moment';
 import * as momentDurationFormatSetup from 'moment-duration-format';
+import { NovoModalService } from 'novo-elements';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
   runs: IRun[];
 
   constructor(private fileService: FileService,
+              private modalService: NovoModalService,
+              private view: ViewContainerRef,   // tslint:disable-line
               private zone: NgZone) {
+                this.modalService.parentViewContainer = view;
   }
 
   ngOnInit(): void {

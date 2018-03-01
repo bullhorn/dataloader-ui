@@ -25,4 +25,19 @@
       }
     }
   }
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 10px 15px;
+    z-index: 100;
+    background-color: $background;
+  
+    button[theme="primary"] {
+      margin-left: 15px;
+    }
+  }
 }
