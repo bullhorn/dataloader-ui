@@ -1,0 +1,17 @@
+#settings-modal {
+    min-width: 70vw;
+    section {
+        flex-direction: row;
+        min-height: 33em;
+        padding: 0;
+        novo-nav {
+            float: left;
+            border-right: 1px solid #F4F4F4;
+            width: 23em;
+
+        }
+        novo-dynamic-form {
+            margin: 2em 3em;
+        }
+    }
+}
