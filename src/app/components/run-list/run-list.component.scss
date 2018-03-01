@@ -38,7 +38,7 @@ $new-run-bg: #0B0F1A;
   }
 
   .historical-runs {
-    height: 100%;
+    height: calc(100% - 56px);
     overflow-y: auto;
   }
 }
