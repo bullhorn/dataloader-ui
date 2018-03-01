@@ -1,0 +1,52 @@
+@import 'novo-elements.scss';
+
+.load-header-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 54px;
+  color: darken($off-white, 25%);
+  background-color: $off-white;
+  border-bottom: 1.4px solid darken($off-white, 15%);
+  font-size: .85rem;
+  cursor: default;
+  user-select: none;
+
+  .preview-wrapper {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  i {
+    font-size: 16px;
+    margin-bottom: 2.5px;
+  }
+
+  > .colored {
+    color: $ocean;
+  }
+
+  .step-text {
+    text-transform: uppercase;
+  }
+}
+
+.load-header-wrapper-border {
+  position: absolute;
+  height: 108px;
+  border-bottom: 1.4px solid $ocean;
+  top: -54px;
+
+  &.first-step {
+    width: calc(50% - 160px);
+  }
+
+  &.second-step {
+    width: 50%;
+  }
+
+  &.third-step {
+    width: calc(50% + 160px);
+  }
+}
