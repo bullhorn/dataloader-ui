@@ -11,5 +11,12 @@
     "SUB_HEADING_1": "Drag and drop anywhere on this page, or",
     "SUB_HEADING_2": "click to browse",
     "SUB_HEADING_3": "."
-  }
+  },
+  "NO": "No",
+  "YES": "Yes",
+  "SELECTED_FILE": "Selected File",
+  "DUPLICATE_CHECK": "Duplicate Check",
+  "DUPLICATE_CHECK_DESC": "Enables checking against selected fields in order to update existing records instead of inserting duplicate records.",
+  "DUPLICATE_CHECK_COLS": "Duplicate Check Columns",
+  "DUPLICATE_CHECK_COLS_DESC": "The columns to check against in order to update existing records"
 }

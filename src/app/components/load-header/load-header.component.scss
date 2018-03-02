@@ -37,6 +37,7 @@
   height: 108px;
   border-bottom: 1.4px solid $ocean;
   top: -54px;
+  transition: width .5s ease-in-out;
 
   &.first-step {
     width: calc(50% - 160px);

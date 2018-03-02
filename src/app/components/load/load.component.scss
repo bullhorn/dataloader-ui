@@ -7,8 +7,16 @@
   justify-content: space-between;
   align-items: center;
 
+  .step-1b-wrapper, .step-2-wrapper, .step-3-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   .step-1a-wrapper {
-    margin-top: 100px;
+    margin-top: 75px;
     align-self: center;
     text-align: center;
 
@@ -43,6 +51,14 @@
       overflow: hidden;
       position: absolute;
       z-index: -1;
+    }
+  }
+
+  .step-1b-wrapper {
+    margin-top: 75px;
+
+    .form-wrapper {
+      margin-left: 50px;
     }
   }
 
