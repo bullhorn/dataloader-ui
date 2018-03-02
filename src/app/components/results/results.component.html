@@ -1,7 +1,7 @@
 <section class="results">
   <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total }} Rows"
           [icon]="icon" [theme]="theme"></header>
-  <novo-nav [outlet]="tabs" direction="horizontal">
+  <novo-nav [outlet]="tabs" direction="horizontal" [class]="theme">
     <novo-tab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
   </novo-nav>
@@ -9,45 +9,48 @@
     <novo-nav-content class="tab-overview">
       <div class="overview">
         <div class="chart">
-          <novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>
-          <div class="time">
-            <div class="start-time">
-              {{ results?.startTime | date:'mediumTime' }}
-            </div>
-            <div class="duration">
-              <i class="bhi-clock"></i> {{ this.duration }}
-            </div>
-            <button class="log-file-button" theme="dialogue" icon="note"
-                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
-            </button>
-          </div>
+            <novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>
         </div>
         <div class="totals">
           <novo-list direction="vertical">
-            <novo-list-item class="total inserted">
+            <novo-list-item>
+              <item-header>
+                <item-avatar icon="bhi-clock-arrow"></item-avatar>
+                <item-title>Started at:</item-title>
+                <item-header-end>{{ results?.startTime | date:'mediumTime' }}</item-header-end>
+              </item-header>
+            </novo-list-item>
+            <novo-list-item>
+              <item-header>
+                <item-avatar icon="bhi-clock"></item-avatar>
+                <item-title>Duration:</item-title>
+                <item-header-end>{{ this.duration }}</item-header-end>
+              </item-header>
+            </novo-list-item>
+            <novo-list-item>
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
-                <item-title><span class="amount">{{ results?.inserted }}</span> Added</item-title>
+                <item-title>{{ results?.inserted }} Added</item-title>
                 <item-header-end *ngIf="loaded > 0">
-                  <button class="success-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.successFile" (click)="openFile(results?.successFile)">Loaded
+                  <button theme="dialogue" icon="save" [disabled]="running"
+                          tooltip="Download Added Rows" (click)="openFile(results?.successFile)">CSV
                   </button>
                 </item-header-end>
               </item-header>
             </novo-list-item>
-            <novo-list-item class="total updated">
+            <novo-list-item>
               <item-header>
                 <item-avatar icon="bhi-refresh-o"></item-avatar>
-                <item-title><span class="amount">{{ results?.updated }}</span> Updated</item-title>
+                <item-title>{{ results?.updated }} Updated</item-title>
               </item-header>
             </novo-list-item>
-            <novo-list-item class="total failed">
+            <novo-list-item>
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>
-                <item-title><span class="amount">{{ results?.failed }}</span> Errors</item-title>
+                <item-title>{{ results?.failed }} Errors</item-title>
                 <item-header-end *ngIf="results?.failed > 0">
-                  <button class="failure-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.failureFile" (click)="openFile(results?.failureFile)">Failed
+                  <button theme="dialogue" icon="save" [disabled]="running"
+                          tooltip="Download Failed Rows" (click)="openFile(results?.failureFile)">CSV
                   </button>
                 </item-header-end>
               </item-header>
@@ -67,12 +70,15 @@
         </novo-table>
       </div>
     </novo-nav-content>
-    <novo-nav-content class="tab-command-line">
+    <novo-nav-content>
       <div class="output">{{ output }}</div>
     </novo-nav-content>
   </novo-nav-outlet>
   <footer>
-    <button theme="primary" class="cancel-button" [disabled]="!running" (click)="stop()" color="negative" icon="times">
+    <button theme="primary" icon="save" [disabled]="running"
+            [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
+    </button>
+    <button theme="primary" (click)="stop()" [disabled]="!running" color="negative" icon="times">
       Stop
     </button>
   </footer>

@@ -1,4 +1,4 @@
-// Angular
+// NG
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 // Vendor
 // App
@@ -58,6 +58,10 @@ export class ResultsComponent implements OnInit, OnDestroy {
         filtering: true,
         ordering: true,
         resizing: true,
+        paging: {
+          current: 1,
+          itemsPerPage: 10,
+        },
       },
     };
     this.dataloaderService.onPrint(this.onPrint.bind(this));

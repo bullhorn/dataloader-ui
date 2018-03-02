@@ -3,60 +3,79 @@
 
 .results {
   margin-bottom: 100px;
-
+  header {
+    height: 54px;
+    padding-top: 5px;
+  }
   novo-nav-content {
     &.tab-overview {
       margin: 20px;
     }
-
     .overview {
       display: flex;
       align-items: center;
-
+      overflow-x: hidden;
+      novo-list {
+        novo-list-item {
+          item-header {
+            item-header-end {
+              text-align: left;
+              button {
+                margin-left: -1em;
+              }
+            }
+          }
+        }
+      }
       .chart {
-        width: 50%;
+        width: 40%;
         text-align: center;
-
         novo-card-chart-donut {
           aside:before {
             font-weight: 600;
           }
         }
-
-        .time {
-          display: flex;
-          justify-content: space-around;
-          margin: 20px;
-          align-items: center;
-        }
       }
-
       .totals {
         width: 50%;
       }
     }
-
     .errors {
       margin-top: 20px;
     }
-
     .output {
       padding: 20px;
       font-family: monospace;
       white-space: pre-line;
       color: white;
       background: $dark;
-      overflow: scroll;
+      overflow-y: auto;
       position: absolute;
       left: 0;
       right: 0;
-      top: 167px;
-      bottom: 60px;
+      top: 54px;
+      bottom: 44px;
       z-index: -1;
     }
   }
-
   footer {
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    bottom: 0;
+    right: 0;
     left: 300px;
+    padding: 10px 15px;
+    z-index: 100;
+    background-color: $background;
+    button[theme="primary"] {
+      margin-left: 15px;
+    }
   }
+  @each $entity,
+    $color in $entity-colors {
+      novo-nav.#{$entity} {
+        background: darken($color, 5%);
+      }
+    }
 }
