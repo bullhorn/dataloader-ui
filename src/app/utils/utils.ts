@@ -8,10 +8,11 @@ export class Utils {
    * Given a settings object with dataloader properties and a filename to load, this method returns CLI args
    *
    * @param settings the settings object with properties set by the user
-   * @param {string} filePath the path to the file to load
+   * @param {IPreviewData} previewData data about the user entered input file
+   * @param resultsFilePath the path to generate for the results file
    * @returns {string[]} the array of arguments to pass to the CLI
    */
-  static createArgs(settings: ISettings, filePath: string): string[] {
+  static createArgs(settings: ISettings, previewData: IPreviewData, resultsFilePath: string): string[] {
     let args: string[] = [];
     args = args.concat(['username', settings.username]);
     args = args.concat(['password', settings.password]);
@@ -24,10 +25,10 @@ export class Utils {
     args = args.concat(['dateFormat', settings.dateFormat]);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
     args = args.concat(['resultsFileEnabled', 'true']);
-    args = args.concat(['resultsFilePath', './results.json']);
+    args = args.concat(['resultsFilePath', resultsFilePath]);
     args = args.concat(['resultsFileWriteIntervalMsec', '500']);
-    args = args.concat(Utils.createExistFieldArgs(settings, filePath));
-    args = args.concat(['load', filePath]);
+    args = args.concat(Utils.createExistFieldArgs(settings, previewData.filePath));
+    args = args.concat(['load', previewData.filePath]);
     return args;
   }
 

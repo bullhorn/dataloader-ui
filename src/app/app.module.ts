@@ -38,4 +38,4 @@ import { SettingsComponent } from './components/settings/settings.component';
   providers: [DataloaderService, ElectronService, FileService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
