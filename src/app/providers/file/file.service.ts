@@ -40,11 +40,6 @@ export class FileService {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
       this.settingsFile = path.join(this.userDataDir, 'settings.json');
       this.runsDir = path.join(this.userDataDir, 'runs');
-
-      // Create runs directory if it does not exist
-      if (!this.electronService.fs.existsSync(this.runsDir)) {
-        this.electronService.fs.mkdirSync(this.runsDir);
-      }
     }
   }
 
@@ -61,6 +56,11 @@ export class FileService {
       let timestamp: string = moment().format('YYYY-MM-DD_HH.mm.ss');
       let runDir: string = path.join(this.runsDir, timestamp);
       this.resultsFile = path.join(runDir, 'results.json');
+
+      // Create runs directory if it does not exist
+      if (!this.electronService.fs.existsSync(this.runsDir)) {
+        this.electronService.fs.mkdirSync(this.runsDir);
+      }
 
       // Create directory for this run if it does not exist
       if (!this.electronService.fs.existsSync(runDir)) {
