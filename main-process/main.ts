@@ -78,10 +78,12 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   }
 
   // Copy over the properties file if it does not already exist in the user's data directory
-  const orig: string = path.join(dataloaderDir, 'dataloader.properties');
-  const dest: string = path.join(userDataDir, 'dataloader.properties');
-  if (fs.existsSync(orig) && !fs.existsSync(dest)) {
-    fs.copyFileSync(orig, dest);
+  const propertiesFileOrigin: string = path.join(dataloaderDir, 'dataloader.properties');
+  const propertiesFileDestination: string = path.join(userDataDir, 'dataloader.properties');
+  if (fs.existsSync(propertiesFileOrigin) && !fs.existsSync(propertiesFileDestination)) {
+    // TODO: Replace with fs.copyFileSync after upgrading to latest node/electron versions
+    // fs.copyFileSync(propertiesFileOrigin, propertiesFileDestination);
+    fs.writeFileSync(propertiesFileDestination, fs.readFileSync(propertiesFileOrigin));
   }
 
   // Execute dataloader in separate process
