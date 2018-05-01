@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 // Vendor
 import * as path from 'path';
+import * as moment from 'moment';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { FileServiceFakes } from './file.service.fakes';
@@ -57,8 +58,7 @@ export class FileService {
     if (ElectronService.isElectron()) {
       // Create directory for the run where the dir name is the current timestamp:
       // <userData>/runs/<run timestamp>/results.json
-      let date: Date = new Date();
-      let timestamp: string = date.getTime().toString();
+      let timestamp: string = moment().format('YYYY-MM-DD_HH.mm.ss');
       let runDir: string = path.join(this.runsDir, timestamp);
       this.resultsFile = path.join(runDir, 'results.json');
 
