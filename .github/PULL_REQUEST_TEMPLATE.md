@@ -6,7 +6,7 @@
 
 ##### Verify that...
 
-- [ ] `npm run package` installer works
-- [ ] `npm start` debug app works
-- [ ] `ng serve` web-only angular app works
 - [ ] `npm run lint` passes
+- [ ] `ng serve` web-only angular app works
+- [ ] `npm start` debug app works
+- [ ] `npm run package` installer package works
