@@ -9,7 +9,9 @@
     <novo-nav-content class="tab-overview">
       <div class="overview">
         <div class="chart">
-          <novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>
+          <!--TODO: Replace with chart.js donut chart-->
+          <!--<novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>-->
+          {{ loadedLabel }}
           <div class="time">
             <div class="start-time">
               {{ results?.startTime | date:'mediumTime' }}
