@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+// Angular
+import { Component, ViewContainerRef } from '@angular/core';
+// Vendor
+import { NovoModalService } from 'novo-elements';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  openSettingsModal(): void {
-    // console.log('Opening settings modal from AppComponent');
+  showResults: boolean = false;
+
+  constructor(private modalService: NovoModalService,
+              private view: ViewContainerRef) {
+    this.modalService.parentViewContainer = this.view;
   }
 }

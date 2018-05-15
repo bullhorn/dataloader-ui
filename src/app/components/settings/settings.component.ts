@@ -1,7 +1,7 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 // Vendor
-import { FieldInteractionApi, FormUtils } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, NovoModalRef } from 'novo-elements';
 // App
 import { FileService } from '../../providers/file/file.service';
 import { ISettings } from '../../../interfaces/ISettings';
@@ -15,7 +15,7 @@ export class SettingsComponent implements OnInit {
   form: any;
   fieldSets: any[];
 
-  constructor(private fileService: FileService, private formUtils: FormUtils) {
+  constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {
   }
 
   private static removeExistFields(value: ISettings): ISettings {
@@ -50,6 +50,11 @@ export class SettingsComponent implements OnInit {
         tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
       },
+      other: {
+        authorizeUrl: '',
+        tokenUrl: '',
+        loginUrl: '',
+      },
     };
 
     let currentValue: string = API.getActiveValue();
@@ -70,6 +75,10 @@ export class SettingsComponent implements OnInit {
     this.form.setValue(SettingsComponent.removeExistFields(this.fileService.readSettings()));
   }
 
+  close(): void {
+    this.modalRef.close();
+  }
+
   save(): void {
     this.fileService.writeSettings(this.form.value);
   }
@@ -79,19 +88,19 @@ export class SettingsComponent implements OnInit {
       sectionHeaders: [{
         label: 'Credentials',
         name: 'credentials',
-        icon: 'bhi-user',
+        icon: 'bhi-credential',
         sortOrder: 10,
         enabled: true,
       }, {
         label: 'Environment URLs',
         name: 'environmentUrls',
-        icon: 'bhi-tools',
+        icon: 'bhi-globe',
         sortOrder: 20,
         enabled: true,
       }, {
         label: 'Formatting',
         name: 'formatting',
-        icon: 'bhi-configure-o',
+        icon: 'bhi-edit-o',
         sortOrder: 30,
         enabled: true,
       }, {
