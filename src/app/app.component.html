@@ -1,2 +1,3 @@
-<app-header (settingsClicked)="openSettingsModal()"></app-header>
-<router-outlet></router-outlet>
+<app-header></app-header>
+<app-load *ngIf="!showResults" (started)="showResults=true"></app-load>
+<app-results *ngIf="showResults"></app-results>

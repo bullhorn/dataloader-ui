@@ -1,6 +1,5 @@
 // Angular
-import { Component, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
@@ -16,6 +15,7 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
+  @Output() started: EventEmitter<void> = new EventEmitter<void>();
   form: any;
   fieldSets: any[];
   previewTable: any = {};
@@ -32,7 +32,6 @@ export class LoadComponent implements OnInit {
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
               private zone: NgZone,
-              private router: Router,
               private formUtils: FormUtils) {
   }
 
@@ -98,10 +97,7 @@ export class LoadComponent implements OnInit {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
     this.dataloaderService.start(this.previewData);
-    // TODO: Navigate inside the start method callback
-    setTimeout(() => {
-      this.router.navigate(['/results']);
-    }, 300);
+    this.started.emit();
   }
 
   private onFileChange(API: FieldInteractionApi): void {

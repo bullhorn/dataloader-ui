@@ -1,5 +1,9 @@
 // Angular
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+// Vendor
+import { NovoModalService } from 'novo-elements';
+// App
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +11,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Output() settingsClicked: EventEmitter<void> = new EventEmitter<void>();
+  constructor(private modalService: NovoModalService) {}
 
-  onSettingsClicked(): void {
-    this.settingsClicked.emit();
+  openSettingsModal(): void {
+    this.modalService.open(SettingsComponent);
   }
 }

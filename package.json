@@ -46,7 +46,6 @@
     "@angular/http": "^5.2.10",
     "@angular/platform-browser": "^5.2.10",
     "@angular/platform-browser-dynamic": "^5.2.10",
-    "@angular/router": "^5.2.10",
     "core-js": "^2.5.5",
     "fast-csv": "^2.4.1",
     "glob": "^7.1.2",
