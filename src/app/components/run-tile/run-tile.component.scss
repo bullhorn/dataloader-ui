@@ -1,0 +1,59 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+.run-tile-btn {
+  background-color: $off-white;
+  cursor: pointer;
+  transition: all .2s;
+  padding: 0.7em;
+
+  &:not(.selected) {
+    &:hover {
+      background-color: lighten($off-white, 5%);
+      color: black;
+    }
+
+    &.dark {
+      background-color: darken($off-white, 5%);
+
+      &:hover {
+        background-color: darken($off-white, 10%);
+      }
+    }
+  }
+
+  &.selected {
+    cursor: default;
+    background-color: $ocean;
+    color: $off-white;
+  }
+
+  > div {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4px;
+  }
+
+  .run-tile-header {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    justify-content: start;
+    padding-right: 10px;
+
+    i {
+      position: relative;
+      bottom: 1px;
+      margin-right: 6px;
+    }
+
+    .filename {
+      word-break: break-all;
+    }
+  }
+
+  .run-tile-details {
+
+  }
+}

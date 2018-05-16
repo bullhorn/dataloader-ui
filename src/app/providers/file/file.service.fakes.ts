@@ -1,9 +1,51 @@
 // App
-import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { ISettings } from '../../../interfaces/ISettings';
-import { IResults } from '../../../interfaces/IResults';
+import { IErrors, IResults } from '../../../interfaces/IResults';
 import { IRun } from '../../../interfaces/IRun';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { Utils } from '../../utils/utils';
 import Timer = NodeJS.Timer;
+
+class FakeResultsData {
+  processed: number = 0;
+  inserted: number = 0;
+  updated: number = 0;
+  deleted: number = 0;
+  failed: number = 0;
+  successFile: string = '/Path/to/dataloader/results/Candidate_load_success.csv';
+  failureFile: string = '/Path/to/dataloader/results/Candidate_load_failure.csv';
+  logFile: string = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
+  startTime: number;
+  durationMsec: number;
+  errors: IErrors[] = [];
+
+  constructor() {
+    this.startTime = Math.floor(Math.random() * (Date.now()));
+    this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
+  }
+}
+
+export class FakePreviewData {
+  filePath: string;
+  total: number;
+  headers: string[] = ['firstName', 'lastName', 'email'];
+  data: any[] = [
+    { firstName: 'John', lastName: 'Smith', email: 'jsmith@example.com' },
+    { firstName: 'John', lastName: 'Doe', email: 'jdoe@example.com' },
+    { firstName: 'Jane', lastName: 'Doe', email: 'jdoe@example.com' },
+  ];
+
+  constructor() {
+    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
+    this.total = Math.floor(Math.random() * (10000000 - 1)) + 1;
+  }
+}
+
+class Run {
+  previewData: IPreviewData = new FakePreviewData();
+  results: IResults = new FakeResultsData();
+}
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -32,52 +74,34 @@ export class FileServiceFakes {
     }],
   };
 
-  static PREVIEW_DATA: IPreviewData = {
-    filePath: '../Path/to/dataloader/data/Candidate.csv',
-    total: 210,
-    headers: ['firstName', 'lastName', 'email'],
-    data: [{
-      firstName: 'John',
-      lastName: 'Smith',
-      email: 'jsmith@example.com',
-    }, {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-    }, {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-    }],
-  };
-
-  static RESULTS_DATA: IResults = {
-    processed: 0,
-    inserted: 0,
-    updated: 0,
-    deleted: 0,
-    failed: 0,
-    successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
-    failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
-    logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
-    startTime: 1511182001000,
-    durationMsec: 0,
-    errors: [],
-  };
-
-  static RUN: IRun = {
-    previewData: FileServiceFakes.PREVIEW_DATA,
-    results: FileServiceFakes.RESULTS_DATA,
-  };
-
   static ALL_RUNS: IRun[] = [
-    FileServiceFakes.RUN,
-    FileServiceFakes.RUN,
-    FileServiceFakes.RUN,
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
   ];
 
   static generateFakeResults(callback: (results: IResults) => {}): void {
-    let fakeResults: IResults = FileServiceFakes.RESULTS_DATA;
+    let fakeResults: IResults = new FakeResultsData();
     const MAX_ITERATIONS: number = 30;
     let i: number = 0;
     let interval: Timer = setInterval(() => {

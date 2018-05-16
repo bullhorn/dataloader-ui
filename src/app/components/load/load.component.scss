@@ -1,5 +1,5 @@
-@import 'novo-elements.scss';
-@import 'styles.scss';
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
 
 .load {
   .load-form {
@@ -8,5 +8,9 @@
 
   .preview {
     margin-bottom: 100px;
+  }
+
+  footer {
+    @include sticky-footer();
   }
 }

@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as moment from 'moment';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { FileServiceFakes } from './file.service.fakes';
+import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
@@ -138,8 +138,8 @@ export class FileService {
           console.error(err); // tslint:disable-line:no-console
         });
     } else {
-      this.previewData = FileServiceFakes.PREVIEW_DATA;
-      onSuccess(FileServiceFakes.PREVIEW_DATA);
+      this.previewData = new FakePreviewData();
+      onSuccess(this.previewData);
     }
   }
 

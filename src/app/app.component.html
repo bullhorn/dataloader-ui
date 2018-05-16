@@ -1,3 +1,9 @@
 <app-header></app-header>
-<app-load *ngIf="!showResults" (started)="showResults=true"></app-load>
-<app-results *ngIf="showResults"></app-results>
+<div class="body-wrapper">
+  <app-run-list [runs]="runs" [selectedRun]="selectedRun" [currentRun]="currentRun"
+                (selectedRunChanged)="selectedRun=$event"></app-run-list>
+  <div class="load-and-results-wrapper">
+    <app-load *ngIf="!selectedRun" (runStarted)="currentRun=$event"></app-load>
+    <app-results *ngIf="selectedRun"></app-results>
+  </div>
+</div>

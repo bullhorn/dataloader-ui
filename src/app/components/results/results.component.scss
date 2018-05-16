@@ -1,5 +1,5 @@
-@import 'novo-elements.scss';
-@import 'styles.scss';
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
 
 .results {
   margin-bottom: 100px;
@@ -16,12 +16,6 @@
       .chart {
         width: 50%;
         text-align: center;
-
-        novo-card-chart-donut {
-          aside:before {
-            font-weight: 600;
-          }
-        }
 
         .time {
           display: flex;
@@ -54,5 +48,9 @@
       bottom: 60px;
       z-index: -1;
     }
+  }
+
+  footer {
+    @include sticky-footer();
   }
 }

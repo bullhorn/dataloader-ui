@@ -1,0 +1,10 @@
+@import '../../node_modules/novo-elements/novo-elements.scss';
+@import '../styles.scss';
+
+.body-wrapper {
+  display: flex;
+
+  .load-and-results-wrapper {
+    width: 100%
+  }
+}

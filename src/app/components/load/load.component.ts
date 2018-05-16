@@ -15,7 +15,7 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-  @Output() started: EventEmitter<void> = new EventEmitter<void>();
+  @Output() runStarted: EventEmitter<void> = new EventEmitter<void>();
   form: any;
   fieldSets: any[];
   previewTable: any = {};
@@ -97,7 +97,7 @@ export class LoadComponent implements OnInit {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
     this.dataloaderService.start(this.previewData);
-    this.started.emit();
+    this.runStarted.emit();
   }
 
   private onFileChange(API: FieldInteractionApi): void {

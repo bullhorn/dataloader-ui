@@ -1,0 +1,49 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+$new-run-bg: #0B0F1A;
+
+.run-list-wrapper {
+  position: fixed;
+  width: 300px;
+  bottom: 0;
+  top: 63px;
+
+  .new-run-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 54px;
+    background-color: $new-run-bg;
+    color: $off-white;
+    cursor: pointer;
+    transition: background-color .2s;
+    text-transform: uppercase;
+
+    &.selected {
+      cursor: default;
+      background-color: $ocean;
+    }
+
+    &:not(.selected) {
+      &:hover {
+        background-color: lighten($new-run-bg, 5%);
+      }
+    }
+
+    i {
+      position: relative;
+      bottom: 2px;
+      margin-right: 5px;
+    }
+  }
+
+  .historical-runs {
+    height: calc(100% - 56px);
+    overflow-y: auto;
+  }
+}
+
+.run-list-spacer {
+  width: 300px;
+}

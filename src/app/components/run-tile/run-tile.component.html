@@ -1,0 +1,11 @@
+<div class="run-tile-btn" [ngClass]="{'dark': dark, 'selected': isSelected}">
+  <div class="run-tile-header">
+    <i class="{{icon}} {{theme}}" theme="entity"></i>
+    <div class="filename">{{ localRunData.fileName }}</div>
+  </div>
+  <div class="run-tile-details">
+    <div class="rows">{{ run.previewData.total | abbreviatedNumber }} Rows</div>
+    <div class="start-time">{{ localRunData.startTime }}</div>
+    <div class="duration">{{ localRunData.duration }}</div>
+  </div>
+</div>
