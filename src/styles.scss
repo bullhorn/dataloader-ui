@@ -1,7 +1,16 @@
-@import 'novo-elements.scss';
+@import '../node_modules/novo-elements/novo-elements.scss';
 
-novo-nav {
-  background: $submission;
+// Styles common to multiple components
+@mixin sticky-footer() {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 300px;
+  padding: 10px 15px;
+  z-index: 100;
+  background-color: $background;
 }
 
 .table-header {
@@ -15,21 +24,5 @@ novo-nav {
   h1 {
     font-size: 1.6em;
     padding: 0;
-  }
-}
-
-footer {
-  display: flex;
-  justify-content: flex-end;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  padding: 10px 15px;
-  z-index: 100;
-  background-color: $background;
-
-  button[theme="primary"] {
-    margin-left: 15px;
   }
 }
