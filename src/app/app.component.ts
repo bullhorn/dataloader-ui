@@ -45,10 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
       results: {},
       output: ' ',
     };
+    this.selectedRun = this.currentRun;
     this.fileService.getAllRuns(this.onRunData.bind(this));
+    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
-    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
   }
 
   ngOnDestroy(): void {
