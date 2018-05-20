@@ -1,53 +1,41 @@
 @import '../../../../node_modules/novo-elements/novo-elements.scss';
 @import '../../../styles.scss';
 
-.run-tile {
+.run {
   background-color: $off-white;
-  cursor: pointer;
-  transition: all .2s;
   padding: 0.7em;
+  cursor: pointer;
   user-select: none;
-
-  &:not(.selected) {
-    &:hover {
-      background-color: lighten($off-white, 5%);
-      color: black;
-    }
-
-    // TODO: Get rid of dark!
-    &.dark {
-      background-color: darken($off-white, 5%);
-
-      &:hover {
-        background-color: darken($off-white, 10%);
-      }
-    }
-  }
 
   &.selected {
     cursor: default;
     background-color: $ocean;
     color: $off-white;
+
+    i {
+      color: $off-white;
+    }
   }
 
-  > div {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 4px;
+  &:not(.selected) {
+    &:hover {
+      background-color: lighten($off-white, 5%);
+    }
   }
 
-  .run-tile-header {
+  .header {
     display: flex;
     align-items: center;
     font-size: 1rem;
     font-weight: 500;
     justify-content: start;
     padding-right: 10px;
+    margin-top: 4px;
 
     i {
       position: relative;
       bottom: 1px;
-      margin-right: 6px;
+      margin-right: 8px;
     }
 
     .filename {
@@ -55,7 +43,10 @@
     }
   }
 
-  .run-tile-details {
-
+  .details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    margin-left: 2.0rem;
   }
 }
