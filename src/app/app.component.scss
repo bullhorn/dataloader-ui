@@ -1,10 +1,24 @@
 @import '../../node_modules/novo-elements/novo-elements.scss';
 @import '../styles.scss';
 
-.body-wrapper {
+.content {
   display: flex;
 
-  .load-and-results-wrapper {
-    width: 100%
+  .side-pane {
+    position: fixed;
+    height: 100%;
+    width: 300px;
+    overflow-y: scroll;
+
+    .new-run {
+    }
+
+    .run-history {
+    }
+  }
+
+  .main {
+    width: 100%;
+    margin-left: 300px;
   }
 }

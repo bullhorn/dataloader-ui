@@ -1,13 +1,13 @@
 // Angular
-import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
-import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
 import { IExistField, ISettings } from '../../../interfaces/ISettings';
+import { IRun } from '../../../interfaces/IRun';
 
 @Component({
   selector: 'app-load',
@@ -15,7 +15,8 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-  @Output() runStarted: EventEmitter<void> = new EventEmitter<void>();
+  @Input() run: IRun = null; // TODO: make this be bi-directional, so the empty currentTile can get updated dynamically
+  @Output() started: EventEmitter<IPreviewData> = new EventEmitter<IPreviewData>();
   form: any;
   fieldSets: any[];
   previewTable: any = {};
@@ -29,8 +30,7 @@ export class LoadComponent implements OnInit {
   existField: IExistField;
   fieldInteractionApi: FieldInteractionApi;
 
-  constructor(private dataloaderService: DataloaderService,
-              private fileService: FileService,
+  constructor(private fileService: FileService,
               private zone: NgZone,
               private formUtils: FormUtils) {
   }
@@ -96,8 +96,7 @@ export class LoadComponent implements OnInit {
   load(): void {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
-    this.dataloaderService.start(this.previewData);
-    this.runStarted.emit();
+    this.started.emit(this.previewData);
   }
 
   private onFileChange(API: FieldInteractionApi): void {

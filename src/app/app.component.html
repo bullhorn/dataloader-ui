@@ -1,9 +1,24 @@
 <app-header></app-header>
-<div class="body-wrapper">
-  <app-run-list [runs]="runs" [selectedRun]="selectedRun" [currentRun]="currentRun"
-                (selectedRunChanged)="selectedRun=$event"></app-run-list>
-  <div class="load-and-results-wrapper">
-    <app-load *ngIf="!selectedRun" (runStarted)="currentRun=$event"></app-load>
-    <app-results *ngIf="selectedRun"></app-results>
+<div class="content">
+  <div class="side-pane">
+    <app-run class="new-run"
+             (click)="selectedRun = currentRun"
+             [run]="currentRun"
+             [isSelected]="currentRun === selectedRun"></app-run>
+    <div class="run-history">
+      <app-run *ngFor="let run of runHistory"
+               (click)="selectedRun = run"
+               [run]="run"
+               [isSelected]="run === selectedRun"></app-run>
+    </div>
+  </div>
+  <div class="main">
+    <app-load *ngIf="currentRun === selectedRun && !running"
+              [(run)]="currentRun"
+              (started)="onStarted()"></app-load>
+    <app-results *ngIf="selectedRun && (currentRun !== selectedRun || running)"
+                 [run]="selectedRun"
+                 [running]="running"
+                 (stopped)="onStopped()"></app-results>
   </div>
 </div>

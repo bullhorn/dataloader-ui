@@ -1,7 +1,7 @@
 @import '../../../../node_modules/novo-elements/novo-elements.scss';
 @import '../../../styles.scss';
 
-.run-tile-btn {
+.run-tile {
   background-color: $off-white;
   cursor: pointer;
   transition: all .2s;
@@ -13,6 +13,7 @@
       color: black;
     }
 
+    // TODO: Get rid of dark!
     &.dark {
       background-color: darken($off-white, 5%);
 

@@ -1,7 +1,7 @@
 <section class="results">
   <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total }} Rows"
           [icon]="icon" [theme]="theme"></header>
-  <novo-nav [outlet]="tabs" direction="horizontal">
+  <novo-nav [outlet]="tabs" direction="horizontal" *ngIf="this.output">
     <novo-tab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
   </novo-nav>

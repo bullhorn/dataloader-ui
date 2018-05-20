@@ -11,8 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
 import { ResultsComponent } from './components/results/results.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { RunListComponent } from './components/run-list/run-list.component';
-import { RunTileComponent } from './components/run-tile/run-tile.component';
+import { RunComponent } from './components/run/run.component';
 // Services
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
@@ -27,8 +26,7 @@ import { AbbreviatedNumberPipe } from './pipes/abbreviated-number/abbreviated-nu
     LoadComponent,
     ResultsComponent,
     SettingsComponent,
-    RunListComponent,
-    RunTileComponent,
+    RunComponent,
     AbbreviatedNumberPipe,
   ],
   entryComponents: [SettingsComponent],

@@ -1,6 +1,8 @@
 // App
 import { IExistField, ISettings } from '../../interfaces/ISettings';
 import { IPreviewData } from '../../interfaces/IPreviewData';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 export class Utils {
 
@@ -219,6 +221,22 @@ export class Utils {
     let date: Date = new Date(null);
     date.setMilliseconds(milliseconds);
     return date.toISOString().substr(11, 8);
+  }
+
+  static getStartTimeString(startTime: number): string {
+    let start: Moment = moment(startTime);
+
+    const ref: Moment = moment();
+    const today: Moment = ref.clone().startOf('day');
+    const yesterday: Moment = ref.clone().subtract(1, 'days').startOf('day');
+
+    if (start.isSame(today, 'd')) {
+      return 'Today';
+    } else if (start.isSame(yesterday, 'd')) {
+      return 'Yesterday';
+    } else {
+      return moment(startTime).format('M/D/YY');
+    }
   }
 
   static getExistField(settings: ISettings, entity: string): IExistField {
