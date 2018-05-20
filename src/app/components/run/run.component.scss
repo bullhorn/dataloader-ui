@@ -6,6 +6,7 @@
   cursor: pointer;
   transition: all .2s;
   padding: 0.7em;
+  user-select: none;
 
   &:not(.selected) {
     &:hover {
