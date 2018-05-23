@@ -1,5 +1,5 @@
 <section class="results">
-  <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total }} Rows"
+  <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total | abbreviatedNumber }} Rows"
           [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal" *ngIf="this.output">
     <novo-tab>Overview</novo-tab>

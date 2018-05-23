@@ -1,8 +1,10 @@
+// Vendor
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { IDuration } from '../../interfaces/IDuration';
 // App
 import { IExistField, ISettings } from '../../interfaces/ISettings';
 import { IPreviewData } from '../../interfaces/IPreviewData';
-import * as moment from 'moment';
-import { Moment } from 'moment';
 
 export class Utils {
 
@@ -223,6 +225,7 @@ export class Utils {
     return date.toISOString().substr(11, 8);
   }
 
+  // TODO: Convert to Pipe
   static getStartTimeString(startTime: number): string {
     let start: Moment = moment(startTime);
 
@@ -274,5 +277,12 @@ export class Utils {
       });
     }
     return options;
+  }
+
+  // TODO: Convert to Pipe
+  static getDurationString(durationMsec: number): string {
+    const formatStr: string = durationMsec < 3600000 ? 'm[m] s[s]' : 'd[d] h[h] m[m]';
+    const duration: IDuration = moment.duration(durationMsec) as IDuration;
+    return duration.format(formatStr);
   }
 }
