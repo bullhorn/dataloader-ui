@@ -1,10 +1,11 @@
+// Vendor
+import Timer = NodeJS.Timer;
 // App
 import { ISettings } from '../../../interfaces/ISettings';
 import { IErrors, IResults } from '../../../interfaces/IResults';
 import { IRun } from '../../../interfaces/IRun';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
-import Timer = NodeJS.Timer;
 
 class FakeResultsData {
   processed: number = 0;
