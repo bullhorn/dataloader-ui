@@ -14,9 +14,6 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class FileService {
-  // The last file preview is stored here for access by all components
-  previewData: IPreviewData;
-
   private defaultSettings: ISettings = {
     username: '',
     password: '',
@@ -131,15 +128,13 @@ export class FileService {
           }
         })
         .on('end', () => {
-          this.previewData = previewData;
           onSuccess(previewData);
         })
         .on('error', (err) => {
           console.error(err); // tslint:disable-line:no-console
         });
     } else {
-      this.previewData = new FakePreviewData();
-      onSuccess(this.previewData);
+      onSuccess(new FakePreviewData());
     }
   }
 
