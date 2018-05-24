@@ -8,7 +8,6 @@ import * as momentDurationFormatSetup from 'moment-duration-format';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { FileService } from './providers/file/file.service';
 import { IRun } from '../interfaces/IRun';
-import { IPreviewData } from '../interfaces/IPreviewData';
 import { IResults } from '../interfaces/IResults';
 import { Utils } from './utils/utils';
 
@@ -57,9 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.fileService.unsubscribe();
   }
 
-  onStarted(previewData: IPreviewData): void {
-    this.currentRun.previewData = previewData;
-    this.dataloaderService.start(previewData);
+  onStarted(): void {
+    this.dataloaderService.start(this.currentRun.previewData);
     this.running = true;
   }
 

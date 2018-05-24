@@ -15,13 +15,12 @@ import { IRun } from '../../../interfaces/IRun';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-  @Input() run: IRun = null; // TODO: make this be bi-directional, so the empty currentTile can get updated dynamically
-  @Output() started: EventEmitter<IPreviewData> = new EventEmitter<IPreviewData>();
+  @Input() run: IRun;
+  @Output() started = new EventEmitter();
   form: any;
   fieldSets: any[];
   previewTable: any = {};
   inputFilePath = null;
-  previewData: IPreviewData = null;
   entity: string = '';
   icon: string = '';
   theme: string = '';
@@ -96,7 +95,7 @@ export class LoadComponent implements OnInit {
   load(): void {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
-    this.started.emit(this.previewData);
+    this.started.emit();
   }
 
   private onFileChange(API: FieldInteractionApi): void {
@@ -109,7 +108,7 @@ export class LoadComponent implements OnInit {
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
       API.show('enabled');
     } else {
-      this.previewData = null;
+      this.run.previewData = null;
       this.previewTable.columns = [];
       this.previewTable.rows = [];
       API.hide('enabled');
@@ -118,10 +117,10 @@ export class LoadComponent implements OnInit {
   }
 
   private onEnabledChange(API: FieldInteractionApi): void {
-    if (this.previewData) {
+    if (this.run.previewData) {
       this.existField.enabled = API.form.value.enabled === 'yes';
       if (this.existField.enabled) {
-        API.modifyPickerConfig('fields', { options: Utils.getExistFieldOptions(this.previewData) });
+        API.modifyPickerConfig('fields', { options: Utils.getExistFieldOptions(this.run.previewData) });
         API.setValue('fields', this.existField.fields);
         API.show('fields');
       } else {
@@ -131,7 +130,7 @@ export class LoadComponent implements OnInit {
   }
 
   private onFieldsChange(API: FieldInteractionApi): void {
-    if (this.previewData && this.existField.enabled) {
+    if (this.run.previewData && this.existField.enabled) {
       if (API.form.value.fields) {
         this.existField.fields = API.form.value.fields;
       } else {
@@ -142,7 +141,7 @@ export class LoadComponent implements OnInit {
 
   private onPreviewData(previewData: IPreviewData): void {
     this.zone.run(() => {
-      this.previewData = previewData;
+      this.run.previewData = previewData;
       this.previewTable.columns = Utils.createColumnConfig(previewData.data);
       this.previewTable.rows = previewData.data;
       this.entity = Utils.getEntityNameFromFile(this.inputFilePath);

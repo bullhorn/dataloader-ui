@@ -18,6 +18,7 @@ export class RunComponent implements OnInit {
   startTime: string;
   duration: string;
 
+  // TODO: Make Dynamic using setters/getters and/or Pipes
   ngOnInit(): void {
     this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
     this.icon = Utils.getIconForFilename(this.fileName);

@@ -221,7 +221,7 @@ export class Utils {
 
   static msecToHMS(milliseconds: number): string {
     let date: Date = new Date(null);
-    date.setMilliseconds(milliseconds);
+    date.setMilliseconds(milliseconds ? milliseconds : 0);
     return date.toISOString().substr(11, 8);
   }
 
