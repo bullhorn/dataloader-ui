@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currentRun = {
       previewData: { filePath: '', total: 0, headers: [], data: [], },
       results: {},
-      output: ' ',
+      output: '\n',
     };
     this.selectedRun = this.currentRun;
     this.fileService.getAllRuns(this.onRunData.bind(this));
@@ -58,8 +58,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onStarted(previewData: IPreviewData): void {
-    this.running = true;
+    this.currentRun.previewData = previewData;
     this.dataloaderService.start(previewData);
+    this.running = true;
   }
 
   onStopped(): void {

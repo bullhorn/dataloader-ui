@@ -15,7 +15,7 @@
   <div class="main">
     <app-load *ngIf="currentRun === selectedRun && !running"
               [(run)]="currentRun"
-              (started)="onStarted()"></app-load>
+              (started)="onStarted($event)"></app-load>
     <app-results *ngIf="selectedRun && (currentRun !== selectedRun || running)"
                  [run]="selectedRun"
                  [running]="running"
