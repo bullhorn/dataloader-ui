@@ -35,14 +35,14 @@
     }
 
     .output {
-      padding: 20px;
+      padding: 0 1.5em 1.5em;
       font-family: monospace;
       white-space: pre-line;
       color: white;
       background: $dark;
       overflow: scroll;
       position: absolute;
-      left: 0;
+      left: 300px;
       right: 0;
       top: 162px;
       bottom: 60px;
