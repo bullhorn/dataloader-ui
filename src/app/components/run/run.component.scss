@@ -17,6 +17,10 @@
     }
   }
 
+  &.running {
+    border: 2px solid $warning;
+  }
+
   &:not(.selected) {
     &:hover {
       background-color: lighten($off-white, 5%);

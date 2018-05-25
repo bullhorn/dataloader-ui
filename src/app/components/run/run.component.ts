@@ -1,28 +1,31 @@
 // Angular
 import { Component, Input, OnChanges } from '@angular/core';
 // App
-import { IRun } from '../../../interfaces/IRun';
 import { Utils } from '../../utils/utils';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { IResults } from '../../../interfaces/IResults';
 
 @Component({
   selector: 'app-run',
   styleUrls: ['./run.component.scss'],
   template: `
-    <div class="run" [ngClass]="{'selected': isSelected}">
+    <div class="run" [ngClass]="{'selected': isSelected, 'running': running}">
       <div class="header">
         <i class="{{ icon }} {{ theme }}" theme="entity"></i>
         <div class="filename">{{ fileName }}</div>
       </div>
-      <div class="details" *ngIf="run.previewData">
+      <div class="details" *ngIf="previewData">
         <div class="rows">{{ total }} Rows</div>
-        <div class="start-time" *ngIf="run.results">{{ startTime }}</div>
-        <div class="duration" *ngIf="run.results">{{ duration }}</div>
+        <div class="start-time" *ngIf="results">{{ startTime }}</div>
+        <div class="duration" *ngIf="results">{{ duration }}</div>
       </div>
     </div>
   `,
 })
 export class RunComponent implements OnChanges {
-  @Input() run: IRun;
+  @Input() previewData: IPreviewData;
+  @Input() results: IResults;
+  @Input() running: boolean;
   @Input() isSelected: boolean = false;
   fileName: string;
   icon: string;
@@ -32,14 +35,14 @@ export class RunComponent implements OnChanges {
   duration: string;
 
   ngOnChanges(): void {
-    if (this.run.previewData) {
-      this.total = Utils.getAbbreviatedNumber(this.run.previewData.total);
-      this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
+    if (this.previewData) {
+      this.total = Utils.getAbbreviatedNumber(this.previewData.total);
+      this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
       this.icon = Utils.getIconForFilename(this.fileName);
       this.theme = Utils.getThemeForFilename(this.fileName);
-      if (this.run.results) {
-        this.startTime = Utils.getStartTimeString(this.run.results.startTime);
-        this.duration = Utils.getDurationString(this.run.results.durationMsec);
+      if (this.results) {
+        this.startTime = Utils.getStartTimeString(this.results.startTime);
+        this.duration = Utils.getDurationString(this.results.durationMsec);
       }
     } else {
       this.fileName = 'New Run';

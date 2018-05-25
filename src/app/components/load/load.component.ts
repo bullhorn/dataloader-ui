@@ -16,7 +16,6 @@ import { IRun } from '../../../interfaces/IRun';
 })
 export class LoadComponent implements OnInit {
   @Input() run: IRun;
-  @Output() filePreview = new EventEmitter();
   @Output() started = new EventEmitter();
   form: any;
   fieldSets: any[];
@@ -151,7 +150,6 @@ export class LoadComponent implements OnInit {
       this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
       this.existField = Utils.getExistField(this.settings, this.entity);
       this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
-      this.filePreview.emit();
     });
   }
 }

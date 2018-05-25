@@ -11,14 +11,16 @@
     overflow-y: scroll;
 
     .new-run {
+      // TODO: float on top
     }
 
     .run-history {
+      padding-bottom: 100px; // TODO: perfect the padding
     }
   }
 
   .main {
     width: 100%;
-    margin-left: 300px;
+    margin-left: 300px; // TODO: stop the side-scrolling nonsense
   }
 }

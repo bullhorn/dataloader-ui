@@ -1,5 +1,5 @@
 // Angular
-import { ChangeDetectorRef, Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 // Vendor
 import { NovoModalService } from 'novo-elements';
 import * as moment from 'moment';
@@ -26,7 +26,7 @@ momentDurationFormatSetup(moment);
 export class AppComponent implements OnInit {
   static EMPTY_RUN: IRun = { previewData: null, results: null, output: '\n' };
 
-  currentRun: IRun = AppComponent.EMPTY_RUN;
+  currentRun: IRun = Object.assign({}, AppComponent.EMPTY_RUN);
   selectedRun: IRun | null = this.currentRun;
   runHistory: IRun[] = [];
 
@@ -34,8 +34,7 @@ export class AppComponent implements OnInit {
               private fileService: FileService,
               private modalService: NovoModalService,
               private view: ViewContainerRef, // tslint:disable-line
-              private zone: NgZone,
-              private changeDetectorRef: ChangeDetectorRef) {
+              private zone: NgZone) {
     this.modalService.parentViewContainer = view;
   }
 
@@ -43,27 +42,16 @@ export class AppComponent implements OnInit {
     this.fileService.getAllRuns(this.onRunData.bind(this));
   }
 
-  onFilePreview(): void {
-    // Trigger change detection for currentRun listeners
-    this.selectedRun = this.currentRun = Object.assign({}, this.currentRun);
-  }
-
   onStarted(): void {
     this.dataloaderService.onPrint(this.onPrint.bind(this));
     this.dataloaderService.onDone(this.onDone.bind(this));
     this.dataloaderService.start(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
-    this.selectedRun.running = true;
+    this.currentRun.running = true;
   }
 
   onStopped(): void {
-    this.selectedRun.running = false;
     this.dataloaderService.stop();
-    // TODO: Make this happen later to make sure we pick up on the updated loaded totals
-    this.fileService.unsubscribe();
-    this.dataloaderService.unsubscribe();
-    // TODO: Pause, then re-load runHistory and reset currentRun, making the last run... well.. history
-    this.selectedRun = this.currentRun = AppComponent.EMPTY_RUN;
   }
 
   private onRunData(runs: IRun[]): void {
@@ -77,8 +65,9 @@ export class AppComponent implements OnInit {
    * but the logfile contains all of the data printed and more.
    */
   private onPrint(text: string): void {
-    this.currentRun.output = this.currentRun.output.concat(text);
-    this.changeDetectorRef.detectChanges();
+    this.zone.run(() => {
+      this.currentRun.output = this.currentRun.output.concat(text);
+    });
   }
 
   /**
@@ -86,10 +75,18 @@ export class AppComponent implements OnInit {
    * may happen a second before the final updates to the results file have been processed.
    */
   private onDone(text: string): void {
-    this.currentRun.output = this.currentRun.output.concat(text);
-    // TODO: Make this happen later to make sure we pick up on the updated loaded totals
-    this.sendNotification();
-    this.changeDetectorRef.detectChanges();
+    this.zone.run(() => {
+      this.currentRun.output = this.currentRun.output.concat(text);
+      // Wait for final report from results file
+      setTimeout(() => {
+        this.fileService.unsubscribe();
+        this.dataloaderService.unsubscribe();
+        this.sendNotification();
+        this.fileService.getAllRuns(this.onRunData.bind(this));
+        this.selectedRun = this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
+        // TODO: Make the first run in the list the selected one now
+      }, 1000);
+    });
   }
 
   /**
@@ -97,8 +94,9 @@ export class AppComponent implements OnInit {
    */
   private onResultsFileChange(results: IResults): void {
     if (results && results.durationMsec) {
-      this.currentRun.results = results;
-      this.changeDetectorRef.detectChanges();
+      this.zone.run(() => {
+        this.currentRun.results = results;
+      });
     }
   }
 
@@ -106,12 +104,14 @@ export class AppComponent implements OnInit {
    * Emits the final system notification that the run has completed
    */
   private sendNotification(): void {
+    let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
     let options: any = {};
+    let duration: string = '';
     if (this.currentRun.results) {
       options = { body: `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors` };
+      duration = Utils.msecToHMS(this.currentRun.results.durationMsec);
     }
-    let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
-    let duration: string = Utils.msecToHMS(this.currentRun.results.durationMsec);
+    // TODO: Pretty print these numbers with commas:
     new Notification(`Loaded ${this.currentRun.results.processed} / ${this.currentRun.previewData.total} ${entity} Records in ${duration}`, options); // tslint:disable-line
   }
 }

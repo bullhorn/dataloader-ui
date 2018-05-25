@@ -3,22 +3,28 @@
   <div class="side-pane">
     <app-run class="new-run"
              (click)="selectedRun = currentRun"
-             [run]="currentRun"
+             [previewData]="currentRun.previewData"
+             [results]="currentRun.results"
+             [running]="currentRun.running"
              [isSelected]="currentRun === selectedRun"></app-run>
     <div class="run-history">
       <app-run *ngFor="let run of runHistory"
                (click)="selectedRun = run"
-               [run]="run"
+               [previewData]="run.previewData"
+               [results]="run.results"
+               [running]="run.running"
                [isSelected]="run === selectedRun"></app-run>
     </div>
   </div>
   <div class="main">
     <app-load [hidden]="currentRun !== selectedRun || selectedRun.running"
               [(run)]="currentRun"
-              (filePreview)="onFilePreview()"
               (started)="onStarted()"></app-load>
     <app-results [hidden]="!selectedRun || (currentRun === selectedRun && !selectedRun.running)"
-                 [run]="selectedRun"
+                 [previewData]="selectedRun.previewData"
+                 [results]="selectedRun.results"
+                 [output]="selectedRun.output"
+                 [running]="selectedRun.running"
                  (stopped)="onStopped()"></app-results>
   </div>
 </div>

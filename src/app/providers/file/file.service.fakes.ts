@@ -20,9 +20,21 @@ class FakeResultsData {
   durationMsec: number;
   errors: IErrors[] = [];
 
-  constructor() {
+  constructor(previewData: IPreviewData = null) {
     this.startTime = Math.floor(Math.random() * (Date.now()));
     this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
+    if (previewData) {
+      this.processed = previewData.total;
+      this.failed = Math.floor(previewData.total / 100000);
+      this.inserted = previewData.total - this.failed;
+      for (let i: number = 0; i < this.failed; ++i) {
+        this.errors.push({
+          row: i,
+          id: i + 10000,
+          message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: '${i}'`,
+        });
+      }
+    }
   }
 }
 
@@ -39,13 +51,13 @@ export class FakePreviewData {
   constructor() {
     let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
-    this.total = Math.floor(Math.random() * (10000000 - 1)) + 1;
+    this.total = Math.floor(Math.random() * (4000000 - 1)) + 1;
   }
 }
 
 class Run {
   previewData: IPreviewData = new FakePreviewData();
-  results: IResults = new FakeResultsData();
+  results: IResults = new FakeResultsData(this.previewData);
 }
 
 /**
@@ -101,6 +113,11 @@ export class FileServiceFakes {
     new Run(),
   ];
 
+  static getAllRuns(): IRun[] {
+    this.ALL_RUNS.unshift(new Run());
+    return this.ALL_RUNS;
+  }
+
   static generateFakeResults(callback: (results: IResults) => {}): void {
     let fakeResults: IResults = new FakeResultsData();
     const MAX_ITERATIONS: number = 30;
@@ -114,7 +131,7 @@ export class FileServiceFakes {
       fakeResults.errors.push({
         row: fakeResults.failed,
         id: fakeResults.failed + 4,
-        message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\'',
+        message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: 'Bogus'`,
       });
       callback(fakeResults);
       if (++i >= MAX_ITERATIONS) {

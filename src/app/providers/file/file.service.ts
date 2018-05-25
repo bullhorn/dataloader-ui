@@ -131,6 +131,7 @@ export class FileService {
           onSuccess(previewData);
         })
         .on('error', (err) => {
+          // TODO: send these errors up to the user
           console.error(err); // tslint:disable-line:no-console
         });
     } else {
@@ -177,7 +178,7 @@ export class FileService {
               let previewData: string = path.join(dir, 'previewData.json');
               let results: string = path.join(dir, 'results.json');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
-                allRuns.push({
+                allRuns.unshift({
                   previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
                   results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
                 });
@@ -188,7 +189,7 @@ export class FileService {
         }
       });
     } else {
-      onSuccess(FileServiceFakes.ALL_RUNS);
+      onSuccess(FileServiceFakes.getAllRuns());
     }
   }
 
