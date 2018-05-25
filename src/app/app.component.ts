@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
   currentRun: IRun = AppComponent.EMPTY_RUN;
   selectedRun: IRun | null = this.currentRun;
   runHistory: IRun[] = [];
-  running: boolean = false;
 
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
@@ -54,11 +53,11 @@ export class AppComponent implements OnInit {
     this.dataloaderService.onDone(this.onDone.bind(this));
     this.dataloaderService.start(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
-    this.running = true;
+    this.selectedRun.running = true;
   }
 
   onStopped(): void {
-    this.running = false;
+    this.selectedRun.running = false;
     this.dataloaderService.stop();
     // TODO: Make this happen later to make sure we pick up on the updated loaded totals
     this.fileService.unsubscribe();

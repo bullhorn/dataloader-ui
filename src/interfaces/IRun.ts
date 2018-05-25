@@ -5,4 +5,5 @@ export interface IRun {
   previewData: IPreviewData | null;
   results: IResults | null;
   output?: string;
+  running?: boolean;
 }

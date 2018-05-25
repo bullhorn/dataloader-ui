@@ -13,13 +13,12 @@
     </div>
   </div>
   <div class="main">
-    <app-load [hidden]="currentRun !== selectedRun || running"
+    <app-load [hidden]="currentRun !== selectedRun || selectedRun.running"
               [(run)]="currentRun"
               (filePreview)="onFilePreview()"
               (started)="onStarted()"></app-load>
-    <app-results [hidden]="!selectedRun || (currentRun === selectedRun && !running)"
+    <app-results [hidden]="!selectedRun || (currentRun === selectedRun && !selectedRun.running)"
                  [run]="selectedRun"
-                 [running]="running"
                  (stopped)="onStopped()"></app-results>
   </div>
 </div>

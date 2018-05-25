@@ -12,7 +12,6 @@ import { IRun } from '../../../interfaces/IRun';
 })
 export class ResultsComponent implements OnInit, OnChanges {
   @Input() run: IRun;
-  @Input() running: boolean = false;
   @Output() stopped = new EventEmitter();
   loaded: number = 0;
   loadedPercent: number = 0.0;
