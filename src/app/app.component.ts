@@ -1,5 +1,5 @@
 // Angular
-import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 // Vendor
 import { NovoModalService } from 'novo-elements';
 import * as moment from 'moment';
@@ -23,7 +23,7 @@ momentDurationFormatSetup(moment);
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   currentRun: IRun;
   runHistory: IRun[] = [];
   selectedRun: IRun | null = null;
@@ -39,31 +39,33 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentRun = {
+    this.selectedRun = this.currentRun = {
       previewData: { filePath: '', total: 0, headers: [], data: [], },
       results: {},
       output: '\n',
     };
-    this.selectedRun = this.currentRun;
     this.fileService.getAllRuns(this.onRunData.bind(this));
-    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
-    this.dataloaderService.onPrint(this.onPrint.bind(this));
-    this.dataloaderService.onDone(this.onDone.bind(this));
   }
 
-  ngOnDestroy(): void {
-    this.dataloaderService.unsubscribe();
-    this.fileService.unsubscribe();
+  onFilePreview(): void {
+    // Trigger change detection for currentRun listeners
+    this.selectedRun = this.currentRun = Object.assign({}, this.currentRun);
   }
 
   onStarted(): void {
+    this.dataloaderService.onPrint(this.onPrint.bind(this));
+    this.dataloaderService.onDone(this.onDone.bind(this));
     this.dataloaderService.start(this.currentRun.previewData);
+    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.running = true;
   }
 
   onStopped(): void {
     this.running = false;
     this.dataloaderService.stop();
+    // TODO: Make this happen later to make sure we pick up on the updated loaded totals
+    this.fileService.unsubscribe();
+    this.dataloaderService.unsubscribe();
     // TODO: Pause, then re-load runHistory, making the last run... well.. history
   }
 

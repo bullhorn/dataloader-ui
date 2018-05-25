@@ -1,7 +1,7 @@
 <section class="results">
-  <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ previewData?.total | abbreviatedNumber }} Rows"
+  <header title="{{ running ? 'Loading' : 'Finished' }} {{ fileName }} - {{ total }} Rows"
           [icon]="icon" [theme]="theme"></header>
-  <novo-nav [outlet]="tabs" direction="horizontal" *ngIf="this.output">
+  <novo-nav [outlet]="tabs" direction="horizontal" *ngIf="run?.output">
     <novo-tab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
   </novo-nav>
@@ -14,13 +14,13 @@
           {{ loadedLabel }}
           <div class="time">
             <div class="start-time">
-              {{ results?.startTime | date:'mediumTime' }}
+              {{ run?.results?.startTime | date:'mediumTime' }}
             </div>
             <div class="duration">
-              <i class="bhi-clock"></i> {{ this.duration }}
+              <i class="bhi-clock"></i> {{ duration }}
             </div>
             <button class="log-file-button" theme="dialogue" icon="note"
-                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
+                    [tooltip]="run?.results?.logFile" (click)="openFile(run?.results?.logFile)">Log File
             </button>
           </div>
         </div>
@@ -29,10 +29,10 @@
             <novo-list-item class="total inserted">
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
-                <item-title><span class="amount">{{ results?.inserted }}</span> Added</item-title>
+                <item-title><span class="amount">{{ run?.results?.inserted }}</span> Added</item-title>
                 <item-header-end *ngIf="loaded > 0">
                   <button class="success-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.successFile" (click)="openFile(results?.successFile)">Loaded
+                          [tooltip]="run?.results?.successFile" (click)="openFile(run?.results?.successFile)">Loaded
                   </button>
                 </item-header-end>
               </item-header>
@@ -40,16 +40,16 @@
             <novo-list-item class="total updated">
               <item-header>
                 <item-avatar icon="bhi-refresh-o"></item-avatar>
-                <item-title><span class="amount">{{ results?.updated }}</span> Updated</item-title>
+                <item-title><span class="amount">{{ run?.results?.updated }}</span> Updated</item-title>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total failed">
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>
-                <item-title><span class="amount">{{ results?.failed }}</span> Errors</item-title>
-                <item-header-end *ngIf="results?.failed > 0">
+                <item-title><span class="amount">{{ run?.results?.failed }}</span> Errors</item-title>
+                <item-header-end *ngIf="run?.results?.failed > 0">
                   <button class="failure-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.failureFile" (click)="openFile(results?.failureFile)">Failed
+                          [tooltip]="run?.results?.failureFile" (click)="openFile(run?.results?.failureFile)">Failed
                   </button>
                 </item-header-end>
               </item-header>
@@ -57,20 +57,20 @@
           </novo-list>
         </div>
       </div>
-      <div class="errors" *ngIf="results?.errors">
+      <div class="errors" *ngIf="run?.results?.errors">
         <novo-table theme="grapefruit" [rows]="errorTable.rows" [columns]="errorTable.columns"
                     [config]="errorTable.config">
           <novo-table-header class="table-header">
             <i class="header-icon bhi-caution"></i>
             <div class="header-titles">
-              <h1>{{ results?.errors.length }} Errors</h1>
+              <h1>{{ run?.results?.errors.length }} Errors</h1>
             </div>
           </novo-table-header>
         </novo-table>
       </div>
     </novo-nav-content>
     <novo-nav-content class="tab-command-line">
-      <div class="output">{{ output }}</div>
+      <div class="output">{{ run?.output }}</div>
     </novo-nav-content>
   </novo-nav-outlet>
   <footer>
