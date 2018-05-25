@@ -1,3 +1,4 @@
+// TODO: Remove all unused spec files
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 //
 // import { LoadComponent } from './load.component';
