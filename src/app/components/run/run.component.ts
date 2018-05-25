@@ -1,15 +1,27 @@
 // Angular
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 // App
 import { IRun } from '../../../interfaces/IRun';
 import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-run',
-  templateUrl: './run.component.html',
   styleUrls: ['./run.component.scss'],
+  template: `
+    <div class="run" [ngClass]="{'selected': isSelected}">
+      <div class="header">
+        <i class="{{ icon }} {{ theme }}" theme="entity"></i>
+        <div class="filename">{{ fileName }}</div>
+      </div>
+      <div class="details" *ngIf="run.previewData">
+        <div class="rows">{{ total }} Rows</div>
+        <div class="start-time" *ngIf="run.results">{{ startTime }}</div>
+        <div class="duration" *ngIf="run.results">{{ duration }}</div>
+      </div>
+    </div>
+  `,
 })
-export class RunComponent implements OnInit, OnChanges {
+export class RunComponent implements OnChanges {
   @Input() run: IRun;
   @Input() isSelected: boolean = false;
   fileName: string;
@@ -19,16 +31,20 @@ export class RunComponent implements OnInit, OnChanges {
   total: string;
   duration: string;
 
-  ngOnInit(): void {
-    this.ngOnChanges();
-  }
-
   ngOnChanges(): void {
-    this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
-    this.icon = Utils.getIconForFilename(this.fileName);
-    this.theme = Utils.getThemeForFilename(this.fileName);
-    this.startTime = Utils.getStartTimeString(this.run.results.startTime);
-    this.total = Utils.getAbbreviatedNumber(this.run.previewData.total);
-    this.duration = Utils.getDurationString(this.run.results.durationMsec);
+    if (this.run.previewData) {
+      this.total = Utils.getAbbreviatedNumber(this.run.previewData.total);
+      this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
+      this.icon = Utils.getIconForFilename(this.fileName);
+      this.theme = Utils.getThemeForFilename(this.fileName);
+      if (this.run.results) {
+        this.startTime = Utils.getStartTimeString(this.run.results.startTime);
+        this.duration = Utils.getDurationString(this.run.results.durationMsec);
+      }
+    } else {
+      this.fileName = 'New Run';
+      this.icon = 'bhi-add-thin';
+      this.theme = 'white';
+    }
   }
 }

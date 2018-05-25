@@ -52,23 +52,26 @@ export class ResultsComponent implements OnInit, OnChanges {
         },
       },
     };
-    this.ngOnChanges();
   }
 
   ngOnChanges(): void {
-    this.entity = Utils.getEntityNameFromFile(this.run.previewData.filePath);
-    this.icon = Utils.getIconForFilename(this.run.previewData.filePath, false);
-    this.theme = Utils.getThemeForFilename(this.run.previewData.filePath);
-    this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
-    this.total = Utils.getAbbreviatedNumber(this.run.previewData.total);
-    this.duration = Utils.msecToHMS(this.run.results.durationMsec);
-    this.loaded = this.run.results.processed;
-    if (this.run.results.errors) {
-      this.errorTable.rows = this.run.results.errors.slice();
+    if (this.run.previewData) {
+      this.fileName = Utils.getFilenameFromPath(this.run.previewData.filePath);
+      this.entity = Utils.getEntityNameFromFile(this.fileName);
+      this.icon = Utils.getIconForFilename(this.fileName, false);
+      this.theme = Utils.getThemeForFilename(this.fileName);
+      if (this.run.previewData.total) {
+        this.total = Utils.getAbbreviatedNumber(this.run.previewData.total);
+        this.loadedPercent = this.loaded / this.run.previewData.total;
+        this.loadedLabel = this.loaded + ' / ' + this.run.previewData.total + ' LOADED';
+      }
     }
-    if (this.run.previewData.total) {
-      this.loadedPercent = this.loaded / this.run.previewData.total;
-      this.loadedLabel = this.loaded + ' / ' + this.run.previewData.total + ' LOADED';
+    if (this.run.results) {
+      this.duration = Utils.msecToHMS(this.run.results.durationMsec);
+      this.loaded = this.run.results.processed;
+      if (this.run.results.errors) {
+        this.errorTable.rows = this.run.results.errors.slice();
+      }
     }
   }
 

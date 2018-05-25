@@ -13,11 +13,11 @@
     </div>
   </div>
   <div class="main">
-    <app-load *ngIf="currentRun === selectedRun && !running"
+    <app-load [hidden]="currentRun !== selectedRun || running"
               [(run)]="currentRun"
               (filePreview)="onFilePreview()"
               (started)="onStarted()"></app-load>
-    <app-results *ngIf="selectedRun && (currentRun !== selectedRun || running)"
+    <app-results [hidden]="!selectedRun || (currentRun === selectedRun && !running)"
                  [run]="selectedRun"
                  [running]="running"
                  (stopped)="onStopped()"></app-results>

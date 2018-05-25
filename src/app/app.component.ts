@@ -24,9 +24,11 @@ momentDurationFormatSetup(moment);
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  currentRun: IRun;
+  static EMPTY_RUN: IRun = { previewData: null, results: null, output: '\n' };
+
+  currentRun: IRun = AppComponent.EMPTY_RUN;
+  selectedRun: IRun | null = this.currentRun;
   runHistory: IRun[] = [];
-  selectedRun: IRun | null = null;
   running: boolean = false;
 
   constructor(private dataloaderService: DataloaderService,
@@ -39,11 +41,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedRun = this.currentRun = {
-      previewData: { filePath: '', total: 0, headers: [], data: [], },
-      results: {},
-      output: '\n',
-    };
     this.fileService.getAllRuns(this.onRunData.bind(this));
   }
 
@@ -66,7 +63,8 @@ export class AppComponent implements OnInit {
     // TODO: Make this happen later to make sure we pick up on the updated loaded totals
     this.fileService.unsubscribe();
     this.dataloaderService.unsubscribe();
-    // TODO: Pause, then re-load runHistory, making the last run... well.. history
+    // TODO: Pause, then re-load runHistory and reset currentRun, making the last run... well.. history
+    this.selectedRun = this.currentRun = AppComponent.EMPTY_RUN;
   }
 
   private onRunData(runs: IRun[]): void {
@@ -81,9 +79,7 @@ export class AppComponent implements OnInit {
    */
   private onPrint(text: string): void {
     this.currentRun.output = this.currentRun.output.concat(text);
-    if (!this.changeDetectorRef['destroyed']) {
-      this.changeDetectorRef.detectChanges();
-    }
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
@@ -94,9 +90,7 @@ export class AppComponent implements OnInit {
     this.currentRun.output = this.currentRun.output.concat(text);
     // TODO: Make this happen later to make sure we pick up on the updated loaded totals
     this.sendNotification();
-    if (!this.changeDetectorRef['destroyed']) {
-      this.changeDetectorRef.detectChanges();
-    }
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
@@ -105,8 +99,6 @@ export class AppComponent implements OnInit {
   private onResultsFileChange(results: IResults): void {
     if (results && results.durationMsec) {
       this.currentRun.results = results;
-    }
-    if (!this.changeDetectorRef['destroyed']) {
       this.changeDetectorRef.detectChanges();
     }
   }
