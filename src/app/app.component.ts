@@ -57,6 +57,12 @@ export class AppComponent implements OnInit {
   private onRunData(runs: IRun[]): void {
     this.zone.run(() => {
       this.runHistory = runs;
+      // If refreshing after a run completed, show that run in the history
+      if (this.currentRun.running && this.runHistory.length) {
+        this.selectedRun = this.runHistory[0];
+        this.selectedRun.output = this.currentRun.output;
+        this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
+      }
     });
   }
 
@@ -83,8 +89,6 @@ export class AppComponent implements OnInit {
         this.dataloaderService.unsubscribe();
         this.sendNotification();
         this.fileService.getAllRuns(this.onRunData.bind(this));
-        this.selectedRun = this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
-        // TODO: Make the first run in the list the selected one now
       }, 1000);
     });
   }
