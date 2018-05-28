@@ -202,6 +202,7 @@ export class FileService {
   private readResultsFile(onChange: (results: IResults) => {}): void {
     this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
       if (!err) {
+        // TODO: Handle JSON Parse issues (Unexpected end of input)
         let results: IResults = JSON.parse(data);
         onChange(results);
       }
