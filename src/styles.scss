@@ -1,5 +1,9 @@
 @import '../node_modules/novo-elements/novo-elements.scss';
 
+body {
+  overflow: hidden;
+}
+
 // Styles common to multiple components
 @mixin sticky-footer() {
   display: flex;

@@ -5,22 +5,25 @@
   display: flex;
 
   .side-pane {
-    position: fixed;
-    height: 100%;
+    height: 100vh;
     width: 300px;
-    overflow-y: scroll;
 
     .new-run {
-      // TODO: float on top
     }
 
     .run-history {
-      padding-bottom: 100px; // TODO: perfect the padding
+      height: calc(100% - 100px);
+      overflow-y: scroll;
+      padding-bottom: 100px;
     }
   }
 
   .main {
-    width: 100%;
-    margin-left: 300px; // TODO: stop the side-scrolling nonsense
+    position: absolute;
+    left: 300px;
+    height: calc(100% - 63px);
+    width: calc(100% - 300px);
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 }
