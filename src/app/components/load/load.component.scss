@@ -2,6 +2,9 @@
 @import '../../../styles.scss';
 
 .load {
+  height: calc(100vh - #{$dl-header-height});
+  overflow: scroll;
+
   .load-form {
     margin: 20px;
   }

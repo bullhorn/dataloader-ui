@@ -4,6 +4,8 @@ body {
   overflow: hidden;
 }
 
+$dl-header-height: 63px;
+
 // Styles common to multiple components
 @mixin sticky-footer() {
   display: flex;

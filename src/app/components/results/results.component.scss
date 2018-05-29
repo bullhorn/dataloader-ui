@@ -2,16 +2,17 @@
 @import '../../../styles.scss';
 
 .results {
-  margin-bottom: 100px;
 
   novo-nav-content {
     &.tab-overview {
-      margin: 20px;
+      height: calc(100vh - #{$dl-header-height});
+      overflow: scroll;
     }
 
     .overview {
       display: flex;
       align-items: center;
+      margin: 20px;
 
       .chart {
         width: 50%;
@@ -31,22 +32,18 @@
     }
 
     .errors {
-      margin-top: 20px;
+      margin: 20px;
+      padding-bottom: 15em;
     }
 
     .output {
-      padding: 0 1.5em 1.5em;
+      height: calc(100vh - #{$dl-header-height});
+      padding: 0 1.5em 20em;
       font-family: monospace;
       white-space: pre-line;
       color: white;
       background: $dark;
       overflow: scroll;
-      position: absolute;
-      left: 300px;
-      right: 0;
-      top: 162px;
-      bottom: 60px;
-      z-index: -1;
     }
   }
 
