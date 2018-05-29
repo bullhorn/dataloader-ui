@@ -1,13 +1,13 @@
 // Angular
-import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
-import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
 import { IExistField, ISettings } from '../../../interfaces/ISettings';
+import { IRun } from '../../../interfaces/IRun';
 
 @Component({
   selector: 'app-load',
@@ -15,12 +15,12 @@ import { IExistField, ISettings } from '../../../interfaces/ISettings';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-  @Output() started: EventEmitter<void> = new EventEmitter<void>();
+  @Input() run: IRun;
+  @Output() started = new EventEmitter();
   form: any;
   fieldSets: any[];
   previewTable: any = {};
   inputFilePath = null;
-  previewData: IPreviewData = null;
   entity: string = '';
   icon: string = '';
   theme: string = '';
@@ -29,8 +29,7 @@ export class LoadComponent implements OnInit {
   existField: IExistField;
   fieldInteractionApi: FieldInteractionApi;
 
-  constructor(private dataloaderService: DataloaderService,
-              private fileService: FileService,
+  constructor(private fileService: FileService,
               private zone: NgZone,
               private formUtils: FormUtils) {
   }
@@ -96,7 +95,6 @@ export class LoadComponent implements OnInit {
   load(): void {
     Utils.setExistField(this.settings, this.existField);
     this.fileService.writeSettings(this.settings);
-    this.dataloaderService.start(this.previewData);
     this.started.emit();
   }
 
@@ -110,7 +108,7 @@ export class LoadComponent implements OnInit {
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
       API.show('enabled');
     } else {
-      this.previewData = null;
+      this.run.previewData = null;
       this.previewTable.columns = [];
       this.previewTable.rows = [];
       API.hide('enabled');
@@ -119,10 +117,10 @@ export class LoadComponent implements OnInit {
   }
 
   private onEnabledChange(API: FieldInteractionApi): void {
-    if (this.previewData) {
+    if (this.run.previewData) {
       this.existField.enabled = API.form.value.enabled === 'yes';
       if (this.existField.enabled) {
-        API.modifyPickerConfig('fields', { options: Utils.getExistFieldOptions(this.previewData) });
+        API.modifyPickerConfig('fields', { options: Utils.getExistFieldOptions(this.run.previewData) });
         API.setValue('fields', this.existField.fields);
         API.show('fields');
       } else {
@@ -132,7 +130,7 @@ export class LoadComponent implements OnInit {
   }
 
   private onFieldsChange(API: FieldInteractionApi): void {
-    if (this.previewData && this.existField.enabled) {
+    if (this.run.previewData && this.existField.enabled) {
       if (API.form.value.fields) {
         this.existField.fields = API.form.value.fields;
       } else {
@@ -143,7 +141,7 @@ export class LoadComponent implements OnInit {
 
   private onPreviewData(previewData: IPreviewData): void {
     this.zone.run(() => {
-      this.previewData = previewData;
+      this.run.previewData = previewData;
       this.previewTable.columns = Utils.createColumnConfig(previewData.data);
       this.previewTable.rows = previewData.data;
       this.entity = Utils.getEntityNameFromFile(this.inputFilePath);

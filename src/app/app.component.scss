@@ -1,0 +1,25 @@
+@import '../../node_modules/novo-elements/novo-elements.scss';
+@import '../styles.scss';
+
+.content {
+  display: flex;
+
+  .side-pane {
+    width: 300px;
+
+    .new-run {
+    }
+
+    .run-history {
+      @include scrollable();
+      padding-bottom: 100px;
+    }
+  }
+
+  .main {
+    position: absolute;
+    left: 300px;
+    width: calc(100% - 300px);
+    overflow: hidden;
+  }
+}

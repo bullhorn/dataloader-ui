@@ -1,0 +1,56 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+.run {
+  background-color: $off-white;
+  padding: 0.7rem;
+  cursor: pointer;
+  user-select: none;
+
+  &.selected {
+    cursor: default;
+    background-color: $ocean;
+    color: $off-white;
+
+    i {
+      color: $off-white;
+    }
+  }
+
+  &.running {
+    border: 2px solid $warning;
+  }
+
+  &:not(.selected) {
+    &:hover {
+      background-color: lighten($off-white, 5%);
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    justify-content: start;
+    padding-right: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+    i {
+      position: relative;
+      bottom: 1px;
+      margin-right: 8px;
+    }
+
+    .filename {
+      word-break: break-all;
+    }
+  }
+
+  .details {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 2rem;
+  }
+}

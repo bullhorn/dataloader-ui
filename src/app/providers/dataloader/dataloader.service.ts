@@ -5,6 +5,7 @@ import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
+import { DataloaderServiceFakes } from './dataloader.service.fakes';
 
 @Injectable()
 export class DataloaderService {
@@ -42,14 +43,22 @@ export class DataloaderService {
    * Subscribe to real time printouts from the DataLoader CLI
    */
   onPrint(callback: (text: string) => void): void {
-    this.subscribe('print', callback);
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
+    } else {
+      DataloaderServiceFakes.generateFakePrintCallbacks(callback);
+    }
   }
 
   /**
    * Subscribe to the done message from the DataLoader CLI
    */
   onDone(callback: (text: string) => void): void {
-    this.subscribe('done', callback);
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.on('done', (event, text) => callback(text));
+    } else {
+      DataloaderServiceFakes.generateFakeDoneCallback(callback);
+    }
   }
 
   /**
@@ -59,17 +68,6 @@ export class DataloaderService {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.removeAllListeners('print');
       this.electronService.ipcRenderer.removeAllListeners('done');
-    }
-  }
-
-  /**
-   * Subscribe to real time printouts from the DataLoader CLI
-   */
-  private subscribe(channel: string, callback: (text: string) => void): void {
-    if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.on(channel, (event, text) => {
-        callback(text);
-      });
     }
   }
 }

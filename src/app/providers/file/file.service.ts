@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as moment from 'moment';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { FileServiceFakes } from './file.service.fakes';
+import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
@@ -14,9 +14,6 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class FileService {
-  // The last file preview is stored here for access by all components
-  previewData: IPreviewData;
-
   private defaultSettings: ISettings = {
     username: '',
     password: '',
@@ -131,15 +128,14 @@ export class FileService {
           }
         })
         .on('end', () => {
-          this.previewData = previewData;
           onSuccess(previewData);
         })
         .on('error', (err) => {
+          // TODO: send these errors up to the user
           console.error(err); // tslint:disable-line:no-console
         });
     } else {
-      this.previewData = FileServiceFakes.PREVIEW_DATA;
-      onSuccess(FileServiceFakes.PREVIEW_DATA);
+      onSuccess(new FakePreviewData());
     }
   }
 
@@ -182,7 +178,7 @@ export class FileService {
               let previewData: string = path.join(dir, 'previewData.json');
               let results: string = path.join(dir, 'results.json');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
-                allRuns.push({
+                allRuns.unshift({
                   previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
                   results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
                 });
@@ -193,7 +189,7 @@ export class FileService {
         }
       });
     } else {
-      onSuccess(FileServiceFakes.ALL_RUNS);
+      onSuccess(FileServiceFakes.getAllRuns());
     }
   }
 
@@ -206,6 +202,7 @@ export class FileService {
   private readResultsFile(onChange: (results: IResults) => {}): void {
     this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
       if (!err) {
+        // TODO: Handle JSON Parse issues (Unexpected end of input)
         let results: IResults = JSON.parse(data);
         onChange(results);
       }

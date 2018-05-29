@@ -1,3 +1,7 @@
+// Vendor
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { IDuration } from '../../interfaces/IDuration';
 // App
 import { IExistField, ISettings } from '../../interfaces/ISettings';
 import { IPreviewData } from '../../interfaces/IPreviewData';
@@ -217,8 +221,24 @@ export class Utils {
 
   static msecToHMS(milliseconds: number): string {
     let date: Date = new Date(null);
-    date.setMilliseconds(milliseconds);
+    date.setMilliseconds(milliseconds ? milliseconds : 0);
     return date.toISOString().substr(11, 8);
+  }
+
+  static getStartTimeString(startTime: number): string {
+    let start: Moment = moment(startTime);
+
+    const ref: Moment = moment();
+    const today: Moment = ref.clone().startOf('day');
+    const yesterday: Moment = ref.clone().subtract(1, 'days').startOf('day');
+
+    if (start.isSame(today, 'd')) {
+      return 'Today';
+    } else if (start.isSame(yesterday, 'd')) {
+      return 'Yesterday';
+    } else {
+      return moment(startTime).format('M/D/YY');
+    }
   }
 
   static getExistField(settings: ISettings, entity: string): IExistField {
@@ -256,5 +276,45 @@ export class Utils {
       });
     }
     return options;
+  }
+
+  static getDurationString(durationMsec: number): string {
+    const formatStr: string = durationMsec < 3600000 ? 'm[m] s[s]' : 'd[d] h[h] m[m]';
+    const duration: IDuration = moment.duration(durationMsec) as IDuration;
+    return duration.format(formatStr);
+  }
+
+  /**
+   * Transform a number to it's abbreviated notation (without rounding)
+   * Examples:
+   *         199 =>    199
+   *        1200 =>   1.2k
+   *   125000000 => 125.0m
+   */
+  static getAbbreviatedNumber(num: number): string {
+    if (num < 1000) {
+      return num.toString();
+    } else {
+      let d: number | undefined;
+      let letter: string = '';
+      if (num < 1000000) {
+        d = 1000;
+        letter = 'k';
+      } else if (num < 1000000000) {
+        d = 1000000;
+        letter = 'm';
+      } else {
+        d = 1000000000;
+        letter = 'b';
+      }
+      num /= d;
+      if (Number.isInteger(num)) {
+        return `${num}.0${letter}`;
+      } else {
+        const numStr: string = num.toString();
+        const substrTo: number = numStr.indexOf('.') + 2;
+        return `${numStr.substr(0, substrTo)}${letter}`;
+      }
+    }
   }
 }

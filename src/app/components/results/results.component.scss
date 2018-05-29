@@ -1,27 +1,21 @@
-@import 'novo-elements.scss';
-@import 'styles.scss';
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
 
 .results {
-  margin-bottom: 100px;
 
   novo-nav-content {
     &.tab-overview {
-      margin: 20px;
+      @include scrollable();
     }
 
     .overview {
       display: flex;
       align-items: center;
+      margin: 20px;
 
       .chart {
         width: 50%;
         text-align: center;
-
-        novo-card-chart-donut {
-          aside:before {
-            font-weight: 600;
-          }
-        }
 
         .time {
           display: flex;
@@ -37,22 +31,21 @@
     }
 
     .errors {
-      margin-top: 20px;
+      margin: 20px;
+      padding-bottom: 15em;
     }
 
     .output {
-      padding: 20px;
+      @include scrollable();
+      padding: 0 1.5em 20em;
       font-family: monospace;
       white-space: pre-line;
       color: white;
       background: $dark;
-      overflow: scroll;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 167px;
-      bottom: 60px;
-      z-index: -1;
     }
+  }
+
+  footer {
+    @include sticky-footer();
   }
 }

@@ -1,9 +1,64 @@
-// App
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { ISettings } from '../../../interfaces/ISettings';
-import { IResults } from '../../../interfaces/IResults';
-import { IRun } from '../../../interfaces/IRun';
+// Vendor
 import Timer = NodeJS.Timer;
+// App
+import { ISettings } from '../../../interfaces/ISettings';
+import { IErrors, IResults } from '../../../interfaces/IResults';
+import { IRun } from '../../../interfaces/IRun';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { Utils } from '../../utils/utils';
+
+class FakeResultsData {
+  processed: number = 0;
+  inserted: number = 0;
+  updated: number = 0;
+  deleted: number = 0;
+  failed: number = 0;
+  successFile: string = '/Path/to/dataloader/results/Candidate_load_success.csv';
+  failureFile: string = '/Path/to/dataloader/results/Candidate_load_failure.csv';
+  logFile: string = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
+  startTime: number;
+  durationMsec: number;
+  errors: IErrors[] = [];
+
+  constructor(previewData: IPreviewData = null) {
+    this.startTime = Math.floor(Math.random() * (Date.now()));
+    this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
+    if (previewData) {
+      this.processed = previewData.total;
+      this.failed = Math.floor(previewData.total / 100000);
+      this.inserted = previewData.total - this.failed;
+      for (let i: number = 0; i < this.failed; ++i) {
+        this.errors.push({
+          row: i,
+          id: i + 10000,
+          message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: '${i}'`,
+        });
+      }
+    }
+  }
+}
+
+export class FakePreviewData {
+  filePath: string;
+  total: number;
+  headers: string[] = ['firstName', 'lastName', 'email'];
+  data: any[] = [
+    { firstName: 'John', lastName: 'Smith', email: 'jsmith@example.com' },
+    { firstName: 'John', lastName: 'Doe', email: 'jdoe@example.com' },
+    { firstName: 'Jane', lastName: 'Doe', email: 'jdoe@example.com' },
+  ];
+
+  constructor() {
+    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
+    this.total = Math.floor(Math.random() * (4000000 - 1)) + 1;
+  }
+}
+
+class Run {
+  previewData: IPreviewData = new FakePreviewData();
+  results: IResults = new FakeResultsData(this.previewData);
+}
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -32,52 +87,39 @@ export class FileServiceFakes {
     }],
   };
 
-  static PREVIEW_DATA: IPreviewData = {
-    filePath: '../Path/to/dataloader/data/Candidate.csv',
-    total: 210,
-    headers: ['firstName', 'lastName', 'email'],
-    data: [{
-      firstName: 'John',
-      lastName: 'Smith',
-      email: 'jsmith@example.com',
-    }, {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-    }, {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-    }],
-  };
-
-  static RESULTS_DATA: IResults = {
-    processed: 0,
-    inserted: 0,
-    updated: 0,
-    deleted: 0,
-    failed: 0,
-    successFile: '/Path/to/dataloader/results/Candidate_load_success.csv',
-    failureFile: '/Path/to/dataloader/results/Candidate_load_failure.csv',
-    logFile: '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log',
-    startTime: 1511182001000,
-    durationMsec: 0,
-    errors: [],
-  };
-
-  static RUN: IRun = {
-    previewData: FileServiceFakes.PREVIEW_DATA,
-    results: FileServiceFakes.RESULTS_DATA,
-  };
-
   static ALL_RUNS: IRun[] = [
-    FileServiceFakes.RUN,
-    FileServiceFakes.RUN,
-    FileServiceFakes.RUN,
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
   ];
 
+  static getAllRuns(): IRun[] {
+    this.ALL_RUNS.unshift(new Run());
+    return this.ALL_RUNS;
+  }
+
   static generateFakeResults(callback: (results: IResults) => {}): void {
-    let fakeResults: IResults = FileServiceFakes.RESULTS_DATA;
+    let fakeResults: IResults = new FakeResultsData();
     const MAX_ITERATIONS: number = 30;
     let i: number = 0;
     let interval: Timer = setInterval(() => {
@@ -89,7 +131,7 @@ export class FileServiceFakes {
       fakeResults.errors.push({
         row: fakeResults.failed,
         id: fakeResults.failed + 4,
-        message: 'com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: \'owner.name\' with value: \'Bogus\'',
+        message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: 'Bogus'`,
       });
       callback(fakeResults);
       if (++i >= MAX_ITERATIONS) {

@@ -1,10 +1,12 @@
-@import 'novo-elements.scss';
-@import 'styles.scss';
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
 
 novo-modal#settings {
   min-width: 70vw;
+
   section {
     padding: 0;
+
     novo-dynamic-form {
       margin: 0 1.5em;
     }

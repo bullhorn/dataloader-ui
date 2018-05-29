@@ -1,12 +1,20 @@
-@import 'novo-elements.scss';
-@import 'styles.scss';
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
 
 .load {
+  @include scrollable();
+
   .load-form {
     margin: 20px;
   }
 
   .preview {
+    margin-left: 15px;
+    margin-right: 15px;
     margin-bottom: 100px;
+  }
+
+  footer {
+    @include sticky-footer();
   }
 }

@@ -1,26 +1,26 @@
 // Angular
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-// Vendor
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 // App
-import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
+import { Utils } from '../../utils/utils';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IResults } from '../../../interfaces/IResults';
-import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.scss'],
 })
-export class ResultsComponent implements OnInit, OnDestroy {
-  running: boolean = true;
-  results: IResults;
-  output: string = '';
-  previewData: IPreviewData;
+export class ResultsComponent implements OnInit, OnChanges {
+  @Input() previewData: IPreviewData;
+  @Input() results: IResults;
+  @Input() output: string;
+  @Input() running: boolean;
+  @Output() stopped = new EventEmitter();
   loaded: number = 0;
   loadedPercent: number = 0.0;
   loadedLabel: string = '';
+  total: string = '';
   duration: string = '00:00:00';
   entity: string = '';
   icon: string = '';
@@ -28,19 +28,10 @@ export class ResultsComponent implements OnInit, OnDestroy {
   fileName: string = '';
   errorTable: any = {};
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private dataloaderService: DataloaderService,
-              private fileService: FileService) {
+  constructor(private fileService: FileService) {
   }
 
   ngOnInit(): void {
-    this.previewData = this.fileService.previewData;
-    if (this.previewData) {
-      this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
-      this.icon = Utils.getIconForFilename(this.previewData.filePath, false);
-      this.theme = Utils.getThemeForFilename(this.previewData.filePath);
-      this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
-    }
     this.errorTable = {
       columns: [{
         title: 'Row',
@@ -58,61 +49,35 @@ export class ResultsComponent implements OnInit, OnDestroy {
         filtering: true,
         ordering: true,
         resizing: true,
+        paging: {
+          current: 1,
+          itemsPerPage: 10,
+        },
       },
     };
-    this.dataloaderService.onPrint(this.onPrint.bind(this));
-    this.dataloaderService.onDone(this.onDone.bind(this));
-    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
   }
 
-  ngOnDestroy(): void {
-    this.dataloaderService.unsubscribe();
-    this.fileService.unsubscribe();
+  ngOnChanges(): void {
+    this.loaded = this.results ? this.results.processed : 0;
+    this.duration = this.results ? Utils.msecToHMS(this.results.durationMsec) : '---';
+    this.errorTable.rows = this.results && this.results.errors ? this.results.errors.slice() : [];
+
+    if (this.previewData) {
+      this.total = Utils.getAbbreviatedNumber(this.previewData.total);
+      this.loadedPercent = this.loaded / this.previewData.total;
+      this.loadedLabel = this.loaded.toLocaleString() + ' / ' + this.previewData.total.toLocaleString() + ' LOADED';
+      this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
+      this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
+      this.icon = Utils.getIconForFilename(this.previewData.filePath, false);
+      this.theme = Utils.getThemeForFilename(this.previewData.filePath);
+    }
   }
 
   stop(): void {
-    this.dataloaderService.stop();
+    this.stopped.emit();
   }
 
   openFile(filePath: string): void {
     this.fileService.openFile(filePath);
-  }
-
-  private onPrint(text: string): void {
-    this.output = this.output.concat(text);
-    if (!this.changeDetectorRef['destroyed']) {
-      this.changeDetectorRef.detectChanges();
-    }
-  }
-
-  private onDone(text: string): void {
-    this.output = this.output.concat(text);
-    let options: any = {};
-    if (this.results) {
-      options = { body: `${this.results.inserted} Added, ${this.results.updated} Updated, ${this.results.failed} Errors` };
-    }
-    new Notification(`Loaded ${this.loaded} / ${this.previewData.total} ${this.entity} Records in ${this.duration}`, options); // tslint:disable-line
-    this.running = false;
-    if (!this.changeDetectorRef['destroyed']) {
-      this.changeDetectorRef.detectChanges();
-    }
-  }
-
-  private onResultsFileChange(results: IResults): void {
-    if (results && results.durationMsec) {
-      this.results = results;
-      this.duration = Utils.msecToHMS(this.results.durationMsec);
-      if (results.errors) {
-        this.errorTable.rows = results.errors.slice();
-      }
-      this.loaded = this.results.processed;
-      if (this.previewData && this.previewData.total) {
-        this.loadedPercent = this.loaded / this.previewData.total;
-        this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
-      }
-    }
-    if (!this.changeDetectorRef['destroyed']) {
-      this.changeDetectorRef.detectChanges();
-    }
   }
 }
