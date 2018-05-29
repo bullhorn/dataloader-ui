@@ -57,25 +57,19 @@ export class ResultsComponent implements OnInit, OnChanges {
     };
   }
 
-  // TODO: Fix the inconsistent counts when the results data is not present (zero out?)
   ngOnChanges(): void {
+    this.loaded = this.results ? this.results.processed : 0;
+    this.duration = this.results ? Utils.msecToHMS(this.results.durationMsec) : '---';
+    this.errorTable.rows = this.results && this.results.errors ? this.results.errors.slice() : [];
+
     if (this.previewData) {
+      this.total = Utils.getAbbreviatedNumber(this.previewData.total);
+      this.loadedPercent = this.loaded / this.previewData.total;
+      this.loadedLabel = this.loaded.toLocaleString() + ' / ' + this.previewData.total.toLocaleString() + ' LOADED';
       this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
-      this.entity = Utils.getEntityNameFromFile(this.fileName);
-      this.icon = Utils.getIconForFilename(this.fileName, false);
-      this.theme = Utils.getThemeForFilename(this.fileName);
-      if (this.previewData.total) {
-        this.total = Utils.getAbbreviatedNumber(this.previewData.total);
-        this.loadedPercent = this.loaded / this.previewData.total;
-        this.loadedLabel = this.loaded + ' / ' + this.previewData.total + ' LOADED';
-      }
-    }
-    if (this.results) {
-      this.duration = Utils.msecToHMS(this.results.durationMsec);
-      this.loaded = this.results.processed;
-      if (this.results.errors) {
-        this.errorTable.rows = this.results.errors.slice();
-      }
+      this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
+      this.icon = Utils.getIconForFilename(this.previewData.filePath, false);
+      this.theme = Utils.getThemeForFilename(this.previewData.filePath);
     }
   }
 
