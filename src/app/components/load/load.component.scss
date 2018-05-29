@@ -2,8 +2,7 @@
 @import '../../../styles.scss';
 
 .load {
-  height: calc(100vh - #{$dl-header-height});
-  overflow: scroll;
+  @include scrollable();
 
   .load-form {
     margin: 20px;

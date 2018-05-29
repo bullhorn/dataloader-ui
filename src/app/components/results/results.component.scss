@@ -5,8 +5,7 @@
 
   novo-nav-content {
     &.tab-overview {
-      height: calc(100vh - #{$dl-header-height});
-      overflow: scroll;
+      @include scrollable();
     }
 
     .overview {
@@ -37,13 +36,12 @@
     }
 
     .output {
-      height: calc(100vh - #{$dl-header-height});
+      @include scrollable();
       padding: 0 1.5em 20em;
       font-family: monospace;
       white-space: pre-line;
       color: white;
       background: $dark;
-      overflow: scroll;
     }
   }
 

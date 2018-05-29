@@ -1,12 +1,13 @@
 @import '../node_modules/novo-elements/novo-elements.scss';
 
-body {
-  overflow: hidden;
-}
-
 $dl-header-height: 63px;
 
-// Styles common to multiple components
+@mixin scrollable() {
+  height: calc(100vh - #{$dl-header-height});
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 @mixin sticky-footer() {
   display: flex;
   justify-content: flex-end;
@@ -17,6 +18,10 @@ $dl-header-height: 63px;
   padding: 10px 15px;
   z-index: 100;
   background-color: $background;
+}
+
+body {
+  overflow: hidden;
 }
 
 .table-header {

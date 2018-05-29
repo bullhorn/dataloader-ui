@@ -5,15 +5,13 @@
   display: flex;
 
   .side-pane {
-    height: calc(100vh - #{$dl-header-height});
     width: 300px;
 
     .new-run {
     }
 
     .run-history {
-      height: 100%;
-      overflow-y: scroll;
+      @include scrollable();
       padding-bottom: 100px;
     }
   }
@@ -21,7 +19,6 @@
   .main {
     position: absolute;
     left: 300px;
-    height: calc(100vh - #{$dl-header-height});
     width: calc(100% - 300px);
     overflow: hidden;
   }
