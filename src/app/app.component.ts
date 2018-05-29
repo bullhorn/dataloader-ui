@@ -108,14 +108,12 @@ export class AppComponent implements OnInit {
    * Emits the final system notification that the run has completed
    */
   private sendNotification(): void {
-    let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
-    let options: any = {};
-    let duration: string = '';
     if (this.currentRun.results) {
-      options = { body: `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors` };
-      duration = Utils.msecToHMS(this.currentRun.results.durationMsec);
+      let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
+      let total: string = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
+      let counts: string = `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
+      let duration: string = Utils.msecToHMS(this.currentRun.results.durationMsec);
+      new Notification(`Loaded ${total} ${entity} Records in ${duration}`, { body: counts }); // tslint:disable-line
     }
-    // TODO: Pretty print these numbers with commas:
-    new Notification(`Loaded ${this.currentRun.results.processed} / ${this.currentRun.previewData.total} ${entity} Records in ${duration}`, options); // tslint:disable-line
   }
 }
