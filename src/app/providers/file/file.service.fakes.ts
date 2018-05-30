@@ -25,7 +25,7 @@ class FakeResultsData {
     this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
     if (previewData) {
       this.processed = previewData.total;
-      this.failed = Math.floor(previewData.total / 100000);
+      this.failed = Math.floor(previewData.total * (Math.random() / 4));
       this.inserted = previewData.total - this.failed;
       for (let i: number = 0; i < this.failed; ++i) {
         this.errors.push({
@@ -51,7 +51,7 @@ export class FakePreviewData {
   constructor() {
     let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
-    this.total = Math.floor(Math.random() * (4000000 - 1)) + 1;
+    this.total = Math.floor(Math.random() * (400 - 1)) + 1;
   }
 }
 

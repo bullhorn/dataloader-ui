@@ -9,8 +9,7 @@
     <novo-nav-content class="tab-overview">
       <div class="overview">
         <div class="chart">
-          <!--TODO: Replace with chart.js donut chart-->
-          <!--<novo-card-chart-donut [value]="loadedPercent" [label]="loadedLabel" color="#662255"></novo-card-chart-donut>-->
+          <canvas id="donutChart" width="300" height="300"></canvas>
           {{ loadedLabel }}
           <div class="time">
             <div class="start-time">
@@ -29,12 +28,12 @@
             <novo-list-item class="total inserted">
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
-                <item-title><span class="amount">{{ results?.inserted.toLocaleString() }}</span> Added</item-title>
-                <item-header-end *ngIf="loaded > 0">
-                  <button class="success-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.successFile" (click)="openFile(results?.successFile)">Loaded
-                  </button>
-                </item-header-end>
+                <!--TODO: viewall button next to text-->
+                <item-title>
+                  <span class="amount">{{ results?.inserted.toLocaleString() }}</span> Added
+                  <button *ngIf="loaded > 0" class="success-file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                          tooltip="Open: {{ results?.successFile }}" (click)="openFile(results?.successFile)"></button>
+                </item-title>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total updated">
