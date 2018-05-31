@@ -24,7 +24,6 @@ export class ResultsComponent implements OnInit, OnChanges {
   errors: number = 0;
   inProgress: number = 0;
   loadedPercent: number = 0.0;
-  loadedLabel: string = '';
   total: string = '';
   duration: string = '00:00:00';
   entity: string = '';
@@ -93,7 +92,6 @@ export class ResultsComponent implements OnInit, OnChanges {
       this.total = Utils.getAbbreviatedNumber(this.previewData.total);
       this.inProgress = this.previewData.total - this.loaded;
       this.loadedPercent = this.loaded / this.previewData.total;
-      this.loadedLabel = `${this.loaded.toLocaleString()} / ${this.previewData.total.toLocaleString()} - (${this.loadedPercent}%)`;
       this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
       this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
       this.icon = Utils.getIconForFilename(this.previewData.filePath, false);

@@ -11,20 +11,22 @@
       <div class="overview">
         <div class="chart">
           <canvas id="donutChart" width="300" height="300"></canvas>
-          {{ loadedLabel }}
-          <div class="time">
+          <div class="subtitle">
+            {{ this.loaded?.toLocaleString() }} / {{ this.previewData?.total?.toLocaleString() }} ({{ this.loadedPercent | percent }})
+          </div>
+        </div>
+        <div class="totals">
+          <div class="times">
             <div class="start-time">
               {{ results?.startTime | date:'mediumTime' }}
             </div>
             <div class="duration">
               <i class="bhi-clock"></i> {{ duration }}
             </div>
-            <button class="log-file-button" theme="dialogue" icon="note"
+            <button class="log-file-button" theme="dialogue" icon="viewall"
                     [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
             </button>
           </div>
-        </div>
-        <div class="totals">
           <novo-list direction="vertical">
             <novo-list-item class="total inserted">
               <item-header>
