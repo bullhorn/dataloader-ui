@@ -3,7 +3,7 @@
 $dl-header-height: 63px;
 
 @mixin scrollable() {
-  height: calc(100vh - #{$dl-header-height});
+  height: calc(100vh - #{$header-height});
   overflow-y: scroll;
   overflow-x: hidden;
 }

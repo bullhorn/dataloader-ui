@@ -45,7 +45,7 @@ export class RunComponent implements OnChanges {
         this.duration = Utils.getDurationString(this.results.durationMsec);
       }
     } else {
-      this.fileName = 'New Run';
+      this.fileName = 'New Load';
       this.icon = 'bhi-add-thin';
       this.theme = 'white';
     }
