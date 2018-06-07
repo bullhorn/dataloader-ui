@@ -11,7 +11,7 @@
         <div class="chart">
           <canvas id="donutChart" width="300" height="300"></canvas>
           <div class="subtitle">
-            {{ this.loaded?.toLocaleString() }} / {{ this.previewData?.total?.toLocaleString() }} ({{ this.loadedPercent | percent }})
+            {{ loaded?.toLocaleString() }} / {{ previewData?.total?.toLocaleString() }} ({{ loadedPercent | percent }})
           </div>
         </div>
         <div class="totals">
@@ -57,10 +57,17 @@
               </item-header>
             </novo-list-item>
           </novo-list>
-          <div class="log-file">
-            <button class="log-file-button" theme="dialogue" icon="viewall"
-                    tooltip="Open: {{ results?.logFile }}" (click)="openFile(results?.logFile)">Log File
-            </button>
+          <div class="files">
+            <div class="input-file">
+              <button class="input-file-button" theme="dialogue" icon="viewall"
+                      tooltip="Open: {{ previewData?.filePath }}" (click)="openFile(previewData?.filePath)">CSV Input File
+              </button>
+            </div>
+            <div class="log-file">
+              <button class="log-file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                      tooltip="Open: {{ results?.logFile }}" (click)="openFile(results?.logFile)">Log File
+              </button>
+            </div>
           </div>
         </div>
       </div>

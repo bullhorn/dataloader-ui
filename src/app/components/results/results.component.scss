@@ -57,8 +57,17 @@
           }
         }
 
-        .log-file {
+        .files {
+          display: flex;
+          align-items: center;
           margin-top: 0.5em;
+
+          .input-file {
+            margin-right: 1em;
+          }
+
+          .log-file {
+          }
         }
       }
     }
