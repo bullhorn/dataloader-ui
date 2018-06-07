@@ -8,6 +8,8 @@
     width: 300px;
 
     .new-run {
+      display: block;
+      border-bottom: 1px solid $light;
     }
 
     .run-history {
