@@ -27,14 +27,13 @@
                     [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
             </button>
           </div>
-          <novo-list direction="vertical">
+          <novo-list class="totals-list" direction="vertical">
             <novo-list-item class="total inserted">
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
-                <!--TODO: viewall button next to text-->
                 <item-title>
-                  <span class="amount">{{ results?.inserted.toLocaleString() }}</span> Added
-                  <button *ngIf="loaded > 0" class="success-file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                  <div class="amount">{{ results?.inserted.toLocaleString() }} Added</div>
+                  <button *ngIf="loaded > 0" class="file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
                           tooltip="Open: {{ results?.successFile }}" (click)="openFile(results?.successFile)"></button>
                 </item-title>
               </item-header>
@@ -42,18 +41,21 @@
             <novo-list-item class="total updated">
               <item-header>
                 <item-avatar icon="bhi-refresh-o"></item-avatar>
-                <item-title><span class="amount">{{ results?.updated.toLocaleString() }}</span> Updated</item-title>
+                <item-title>
+                  <div class="amount">{{ results?.updated.toLocaleString() }} Updated</div>
+                  <button *ngIf="loaded > 0" class="file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                          tooltip="Open: {{ results?.successFile }}" (click)="openFile(results?.successFile)"></button>
+                </item-title>
               </item-header>
             </novo-list-item>
             <novo-list-item class="total failed">
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>
-                <item-title><span class="amount">{{ results?.failed.toLocaleString() }}</span> Errors</item-title>
-                <item-header-end *ngIf="results?.failed > 0">
-                  <button class="failure-file-button" theme="dialogue" icon="note"
-                          [tooltip]="results?.failureFile" (click)="openFile(results?.failureFile)">Failed
-                  </button>
-                </item-header-end>
+                <item-title>
+                  <div class="amount">{{ results?.failed.toLocaleString() }} Errors</div>
+                  <button *ngIf="results?.failed > 0" class="file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                          tooltip="Open: {{ results?.failureFile }}" (click)="openFile(results?.failureFile)"></button>
+                </item-title>
               </item-header>
             </novo-list-item>
           </novo-list>
