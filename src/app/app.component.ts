@@ -14,7 +14,6 @@ import { Utils } from './utils/utils';
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
 
-// TODO: Reformat all code
 /**
  * The main app component responsible for the state of the app.
  * All other components are simple input/output components, this one contains the logic.
