@@ -10,7 +10,8 @@ import { DataloaderServiceFakes } from './dataloader.service.fakes';
 @Injectable()
 export class DataloaderService {
 
-  constructor(private electronService: ElectronService, private fileService: FileService) {
+  constructor(private electronService: ElectronService,
+              private fileService: FileService) {
   }
 
   /**
