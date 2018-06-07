@@ -60,7 +60,7 @@
           </novo-list>
           <div class="log-file">
             <button class="log-file-button" theme="dialogue" icon="viewall"
-                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
+                    tooltip="Open: {{ results?.logFile }}" (click)="openFile(results?.logFile)">Log File
             </button>
           </div>
         </div>
