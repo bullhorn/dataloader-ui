@@ -28,7 +28,7 @@
             </button>
           </div>
           <novo-list class="totals-list" direction="vertical">
-            <novo-list-item class="total inserted">
+            <novo-list-item class="total inserted" *ngIf="results?.inserted">
               <item-header>
                 <item-avatar icon="bhi-add-thin"></item-avatar>
                 <item-title>
@@ -38,7 +38,7 @@
                 </item-title>
               </item-header>
             </novo-list-item>
-            <novo-list-item class="total updated">
+            <novo-list-item class="total updated" *ngIf="results?.updated">
               <item-header>
                 <item-avatar icon="bhi-refresh-o"></item-avatar>
                 <item-title>
@@ -48,7 +48,7 @@
                 </item-title>
               </item-header>
             </novo-list-item>
-            <novo-list-item class="total failed">
+            <novo-list-item class="total failed" *ngIf="results?.failed">
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>
                 <item-title>

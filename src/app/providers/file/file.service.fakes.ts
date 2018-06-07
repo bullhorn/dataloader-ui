@@ -27,6 +27,10 @@ class FakeResultsData {
       this.processed = previewData.total;
       this.failed = Math.floor(previewData.total * (Math.random() / 4));
       this.inserted = previewData.total - this.failed;
+      if (Math.random() > 0.5) {
+        this.updated = Math.floor(this.inserted / 2);
+        this.inserted = this.inserted - this.updated;
+      }
       for (let i: number = 0; i < this.failed; ++i) {
         this.errors.push({
           row: i,
