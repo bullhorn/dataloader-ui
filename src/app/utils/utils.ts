@@ -225,7 +225,7 @@ export class Utils {
     return date.toISOString().substr(11, 8);
   }
 
-  static getStartTimeString(startTime: number): string {
+  static getStartDateString(startTime: number): string {
     let start: Moment = moment(startTime);
 
     const ref: Moment = moment();

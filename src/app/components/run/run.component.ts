@@ -16,7 +16,7 @@ import { IResults } from '../../../interfaces/IResults';
       </div>
       <div class="details" *ngIf="previewData">
         <div class="rows">{{ total }} Rows</div>
-        <div class="start-time" *ngIf="results">{{ startTime }}</div>
+        <div class="start-date" *ngIf="results">{{ startDate }}</div>
         <div class="duration" *ngIf="results">{{ duration }}</div>
       </div>
     </div>
@@ -30,7 +30,7 @@ export class RunComponent implements OnChanges {
   fileName: string;
   icon: string;
   theme: string;
-  startTime: string;
+  startDate: string;
   total: string;
   duration: string;
 
@@ -41,11 +41,11 @@ export class RunComponent implements OnChanges {
       this.icon = Utils.getIconForFilename(this.fileName);
       this.theme = Utils.getThemeForFilename(this.fileName);
       if (this.results) {
-        this.startTime = Utils.getStartTimeString(this.results.startTime);
+        this.startDate = Utils.getStartDateString(this.results.startTime);
         this.duration = Utils.getDurationString(this.results.durationMsec);
       }
     } else {
-      this.fileName = 'New Run';
+      this.fileName = 'New Load';
       this.icon = 'bhi-add-thin';
       this.theme = 'white';
     }
