@@ -25,6 +25,7 @@ export class ResultsComponent implements OnInit, OnChanges {
   inProgress: number = 0;
   loadedPercent: number = 0.0;
   total: string = '';
+  startDate: string = '';
   duration: string = '00:00:00';
   entity: string = '';
   icon: string = '';
@@ -85,7 +86,8 @@ export class ResultsComponent implements OnInit, OnChanges {
     this.loaded = this.results ? this.results.processed : 0;
     this.success = this.results ? this.results.inserted + this.results.updated : 0;
     this.errors = this.results && this.results.errors ? this.results.errors.length : 0;
-    this.duration = this.results ? Utils.msecToHMS(this.results.durationMsec) : '---';
+    this.startDate = this.results ? Utils.getStartDateString(this.results.startTime) : '';
+    this.duration = this.results ? Utils.msecToHMS(this.results.durationMsec) : '';
     this.errorTable.rows = this.results && this.results.errors ? this.results.errors.slice() : [];
 
     if (this.previewData) {

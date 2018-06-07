@@ -30,9 +30,21 @@
 
         .times {
           display: flex;
-          justify-content: space-around;
-          margin: 20px;
           align-items: center;
+
+          .start-time,
+          .duration {
+            display: flex;
+            align-items: center;
+            margin-right: 1em;
+
+            .label {
+              text-transform: uppercase;
+              font-size: 0.9em;
+              font-weight: 600;
+              margin: 1em 0.5em 1em 1em;
+            }
+          }
         }
 
         .totals-list {
@@ -44,6 +56,10 @@
           .file-button {
             display: inline;
           }
+        }
+
+        .log-file {
+          margin-top: 0.5em;
         }
       }
     }

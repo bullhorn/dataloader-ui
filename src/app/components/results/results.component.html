@@ -18,14 +18,13 @@
         <div class="totals">
           <div class="times">
             <div class="start-time">
-              {{ results?.startTime | date:'mediumTime' }}
+              <div class="label">Started:</div>
+              <div class="value">{{ startDate }}, {{ results?.startTime | date:'shortTime' }}</div>
             </div>
             <div class="duration">
-              <i class="bhi-clock"></i> {{ duration }}
+              <div class="label">Load Time:</div>
+              <div class="value">{{ duration }}</div>
             </div>
-            <button class="log-file-button" theme="dialogue" icon="viewall"
-                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
-            </button>
           </div>
           <novo-list class="totals-list" direction="vertical">
             <novo-list-item class="total inserted" *ngIf="results?.inserted">
@@ -59,6 +58,11 @@
               </item-header>
             </novo-list-item>
           </novo-list>
+          <div class="log-file">
+            <button class="log-file-button" theme="dialogue" icon="viewall"
+                    [tooltip]="results?.logFile" (click)="openFile(results?.logFile)">Log File
+            </button>
+          </div>
         </div>
       </div>
       <div class="errors" *ngIf="results?.errors">
