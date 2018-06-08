@@ -1,4 +1,5 @@
 import { app, dialog, shell } from 'electron';
+import { glob } from 'glob';
 import * as path from 'path';
 
 export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
@@ -93,11 +94,14 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
       label: 'About',
       click: (item, focusedWindow) => {
         if (focusedWindow) {
+          const dataloaderDir: string = path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
+          const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
+          let version: string = jarFiles.length ? path.basename(jarFiles[0], '.jar').split('-')[1] : 'missing';
           const options: Electron.MessageBoxOptions = {
             type: 'info',
-            title: 'DataLoader UI',
+            title: 'About Data Loader',
             buttons: ['Close'],
-            message: 'DataLoader UI Version: 1.0.0 - BETA.\n DataLoader Version: 3.7.1',
+            message: `Data Loader Version: ${version}`,
           };
           dialog.showMessageBox(focusedWindow, options, () => {
           });
