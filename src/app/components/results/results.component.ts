@@ -113,4 +113,8 @@ export class ResultsComponent implements OnInit, OnChanges {
   openFile(filePath: string): void {
     this.fileService.openFile(filePath);
   }
+
+  openInputFile(filePath: string): void {
+    this.fileService.openFile(filePath, false);
+  }
 }
