@@ -16,7 +16,8 @@ import { IResults } from '../../../interfaces/IResults';
       </div>
       <div class="details" *ngIf="previewData">
         <div class="rows">{{ total }} Rows</div>
-        <div class="start-date" *ngIf="results">{{ startDate }}</div>
+        <div class="start-date" *ngIf="results && !running">{{ startDate }}</div>
+        <div class="loading" *ngIf="results && running">Loading</div>
         <div class="duration" *ngIf="results">{{ duration }}</div>
       </div>
     </div>
