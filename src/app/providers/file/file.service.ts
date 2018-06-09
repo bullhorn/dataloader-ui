@@ -145,9 +145,13 @@ export class FileService {
     }
   }
 
-  openFile(filePath: string): void {
+  openFile(filePath: string, userDataDir: boolean = true): void {
     if (ElectronService.isElectron()) {
-      this.electronService.shell.showItemInFolder(path.join(this.userDataDir, filePath));
+      if (userDataDir) {
+        this.electronService.shell.showItemInFolder(path.join(this.userDataDir, filePath));
+      } else {
+        this.electronService.shell.showItemInFolder(filePath);
+      }
     }
   }
 
