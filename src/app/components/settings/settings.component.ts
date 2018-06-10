@@ -81,6 +81,7 @@ export class SettingsComponent implements OnInit {
 
   save(): void {
     this.fileService.writeSettings(this.form.value);
+    this.close();
   }
 
   private setupForm(): void {
