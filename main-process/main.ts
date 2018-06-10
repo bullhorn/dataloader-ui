@@ -20,7 +20,7 @@ function createWindow(): void {
   const menu: Electron.Menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({ width: 800, height: 600, minWidth: 600, minHeight: 400 });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   if (serve) {
