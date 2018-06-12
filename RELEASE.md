@@ -10,6 +10,8 @@ __Examples:__
 
 `fix(Load): fixed xyz`
 
+`feat(Settings): BREAKING CHANGE: New major release`
+
 `chore(cleanup): cleaned up xyz`
 
 ### Creating a Release
