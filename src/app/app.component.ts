@@ -1,5 +1,6 @@
 // Angular
 import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 // Vendor
 import { NovoModalService } from 'novo-elements';
 import * as moment from 'moment';
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
   constructor(private dataloaderService: DataloaderService,
               private fileService: FileService,
               private modalService: NovoModalService,
+              private titleService: Title,
               private view: ViewContainerRef, // tslint:disable-line
               private zone: NgZone) {
     this.modalService.parentViewContainer = view;
@@ -40,6 +42,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileService.getAllRuns(this.onRunData.bind(this));
+    this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()}`);
   }
 
   onStarted(): void {
