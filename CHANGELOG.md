@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.5"></a>
+## [0.3.5](https://github.com/bullhorn/dataloader-ui/compare/v0.3.4...v0.3.5) (2018-06-12)
+
+
+### Bug Fixes
+
+* **Version:** Upped version info ([#51](https://github.com/bullhorn/dataloader-ui/issues/51)) ([1ae24eb](https://github.com/bullhorn/dataloader-ui/commit/1ae24eb))
+
+
+
 <a name="0.3.4"></a>
 ## [0.3.4](https://github.com/bullhorn/dataloader-ui/compare/v0.3.3...v0.3.4) (2018-06-12)
 
