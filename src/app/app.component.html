@@ -17,10 +17,10 @@
     </div>
   </div>
   <div class="main">
-    <app-load [hidden]="currentRun !== selectedRun || selectedRun.running"
+    <app-load *ngIf="currentRun === selectedRun && !selectedRun.running"
               [(run)]="currentRun"
               (started)="onStarted()"></app-load>
-    <app-results [hidden]="!selectedRun || (currentRun === selectedRun && !selectedRun.running)"
+    <app-results *ngIf="selectedRun && (currentRun !== selectedRun || selectedRun.running)"
                  [previewData]="selectedRun.previewData"
                  [results]="selectedRun.results"
                  [output]="selectedRun.output"

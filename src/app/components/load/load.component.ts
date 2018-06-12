@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, } from 'novo-elements';
 // App
@@ -14,7 +14,7 @@ import { IRun } from '../../../interfaces/IRun';
   templateUrl: './load.component.html',
   styleUrls: ['./load.component.scss'],
 })
-export class LoadComponent implements OnInit {
+export class LoadComponent implements OnInit, OnDestroy {
   @Input() run: IRun;
   @Output() started = new EventEmitter();
   form: any;
@@ -37,6 +37,12 @@ export class LoadComponent implements OnInit {
   ngOnInit(): void {
     this.settings = this.fileService.readSettings();
     this.setupForm();
+  }
+
+  ngOnDestroy(): void {
+    if (!this.run.running && this.run.previewData) {
+      this.run.previewData = null;
+    }
   }
 
   setupForm(): void {
@@ -103,7 +109,7 @@ export class LoadComponent implements OnInit {
       this.fieldInteractionApi = API;
     }
     let selectedFiles: any = API.form.value.file;
-    if (selectedFiles.length) {
+    if (selectedFiles && selectedFiles.length) {
       this.inputFilePath = selectedFiles[0].file.path || selectedFiles[0].file.name;
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
       API.show('enabled');
