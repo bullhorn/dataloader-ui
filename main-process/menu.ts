@@ -1,5 +1,4 @@
-import { app, dialog, shell } from 'electron';
-import { glob } from 'glob';
+import { app, shell } from 'electron';
 import * as path from 'path';
 
 export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
@@ -91,25 +90,6 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
     label: 'Help',
     role: 'help',
     submenu: [{
-      label: 'About',
-      click: (item, focusedWindow) => {
-        if (focusedWindow) {
-          const dataloaderDir: string = path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
-          const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
-          let version: string = jarFiles.length ? path.basename(jarFiles[0], '.jar').split('-')[1] : 'missing';
-          const options: Electron.MessageBoxOptions = {
-            type: 'info',
-            title: 'About Data Loader',
-            buttons: ['Close'],
-            message: `Data Loader Version: ${version}`,
-          };
-          dialog.showMessageBox(focusedWindow, options, () => {
-          });
-        }
-      },
-    }, {
-      type: 'separator',
-    }, {
       label: 'Wiki',
       click: () => {
         shell.openExternal('http://github.com/bullhorn/dataloader/wiki');
