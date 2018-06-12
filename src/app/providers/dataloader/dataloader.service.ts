@@ -71,4 +71,11 @@ export class DataloaderService {
       this.electronService.ipcRenderer.removeAllListeners('done');
     }
   }
+
+  /**
+   * Returns the version of the UI from package.json
+   */
+  version(): string {
+    return ElectronService.isElectron() ? this.electronService.app.getVersion() : 'NEXT';
+  }
 }

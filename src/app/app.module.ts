@@ -1,5 +1,5 @@
 // Angular
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 // Vendor
@@ -33,7 +33,11 @@ import { FileService } from './providers/file/file.service';
     NovoElementsModule,
     NovoElementProviders.forRoot(),
   ],
-  providers: [DataloaderService, ElectronService, FileService],
+  providers: [
+    DataloaderService,
+    ElectronService,
+    FileService,
+    Title],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
