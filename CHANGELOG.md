@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/bullhorn/dataloader-ui/compare/v1.0.0...v1.0.1) (2018-06-12)
+
+
+### Bug Fixes
+
+* **Input File:** Fixed the input file not resetting after a run ([#56](https://github.com/bullhorn/dataloader-ui/issues/56)) ([e3c0f63](https://github.com/bullhorn/dataloader-ui/commit/e3c0f63))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/bullhorn/dataloader-ui/compare/v0.3.6...v1.0.0) (2018-06-12)
 
