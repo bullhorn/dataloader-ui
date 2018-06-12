@@ -86,7 +86,7 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
 
   // Output Data Loader version info
   let version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
-  event.sender.send('print', `Data Loader CLI v${version}`);
+  event.sender.send('print', `Data Loader CLI v${version}\n`);
 
   // Execute dataloader in separate process
   params.unshift('-jar', path.join(dataloaderDir, jarFiles[0]));
