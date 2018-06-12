@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.6"></a>
+## [0.3.6](https://github.com/bullhorn/dataloader-ui/compare/v0.3.5...v0.3.6) (2018-06-12)
+
+
+### Bug Fixes
+
+* **Version:** Auto-updating the version and fixing the Travis build ([#52](https://github.com/bullhorn/dataloader-ui/issues/52)) ([50c6e51](https://github.com/bullhorn/dataloader-ui/commit/50c6e51))
+
+
+
 <a name="0.3.5"></a>
 ## [0.3.5](https://github.com/bullhorn/dataloader-ui/compare/v0.3.4...v0.3.5) (2018-06-12)
 
