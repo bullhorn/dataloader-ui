@@ -103,9 +103,17 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   load(): void {
-    Utils.setExistField(this.settings, this.existField);
-    this.fileService.writeSettings(this.settings);
-    this.started.emit();
+    this.settings = this.fileService.readSettings();
+    if (!this.settings.username || !this.settings.password || !this.settings.clientId || !this.settings.clientSecret) {
+      this.modalService.open(ErrorModalComponent, {
+        title: 'Missing Login Credentials',
+        message: 'Open settings and fill out credentials before loading data',
+      });
+    } else {
+      Utils.setExistField(this.settings, this.existField);
+      this.fileService.writeSettings(this.settings);
+      this.started.emit();
+    }
   }
 
   private onFileChange(API: FieldInteractionApi): void {
