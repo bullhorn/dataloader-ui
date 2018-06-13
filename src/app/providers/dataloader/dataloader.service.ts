@@ -16,7 +16,7 @@ export class DataloaderService {
 
   /**
    * Combines the filePath argument with all of the settings and sends it over to the main process for
-   * executing the DataLoader in the correct directory.
+   * executing the Data Loader in the correct directory.
    *
    * Saves off the previewData for the history.
    *
@@ -41,7 +41,7 @@ export class DataloaderService {
   }
 
   /**
-   * Subscribe to real time printouts from the DataLoader CLI
+   * Subscribe to real time printouts from the Data Loader CLI
    */
   onPrint(callback: (text: string) => void): void {
     if (ElectronService.isElectron()) {
@@ -52,7 +52,7 @@ export class DataloaderService {
   }
 
   /**
-   * Subscribe to the done message from the DataLoader CLI
+   * Subscribe to the done message from the Data Loader CLI
    */
   onDone(callback: (text: string) => void): void {
     if (ElectronService.isElectron()) {
@@ -63,7 +63,7 @@ export class DataloaderService {
   }
 
   /**
-   * Unsubscribe from all events from the DataLoader CLI
+   * Unsubscribe from all events from the Data Loader CLI
    */
   unsubscribe(): void {
     if (ElectronService.isElectron()) {

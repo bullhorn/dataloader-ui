@@ -4,7 +4,7 @@ Data Loader Desktop Application Powered by the Bullhorn [Data Loader](https://gi
 
 ## Install
 
- 1. Install Java if you don't have it already _(you probably have it)_ - [Windows](http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182) | [Mac](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ 1. Install Java if you don't have it already - [Windows](http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182) | [Mac](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
  2. Download and run the [Latest Installer](https://github.com/bullhorn/dataloader-ui/releases/latest)
 

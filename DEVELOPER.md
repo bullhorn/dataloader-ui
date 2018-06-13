@@ -1,6 +1,6 @@
 ![Data Loader Logo](dataloader.png)
 
-An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/) App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) and  to bring a rich user experience to DataLoader. Uses [Electron Builder](https://github.com/electron-userland/electron-builder) to package the Angular App inside of a Windows/Mac one-step installer that uses the latest [Bullhorn Data Loader](https://github.com/bullhorn/dataloader).
+An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/) App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) to bring a rich user experience to Data Loader. Uses [Electron Builder](https://github.com/electron-userland/electron-builder) to package the Angular App inside of a Windows/Mac one-step installer that uses the latest [Bullhorn Data Loader](https://github.com/bullhorn/dataloader).
 
 [![Build Status](https://travis-ci.com/bullhorn/dataloader-ui.svg?token=Ta7yXSf1ut1W7VuGXTKA&branch=master)](https://travis-ci.com/bullhorn/dataloader-ui)
 [![Coverage Status](https://coveralls.io/repos/github/bullhorn/dataloader-ui/badge.svg?branch=master&t=gVrMsY)](https://coveralls.io/github/bullhorn/dataloader-ui?branch=master)
@@ -45,8 +45,8 @@ npm run package
 
 ```
 |-- buildResources - image files used in creating the distributable electron-builder package
-|-- dataloader     - the latest downloaded DataLoader CLI
-|-- dist           - where the Angular App gets built and the DataLoader CLI gets copied to
+|-- dataloader     - the latest downloaded Data Loader CLI
+|-- dist           - where the Angular App gets built and the Data Loader CLI gets copied to
 |-- main-process   - source files for the electron main process
     |-- main.ts    - the entry point for the main process that kicks off the electron renderer process in a new Browser Window
 |-- packages       - where the electron app from the dist folder gets packaged into an os-specific installer by electron-builder
@@ -58,8 +58,8 @@ npm run package
 ### Where files are located when installed on end user's machine
 
  * Application Data
-   * DataLoader UI Angular App with Dependencies
-   * DataLoader CLI Release Package
+   * Data Loader UI Angular App with Dependencies
+   * Data Loader CLI Release Package
  * User Data
    * Output Files
      * Log Files

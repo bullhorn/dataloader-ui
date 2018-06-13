@@ -16,7 +16,7 @@ if (GH_TOKEN === undefined) {
 let latestReleaseAssets = {
   url: `${BASE_URL}/releases/latest`,
   headers: {
-    'User-Agent': 'DataLoader UI Downloader',
+    'User-Agent': 'Data Loader UI Downloader',
   }
 };
 
@@ -43,7 +43,7 @@ request(latestReleaseAssets, (error, response, bodyString) => {
     url: `${BASE_URL}/releases/assets/${assetID}`,
     headers: {
       'Accept': 'application/octet-stream',
-      'User-Agent': 'DataLoader UI Downloader',
+      'User-Agent': 'Data Loader UI Downloader',
     },
     encoding: null // we want a buffer and not a string
   };
