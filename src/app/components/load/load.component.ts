@@ -1,7 +1,8 @@
 // Angular
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 // Vendor
-import { FieldInteractionApi, FormUtils, } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, NovoFormGroup, } from 'novo-elements';
+import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
 import { FileService } from '../../providers/file/file.service';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
@@ -17,8 +18,8 @@ import { IRun } from '../../../interfaces/IRun';
 export class LoadComponent implements OnInit, OnDestroy {
   @Input() run: IRun;
   @Output() started = new EventEmitter();
-  form: any;
-  fieldSets: any[];
+  form: NovoFormGroup;
+  fieldSets: NovoFieldset[];
   previewTable: any = {};
   inputFilePath = null;
   entity: string = '';
@@ -74,6 +75,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     };
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
+    this.fieldSets[0].controls[0].layoutOptions.download = false;
     this.fieldSets[0].controls[0].interactions = [
       { event: 'init', script: this.onFileChange.bind(this) },
       { event: 'change', script: this.onFileChange.bind(this) },
