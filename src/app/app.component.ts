@@ -43,6 +43,10 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.fileService.getAllRuns(this.onRunData.bind(this));
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()}`);
+
+    // Disable drag and drop to stop electron from redirecting away from the app to the dropped file
+    document.addEventListener('dragover', (event) => event.preventDefault());
+    document.addEventListener('drop', (event) => event.preventDefault());
   }
 
   onStarted(): void {
