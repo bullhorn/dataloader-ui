@@ -1,13 +1,15 @@
 // Angular
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 // Vendor
-import { FieldInteractionApi, FormUtils, } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, NovoFormGroup, NovoModalService, } from 'novo-elements';
+import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { FileService } from '../../providers/file/file.service';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { Utils } from '../../utils/utils';
 import { IExistField, ISettings } from '../../../interfaces/ISettings';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { IRun } from '../../../interfaces/IRun';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-load',
@@ -17,8 +19,8 @@ import { IRun } from '../../../interfaces/IRun';
 export class LoadComponent implements OnInit, OnDestroy {
   @Input() run: IRun;
   @Output() started = new EventEmitter();
-  form: any;
-  fieldSets: any[];
+  form: NovoFormGroup;
+  fieldSets: NovoFieldset[];
   previewTable: any = {};
   inputFilePath = null;
   entity: string = '';
@@ -30,6 +32,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   fieldInteractionApi: FieldInteractionApi;
 
   constructor(private fileService: FileService,
+              private modalService: NovoModalService,
               private zone: NgZone,
               private formUtils: FormUtils) {
   }
@@ -74,6 +77,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     };
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
+    this.fieldSets[0].controls[0].layoutOptions.download = false;
     this.fieldSets[0].controls[0].interactions = [
       { event: 'init', script: this.onFileChange.bind(this) },
       { event: 'change', script: this.onFileChange.bind(this) },
@@ -111,7 +115,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     let selectedFiles: any = API.form.value.file;
     if (selectedFiles && selectedFiles.length) {
       this.inputFilePath = selectedFiles[0].file.path || selectedFiles[0].file.name;
-      this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this));
+      this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
       API.show('enabled');
     } else {
       this.run.previewData = null;
@@ -156,6 +160,12 @@ export class LoadComponent implements OnInit, OnDestroy {
       this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
       this.existField = Utils.getExistField(this.settings, this.entity);
       this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
+    });
+  }
+
+  private onPreviewDataError(message: string): void {
+    this.zone.run(() => {
+      this.modalService.open(ErrorModalComponent, { title: 'Error Parsing Input File', message });
     });
   }
 }

@@ -6,25 +6,30 @@ import { NgModule } from '@angular/core';
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
 import { AppComponent } from './app.component';
+import { DataloaderService } from './providers/dataloader/dataloader.service';
+import { ElectronService } from './providers/electron/electron.service';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
+import { FileService } from './providers/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
 import { ResultsComponent } from './components/results/results.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { RunComponent } from './components/run/run.component';
-import { DataloaderService } from './providers/dataloader/dataloader.service';
-import { ElectronService } from './providers/electron/electron.service';
-import { FileService } from './providers/file/file.service';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorModalComponent,
     HeaderComponent,
     LoadComponent,
     ResultsComponent,
-    SettingsComponent,
     RunComponent,
+    SettingsComponent,
   ],
-  entryComponents: [SettingsComponent],
+  entryComponents: [
+    ErrorModalComponent,
+    SettingsComponent,
+  ],
   imports: [
     // Angular
     BrowserAnimationsModule,
