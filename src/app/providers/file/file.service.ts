@@ -107,8 +107,10 @@ export class FileService {
    *    }]
    * }
    */
-  getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}): void {
-    if (ElectronService.isElectron()) {
+  getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}, onError: (message: string) => {}): void {
+    if (path.extname(filePath).toLowerCase() !== '.csv') {
+      onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
+    } else if (ElectronService.isElectron()) {
       const MAX_ROWS: number = 100;
       let previewData: IPreviewData = {
         filePath: filePath,
@@ -131,8 +133,8 @@ export class FileService {
           onSuccess(previewData);
         })
         .on('error', (err) => {
-          // TODO: send these errors up to the user
           console.error(err); // tslint:disable-line:no-console
+          onError(err.message);
         });
     } else {
       onSuccess(new FakePreviewData());
