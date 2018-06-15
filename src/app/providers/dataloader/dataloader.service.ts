@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 import { DataloaderServiceFakes } from './dataloader.service.fakes';
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
-import { IError } from '../../../interfaces/IError';
+import { IMessage } from '../../../interfaces/IMessage';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { IUpdate } from '../../../interfaces/IUpdate';
 import { Utils } from '../../utils/utils';
 
 @Injectable()
@@ -66,9 +67,9 @@ export class DataloaderService {
   /**
    * Subscribe to errors from the main process that the user should be notified about
    */
-  onError(callback: (error: IError) => void): void {
+  onMessage(callback: (message: IMessage) => void): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.on('error', (event, error) => callback(error));
+      this.electronService.ipcRenderer.on('message', (event, message) => callback(message));
     } else {
       DataloaderServiceFakes.generateFakeErrorCallback(callback);
     }
@@ -81,6 +82,19 @@ export class DataloaderService {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.removeAllListeners('print');
       this.electronService.ipcRenderer.removeAllListeners('done');
+    }
+  }
+
+  /**
+   * Subscribe to update notifications, when a new version has been downloaded and is ready for install,
+   * and then kick off the check for updates in the main process.
+   */
+  onUpdate(callback: (update: IUpdate) => void): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.on('update', (event, update) => callback(update));
+      this.electronService.ipcRenderer.send('checkForUpdates');
+    } else {
+      DataloaderServiceFakes.generateFakeUpdateCallback(callback);
     }
   }
 

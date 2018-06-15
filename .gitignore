@@ -1,8 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# dataloader cli download
+# dataloader ui/cli download
 dataloader.zip
 /dataloader
+.env
 
 # compiled output
 /dist

@@ -13,6 +13,9 @@ if (GH_TOKEN === undefined) {
   process.exit();
 }
 
+// Store token for latest version check
+fs.writeFileSync('.env', `GH_DATALOADER_TOKEN=${GH_TOKEN}`);
+
 let latestReleaseAssets = {
   url: `${BASE_URL}/releases/latest`,
   headers: {

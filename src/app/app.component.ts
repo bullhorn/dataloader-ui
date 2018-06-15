@@ -9,10 +9,12 @@ import * as momentDurationFormatSetup from 'moment-duration-format';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
+import { ILevel, IMessage } from '../interfaces/IMessage';
 import { IResults } from '../interfaces/IResults';
 import { IRun } from '../interfaces/IRun';
+import { IUpdate } from '../interfaces/IUpdate';
+import { UpdateModalComponent } from './components/update-modal/update-modal.component';
 import { Utils } from './utils/utils';
-import { IError } from '../interfaces/IError';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
@@ -43,7 +45,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataloaderService.onError(this.onError.bind(this));
+    this.dataloaderService.onMessage(this.onMessage.bind(this));
+    this.dataloaderService.onUpdate(this.onUpdate.bind(this));
     this.fileService.getAllRuns(this.onRunData.bind(this));
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()}`);
 
@@ -128,9 +131,22 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Errors from the backend come here for notifying the user
+   * Messages from the backend come here for notifying the user
    */
-  private onError(error: IError): void {
-    this.modalService.open(ErrorModalComponent, error);
+  private onMessage(message: IMessage): void {
+    if (message.level === ILevel.Error) {
+      this.modalService.open(ErrorModalComponent, message);
+    } else if (message.level === ILevel.Warning) {
+      console.warn(message.message); // tslint:disable-line
+    } else if (message.level === ILevel.Log) {
+      console.log(message.message); // tslint:disable-line
+    }
+  }
+
+  /**
+   * Notification that new version is downloaded and available to install from GitHub
+   */
+  private onUpdate(update: IUpdate): void {
+    this.modalService.open(UpdateModalComponent, update);
   }
 }
