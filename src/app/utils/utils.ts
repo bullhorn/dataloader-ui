@@ -1,6 +1,5 @@
 // Vendor
 import * as moment from 'moment';
-import { Moment } from 'moment';
 import { IDuration } from '../../interfaces/IDuration';
 // App
 import { IExistField, ISettings } from '../../interfaces/ISettings';
@@ -226,19 +225,7 @@ export class Utils {
   }
 
   static getStartDateString(startTime: number): string {
-    let start: Moment = moment(startTime);
-
-    const ref: Moment = moment();
-    const today: Moment = ref.clone().startOf('day');
-    const yesterday: Moment = ref.clone().subtract(1, 'days').startOf('day');
-
-    if (start.isSame(today, 'd')) {
-      return 'Today';
-    } else if (start.isSame(yesterday, 'd')) {
-      return 'Yesterday';
-    } else {
-      return moment(startTime).format('M/D/YY');
-    }
+    return moment(startTime).format('M/D/YY');
   }
 
   static getExistField(settings: ISettings, entity: string): IExistField {
