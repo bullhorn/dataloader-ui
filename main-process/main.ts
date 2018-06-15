@@ -72,8 +72,10 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   // Locate the jar file
   const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
   if (!jarFiles.length) {
-    event.sender.send('done', `ERROR: DataLoader jar file missing. Something went wrong with the building of the app. 
-      Cannot locate dataloader.jar file in directory: ${dataloaderDir}`);
+    event.sender.send('error', {
+      title: 'Data Loader CLI is Missing!',
+      message: `Something went wrong with the app system directory. Cannot locate dataloader.jar file in directory: ${dataloaderDir}`,
+    });
     return;
   }
 

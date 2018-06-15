@@ -1,11 +1,12 @@
 // Angular
 import { Injectable } from '@angular/core';
 // App
+import { DataloaderServiceFakes } from './dataloader.service.fakes';
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
+import { IError } from '../../../interfaces/IError';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
-import { DataloaderServiceFakes } from './dataloader.service.fakes';
 
 @Injectable()
 export class DataloaderService {
@@ -59,6 +60,17 @@ export class DataloaderService {
       this.electronService.ipcRenderer.on('done', (event, text) => callback(text));
     } else {
       DataloaderServiceFakes.generateFakeDoneCallback(callback);
+    }
+  }
+
+  /**
+   * Subscribe to errors from the main process that the user should be notified about
+   */
+  onError(callback: (error: IError) => void): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.on('error', (event, error) => callback(error));
+    } else {
+      DataloaderServiceFakes.generateFakeErrorCallback(callback);
     }
   }
 

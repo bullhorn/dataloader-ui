@@ -11,6 +11,8 @@ import { IResults } from '../../../interfaces/IResults';
 import { ISettings } from '../../../interfaces/ISettings';
 import { IRun } from '../../../interfaces/IRun';
 import { environment } from '../../../environments/environment';
+import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
+import { NovoModalService } from 'novo-elements';
 
 @Injectable()
 export class FileService {
@@ -32,7 +34,8 @@ export class FileService {
   private resultsFile: string;
   private settingsFile: string;
 
-  constructor(private electronService: ElectronService) {
+  constructor(private electronService: ElectronService,
+              private modalService: NovoModalService) {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
       this.settingsFile = path.join(this.userDataDir, 'settings.json');
@@ -76,7 +79,15 @@ export class FileService {
   readSettings(): ISettings {
     if (ElectronService.isElectron()) {
       if (this.electronService.fs.existsSync(this.settingsFile)) {
-        return JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+        try {
+          return JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+        } catch (parseErr) {
+          this.modalService.open(ErrorModalComponent, {
+            title: 'Error Reading Settings File!',
+            message: `Something went wrong with reading settings from disk. Please re-save your settings.\n\n${parseErr}`,
+          });
+          return this.defaultSettings;
+        }
       } else {
         return this.defaultSettings;
       }
@@ -184,10 +195,14 @@ export class FileService {
               let previewData: string = path.join(dir, 'previewData.json');
               let results: string = path.join(dir, 'results.json');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
-                allRuns.unshift({
-                  previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
-                  results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
-                });
+                try {
+                  allRuns.unshift({
+                    previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
+                    results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
+                  });
+                } catch (parseErr) {
+                  console.error(`Error parsing run directory: ${dir} - ${parseErr}`); // tslint:disable-line:no-console
+                }
               }
             }
           });
@@ -207,10 +222,15 @@ export class FileService {
 
   private readResultsFile(onChange: (results: IResults) => {}): void {
     this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
-      if (!err) {
-        // TODO: Handle JSON Parse issues (Unexpected end of input)
-        let results: IResults = JSON.parse(data);
-        onChange(results);
+      if (err) {
+        console.warn(err); // tslint:disable-line:no-console
+      } else {
+        try {
+          let results: IResults = JSON.parse(data);
+          onChange(results);
+        } catch (parseErr) {
+          console.error(parseErr); // tslint:disable-line:no-console
+        }
       }
     });
   }
