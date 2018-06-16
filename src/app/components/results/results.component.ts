@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 // Vendor
 import * as Chart from 'chart.js';
 // App
@@ -33,6 +33,7 @@ export class ResultsComponent implements OnInit, OnChanges {
   fileName: string = '';
   errorTable: any = {};
   donutChart: Chart;
+  @ViewChild('overviewTab') private overviewTab: any;
 
   constructor(private fileService: FileService) {
   }
@@ -103,6 +104,10 @@ export class ResultsComponent implements OnInit, OnChanges {
     if (this.donutChart) {
       this.donutChart.data.datasets[0].data = [this.success, this.errors, this.inProgress];
       this.donutChart.update();
+    }
+
+    if (!this.output) {
+      this.overviewTab.select();
     }
   }
 

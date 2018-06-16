@@ -1,8 +1,8 @@
 <section class="results">
   <header title="{{ fileName }} - {{ total }} Rows"
           [icon]="icon" [theme]="theme"></header>
-  <novo-nav [outlet]="tabs" direction="horizontal" *ngIf="output">
-    <novo-tab>Overview</novo-tab>
+  <novo-nav [outlet]="tabs" direction="horizontal" [hidden]="!output">
+    <novo-tab #overviewTab>Overview</novo-tab>
     <novo-tab>Command Line</novo-tab>
   </novo-nav>
   <novo-nav-outlet #tabs>
