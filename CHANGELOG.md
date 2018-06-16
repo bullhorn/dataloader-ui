@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/bullhorn/dataloader-ui/compare/v1.1.0...v1.2.0) (2018-06-16)
+
+
+### Features
+
+* **Results:** Stopped using Today and Yesterday for multi-day runs ([#64](https://github.com/bullhorn/dataloader-ui/issues/64)) ([69c44cf](https://github.com/bullhorn/dataloader-ui/commit/69c44cf))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/bullhorn/dataloader-ui/compare/v1.0.3...v1.1.0) (2018-06-15)
 
