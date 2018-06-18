@@ -64,13 +64,18 @@ export class DataloaderService {
   }
 
   /**
-   * Subscribe to errors from the main process that the user should be notified about
+   * Subscribe to errors from the main process that the user should be notified about.
+   *
+   * @param {(error: IError) => void} errorCallback - Generic error callback
+   * @param {(error: IError) => void} missingJavaCallback - Specific callback for missing Java on the command line
    */
-  onError(callback: (error: IError) => void): void {
+  onError(errorCallback: (error: IError) => void, missingJavaCallback: (error: IError) => void): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.on('error', (event, error) => callback(error));
+      this.electronService.ipcRenderer.on('error', (event, error) => errorCallback(error));
+      this.electronService.ipcRenderer.on('missing-java', (event, error) => missingJavaCallback(error));
     } else {
-      DataloaderServiceFakes.generateFakeErrorCallback(callback);
+      DataloaderServiceFakes.generateFakeErrorCallback(errorCallback);
+      DataloaderServiceFakes.generateFakeMissingJavaCallback(missingJavaCallback);
     }
   }
 

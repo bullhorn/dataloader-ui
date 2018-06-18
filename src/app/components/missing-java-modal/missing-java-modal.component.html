@@ -1,0 +1,15 @@
+<novo-modal>
+  <header title="Java is Not Installed" icon="caution" theme="negative">
+    <utils>
+      <util-action icon="times" (click)="close()"></util-action>
+    </utils>
+  </header>
+  <section>
+    <h1>Cannot run Data Loader on the command line because Java is not installed on the system.</h1>
+    <h2>Click the Download Java button below to download and install the latest version of Java for your system before running Data Loader.
+      <span class="detail-message" *ngIf="params['message']">Error Message: {{ params['message'] }}</span>
+    </h2>
+  </section>
+  <button theme="primary" icon="download" (click)="download()">Download Java</button>
+  <button theme="standard" (click)="close()">Close</button>
+</novo-modal>
