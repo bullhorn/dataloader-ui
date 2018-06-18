@@ -1,6 +1,8 @@
 // Vendor
 import Timer = NodeJS.Timer;
-import { IError } from '../../../interfaces/IError';
+// App
+import { ILevel, IMessage } from '../../../interfaces/IMessage';
+import { IUpdate } from '../../../interfaces/IUpdate';
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -65,7 +67,11 @@ export class DataloaderServiceFakes {
     setTimeout(() => callback('Fake Output'), 15500);
   }
 
-  static generateFakeErrorCallback(callback: (error: IError) => void): void {
-    setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 2000);
+  static generateFakeErrorCallback(callback: (message: IMessage) => void): void {
+    setTimeout(() => callback({ level: ILevel.Error, title: 'Fake Error Message', message: 'Fake Error Content' }), 200000);
+  }
+
+  static generateFakeUpdateCallback(callback: (update: IUpdate) => void): void {
+    setTimeout(() => callback({ version: '2.3.4', filePath: '/path/to/dataloader-ui-installer.exe' }), 3000);
   }
 }

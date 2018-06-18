@@ -15,6 +15,7 @@ import { LoadComponent } from './components/load/load.component';
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UpdateModalComponent } from './components/update-modal/update-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,12 @@ import { SettingsComponent } from './components/settings/settings.component';
     ResultsComponent,
     RunComponent,
     SettingsComponent,
+    UpdateModalComponent,
   ],
   entryComponents: [
     ErrorModalComponent,
     SettingsComponent,
+    UpdateModalComponent,
   ],
   imports: [
     // Angular
