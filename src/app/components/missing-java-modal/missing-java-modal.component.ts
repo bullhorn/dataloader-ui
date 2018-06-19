@@ -16,10 +16,7 @@ export class MissingJavaModalComponent {
 
   download(): void {
     if (ElectronService.isElectron()) {
-      const link: string = this.electronService.process.platform === 'darwin' ?
-        'http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html' :
-        'http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182';
-      this.electronService.shell.openExternal(link);
+      this.electronService.shell.openExternal('https://java.com/download');
     }
     this.modalRef.close();
   }
