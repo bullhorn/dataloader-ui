@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
+import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { AppComponent } from './app.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
@@ -15,10 +16,11 @@ import { LoadComponent } from './components/load/load.component';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
-import { SettingsComponent } from './components/settings/settings.component';
+import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 
 @NgModule({
   declarations: [
+    AboutModalComponent,
     AppComponent,
     ErrorModalComponent,
     HeaderComponent,
@@ -26,12 +28,13 @@ import { SettingsComponent } from './components/settings/settings.component';
     MissingJavaModalComponent,
     ResultsComponent,
     RunComponent,
-    SettingsComponent,
+    SettingsModalComponent,
   ],
   entryComponents: [
+    AboutModalComponent,
     ErrorModalComponent,
     MissingJavaModalComponent,
-    SettingsComponent,
+    SettingsModalComponent,
   ],
   imports: [
     // Angular

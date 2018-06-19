@@ -8,10 +8,10 @@ import { ISettings } from '../../../interfaces/ISettings';
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  templateUrl: './settings-modal.component.html',
+  styleUrls: ['./settings-modal.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsModalComponent implements OnInit {
   form: any;
   fieldSets: any[];
 
@@ -72,7 +72,7 @@ export class SettingsComponent implements OnInit {
   }
 
   load(): void {
-    this.form.setValue(SettingsComponent.removeExistFields(this.fileService.readSettings()));
+    this.form.setValue(SettingsModalComponent.removeExistFields(this.fileService.readSettings()));
   }
 
   close(): void {
@@ -204,8 +204,8 @@ export class SettingsComponent implements OnInit {
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
     this.fieldSets[2].controls[0].interactions = [
-      { event: 'init', script: SettingsComponent.onDataCenterChange },
-      { event: 'change', script: SettingsComponent.onDataCenterChange },
+      { event: 'init', script: SettingsModalComponent.onDataCenterChange },
+      { event: 'change', script: SettingsModalComponent.onDataCenterChange },
     ];
     this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
   }
