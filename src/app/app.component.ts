@@ -49,11 +49,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
 
-    // Subscribe to error callbacks from the main process
-    this.dataloaderService.onError((error) => {
+    // Subscribe to messages from the main process
+    this.dataloaderService.onMessages((error) => {
       this.modalService.open(ErrorModalComponent, error);
     }, (error) => {
       this.modalService.open(MissingJavaModalComponent, error);
+    }, () => {
+      this.zone.run(() => {
+        this.modalService.open(AboutModalComponent);
+      });
     });
 
     // Initialize run history

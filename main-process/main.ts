@@ -3,7 +3,7 @@ import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
-import { menuTemplate } from './menu';
+import { getMenuTemplate } from './menu';
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -17,10 +17,9 @@ let mainWindow: Electron.BrowserWindow = null;
 let dataloaderProcess: ChildProcess = null;
 
 function createWindow(): void {
-  const menu: Electron.Menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
-
   mainWindow = new BrowserWindow({ width: 800, height: 600, minWidth: 640, minHeight: 440 });
+  const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
+  Menu.setApplicationMenu(menu);
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   if (serve) {

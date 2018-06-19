@@ -133,7 +133,7 @@ export class FileService {
 
   writeConfig(config: IConfig): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(config, null, 2));
+      this.electronService.fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
     }
   }
 
