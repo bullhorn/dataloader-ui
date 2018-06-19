@@ -2,11 +2,9 @@
 
 Data Loader Desktop Application Powered by the Bullhorn [Data Loader](https://github.com/bullhorn/dataloader) Command Line Interface.
 
-## Install
+## Install the App
 
- 1. Install Java if you don't have it already - [Windows](http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210182) | [Mac](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
- 2. Download and run the [Latest Installer](https://github.com/bullhorn/dataloader-ui/releases/latest)
+Download and run the [Latest Installer](https://github.com/bullhorn/dataloader-ui/releases/latest) for Windows or Mac
 
 ## Documentation
 

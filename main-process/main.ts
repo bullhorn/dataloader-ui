@@ -106,6 +106,9 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   dataloaderProcess.on('close', () => {
     event.sender.send('done', '');
   });
+  dataloaderProcess.on('error', (err) => {
+    event.sender.send('missing-java', { title: err.name, message: err.message });
+  });
 });
 
 ipcMain.on('stop', () => {

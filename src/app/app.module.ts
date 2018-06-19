@@ -12,6 +12,7 @@ import { ErrorModalComponent } from './components/error-modal/error-modal.compon
 import { FileService } from './providers/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
+import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -22,12 +23,14 @@ import { SettingsComponent } from './components/settings/settings.component';
     ErrorModalComponent,
     HeaderComponent,
     LoadComponent,
+    MissingJavaModalComponent,
     ResultsComponent,
     RunComponent,
     SettingsComponent,
   ],
   entryComponents: [
     ErrorModalComponent,
+    MissingJavaModalComponent,
     SettingsComponent,
   ],
   imports: [

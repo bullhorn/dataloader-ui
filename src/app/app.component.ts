@@ -11,8 +11,8 @@ import { ErrorModalComponent } from './components/error-modal/error-modal.compon
 import { FileService } from './providers/file/file.service';
 import { IResults } from '../interfaces/IResults';
 import { IRun } from '../interfaces/IRun';
+import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { Utils } from './utils/utils';
-import { IError } from '../interfaces/IError';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
@@ -43,7 +43,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataloaderService.onError(this.onError.bind(this));
+    this.dataloaderService.onError((error) => {
+      this.modalService.open(ErrorModalComponent, error);
+    }, (error) => {
+      this.modalService.open(MissingJavaModalComponent, error);
+    });
     this.fileService.getAllRuns(this.onRunData.bind(this));
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()}`);
 
@@ -125,12 +129,5 @@ export class AppComponent implements OnInit {
       let duration: string = Utils.msecToHMS(this.currentRun.results.durationMsec);
       new Notification(`Loaded ${total} ${entity} Records in ${duration}`, { body: counts }); // tslint:disable-line
     }
-  }
-
-  /**
-   * Errors from the backend come here for notifying the user
-   */
-  private onError(error: IError): void {
-    this.modalService.open(ErrorModalComponent, error);
   }
 }
