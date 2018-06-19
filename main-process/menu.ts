@@ -90,6 +90,11 @@ export let menuTemplate: Electron.MenuItemConstructorOptions[] = [
     label: 'Help',
     role: 'help',
     submenu: [{
+      label: 'About',
+      click: () => {
+        // TODO: Send IPC the 'about' message
+      },
+    }, {
       label: 'Wiki',
       click: () => {
         shell.openExternal('http://github.com/bullhorn/dataloader/wiki');

@@ -1,30 +1,19 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 // Vendor
 import { NovoModalService } from 'novo-elements';
 // App
-import { FileService } from '../../providers/file/file.service';
-import { ISettings } from '../../../interfaces/ISettings';
-import { SettingsComponent } from '../settings/settings.component';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  constructor(private modalService: NovoModalService,
-              private fileService: FileService) {
-  }
-
-  ngOnInit(): void {
-    const settings: ISettings = this.fileService.readSettings();
-    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-      this.openSettingsModal();
-    }
-  }
+export class HeaderComponent {
+  constructor(private modalService: NovoModalService) {}
 
   openSettingsModal(): void {
-    this.modalService.open(SettingsComponent);
+    this.modalService.open(SettingsModalComponent);
   }
 }

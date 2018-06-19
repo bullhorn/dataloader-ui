@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 // Vendor
 import * as path from 'path';
 import * as moment from 'moment';
+import { NovoModalService } from 'novo-elements';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { IResults } from '../../../interfaces/IResults';
-import { ISettings } from '../../../interfaces/ISettings';
-import { IRun } from '../../../interfaces/IRun';
 import { environment } from '../../../environments/environment';
 import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
-import { NovoModalService } from 'novo-elements';
+import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
+import { IConfig } from '../../../interfaces/IConfig';
+import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { IResults } from '../../../interfaces/IResults';
+import { IRun } from '../../../interfaces/IRun';
+import { ISettings } from '../../../interfaces/ISettings';
 
 @Injectable()
 export class FileService {
+  private defaultConfig: IConfig = {
+    onboarded: false,
+  };
   private defaultSettings: ISettings = {
     username: '',
     password: '',
@@ -33,12 +37,14 @@ export class FileService {
   private runsDir: string;
   private resultsFile: string;
   private settingsFile: string;
+  private configFile: string;
 
   constructor(private electronService: ElectronService,
               private modalService: NovoModalService) {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
       this.settingsFile = path.join(this.userDataDir, 'settings.json');
+      this.configFile = path.join(this.userDataDir, '.config.json');
       this.runsDir = path.join(this.userDataDir, 'runs');
     }
   }
@@ -84,7 +90,7 @@ export class FileService {
         } catch (parseErr) {
           this.modalService.open(ErrorModalComponent, {
             title: 'Error Reading Settings File!',
-            message: `Something went wrong with reading settings from disk. Please re-save your settings.\n\n${parseErr}`,
+            message: `Oops, something went wrong with reading '${this.settingsFile}' from disk. Please re-save your settings.\n\n${parseErr}`,
           });
           return this.defaultSettings;
         }
@@ -99,6 +105,35 @@ export class FileService {
   writeSettings(settings: ISettings): void {
     if (ElectronService.isElectron()) {
       this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(settings, null, 2));
+    }
+  }
+
+  /**
+   * The configuration file contains user-level settings outside of the dataloader settings
+   */
+  readConfig(): IConfig {
+    if (ElectronService.isElectron()) {
+      if (this.electronService.fs.existsSync(this.configFile)) {
+        try {
+          return JSON.parse(this.electronService.fs.readFileSync(this.configFile, 'utf8'));
+        } catch (parseErr) {
+          this.modalService.open(ErrorModalComponent, {
+            title: 'Error Reading Config File!',
+            message: `Oops, something went wrong with reading '${this.configFile}' from disk.\n\n${parseErr}`,
+          });
+          return this.defaultConfig;
+        }
+      } else {
+        return this.defaultConfig;
+      }
+    } else {
+      return FileServiceFakes.CONFIG;
+    }
+  }
+
+  writeConfig(config: IConfig): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(config, null, 2));
     }
   }
 

@@ -1,10 +1,11 @@
 // Vendor
 import Timer = NodeJS.Timer;
 // App
-import { ISettings } from '../../../interfaces/ISettings';
+import { IConfig } from '../../../interfaces/IConfig';
 import { IErrors, IResults } from '../../../interfaces/IResults';
-import { IRun } from '../../../interfaces/IRun';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
+import { IRun } from '../../../interfaces/IRun';
+import { ISettings } from '../../../interfaces/ISettings';
 import { Utils } from '../../utils/utils';
 
 class FakeResultsData {
@@ -89,6 +90,10 @@ export class FileServiceFakes {
       enabled: true,
       fields: ['firstName', 'lastName'],
     }],
+  };
+
+  static CONFIG: IConfig = {
+    onboarded: false,
   };
 
   static ALL_RUNS: IRun[] = [

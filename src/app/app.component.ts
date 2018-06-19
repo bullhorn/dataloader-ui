@@ -6,12 +6,16 @@ import { NovoModalService } from 'novo-elements';
 import * as moment from 'moment';
 import * as momentDurationFormatSetup from 'moment-duration-format';
 // App
+import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
+import { IConfig } from '../interfaces/IConfig';
 import { IResults } from '../interfaces/IResults';
 import { IRun } from '../interfaces/IRun';
+import { ISettings } from '../interfaces/ISettings';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
+import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 import { Utils } from './utils/utils';
 
 // Extend moment.duration with fn.format
@@ -43,17 +47,35 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
+
+    // Subscribe to error callbacks from the main process
     this.dataloaderService.onError((error) => {
       this.modalService.open(ErrorModalComponent, error);
     }, (error) => {
       this.modalService.open(MissingJavaModalComponent, error);
     });
+
+    // Initialize run history
     this.fileService.getAllRuns(this.onRunData.bind(this));
-    this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
 
     // Disable drag and drop to stop electron from redirecting away from the app to the dropped file
     document.addEventListener('dragover', (event) => event.preventDefault());
     document.addEventListener('drop', (event) => event.preventDefault());
+
+    // Show settings modal if user has not filled in the credentials section
+    const settings: ISettings = this.fileService.readSettings();
+    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
+      this.modalService.open(SettingsModalComponent);
+    }
+
+    // Show about modal if this is the first time the user is opening the app
+    let config: IConfig = this.fileService.readConfig();
+    if (!config.onboarded) {
+      this.modalService.open(AboutModalComponent);
+      config.onboarded = true;
+      this.fileService.writeConfig(config);
+    }
   }
 
   onStarted(): void {
