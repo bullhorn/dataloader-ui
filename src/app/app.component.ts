@@ -2,14 +2,15 @@
 import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 // Vendor
-import { NovoModalService } from 'novo-elements';
 import * as moment from 'moment';
 import * as momentDurationFormatSetup from 'moment-duration-format';
+import { NovoModalService } from 'novo-elements';
 // App
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
+import { GoogleAnalyticsService } from './providers/google-analytics/google-analytics.service';
 import { IConfig } from '../interfaces/IConfig';
 import { IResults } from '../interfaces/IResults';
 import { IRun } from '../interfaces/IRun';
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
+    GoogleAnalyticsService.setVersion(this.dataloaderService.version());
 
     // Subscribe to messages from the main process
     this.dataloaderService.onMessages((error) => {
@@ -88,9 +90,11 @@ export class AppComponent implements OnInit {
     this.dataloaderService.start(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.currentRun.running = true;
+    GoogleAnalyticsService.trackEvent('Load', this.currentRun);
   }
 
   onStopped(): void {
+    GoogleAnalyticsService.trackEvent('Stopped', this.currentRun);
     this.dataloaderService.stop();
   }
 
@@ -149,6 +153,7 @@ export class AppComponent implements OnInit {
    */
   private sendNotification(): void {
     if (this.currentRun.results) {
+      GoogleAnalyticsService.trackCompleted(this.currentRun, this.fileService.readSettings());
       let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
       let total: string = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
       let counts: string = `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
