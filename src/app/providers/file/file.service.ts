@@ -28,9 +28,9 @@ export class FileService {
     dataCenter: 'bhnext',
     listDelimiter: ';',
     dateFormat: 'MM/dd/yy HH:mm',
-    authorizeUrl: '',
-    loginUrl: '',
-    tokenUrl: '',
+    authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
+    tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
+    loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
     numThreads: 15,
   };
   private userDataDir: string;

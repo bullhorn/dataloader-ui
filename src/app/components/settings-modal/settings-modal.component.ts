@@ -49,6 +49,11 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
       },
+      other: {
+        authorizeUrl: '',
+        tokenUrl: '',
+        loginUrl: '',
+      },
     };
 
     let currentValue: string = API.getActiveValue();
@@ -198,7 +203,6 @@ export class SettingsModalComponent implements OnInit {
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
     this.fieldSets[2].controls[0].interactions = [
-      { event: 'init', script: SettingsModalComponent.onDataCenterChange },
       { event: 'change', script: SettingsModalComponent.onDataCenterChange },
     ];
     this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
