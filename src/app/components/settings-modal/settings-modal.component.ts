@@ -79,7 +79,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   save(): void {
-    this.fileService.writeSettings(this.form.value);
+    this.fileService.writeSettings(Object.assign(this.fileService.readSettings(), this.form.value));
     this.close();
   }
 
@@ -203,7 +203,6 @@ export class SettingsModalComponent implements OnInit {
 
     this.fieldSets = this.formUtils.toFieldSets(meta, '$ USD', {}, { token: 'TOKEN' });
     this.fieldSets[2].controls[0].interactions = [
-      { event: 'init', script: SettingsModalComponent.onDataCenterChange },
       { event: 'change', script: SettingsModalComponent.onDataCenterChange },
     ];
     this.form = this.formUtils.toFormGroupFromFieldset(this.fieldSets);
