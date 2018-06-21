@@ -15,8 +15,7 @@ export class SettingsModalComponent implements OnInit {
   form: any;
   fieldSets: any[];
 
-  constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {
-  }
+  constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {}
 
   private static removeExistFields(value: ISettings): ISettings {
     let result: any = Object.assign({}, value);
