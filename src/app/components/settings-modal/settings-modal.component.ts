@@ -49,11 +49,6 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
       },
-      other: {
-        authorizeUrl: '',
-        tokenUrl: '',
-        loginUrl: '',
-      },
     };
 
     let currentValue: string = API.getActiveValue();
@@ -79,7 +74,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   save(): void {
-    this.fileService.writeSettings(this.form.value);
+    this.fileService.writeSettings(Object.assign(this.fileService.readSettings(), this.form.value));
     this.close();
   }
 

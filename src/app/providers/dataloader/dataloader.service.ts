@@ -7,6 +7,7 @@ import { FileService } from '../file/file.service';
 import { IError } from '../../../interfaces/IError';
 import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
+import { ISettings } from '../../../interfaces/ISettings';
 
 @Injectable()
 export class DataloaderService {
@@ -25,7 +26,7 @@ export class DataloaderService {
    */
   start(previewData: IPreviewData): void {
     if (ElectronService.isElectron()) {
-      let settings: any = this.fileService.readSettings();
+      let settings: ISettings = this.fileService.readSettings();
       let resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
       let args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
       this.electronService.ipcRenderer.send('start', args);

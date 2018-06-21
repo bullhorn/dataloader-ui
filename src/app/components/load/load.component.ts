@@ -27,7 +27,6 @@ export class LoadComponent implements OnInit, OnDestroy {
   icon: string = '';
   theme: string = '';
   fileName: string = '';
-  settings: ISettings;
   existField: IExistField;
   fieldInteractionApi: FieldInteractionApi;
 
@@ -38,7 +37,6 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.settings = this.fileService.readSettings();
     this.setupForm();
   }
 
@@ -103,15 +101,15 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   load(): void {
-    this.settings = this.fileService.readSettings();
-    if (!this.settings.username || !this.settings.password || !this.settings.clientId || !this.settings.clientSecret) {
+    let settings: ISettings = this.fileService.readSettings();
+    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
       this.modalService.open(ErrorModalComponent, {
         title: 'Missing Login Credentials',
         message: 'Open settings and fill out credentials before loading data',
       });
     } else {
-      Utils.setExistField(this.settings, this.existField);
-      this.fileService.writeSettings(this.settings);
+      Utils.setExistField(settings, this.existField);
+      this.fileService.writeSettings(settings);
       this.started.emit();
     }
   }
@@ -166,7 +164,7 @@ export class LoadComponent implements OnInit, OnDestroy {
       this.icon = Utils.getIconForFilename(this.inputFilePath);
       this.theme = Utils.getThemeForFilename(this.inputFilePath);
       this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
-      this.existField = Utils.getExistField(this.settings, this.entity);
+      this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
       this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
     });
   }
