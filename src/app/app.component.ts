@@ -7,10 +7,10 @@ import * as momentDurationFormatSetup from 'moment-duration-format';
 import { NovoModalService } from 'novo-elements';
 // App
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
+import { AnalyticsService } from './providers/analytics/analytics.service';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
-import { GoogleAnalyticsService } from './providers/google-analytics/google-analytics.service';
 import { IConfig } from '../interfaces/IConfig';
 import { IResults } from '../interfaces/IResults';
 import { IRun } from '../interfaces/IRun';
@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
   selectedRun: IRun | null = this.currentRun;
   runHistory: IRun[] = [];
 
-  constructor(private dataloaderService: DataloaderService,
+  constructor(private analyticsService: AnalyticsService,
+              private dataloaderService: DataloaderService,
               private fileService: FileService,
               private modalService: NovoModalService,
               private titleService: Title,
@@ -49,7 +50,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
-    GoogleAnalyticsService.setVersion(this.dataloaderService.version());
 
     // Subscribe to messages from the main process
     this.dataloaderService.onMessages((error) => {
@@ -79,8 +79,7 @@ export class AppComponent implements OnInit {
     let config: IConfig = this.fileService.readConfig();
     if (!config.onboarded) {
       this.modalService.open(AboutModalComponent);
-      config.onboarded = true;
-      this.fileService.writeConfig(config);
+      this.fileService.writeConfig(Object.assign(config, { onboarded: true }));
     }
   }
 
@@ -90,11 +89,11 @@ export class AppComponent implements OnInit {
     this.dataloaderService.start(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.currentRun.running = true;
-    GoogleAnalyticsService.trackEvent('Load', this.currentRun);
+    this.analyticsService.trackEvent('Load', this.currentRun);
   }
 
   onStopped(): void {
-    GoogleAnalyticsService.trackEvent('Stopped', this.currentRun);
+    this.analyticsService.trackEvent('Stopped', this.currentRun);
     this.dataloaderService.stop();
   }
 
@@ -153,7 +152,7 @@ export class AppComponent implements OnInit {
    */
   private sendNotification(): void {
     if (this.currentRun.results) {
-      GoogleAnalyticsService.trackCompleted(this.currentRun, this.fileService.readSettings());
+      this.analyticsService.trackCompleted(this.currentRun, this.fileService.readSettings());
       let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
       let total: string = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
       let counts: string = `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;

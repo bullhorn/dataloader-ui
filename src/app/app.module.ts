@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
+import { AnalyticsService } from './providers/analytics/analytics.service';
 import { AppComponent } from './app.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
@@ -45,6 +46,7 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
     NovoElementProviders.forRoot(),
   ],
   providers: [
+    AnalyticsService,
     DataloaderService,
     ElectronService,
     FileService,

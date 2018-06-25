@@ -1,4 +1,5 @@
 // Configuration file '.config' in user data folder for keeping track of things like onboarding
 export interface IConfig {
-  onboarded: boolean;
+  onboarded?: boolean; // indicates if about screen has been seen
+  uuid?: string; // unique user id (generic, no private data) for analytics
 }
