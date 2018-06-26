@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import * as ua from 'universal-analytics';
 import * as uuid from 'uuid/v4';
 // App
-import { DataloaderService } from '../dataloader/dataloader.service';
+import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
 import { IConfig } from '../../../interfaces/IConfig';
 import { IRun } from '../../../interfaces/IRun';
@@ -15,7 +15,7 @@ import { Utils } from '../../utils/utils';
 export class AnalyticsService {
   private analytics: any;
 
-  constructor(private dataloaderService: DataloaderService,
+  constructor(private electronService: ElectronService,
               private fileService: FileService) {
     // Retrieve uuid from the config file, and if it's not there, assign it a new uuid.
     let config: IConfig = this.fileService.readConfig();
@@ -35,7 +35,7 @@ export class AnalyticsService {
       ec: 'Completed',
       ea: Utils.getEntityNameFromFile(run.previewData.filePath),
       ev: run.results.processed,
-      cd1: this.dataloaderService.version(),
+      cd1: this.electronService.version(),
       cd2: settings.numThreads,
       cm1: run.results.durationMsec / 1000,
       cm2: run.results.processed,

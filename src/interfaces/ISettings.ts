@@ -5,6 +5,7 @@ export interface IExistField {
 }
 
 export interface ISettings {
+  version?: number; // settings version, not app version - used for upgrading existing settings
   username: string;
   password: string;
   clientId: string;
