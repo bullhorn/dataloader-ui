@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { NovoModalService } from 'novo-elements';
 // App
 import { ElectronService } from '../electron/electron.service';
+import { EncryptUtils } from '../../utils/encrypt-utils';
 import { environment } from '../../../environments/environment';
 import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
@@ -17,6 +18,9 @@ import { ISettings } from '../../../interfaces/ISettings';
 
 @Injectable()
 export class FileService {
+  // The version of the settings file to use for backwards compatibility breaking changes
+  static SETTINGS_FILE_VERSION: number = 1;
+
   private defaultConfig: IConfig = {
     onboarded: false,
   };
@@ -86,7 +90,12 @@ export class FileService {
     if (ElectronService.isElectron()) {
       if (this.electronService.fs.existsSync(this.settingsFile)) {
         try {
-          return JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+          let settings: ISettings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+          if (settings.version && settings.version >= 1) {
+            settings.password = EncryptUtils.decrypt(settings.password);
+            settings.clientSecret = EncryptUtils.decrypt(settings.clientSecret);
+          }
+          return settings;
         } catch (parseErr) {
           this.modalService.open(ErrorModalComponent, {
             title: 'Error Reading Settings File!',
@@ -104,7 +113,11 @@ export class FileService {
 
   writeSettings(settings: ISettings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(settings, null, 2));
+      let encryptedSettings: ISettings = Object.assign({}, settings);
+      encryptedSettings.password = EncryptUtils.encrypt(settings.password);
+      encryptedSettings.clientSecret = EncryptUtils.encrypt(settings.clientSecret);
+      encryptedSettings.version = FileService.SETTINGS_FILE_VERSION;
+      this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(encryptedSettings, null, 2));
     }
   }
 
@@ -133,6 +146,7 @@ export class FileService {
 
   writeConfig(config: IConfig): void {
     if (ElectronService.isElectron()) {
+      config.version = this.electronService.version();
       this.electronService.fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
     }
   }

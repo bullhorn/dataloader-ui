@@ -40,4 +40,13 @@ export class ElectronService {
   static isElectron(): void {
     return window && window['process'] && window['process'].type;
   }
+
+  /**
+   * Returns the version of the UI from package.json when packaged
+   *  - During testing using `npm start`, returns the Electron package.json version
+   *  - During web-only testing, returns 'NEXT'
+   */
+  version(): string {
+    return ElectronService.isElectron() ? this.app.getVersion() : 'NEXT';
+  }
 }

@@ -9,6 +9,7 @@ import { NovoModalService } from 'novo-elements';
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { AnalyticsService } from './providers/analytics/analytics.service';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
+import { ElectronService } from './providers/electron/electron.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
 import { IConfig } from '../interfaces/IConfig';
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
 
   constructor(private analyticsService: AnalyticsService,
               private dataloaderService: DataloaderService,
+              private electronService: ElectronService,
               private fileService: FileService,
               private modalService: NovoModalService,
               private titleService: Title,
@@ -49,7 +51,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle(`Bullhorn Data Loader v${this.dataloaderService.version()} (Beta Release)`);
+    this.titleService.setTitle(`Bullhorn Data Loader v${this.electronService.version()} (Beta Release)`);
 
     // Subscribe to messages from the main process
     this.dataloaderService.onMessages((error) => {

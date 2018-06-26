@@ -2,4 +2,5 @@
 export interface IConfig {
   onboarded?: boolean; // indicates if about screen has been seen
   uuid?: string; // unique user id (generic, no private data) for analytics
+  version?: string; // app version for detection of older user data after an upgrade
 }
