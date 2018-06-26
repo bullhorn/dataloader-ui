@@ -11,8 +11,3 @@ Download and run the [Latest Installer](https://github.com/bullhorn/dataloader-u
 *  **[Data Loader Wiki](https://github.com/bullhorn/dataloader/wiki)**
 *  **[Bullhorn Open Source](http://bullhorn.github.io)**
 *  **[Bullhorn Website](http://www.bullhorn.com)**
-
-## Requirements
-
-* 8GB RAM Minimum, 16GB RAM Recommended
-
