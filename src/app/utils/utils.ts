@@ -26,6 +26,7 @@ export class Utils {
     args = args.concat(['tokenUrl', settings.tokenUrl]);
     args = args.concat(['listDelimiter', settings.listDelimiter]);
     args = args.concat(['dateFormat', settings.dateFormat]);
+    args = args.concat(['processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false']);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
     args = args.concat(['resultsFileEnabled', 'true']);
     args = args.concat(['resultsFilePath', resultsFilePath]);

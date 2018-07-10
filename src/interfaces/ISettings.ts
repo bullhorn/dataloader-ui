@@ -17,5 +17,6 @@ export interface ISettings {
   existFields?: IExistField[];
   listDelimiter: string;
   dateFormat: string;
+  processEmptyAssociations: boolean;
   numThreads: number;
 }
