@@ -19,7 +19,7 @@ import { ISettings } from '../../../interfaces/ISettings';
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION: number = 1;
+  static SETTINGS_FILE_VERSION: number = 2;
 
   private defaultConfig: IConfig = {
     onboarded: false,
@@ -31,6 +31,7 @@ export class FileService {
     clientSecret: '',
     dataCenter: 'bhnext',
     listDelimiter: ';',
+    processEmptyAssociations: false,
     dateFormat: 'MM/dd/yy HH:mm',
     authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
     tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
@@ -91,9 +92,14 @@ export class FileService {
       if (this.electronService.fs.existsSync(this.settingsFile)) {
         try {
           let settings: ISettings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+          // Decrypt passwords for versions 1+
           if (settings.version && settings.version >= 1) {
             settings.password = EncryptUtils.decrypt(settings.password);
             settings.clientSecret = EncryptUtils.decrypt(settings.clientSecret);
+          }
+          // Default processEmptyAssociations before version 2
+          if (!settings.version || settings.version < 2) {
+            settings.processEmptyAssociations = false;
           }
           return settings;
         } catch (parseErr) {

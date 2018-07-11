@@ -17,9 +17,10 @@ export class SettingsModalComponent implements OnInit {
 
   constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {}
 
-  private static removeExistFields(value: ISettings): ISettings {
+  private static removeExtraFields(value: ISettings): ISettings {
     let result: any = Object.assign({}, value);
     delete result.existFields;
+    delete result.version;
     return result;
   }
 
@@ -71,7 +72,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   load(): void {
-    this.form.setValue(SettingsModalComponent.removeExistFields(this.fileService.readSettings()));
+    this.form.setValue(SettingsModalComponent.removeExtraFields(this.fileService.readSettings()));
   }
 
   close(): void {
@@ -189,6 +190,17 @@ export class SettingsModalComponent implements OnInit {
         description: 'Default value is MM/dd/yy HH:mm. ' +
         'Documentation: http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html',
         sortOrder: 32,
+      }, {
+        name: 'processEmptyAssociations',
+        type: 'tiles',
+        label: 'Process Empty Associations',
+        required: true,
+        description: 'If set to true then all To-Many association cells that are empty will remove any existing associations. ' +
+        'Default value is false, which will ignore the empty cells.',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 33,
       }, {
         name: 'numThreads',
         type: 'number',

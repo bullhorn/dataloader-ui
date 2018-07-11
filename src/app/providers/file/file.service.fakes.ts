@@ -80,6 +80,7 @@ export class FileServiceFakes {
     loginUrl: '',
     listDelimiter: ';',
     dateFormat: 'MM/dd/yyyy',
+    processEmptyAssociations: false,
     numThreads: 15,
     existFields: [{
       entity: 'Candidate',
