@@ -30,25 +30,45 @@ export class SettingsModalComponent implements OnInit {
   private static onDataCenterChange(API: FieldInteractionApi): void {
     // Predefined URLs for known data centers
     const dataCenterUrls: any = {
-      bhnext: {
-        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
-        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
-        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
-      },
-      east: {
+      waltham: {
         authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
+      },
+      east: {
+        authorizeUrl: 'https://auth-east.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-east.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-east.bullhornstaffing.com/rest-services/login',
       },
       west: {
         authorizeUrl: 'https://auth-west.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-west.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-west.bullhornstaffing.com/rest-services/login',
       },
+      apac: {
+        authorizeUrl: 'https://auth-west50.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west50.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west50.bullhornstaffing.com/rest-services/login',
+      },
       uk: {
         authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
+      },
+      germany: {
+        authorizeUrl: 'https://auth-ger.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-ger.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-ger.bullhornstaffing.com/rest-services/login',
+      },
+      bhnext: {
+        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
+      },
+      cls91: {
+        authorizeUrl: 'https://auth-west9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west9.bullhornstaffing.com/rest-services/login',
       },
       other: {
         authorizeUrl: '',
@@ -141,15 +161,19 @@ export class SettingsModalComponent implements OnInit {
         sortOrder: 14,
       }, {
         name: 'dataCenter',
-        type: 'tiles',
+        type: 'select',
         label: 'Data Center',
         required: true,
-        description: 'The location of the Bullhorn REST server endpoints to use when loading data.',
+        description: 'The location of the Bullhorn REST server endpoints to use when loading data: http://bullhorn.github.io/Data-Center-URLs',
         options: [
-          { label: 'US BHNext', value: 'bhnext' },
-          { label: 'US East', value: 'east' },
-          { label: 'US West', value: 'west' },
-          { label: 'UK', value: 'uk' },
+          { label: 'U.S. East (Waltham) - CLS5, CLS2, CLS20', value: 'waltham' },
+          { label: 'U.S. East - CLS40, CLS41, CLS42', value: 'east' },
+          { label: 'U.S. West - CLS30, CLS31, CLS32, CLS33, CLS34', value: 'west' },
+          { label: 'Asia Pacific - CLS50', value: 'apac' },
+          { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },
+          { label: 'Germany - CLS70', value: 'germany' },
+          { label: 'BHNext', value: 'bhnext' },
+          { label: 'CLS91', value: 'cls91' },
           { label: 'Other', value: 'other' }],
         sortOrder: 21,
       }, {

@@ -94,7 +94,7 @@ export class FileServiceFakes {
   };
 
   static CONFIG: IConfig = {
-    onboarded: false,
+    onboarded: true,
   };
 
   static ALL_RUNS: IRun[] = [
