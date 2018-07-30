@@ -56,6 +56,13 @@ export class ResultsComponent implements OnInit, OnChanges {
           'In Progress',
         ],
       },
+      options: {
+        tooltips: { enabled: false },
+        hover: { mode: null },
+        legend: {
+          onClick: () => {}, // disable default data hiding feature
+        },
+      },
     });
 
     this.errorTable = {
