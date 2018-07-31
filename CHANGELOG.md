@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/bullhorn/dataloader-ui/compare/v1.5.0...v1.6.0) (2018-07-31)
+
+
+### Bug Fixes
+
+* **Results:** Removed distracting chart tooltips and highlighting/clicks ([#84](https://github.com/bullhorn/dataloader-ui/issues/84)) ([4c99fa3](https://github.com/bullhorn/dataloader-ui/commit/4c99fa3))
+
+
+### Features
+
+* **Settings:** Added Process Empty Associations setting ([#81](https://github.com/bullhorn/dataloader-ui/issues/81)) ([341a74f](https://github.com/bullhorn/dataloader-ui/commit/341a74f))
+* **Settings:** Updated data center options ([#85](https://github.com/bullhorn/dataloader-ui/issues/85)) ([dbabbcb](https://github.com/bullhorn/dataloader-ui/commit/dbabbcb))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/bullhorn/dataloader-ui/compare/v1.4.1...v1.5.0) (2018-06-26)
 
