@@ -20,10 +20,8 @@ __Examples:__
 
  1. Checkout master
   
- 2. Run release script: `npm run release`. This will create a new commit and push to master. Once the Travis CI build completes, it will create the draft release and attach installers.
+ 2. Run release script: `npm run release`. This will create a new commit and push to master. 
 
- 3. Update GitHub Release
+ 3. Wait for the Travis CI build to complete. Once finished, it will create the draft release and attach installers.
 
-    1. Copy generated release notes from `CHANGELOG.md` to the [Latest Release](https://github.com/bullhorn/dataloader/releases/latest).
-    
-    2. Delete all attachments except for the .dmg and .exe, to keep it simple.
+ 4. Copy generated release notes from `CHANGELOG.md` to the release draft and publish release.
