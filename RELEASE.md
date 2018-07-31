@@ -20,7 +20,7 @@ __Examples:__
 
  1. Checkout master
   
- 2. Run release script: `npm run release`. This will create a new commit and push to master. Once the Travis CI build completes, it will create the draft release and attach installers. Do not create the draft release for the tag before Travis!
+ 2. Run release script: `npm run release`. This will create a new commit and push to master. Once the Travis CI build completes, it will create the draft release and attach installers.
 
  3. Update GitHub Release
 
