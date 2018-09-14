@@ -203,8 +203,8 @@ export class SettingsModalComponent implements OnInit {
         label: 'List Delimiter',
         required: true,
         description: 'Used to separate individual values in a single field when that field supports multiple values. ' +
-        'For example, when listDeliminator=;, multiple categories can be specified as: A;B;C. Commas can also be used ' +
-        'as the list delimiter value, provided quotes are used around the value, such as: "A,B,C".',
+          'For example, when listDeliminator=;, multiple categories can be specified as: A;B;C. Commas can also be used ' +
+          'as the list delimiter value, provided quotes are used around the value, such as: "A,B,C".',
         sortOrder: 31,
       }, {
         name: 'dateFormat',
@@ -212,19 +212,32 @@ export class SettingsModalComponent implements OnInit {
         label: 'Date Format',
         required: true,
         description: 'Default value is MM/dd/yy HH:mm. ' +
-        'Documentation: http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html',
+          'Documentation: http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html',
         sortOrder: 32,
       }, {
         name: 'processEmptyAssociations',
         type: 'tiles',
         label: 'Process Empty Associations',
         required: true,
-        description: 'If set to true then all To-Many association cells that are empty will remove any existing associations. ' +
-        'Default value is false, which will ignore the empty cells.',
+        description: 'If Yes then all To-Many association cells that are empty will remove any existing associations. ' +
+          'Defaults to No, which will ignore empty cells.',
         options: [
           { label: 'Yes', value: true },
           { label: 'No', value: false }],
         sortOrder: 33,
+      }, {
+        name: 'singleByteEncoding',
+        type: 'tiles',
+        label: 'Single Byte Encoding',
+        required: true,
+        description: 'If Yes then CSV files will be read in using the ISO-8859-1 (single-byte) encoding. ' +
+          'Defaults to No, which will read in CVS files using the UTF-8 (multi-byte) encoding. ' +
+          'The single byte encoding covers only latin characters and some accented characters while ' +
+          'UTF-8 covers all characters from all languages.',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 34,
       }, {
         name: 'numThreads',
         type: 'number',
