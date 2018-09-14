@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/bullhorn/dataloader-ui/compare/v1.6.0...v1.7.0) (2018-09-14)
+
+
+### Features
+
+* **File Encoding:** Added toggle for single byte encoding ([#86](https://github.com/bullhorn/dataloader-ui/issues/86)) ([d0d2465](https://github.com/bullhorn/dataloader-ui/commit/d0d2465))
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/bullhorn/dataloader-ui/compare/v1.5.0...v1.6.0) (2018-07-31)
 
