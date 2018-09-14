@@ -81,6 +81,7 @@ export class FileServiceFakes {
     listDelimiter: ';',
     dateFormat: 'MM/dd/yyyy',
     processEmptyAssociations: false,
+    singleByteEncoding: false,
     numThreads: 15,
     existFields: [{
       entity: 'Candidate',
