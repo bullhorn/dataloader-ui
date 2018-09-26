@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/bullhorn/dataloader-ui/compare/v1.7.0...v1.8.0) (2018-09-26)
+
+
+### Features
+
+* **Results:** Saving command line output for viewing later in history ([#89](https://github.com/bullhorn/dataloader-ui/issues/89)) ([041dd87](https://github.com/bullhorn/dataloader-ui/commit/041dd87))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/bullhorn/dataloader-ui/compare/v1.6.0...v1.7.0) (2018-09-14)
 
