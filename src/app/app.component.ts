@@ -128,12 +128,13 @@ export class AppComponent implements OnInit {
   private onDone(text: string): void {
     this.zone.run(() => {
       this.currentRun.output = this.currentRun.output.concat(text);
-      // Wait for final report from results file
+      this.fileService.writeOutputFile(this.currentRun.output);
+      // Wait a second for final report from results file (final file changes can occur just after CLI process exits)
       setTimeout(() => {
         this.fileService.unsubscribe();
         this.dataloaderService.unsubscribe();
         this.sendNotification();
-        this.fileService.getAllRuns(this.onRunData.bind(this));
+        this.fileService.getAllRuns(this.onRunData.bind(this)); // refreshes data
       }, 1000);
     });
   }

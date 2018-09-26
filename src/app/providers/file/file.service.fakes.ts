@@ -63,6 +63,7 @@ export class FakePreviewData {
 class Run {
   previewData: IPreviewData = new FakePreviewData();
   results: IResults = new FakeResultsData(this.previewData);
+  output: string = '\nData Loader Sample Output File\n   Total Records: 0\n';
 }
 
 /**

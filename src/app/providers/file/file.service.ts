@@ -42,6 +42,7 @@ export class FileService {
   private userDataDir: string;
   private runsDir: string;
   private resultsFile: string;
+  private outputFile: string;
   private settingsFile: string;
   private configFile: string;
 
@@ -68,6 +69,7 @@ export class FileService {
       let timestamp: string = moment().format('YYYY-MM-DD_HH.mm.ss');
       let runDir: string = path.join(this.runsDir, timestamp);
       this.resultsFile = path.join(runDir, 'results.json');
+      this.outputFile = path.join(runDir, 'output.txt');
 
       // Create runs directory if it does not exist
       if (!this.electronService.fs.existsSync(this.runsDir)) {
@@ -88,6 +90,9 @@ export class FileService {
     return '';
   }
 
+  /**
+   * Reads the user's settings file and sets appropriate defaults for missing values and older versions.
+   */
   readSettings(): ISettings {
     if (ElectronService.isElectron()) {
       if (this.electronService.fs.existsSync(this.settingsFile)) {
@@ -122,6 +127,9 @@ export class FileService {
     }
   }
 
+  /**
+   * Saves the users settings in the current settings file version.
+   */
   writeSettings(settings: ISettings): void {
     if (ElectronService.isElectron()) {
       let encryptedSettings: ISettings = Object.assign({}, settings);
@@ -159,6 +167,17 @@ export class FileService {
     if (ElectronService.isElectron()) {
       config.version = this.electronService.version();
       this.electronService.fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
+    }
+  }
+
+  /**
+   * Since the CLI does not save off the stderr/stdout to file, we capture it and save it out when a run completes
+   *
+   * @param output: the output text that has been captured during a run
+   */
+  writeOutputFile(output: string): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.fs.writeFileSync(this.outputFile, output);
     }
   }
 
@@ -254,12 +273,17 @@ export class FileService {
             if (this.electronService.fs.statSync(dir).isDirectory()) {
               let previewData: string = path.join(dir, 'previewData.json');
               let results: string = path.join(dir, 'results.json');
+              let output: string = path.join(dir, 'output.txt');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
                 try {
-                  allRuns.unshift({
+                  let run: IRun = {
                     previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
                     results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
-                  });
+                  };
+                  if (this.electronService.fs.existsSync(output)) {
+                    run.output = this.electronService.fs.readFileSync(output, 'utf8');
+                  }
+                  allRuns.unshift(run);
                 } catch (parseErr) {
                   console.error(`Error parsing run directory: ${dir} - ${parseErr}`); // tslint:disable-line:no-console
                 }
