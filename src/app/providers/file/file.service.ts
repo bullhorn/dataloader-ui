@@ -19,7 +19,7 @@ import { ISettings } from '../../../interfaces/ISettings';
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION: number = 3;
+  static SETTINGS_FILE_VERSION: number = 4;
 
   private defaultConfig: IConfig = {
     onboarded: false,
@@ -32,6 +32,7 @@ export class FileService {
     dataCenter: 'bhnext',
     listDelimiter: ';',
     processEmptyAssociations: false,
+    wildcardMatching: true,
     singleByteEncoding: false,
     dateFormat: 'MM/dd/yy HH:mm',
     authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
@@ -110,6 +111,10 @@ export class FileService {
           // Default singleByteEncoding before version 3
           if (!settings.version || settings.version < 3) {
             settings.singleByteEncoding = false;
+          }
+          // Default wildcardMatching before version 4
+          if (!settings.version || settings.version < 4) {
+            settings.wildcardMatching = true;
           }
           return settings;
         } catch (parseErr) {

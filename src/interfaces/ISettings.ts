@@ -18,6 +18,7 @@ export interface ISettings {
   listDelimiter: string;
   dateFormat: string;
   processEmptyAssociations: boolean;
+  wildcardMatching: boolean;
   singleByteEncoding: boolean;
   numThreads: number;
 }

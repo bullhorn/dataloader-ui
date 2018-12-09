@@ -27,6 +27,7 @@ export class Utils {
     args = args.concat(['listDelimiter', settings.listDelimiter]);
     args = args.concat(['dateFormat', settings.dateFormat]);
     args = args.concat(['processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false']);
+    args = args.concat(['wildcardMatching', settings.wildcardMatching ? 'true' : 'false']);
     args = args.concat(['singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false']);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
     args = args.concat(['resultsFileEnabled', 'true']);

@@ -226,6 +226,22 @@ export class SettingsModalComponent implements OnInit {
           { label: 'No', value: false }],
         sortOrder: 33,
       }, {
+        name: 'wildcardMatching',
+        type: 'tiles',
+        label: 'Wildcard Matching',
+        required: true,
+        description: 'If Yes then wildcards (*) can be used within a cell to search for multiple associations ' +
+          'without having to list all of them explicitly. For example, "Java*" can be used to match ' +
+          'skill entries like "Java" and "Javascript". For Search entities, instead of using literal matching, ' +
+          'the full lucene syntax is supported. See all available search options here: ' +
+          'https://lucene.apache.org/core/2_9_4/queryparsersyntax.html. For Query entities, (*) is is replaced with ' +
+          '(%) and the full MSSQL \'like\' syntax is supported. See all available query options here: ' +
+          'https://docs.microsoft.com/en-us/sql/t-sql/language-elements/like-transact-sql?view=sql-server-2017#arguments.',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 34,
+      }, {
         name: 'singleByteEncoding',
         type: 'tiles',
         label: 'Single Byte Encoding',
@@ -237,7 +253,7 @@ export class SettingsModalComponent implements OnInit {
         options: [
           { label: 'Yes', value: true },
           { label: 'No', value: false }],
-        sortOrder: 34,
+        sortOrder: 35,
       }, {
         name: 'numThreads',
         type: 'number',
