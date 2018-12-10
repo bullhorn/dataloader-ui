@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.9.0"></a>
+# [1.9.0](https://github.com/bullhorn/dataloader-ui/compare/v1.8.0...v1.9.0) (2018-12-10)
+
+
+### Features
+
+* **Settings:** Added Wildcard Search setting ([#92](https://github.com/bullhorn/dataloader-ui/issues/92)) ([02530ba](https://github.com/bullhorn/dataloader-ui/commit/02530ba))
+
+
+
 <a name="1.8.0"></a>
 # [1.8.0](https://github.com/bullhorn/dataloader-ui/compare/v1.7.0...v1.8.0) (2018-09-26)
 
