@@ -21,4 +21,5 @@ export interface ISettings {
   wildcardMatching: boolean;
   singleByteEncoding: boolean;
   numThreads: number;
+  caching: boolean;
 }

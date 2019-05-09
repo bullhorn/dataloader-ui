@@ -85,6 +85,7 @@ export class FileServiceFakes {
     wildcardMatching: true,
     singleByteEncoding: false,
     numThreads: 15,
+    caching: true,
     existFields: [{
       entity: 'Candidate',
       enabled: true,

@@ -45,10 +45,15 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-west.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-west.bullhornstaffing.com/rest-services/login',
       },
-      apac: {
+      west50: {
         authorizeUrl: 'https://auth-west50.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-west50.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-west50.bullhornstaffing.com/rest-services/login',
+      },
+      apac: {
+        authorizeUrl: 'https://auth-apac.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-apac.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-apac.bullhornstaffing.com/rest-services/login',
       },
       uk: {
         authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
@@ -169,7 +174,8 @@ export class SettingsModalComponent implements OnInit {
           { label: 'U.S. East (Waltham) - CLS5, CLS2, CLS20', value: 'waltham' },
           { label: 'U.S. East - CLS40, CLS41, CLS42', value: 'east' },
           { label: 'U.S. West - CLS30, CLS31, CLS32, CLS33, CLS34', value: 'west' },
-          { label: 'Asia Pacific - CLS50', value: 'apac' },
+          { label: 'U.S. West - CLS50', value: 'west50' },
+          { label: 'Asia Pacific - CLS60', value: 'apac' },
           { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },
           { label: 'Germany - CLS70', value: 'germany' },
           { label: 'BHNext', value: 'bhnext' },
@@ -260,9 +266,21 @@ export class SettingsModalComponent implements OnInit {
         label: 'Number of Threads',
         required: true,
         description: 'Number of threads to concurrently upload rows. Min: 1, Max: 15.',
-        sortOrder: 41,
         min: 1,
         max: 15,
+        sortOrder: 41,
+      }, {
+        name: 'caching',
+        type: 'tiles',
+        label: 'Caching',
+        required: true,
+        description: 'Makes loading data much faster by making as few rest calls as possible. Stores data client ' +
+          'side so that the same data is not requested multiple times. Only in special circumstances would ' +
+          'disabling caching make sense. The default is true, faster is better.',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 42,
       }],
     };
 

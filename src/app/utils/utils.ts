@@ -30,6 +30,7 @@ export class Utils {
     args = args.concat(['wildcardMatching', settings.wildcardMatching ? 'true' : 'false']);
     args = args.concat(['singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false']);
     args = args.concat(['numThreads', settings.numThreads.toString()]);
+    args = args.concat(['caching', settings.caching ? 'true' : 'false']);
     args = args.concat(['resultsFileEnabled', 'true']);
     args = args.concat(['resultsFilePath', resultsFilePath]);
     args = args.concat(['resultsFileWriteIntervalMsec', '500']);

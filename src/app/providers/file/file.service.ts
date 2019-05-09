@@ -19,7 +19,7 @@ import { ISettings } from '../../../interfaces/ISettings';
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION: number = 4;
+  static SETTINGS_FILE_VERSION: number = 5;
 
   private defaultConfig: IConfig = {
     onboarded: false,
@@ -39,6 +39,7 @@ export class FileService {
     tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
     loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
     numThreads: 15,
+    caching: true,
   };
   private userDataDir: string;
   private runsDir: string;
@@ -115,6 +116,10 @@ export class FileService {
           // Default wildcardMatching before version 4
           if (!settings.version || settings.version < 4) {
             settings.wildcardMatching = true;
+          }
+          // Default caching before version 5
+          if (!settings.version || settings.version < 5) {
+            settings.caching = true;
           }
           return settings;
         } catch (parseErr) {
