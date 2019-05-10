@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.10.0"></a>
+# [1.10.0](https://github.com/bullhorn/dataloader-ui/compare/v1.9.0...v1.10.0) (2019-05-10)
+
+
+### Features
+
+* **Caching:** Updated to CLI version with caching and new Data Center ([#93](https://github.com/bullhorn/dataloader-ui/issues/93)) ([e1ca867](https://github.com/bullhorn/dataloader-ui/commit/e1ca867))
+
+
+
 <a name="1.9.0"></a>
 # [1.9.0](https://github.com/bullhorn/dataloader-ui/compare/v1.8.0...v1.9.0) (2018-12-10)
 
