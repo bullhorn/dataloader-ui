@@ -1,7 +1,8 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import { ipcRenderer, shell } from 'electron'; // tslint:disable-line
+// noinspection ES6UnusedImports
+import { ipcRenderer, shell } from 'electron';
 
 /**
  * If running `npm start`, this will grab the appropriate Electron imports in one place to hand to Angular.
@@ -37,7 +38,7 @@ export class ElectronService {
     }
   }
 
-  static isElectron(): void {
+  static isElectron(): boolean {
     return window && window['process'] && window['process'].type;
   }
 
