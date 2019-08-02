@@ -69,22 +69,14 @@ npm run package
 
 Run `ng serve` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. The app will not have any Electron functionality, but is useful for developing the Angular App using fake data without having to wait for Electron.
 
-#### Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 #### Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-#### Generating package-lock.json
+#### Note on updating package.json
 
 The `package-lock.json` file is used by Travis CI to build the same exact version of dependencies that was used during development. The use of the [Bullhorn Internal Artifactory](https://artifactory.bullhorn.com) will break the use of `package-lock.json` by Travis CI. Prior to doing an `npm install`, make sure to switch back to the public npm repo: 
 
   ```
   nrm use npm
   ```
-
-#### Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
