@@ -24,7 +24,6 @@ dataloader.zip
 *.launch
 .settings/
 *.sublime-workspace
-*.iml
 
 # IDE - VSCode
 .vscode/*
