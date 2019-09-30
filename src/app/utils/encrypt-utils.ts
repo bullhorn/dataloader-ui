@@ -2,7 +2,7 @@
 import { AES, enc } from 'crypto-js';
 
 export class EncryptUtils {
-  static PASSWORD: string = 'viKing-761-biSCuIT';
+  static PASSWORD = 'viKing-761-biSCuIT';
 
   static encrypt(text: string): string {
     return AES.encrypt(text, this.PASSWORD).toString();

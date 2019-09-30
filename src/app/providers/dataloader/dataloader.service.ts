@@ -26,9 +26,9 @@ export class DataloaderService {
    */
   start(previewData: IPreviewData): void {
     if (ElectronService.isElectron()) {
-      let settings: ISettings = this.fileService.readSettings();
-      let resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
-      let args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
+      const settings: ISettings = this.fileService.readSettings();
+      const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
+      const args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
       this.electronService.ipcRenderer.send('start', args);
     }
   }

@@ -18,7 +18,7 @@ export class AnalyticsService {
   constructor(private electronService: ElectronService,
               private fileService: FileService) {
     // Retrieve uuid from the config file, and if it's not there, assign it a new uuid.
-    let config: IConfig = this.fileService.readConfig();
+    const config: IConfig = this.fileService.readConfig();
     if (!config.uuid) {
       config.uuid = uuid();
       this.fileService.writeConfig(config);

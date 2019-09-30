@@ -2,7 +2,7 @@ import { app, BrowserWindow, shell } from 'electron';
 import * as path from 'path';
 
 export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemConstructorOptions[] {
-  let menuTemplate: Electron.MenuItemConstructorOptions[] = [
+  const menuTemplate: Electron.MenuItemConstructorOptions[] = [
     {
       label: 'Edit',
       submenu: [{
@@ -64,7 +64,8 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
       }, {
         label: 'Example Files',
         click: () => {
-          shell.showItemInFolder(path.join(app.getAppPath(), 'dataloader', 'examples', 'load', 'Appointment.csv').replace('app.asar', 'app.asar.unpacked'));
+          shell.showItemInFolder(path.join(app.getAppPath(), 'dataloader', 'examples', 'load', 'Appointment.csv')
+            .replace('app.asar', 'app.asar.unpacked'));
         },
       }, {
         type: 'separator',

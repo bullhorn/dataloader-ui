@@ -8,6 +8,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-// noinspection TsLint
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch((err) => console.log(err)); // tslint:disable-line
+  .catch((err) => console.error(err));

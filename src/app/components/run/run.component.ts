@@ -27,7 +27,7 @@ export class RunComponent implements OnChanges {
   @Input() previewData: IPreviewData;
   @Input() results: IResults;
   @Input() running: boolean;
-  @Input() isSelected: boolean = false;
+  @Input() isSelected = false;
   fileName: string;
   icon: string;
   theme: string;

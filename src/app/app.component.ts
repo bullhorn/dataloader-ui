@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
     }
 
     // Show about modal if this is the first time the user is opening the app
-    let config: IConfig = this.fileService.readConfig();
+    const config: IConfig = this.fileService.readConfig();
     if (!config.onboarded) {
       this.modalService.open(AboutModalComponent);
       this.fileService.writeConfig(Object.assign(config, { onboarded: true }));
@@ -156,10 +156,11 @@ export class AppComponent implements OnInit {
   private sendNotification(): void {
     if (this.currentRun.results) {
       this.analyticsService.trackCompleted(this.currentRun, this.fileService.readSettings());
-      let entity: string = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
-      let total: string = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
-      let counts: string = `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
-      let duration: string = Utils.msecToHMS(this.currentRun.results.durationMsec);
+      const entity = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
+      const total = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
+      const counts =
+        `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
+      const duration = Utils.msecToHMS(this.currentRun.results.durationMsec);
       new Notification(`Loaded ${total} ${entity} Records in ${duration}`, { body: counts }); // tslint:disable-line
     }
   }

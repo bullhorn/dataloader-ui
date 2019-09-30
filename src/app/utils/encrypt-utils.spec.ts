@@ -1,7 +1,7 @@
 import { EncryptUtils } from './encrypt-utils';
 
 describe('EncryptUtils', () => {
-  let password: string = 'Passw0rd!';
+  const password = 'Passw0rd!';
 
   describe('Method: encrypt', () => {
     it('should provide encryption of plain text', () => {

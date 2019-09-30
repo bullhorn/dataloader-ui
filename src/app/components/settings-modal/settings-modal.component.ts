@@ -18,7 +18,7 @@ export class SettingsModalComponent implements OnInit {
   constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {}
 
   private static removeExtraFields(value: ISettings): ISettings {
-    let result: any = Object.assign({}, value);
+    const result: any = Object.assign({}, value);
     delete result.existFields;
     delete result.version;
     return result;
@@ -82,11 +82,13 @@ export class SettingsModalComponent implements OnInit {
       },
     };
 
-    let currentValue: string = API.getActiveValue();
+    const currentValue: string = API.getActiveValue();
     if (dataCenterUrls[currentValue]) {
-      let urls: any = dataCenterUrls[currentValue];
-      for (let key in urls) {
-        API.setValue(key, urls[key]);
+      const urls: any = dataCenterUrls[currentValue];
+      for (const key in urls) {
+        if (urls.hasOwnProperty(key)) {
+          API.setValue(key, urls[key]);
+        }
       }
     }
   }
@@ -110,7 +112,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   private setupForm(): void {
-    let meta: any = {
+    const meta: any = {
       sectionHeaders: [{
         label: 'Credentials',
         name: 'credentials',
@@ -169,7 +171,8 @@ export class SettingsModalComponent implements OnInit {
         type: 'select',
         label: 'Data Center',
         required: true,
-        description: 'The location of the Bullhorn REST server endpoints to use when loading data: http://bullhorn.github.io/Data-Center-URLs',
+        description: 'The location of the Bullhorn REST server endpoints to use when loading data: ' +
+          'http://bullhorn.github.io/Data-Center-URLs',
         options: [
           { label: 'U.S. East (Waltham) - CLS5, CLS2, CLS20', value: 'waltham' },
           { label: 'U.S. East - CLS40, CLS41, CLS42', value: 'east' },

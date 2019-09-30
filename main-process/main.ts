@@ -66,7 +66,9 @@ app.on('activate', () => {
  */
 ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   const userDataDir: string = serve ? path.resolve('userData') : app.getPath('userData');
-  const dataloaderDir: string = serve ? path.resolve('dataloader') : path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
+  const dataloaderDir: string = serve ?
+    path.resolve('dataloader') :
+    path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
 
   // Locate the jar file
   const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
@@ -86,7 +88,7 @@ ipcMain.on('start', (event: Electron.Event, params: string[]) => {
   }
 
   // Output Data Loader version info
-  let version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
+  const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
   event.sender.send('print', `Data Loader CLI v${version}\n`);
 
   // Execute dataloader in separate process

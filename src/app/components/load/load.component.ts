@@ -23,10 +23,10 @@ export class LoadComponent implements OnInit, OnDestroy {
   fieldSets: NovoFieldset[];
   previewTable: any = {};
   inputFilePath = null;
-  entity: string = '';
-  icon: string = '';
-  theme: string = '';
-  fileName: string = '';
+  entity = '';
+  icon = '';
+  theme = '';
+  fileName = '';
   existField: IExistField;
   fieldInteractionApi: FieldInteractionApi;
 
@@ -47,7 +47,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   setupForm(): void {
-    let meta: any = {
+    const meta: any = {
       fields: [{
         name: 'file',
         type: 'file',
@@ -101,7 +101,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   load(): void {
-    let settings: ISettings = this.fileService.readSettings();
+    const settings: ISettings = this.fileService.readSettings();
     if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
       this.modalService.open(ErrorModalComponent, {
         title: 'Missing Login Credentials',
@@ -118,7 +118,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     if (!this.fieldInteractionApi) {
       this.fieldInteractionApi = API;
     }
-    let selectedFiles: any = API.form.value.file;
+    const selectedFiles: any = API.form.value.file;
     if (selectedFiles && selectedFiles.length) {
       this.inputFilePath = selectedFiles[0].file.path || selectedFiles[0].file.name;
       this.fileService.getCsvPreviewData(this.inputFilePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));

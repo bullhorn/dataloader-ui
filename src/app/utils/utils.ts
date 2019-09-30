@@ -42,8 +42,8 @@ export class Utils {
   static createExistFieldArgs(settings: ISettings, filePath: string): string[] {
     let args: string[] = [];
     if (settings.existFields) {
-      let entity: string = Utils.getEntityNameFromFile(filePath);
-      let existField: IExistField = Utils.getExistField(settings, entity);
+      const entity: string = Utils.getEntityNameFromFile(filePath);
+      const existField: IExistField = Utils.getExistField(settings, entity);
       if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
         args = args.concat([entity + 'ExistField', existField.fields.join(',')]);
       }
@@ -168,20 +168,22 @@ export class Utils {
   }
 
   static createColumnConfig(data: any[]): any[] {
-    let columnConfig: any[] = [];
+    const columnConfig: any[] = [];
 
-    for (let key in data[0]) {
-      columnConfig.push({
-        name: key,
-        title: key,
-      });
+    for (const key in data[0]) {
+      if (data[0].hasOwnProperty(key)) {
+        columnConfig.push({
+          name: key,
+          title: key,
+        });
+      }
     }
 
     return columnConfig;
   }
 
   static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
-    let icon: string = 'circle';
+    let icon = 'circle';
     let entityName: string = Utils.getEntityNameFromFile(filePath);
     if (entityName.includes('CustomObject')) {
       entityName = 'CustomObject';
@@ -196,8 +198,8 @@ export class Utils {
   }
 
   static getThemeForFilename(filePath: string): string {
-    let theme: string = 'note';
-    let entityName: string = Utils.getEntityNameFromFile(filePath);
+    let theme = 'note';
+    const entityName: string = Utils.getEntityNameFromFile(filePath);
     if (entityName && Utils.ENTITY_THEMES[entityName]) {
       theme = Utils.ENTITY_THEMES[entityName];
     }
@@ -205,8 +207,8 @@ export class Utils {
   }
 
   static getEntityNameFromFile(filePath: string): string {
-    let fileName: string = Utils.getFilenameFromPath(filePath);
-    let bestMatch: string = '';
+    const fileName: string = Utils.getFilenameFromPath(filePath);
+    let bestMatch = '';
     Utils.ENTITY_NAMES.forEach((entityName) => {
       if (fileName.toUpperCase().startsWith(entityName.toUpperCase())) {
         if (bestMatch.length < entityName.length) {
@@ -223,7 +225,7 @@ export class Utils {
   }
 
   static msecToHMS(milliseconds: number): string {
-    let date: Date = new Date(null);
+    const date: Date = new Date(null);
     date.setMilliseconds(milliseconds ? milliseconds : 0);
     return date.toISOString().substr(11, 8);
   }
@@ -239,7 +241,7 @@ export class Utils {
       fields: [],
     };
     if (Array.isArray(settings.existFields)) {
-      let existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
+      const existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
       if (existing) {
         existField = Object.assign({}, existing);
       }
@@ -251,7 +253,7 @@ export class Utils {
     if (!settings.existFields) {
       settings.existFields = [];
     }
-    let index: number = settings.existFields.findIndex((ef: IExistField) => ef.entity === existField.entity);
+    const index: number = settings.existFields.findIndex((ef: IExistField) => ef.entity === existField.entity);
     if (index > -1) {
       settings.existFields[index] = existField;
     } else {
@@ -287,7 +289,7 @@ export class Utils {
       return num.toString();
     } else {
       let d: number | undefined;
-      let letter: string = '';
+      let letter = '';
       if (num < 1000000) {
         d = 1000;
         letter = 'k';

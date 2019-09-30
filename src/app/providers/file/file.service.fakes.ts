@@ -9,14 +9,14 @@ import { ISettings } from '../../../interfaces/ISettings';
 import { Utils } from '../../utils/utils';
 
 class FakeResultsData {
-  processed: number = 0;
-  inserted: number = 0;
-  updated: number = 0;
-  deleted: number = 0;
-  failed: number = 0;
-  successFile: string = '/Path/to/dataloader/results/Candidate_load_success.csv';
-  failureFile: string = '/Path/to/dataloader/results/Candidate_load_failure.csv';
-  logFile: string = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
+  processed = 0;
+  inserted = 0;
+  updated = 0;
+  deleted = 0;
+  failed = 0;
+  successFile = '/Path/to/dataloader/results/Candidate_load_success.csv';
+  failureFile = '/Path/to/dataloader/results/Candidate_load_failure.csv';
+  logFile = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
   startTime: number;
   durationMsec: number;
   errors: IErrors[] = [];
@@ -32,7 +32,7 @@ class FakeResultsData {
         this.updated = Math.floor(this.inserted / 2);
         this.inserted = this.inserted - this.updated;
       }
-      for (let i: number = 0; i < this.failed; ++i) {
+      for (let i = 0; i < this.failed; ++i) {
         this.errors.push({
           row: i,
           id: i + 10000,
@@ -54,7 +54,7 @@ export class FakePreviewData {
   ];
 
   constructor() {
-    let entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    const entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (400 - 1)) + 1;
   }
@@ -63,7 +63,7 @@ export class FakePreviewData {
 class Run {
   previewData: IPreviewData = new FakePreviewData();
   results: IResults = new FakeResultsData(this.previewData);
-  output: string = '\nData Loader Sample Output File\n   Total Records: 0\n';
+  output = '\nData Loader Sample Output File\n   Total Records: 0\n';
 }
 
 /**
@@ -133,10 +133,10 @@ export class FileServiceFakes {
   }
 
   static generateFakeResults(callback: (results: IResults) => {}): void {
-    let fakeResults: IResults = new FakeResultsData();
-    const MAX_ITERATIONS: number = 30;
-    let i: number = 0;
-    let interval: Timer = setInterval(() => {
+    const fakeResults: IResults = new FakeResultsData();
+    const MAX_ITERATIONS = 30;
+    let i = 0;
+    const interval: Timer = setInterval(() => {
       fakeResults.processed += 7;
       fakeResults.inserted += 4;
       fakeResults.updated += 2;
