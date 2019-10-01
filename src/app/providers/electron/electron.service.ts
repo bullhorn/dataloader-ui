@@ -15,6 +15,7 @@ export class ElectronService {
   fs: any;
   ipcRenderer: any;
   os: any;
+  path: any;
   process: any;
   shell: any;
   spawn: any;
@@ -32,6 +33,7 @@ export class ElectronService {
       this.fs = window.require('fs');
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.os = window.require('os');
+      this.path = window['path'];
       this.process = window['process'];
       this.shell = window.require('electron').shell;
       this.spawn = window.require('child_process').spawn;

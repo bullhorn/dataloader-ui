@@ -52,9 +52,9 @@ export class FileService {
               private modalService: NovoModalService) {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
-      this.settingsFile = path.join(this.userDataDir, 'settings.json');
-      this.configFile = path.join(this.userDataDir, '.config.json');
-      this.runsDir = path.join(this.userDataDir, 'runs');
+      this.settingsFile = this.electronService.path.join(this.userDataDir, 'settings.json');
+      this.configFile = this.electronService.path.join(this.userDataDir, '.config.json');
+      this.runsDir = this.electronService.path.join(this.userDataDir, 'runs');
     }
   }
 
@@ -69,9 +69,9 @@ export class FileService {
       // Create directory for the run where the dir name is the current timestamp:
       // <userData>/runs/<run timestamp>/results.json
       const timestamp: string = moment().format('YYYY-MM-DD_HH.mm.ss');
-      const runDir: string = path.join(this.runsDir, timestamp);
-      this.resultsFile = path.join(runDir, 'results.json');
-      this.outputFile = path.join(runDir, 'output.txt');
+      const runDir: string = this.electronService.path.join(this.runsDir, timestamp);
+      this.resultsFile = this.electronService.path.join(runDir, 'results.json');
+      this.outputFile = this.electronService.path.join(runDir, 'output.txt');
 
       // Create runs directory if it does not exist
       if (!this.electronService.fs.existsSync(this.runsDir)) {
@@ -84,10 +84,10 @@ export class FileService {
       }
 
       // Save off previewData for this run
-      this.writePreviewData(previewData, path.join(runDir, 'previewData.json'));
+      this.writePreviewData(previewData, this.electronService.path.join(runDir, 'previewData.json'));
 
       // Return the relative path for CLI arguments
-      return path.join('runs', timestamp, 'results.json');
+      return this.electronService.path.join('runs', timestamp, 'results.json');
     }
     return '';
   }
@@ -209,9 +209,10 @@ export class FileService {
    * }
    */
   getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}, onError: (message: string) => {}): void {
-    if (path.extname(filePath).toLowerCase() !== '.csv') {
-      onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
-    } else if (ElectronService.isElectron()) {
+    if (ElectronService.isElectron()) {
+      if (this.electronService.path.extname(filePath).toLowerCase() !== '.csv') {
+        onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
+      }
       const MAX_ROWS = 100;
       const previewData: IPreviewData = {
         filePath: filePath,
@@ -280,11 +281,11 @@ export class FileService {
           console.error(err); // tslint:disable-line:no-console
         } else {
           files.forEach((file) => {
-            const dir: string = path.join(this.runsDir, file);
+            const dir: string = this.electronService.path.join(this.runsDir, file);
             if (this.electronService.fs.statSync(dir).isDirectory()) {
-              const previewData: string = path.join(dir, 'previewData.json');
-              const results: string = path.join(dir, 'results.json');
-              const output: string = path.join(dir, 'output.txt');
+              const previewData: string = this.electronService.path.join(dir, 'previewData.json');
+              const results: string = this.electronService.path.join(dir, 'results.json');
+              const output: string = this.electronService.path.join(dir, 'output.txt');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
                 try {
                   const run: IRun = {
