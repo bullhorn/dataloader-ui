@@ -155,7 +155,7 @@ export class AppComponent implements OnInit {
    */
   private sendNotification(): void {
     if (this.currentRun.results) {
-      this.analyticsService.trackCompleted(this.currentRun, this.fileService.readSettings());
+      this.analyticsService.trackEvent('Completed', this.currentRun);
       const entity = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
       const total = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
       const counts =

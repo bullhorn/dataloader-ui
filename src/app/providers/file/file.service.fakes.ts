@@ -99,6 +99,8 @@ export class FileServiceFakes {
 
   static CONFIG: IConfig = {
     onboarded: true,
+    uuid: 'localhost-testing-uuid',
+    version: 'NEXT',
   };
 
   static ALL_RUNS: IRun[] = [
