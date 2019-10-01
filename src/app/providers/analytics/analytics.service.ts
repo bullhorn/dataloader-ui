@@ -1,7 +1,7 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import * as ua from 'universal-analytics';
+// import * as ua from 'universal-analytics';
 import * as uuid from 'uuid/v4';
 // App
 import { ElectronService } from '../electron/electron.service';
@@ -23,7 +23,7 @@ export class AnalyticsService {
       config.uuid = uuid();
       this.fileService.writeConfig(config);
     }
-    this.analytics = ua('UA-84038213-1', config.uuid);
+    // this.analytics = ua('UA-84038213-1', config.uuid);
   }
 
   trackEvent(category: string, run: IRun): void {

@@ -75,7 +75,6 @@
     "roboto-fontface": "0.10.0",
     "rxjs": "6.5.3",
     "text-mask-addons": "3.8.0",
-    "universal-analytics": "^0.4.20",
     "uuidv4": "^5.0.1",
     "zone.js": "0.10.2"
   },
