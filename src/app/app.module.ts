@@ -1,7 +1,7 @@
 // Angular
+import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
@@ -20,6 +20,14 @@ import { RunComponent } from './components/run/run.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 
 @NgModule({
+  imports: [
+    // Angular
+    BrowserAnimationsModule,
+    BrowserModule,
+    // Vendor
+    NovoElementsModule,
+    NovoElementProviders.forRoot(),
+  ],
   declarations: [
     AboutModalComponent,
     AppComponent,
@@ -36,14 +44,6 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
     ErrorModalComponent,
     MissingJavaModalComponent,
     SettingsModalComponent,
-  ],
-  imports: [
-    // Angular
-    BrowserAnimationsModule,
-    BrowserModule,
-    // Vendor
-    NovoElementsModule,
-    NovoElementProviders.forRoot(),
   ],
   providers: [
     AnalyticsService,
