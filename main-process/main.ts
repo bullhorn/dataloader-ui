@@ -17,7 +17,15 @@ let mainWindow: Electron.BrowserWindow = null;
 let dataloaderProcess: ChildProcess = null;
 
 function createWindow(): void {
-  mainWindow = new BrowserWindow({ width: 800, height: 600, minWidth: 640, minHeight: 440 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minWidth: 640,
+    minHeight: 440,
+    webPreferences: {
+      nodeIntegration: true,
+    }
+  });
   const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
   Menu.setApplicationMenu(menu);
   mainWindow.loadURL(`file://${__dirname}/index.html`);
