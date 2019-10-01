@@ -64,7 +64,7 @@ app.on('activate', () => {
  *  - print(text: string): line of text output from CLI
  *  - done(error: string): CLI is finished, with error text only if there was an error
  */
-ipcMain.on('start', (event: Electron.Event, params: string[]) => {
+ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
   const userDataDir: string = serve ? path.resolve('userData') : app.getPath('userData');
   const dataloaderDir: string = serve ?
     path.resolve('dataloader') :

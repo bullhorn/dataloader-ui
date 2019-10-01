@@ -30,7 +30,7 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
       }, {
         label: 'Select All',
         accelerator: 'CmdOrCtrl+A',
-        role: 'selectall',
+        role: 'selectAll',
       }],
     },
     {
@@ -128,7 +128,7 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
         }, {
           label: 'Hide Others',
           accelerator: 'Command+Alt+H',
-          role: 'hideothers',
+          role: 'hideOthers',
         }, {
           label: 'Show All',
           role: 'unhide',
