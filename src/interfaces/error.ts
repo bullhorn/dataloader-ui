@@ -1,4 +1,4 @@
-export interface IError {
+export interface Error {
   title: string;
   message: string;
 }

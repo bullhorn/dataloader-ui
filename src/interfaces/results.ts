@@ -1,10 +1,10 @@
-export interface IErrors {
+export interface Errors {
   row: number;
   id: number;
   message: string;
 }
 
-export interface IResults {
+export interface Results {
   processed?: number;
   inserted?: number;
   updated?: number;
@@ -15,5 +15,5 @@ export interface IResults {
   logFile?: string;
   startTime?: number;
   durationMsec?: number;
-  errors?: IErrors[];
+  errors?: Errors[];
 }

@@ -1,12 +1,8 @@
 // Vendor
 import Timer = NodeJS.Timer;
 // App
-import { IConfig } from '../../../interfaces/IConfig';
-import { IErrors, IResults } from '../../../interfaces/IResults';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { IRun } from '../../../interfaces/IRun';
-import { ISettings } from '../../../interfaces/ISettings';
 import { Utils } from '../../utils/utils';
+import { Config, Errors, PreviewData, Results, Settings } from '../../../interfaces';
 
 class FakeResultsData {
   processed = 0;
@@ -19,9 +15,9 @@ class FakeResultsData {
   logFile = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
   startTime: number;
   durationMsec: number;
-  errors: IErrors[] = [];
+  errors: Errors[] = [];
 
-  constructor(previewData: IPreviewData = null) {
+  constructor(previewData: PreviewData = null) {
     this.startTime = Math.floor(Math.random() * (Date.now()));
     this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
     if (previewData) {
@@ -61,8 +57,8 @@ export class FakePreviewData {
 }
 
 class Run {
-  previewData: IPreviewData = new FakePreviewData();
-  results: IResults = new FakeResultsData(this.previewData);
+  previewData: PreviewData = new FakePreviewData();
+  results: Results = new FakeResultsData(this.previewData);
   output = '\nData Loader Sample Output File\n   Total Records: 0\n';
 }
 
@@ -70,7 +66,7 @@ class Run {
  * Fake test data for running in `ng serve` mode
  */
 export class FileServiceFakes {
-  static SETTINGS: ISettings = {
+  static SETTINGS: Settings = {
     username: 'jsmith',
     password: 'password!',
     clientId: '12345',
@@ -97,13 +93,13 @@ export class FileServiceFakes {
     }],
   };
 
-  static CONFIG: IConfig = {
+  static CONFIG: Config = {
     onboarded: true,
     uuid: 'localhost-testing-uuid',
     version: 'NEXT',
   };
 
-  static ALL_RUNS: IRun[] = [
+  static ALL_RUNS: Run[] = [
     new Run(),
     new Run(),
     new Run(),
@@ -129,13 +125,13 @@ export class FileServiceFakes {
     new Run(),
   ];
 
-  static getAllRuns(): IRun[] {
+  static getAllRuns(): Run[] {
     this.ALL_RUNS.unshift(new Run());
     return this.ALL_RUNS;
   }
 
-  static generateFakeResults(callback: (results: IResults) => {}): void {
-    const fakeResults: IResults = new FakeResultsData();
+  static generateFakeResults(callback: (results: Results) => {}): void {
+    const fakeResults: Results = new FakeResultsData();
     const MAX_ITERATIONS = 30;
     let i = 0;
     const interval: Timer = setInterval(() => {

@@ -12,13 +12,10 @@ import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { FileService } from './providers/file/file.service';
-import { IConfig } from '../interfaces/IConfig';
-import { IResults } from '../interfaces/IResults';
-import { IRun } from '../interfaces/IRun';
-import { ISettings } from '../interfaces/ISettings';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 import { Utils } from './utils/utils';
+import { Config, Results, Run, Settings } from '../interfaces';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
@@ -33,11 +30,11 @@ momentDurationFormatSetup(moment);
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  static EMPTY_RUN: IRun = { previewData: null, results: null, output: '\n' };
+  static EMPTY_RUN: Run = { previewData: null, results: null, output: '\n' };
 
-  currentRun: IRun = Object.assign({}, AppComponent.EMPTY_RUN);
-  selectedRun: IRun | null = this.currentRun;
-  runHistory: IRun[] = [];
+  currentRun: Run = Object.assign({}, AppComponent.EMPTY_RUN);
+  selectedRun: Run | null = this.currentRun;
+  runHistory: Run[] = [];
 
   constructor(private analyticsService: AnalyticsService,
               private dataloaderService: DataloaderService,
@@ -72,13 +69,13 @@ export class AppComponent implements OnInit {
     document.addEventListener('drop', (event) => event.preventDefault());
 
     // Show settings modal if user has not filled in the credentials section
-    const settings: ISettings = this.fileService.readSettings();
+    const settings: Settings = this.fileService.readSettings();
     if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
       this.modalService.open(SettingsModalComponent);
     }
 
     // Show about modal if this is the first time the user is opening the app
-    const config: IConfig = this.fileService.readConfig();
+    const config: Config = this.fileService.readConfig();
     if (!config.onboarded) {
       this.modalService.open(AboutModalComponent);
       this.fileService.writeConfig(Object.assign(config, { onboarded: true }));
@@ -99,7 +96,7 @@ export class AppComponent implements OnInit {
     this.dataloaderService.stop();
   }
 
-  private onRunData(runs: IRun[]): void {
+  private onRunData(runs: Run[]): void {
     this.zone.run(() => {
       this.runHistory = runs;
       // If refreshing after a run completed, show that run in the history
@@ -142,7 +139,7 @@ export class AppComponent implements OnInit {
   /**
    * Emitted from the file watcher that is watching the dataloader results file be updated twice per second
    */
-  private onResultsFileChange(results: IResults): void {
+  private onResultsFileChange(results: Results): void {
     if (results && results.durationMsec) {
       this.zone.run(() => {
         this.currentRun.results = results;

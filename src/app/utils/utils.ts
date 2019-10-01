@@ -1,9 +1,7 @@
 // Vendor
 import * as moment from 'moment';
-import { IDuration } from '../../interfaces/IDuration';
 // App
-import { IExistField, ISettings } from '../../interfaces/ISettings';
-import { IPreviewData } from '../../interfaces/IPreviewData';
+import { Duration, ExistField, PreviewData, Settings } from '../../interfaces';
 
 export class Utils {
 
@@ -11,11 +9,11 @@ export class Utils {
    * Given a settings object with dataloader properties and a filename to load, this method returns CLI args
    *
    * @param settings the settings object with properties set by the user
-   * @param {IPreviewData} previewData data about the user entered input file
+   * @param {PreviewData} previewData data about the user entered input file
    * @param resultsFilePath the path to generate for the results file
    * @returns {string[]} the array of arguments to pass to the CLI
    */
-  static createArgs(settings: ISettings, previewData: IPreviewData, resultsFilePath: string): string[] {
+  static createArgs(settings: Settings, previewData: PreviewData, resultsFilePath: string): string[] {
     let args: string[] = [];
     args = args.concat(['username', settings.username]);
     args = args.concat(['password', settings.password]);
@@ -39,11 +37,11 @@ export class Utils {
     return args;
   }
 
-  static createExistFieldArgs(settings: ISettings, filePath: string): string[] {
+  static createExistFieldArgs(settings: Settings, filePath: string): string[] {
     let args: string[] = [];
     if (settings.existFields) {
       const entity: string = Utils.getEntityNameFromFile(filePath);
-      const existField: IExistField = Utils.getExistField(settings, entity);
+      const existField: ExistField = Utils.getExistField(settings, entity);
       if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
         args = args.concat([entity + 'ExistField', existField.fields.join(',')]);
       }
@@ -234,14 +232,14 @@ export class Utils {
     return moment(startTime).format('M/D/YY');
   }
 
-  static getExistField(settings: ISettings, entity: string): IExistField {
-    let existField: IExistField = {
+  static getExistField(settings: Settings, entity: string): ExistField {
+    let existField: ExistField = {
       entity: entity,
       enabled: false,
       fields: [],
     };
     if (Array.isArray(settings.existFields)) {
-      const existing: IExistField = settings.existFields.find((ef: IExistField) => ef.entity === entity);
+      const existing: ExistField = settings.existFields.find((ef: ExistField) => ef.entity === entity);
       if (existing) {
         existField = Object.assign({}, existing);
       }
@@ -249,11 +247,11 @@ export class Utils {
     return existField;
   }
 
-  static setExistField(settings: ISettings, existField: IExistField): void {
+  static setExistField(settings: Settings, existField: ExistField): void {
     if (!settings.existFields) {
       settings.existFields = [];
     }
-    const index: number = settings.existFields.findIndex((ef: IExistField) => ef.entity === existField.entity);
+    const index: number = settings.existFields.findIndex((ef: ExistField) => ef.entity === existField.entity);
     if (index > -1) {
       settings.existFields[index] = existField;
     } else {
@@ -261,7 +259,7 @@ export class Utils {
     }
   }
 
-  static getExistFieldOptions(previewData: IPreviewData): any[] {
+  static getExistFieldOptions(previewData: PreviewData): any[] {
     let options: any[] = [];
     if (previewData && previewData.headers) {
       options = previewData.headers.map((header) => {
@@ -273,7 +271,7 @@ export class Utils {
 
   static getDurationString(durationMsec: number): string {
     const formatStr: string = durationMsec < 3600000 ? 'm[m] s[s]' : 'd[d] h[h] m[m]';
-    const duration: IDuration = moment.duration(durationMsec) as IDuration;
+    const duration: Duration = moment.duration(durationMsec) as Duration;
     return duration.format(formatStr);
   }
 

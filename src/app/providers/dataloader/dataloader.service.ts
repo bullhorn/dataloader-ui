@@ -4,10 +4,8 @@ import { Injectable } from '@angular/core';
 import { DataloaderServiceFakes } from './dataloader.service.fakes';
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
-import { IError } from '../../../interfaces/IError';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
 import { Utils } from '../../utils/utils';
-import { ISettings } from '../../../interfaces/ISettings';
+import { Error, PreviewData, Settings } from '../../../interfaces';
 
 @Injectable()
 export class DataloaderService {
@@ -22,11 +20,11 @@ export class DataloaderService {
    *
    * Saves off the previewData for the history.
    *
-   * @param {IPreviewData} previewData
+   * @param {PreviewData} previewData
    */
-  start(previewData: IPreviewData): void {
+  start(previewData: PreviewData): void {
     if (ElectronService.isElectron()) {
-      const settings: ISettings = this.fileService.readSettings();
+      const settings: Settings = this.fileService.readSettings();
       const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
       const args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
       this.electronService.ipcRenderer.send('start', args);
@@ -71,7 +69,7 @@ export class DataloaderService {
    * @param {(error: IError) => void} missingJavaCallback - Specific callback for missing Java on the command line
    * @param {() => void} aboutCallback - Shows the about dialog
    */
-  onMessages(errorCallback: (error: IError) => void, missingJavaCallback: (error: IError) => void, aboutCallback: () => void): void {
+  onMessages(errorCallback: (error: Error) => void, missingJavaCallback: (error: Error) => void, aboutCallback: () => void): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('error', (event, error) => errorCallback(error));
       this.electronService.ipcRenderer.on('missing-java', (event, error) => missingJavaCallback(error));

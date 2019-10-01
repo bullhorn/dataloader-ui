@@ -1,6 +1,6 @@
 // Vendor
 import Timer = NodeJS.Timer;
-import { IError } from '../../../interfaces/IError';
+import { Error } from '../../../interfaces';
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -65,11 +65,11 @@ export class DataloaderServiceFakes {
     setTimeout(() => callback('Fake Output'), 15500);
   }
 
-  static generateFakeErrorCallback(callback: (error: IError) => void): void {
+  static generateFakeErrorCallback(callback: (error: Error) => void): void {
     setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 300000);
   }
 
-  static generateFakeMissingJavaCallback(callback: (error: IError) => void): void {
+  static generateFakeMissingJavaCallback(callback: (error: Error) => void): void {
     setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 200000);
   }
 }

@@ -10,21 +10,17 @@ import { EncryptUtils } from '../../utils/encrypt-utils';
 import { environment } from '../../../environments/environment';
 import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
-import { IConfig } from '../../../interfaces/IConfig';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { IResults } from '../../../interfaces/IResults';
-import { IRun } from '../../../interfaces/IRun';
-import { ISettings } from '../../../interfaces/ISettings';
+import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
 
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
   static SETTINGS_FILE_VERSION = 5;
 
-  private defaultConfig: IConfig = {
+  private defaultConfig: Config = {
     onboarded: false,
   };
-  private defaultSettings: ISettings = {
+  private defaultSettings: Settings = {
     username: '',
     password: '',
     clientId: '',
@@ -61,10 +57,10 @@ export class FileService {
   /**
    * Creates a directory for the current run and a place for the results.json file to be output by Data Loader.
    *
-   * @param {IPreviewData} previewData the preview data to save in the current run folder
+   * @param {PreviewData} previewData the preview data to save in the current run folder
    * @returns {string} the relative results filepath for Data Loader to use when outputting results
    */
-  initializeResultsFile(previewData: IPreviewData): string {
+  initializeResultsFile(previewData: PreviewData): string {
     if (ElectronService.isElectron()) {
       // Create directory for the run where the dir name is the current timestamp:
       // <userData>/runs/<run timestamp>/results.json
@@ -95,11 +91,11 @@ export class FileService {
   /**
    * Reads the user's settings file and sets appropriate defaults for missing values and older versions.
    */
-  readSettings(): ISettings {
+  readSettings(): Settings {
     if (ElectronService.isElectron()) {
       if (this.electronService.fs.existsSync(this.settingsFile)) {
         try {
-          const settings: ISettings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
+          const settings: Settings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
           // Decrypt passwords for versions 1+
           if (settings.version && settings.version >= 1) {
             settings.password = EncryptUtils.decrypt(settings.password);
@@ -141,9 +137,9 @@ export class FileService {
   /**
    * Saves the users settings in the current settings file version.
    */
-  writeSettings(settings: ISettings): void {
+  writeSettings(settings: Settings): void {
     if (ElectronService.isElectron()) {
-      const encryptedSettings: ISettings = Object.assign({}, settings);
+      const encryptedSettings: Settings = Object.assign({}, settings);
       encryptedSettings.password = EncryptUtils.encrypt(settings.password);
       encryptedSettings.clientSecret = EncryptUtils.encrypt(settings.clientSecret);
       encryptedSettings.version = FileService.SETTINGS_FILE_VERSION;
@@ -154,7 +150,7 @@ export class FileService {
   /**
    * The configuration file contains user-level settings outside of the dataloader settings
    */
-  readConfig(): IConfig {
+  readConfig(): Config {
     if (ElectronService.isElectron()) {
       if (this.electronService.fs.existsSync(this.configFile)) {
         try {
@@ -174,7 +170,7 @@ export class FileService {
     }
   }
 
-  writeConfig(config: IConfig): void {
+  writeConfig(config: Config): void {
     if (ElectronService.isElectron()) {
       config.version = this.electronService.version();
       this.electronService.fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
@@ -208,13 +204,13 @@ export class FileService {
    *    }]
    * }
    */
-  getCsvPreviewData(filePath: string, onSuccess: (previewData: IPreviewData) => {}, onError: (message: string) => {}): void {
+  getCsvPreviewData(filePath: string, onSuccess: (previewData: PreviewData) => {}, onError: (message: string) => {}): void {
     if (ElectronService.isElectron()) {
       if (this.electronService.path.extname(filePath).toLowerCase() !== '.csv') {
         onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
       }
       const MAX_ROWS = 100;
-      const previewData: IPreviewData = {
+      const previewData: PreviewData = {
         filePath: filePath,
         total: 0,
         headers: [],
@@ -243,7 +239,7 @@ export class FileService {
     }
   }
 
-  writePreviewData(previewData: IPreviewData, filePath: string): void {
+  writePreviewData(previewData: PreviewData, filePath: string): void {
     if (ElectronService.isElectron()) {
       this.electronService.fs.writeFileSync(filePath, JSON.stringify(previewData, null, 2));
     }
@@ -259,7 +255,7 @@ export class FileService {
     }
   }
 
-  onResultsFileChange(onChange: (results: IResults) => {}): void {
+  onResultsFileChange(onChange: (results: Results) => {}): void {
     if (ElectronService.isElectron()) {
       const options: { persistent?: boolean; interval?: number; } = { persistent: true, interval: 500 };
       this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
@@ -273,9 +269,9 @@ export class FileService {
    *
    * @param onSuccess - callback when runs are retrieved from disk
    */
-  getAllRuns(onSuccess: (runs: IRun[]) => {}): void {
+  getAllRuns(onSuccess: (runs: Run[]) => {}): void {
     if (ElectronService.isElectron()) {
-      const allRuns: IRun[] = [];
+      const allRuns: Run[] = [];
       this.electronService.fs.readdir(this.runsDir, (err: Error, files: string[]) => {
         if (err) {
           console.error(err); // tslint:disable-line:no-console
@@ -288,7 +284,7 @@ export class FileService {
               const output: string = this.electronService.path.join(dir, 'output.txt');
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
                 try {
-                  const run: IRun = {
+                  const run: Run = {
                     previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
                     results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
                   };
@@ -316,13 +312,13 @@ export class FileService {
     }
   }
 
-  private readResultsFile(onChange: (results: IResults) => {}): void {
+  private readResultsFile(onChange: (results: Results) => {}): void {
     this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
       if (err) {
         console.warn(err); // tslint:disable-line:no-console
       } else {
         try {
-          const results: IResults = JSON.parse(data);
+          const results: Results = JSON.parse(data);
           onChange(results);
         } catch (parseErr) {
           console.error(parseErr); // tslint:disable-line:no-console

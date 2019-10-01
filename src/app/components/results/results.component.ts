@@ -5,8 +5,7 @@ import * as Chart from 'chart.js';
 // App
 import { FileService } from '../../providers/file/file.service';
 import { Utils } from '../../utils/utils';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { IResults } from '../../../interfaces/IResults';
+import { PreviewData, Results } from '../../../interfaces';
 
 @Component({
   selector: 'app-results',
@@ -14,8 +13,8 @@ import { IResults } from '../../../interfaces/IResults';
   styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent implements OnInit, OnChanges {
-  @Input() previewData: IPreviewData;
-  @Input() results: IResults;
+  @Input() previewData: PreviewData;
+  @Input() results: Results;
   @Input() output: string;
   @Input() running: boolean;
   @Output() stopped = new EventEmitter();

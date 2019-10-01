@@ -1,10 +1,10 @@
-export interface IExistField {
+export interface ExistField {
   entity: string;
   enabled: boolean;
   fields: string[];
 }
 
-export interface ISettings {
+export interface Settings {
   version?: number; // settings version, not app version - used for upgrading existing settings
   username: string;
   password: string;
@@ -14,7 +14,7 @@ export interface ISettings {
   authorizeUrl: string;
   tokenUrl: string;
   loginUrl: string;
-  existFields?: IExistField[];
+  existFields?: ExistField[];
   listDelimiter: string;
   dateFormat: string;
   processEmptyAssociations: boolean;

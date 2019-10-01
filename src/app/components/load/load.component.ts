@@ -6,10 +6,8 @@ import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { FileService } from '../../providers/file/file.service';
-import { IExistField, ISettings } from '../../../interfaces/ISettings';
-import { IPreviewData } from '../../../interfaces/IPreviewData';
-import { IRun } from '../../../interfaces/IRun';
 import { Utils } from '../../utils/utils';
+import { ExistField, PreviewData, Run, Settings } from '../../../interfaces';
 
 @Component({
   selector: 'app-load',
@@ -17,7 +15,7 @@ import { Utils } from '../../utils/utils';
   styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit, OnDestroy {
-  @Input() run: IRun;
+  @Input() run: Run;
   @Output() started = new EventEmitter();
   form: NovoFormGroup;
   fieldSets: NovoFieldset[];
@@ -27,7 +25,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   icon = '';
   theme = '';
   fileName = '';
-  existField: IExistField;
+  existField: ExistField;
   fieldInteractionApi: FieldInteractionApi;
 
   constructor(private fileService: FileService,
@@ -68,7 +66,7 @@ export class LoadComponent implements OnInit, OnDestroy {
         name: 'fields',
         type: 'chips',
         label: 'Duplicate Check Columns',
-        description: 'The columns to check agaist in order to update existing records.',
+        description: 'The columns to check against in order to update existing records.',
         options: [],
         sortOrder: 3,
       }],
@@ -101,7 +99,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   load(): void {
-    const settings: ISettings = this.fileService.readSettings();
+    const settings: Settings = this.fileService.readSettings();
     if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
       this.modalService.open(ErrorModalComponent, {
         title: 'Missing Login Credentials',
@@ -155,7 +153,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onPreviewData(previewData: IPreviewData): void {
+  private onPreviewData(previewData: PreviewData): void {
     this.zone.run(() => {
       this.run.previewData = previewData;
       this.previewTable.columns = Utils.createColumnConfig(previewData.data);

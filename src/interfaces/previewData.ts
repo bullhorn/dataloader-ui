@@ -1,4 +1,4 @@
-export interface IPreviewData {
+export interface PreviewData {
   filePath: string;
   total: number;
   headers: string[];

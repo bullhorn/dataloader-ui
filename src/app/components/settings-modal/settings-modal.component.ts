@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FieldInteractionApi, FormUtils, NovoModalRef } from 'novo-elements';
 // App
 import { FileService } from '../../providers/file/file.service';
-import { ISettings } from '../../../interfaces/ISettings';
+import { Settings } from '../../../interfaces';
 
 @Component({
   selector: 'app-settings',
@@ -17,7 +17,7 @@ export class SettingsModalComponent implements OnInit {
 
   constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {}
 
-  private static removeExtraFields(value: ISettings): ISettings {
+  private static removeExtraFields(value: Settings): Settings {
     const result: any = Object.assign({}, value);
     delete result.existFields;
     delete result.version;
