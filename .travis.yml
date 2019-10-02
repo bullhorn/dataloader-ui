@@ -1,25 +1,23 @@
 os: osx
-
-osx_image: xcode9.4
+osx_image: xcode10.2
 
 language: node_js
-
 node_js: "10"
 
 addons:
   chrome: stable
 
-before_install:
-  - brew install git-lfs
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - $HOME/Library/Caches/electron
+    - $HOME/Library/Caches/electron-builder
 
 install:
-  - npm install
-
-before_script:
-  - git lfs pull
-  - export NODE_OPTIONS=-–max_old_space_size=4096
+  - yarn --frozen-lockfile
 
 script:
-  - npm run lint
-  - travis_wait npm run build:prod
+  - yarn lint
+  - travis_wait yarn build:prod
 #  - travis_wait npm run package
