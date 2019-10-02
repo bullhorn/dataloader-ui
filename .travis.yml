@@ -21,4 +21,5 @@ before_script:
 
 script:
   - npm run lint
-  - travis_wait npm run package
+  - travis_wait npm run build:prod
+#  - travis_wait npm run package
