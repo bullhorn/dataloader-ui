@@ -44,15 +44,15 @@ npm run package
 ### Project structure
 
 ```
-|-- buildResources - image files used in creating the distributable electron-builder package
-|-- dataloader     - the latest downloaded Data Loader CLI
-|-- dist           - where the Angular App gets built and the Data Loader CLI gets copied to
-|-- main-process   - source files for the electron main process
-    |-- main.ts    - the entry point for the main process that kicks off the electron renderer process in a new Browser Window
-|-- packages       - where the electron app from the dist folder gets packaged into an os-specific installer by electron-builder
-|-- src            - source files for the electron renderer process (the Angular front end)
-    |-- main.ts    - the entry point for the renderer process that loads Angular
-|-- userData       - mimics the actual user data of the installed app for use when running electron locally in dev mode
+|-- buildResources     - image files used in creating the distributable electron-builder package
+|-- dataloader         - the latest downloaded Data Loader CLI
+|-- dist               - where the Angular App gets built and the Data Loader CLI gets copied to
+|-- mainProcess        - source files for the electron main process
+    |-- mainProcess.ts - the entry point for the main process that kicks off the electron renderer process in a new Browser Window
+|-- packages           - where the electron app from the dist folder gets packaged into an os-specific installer by electron-builder
+|-- src                - source files for the electron renderer process (the Angular front end)
+    |-- main.ts        - the entry point for the renderer process that loads Angular
+|-- userData           - mimics the actual user data of the installed app for use when running electron locally in dev mode
 ```
 
 ### Where files are located when installed on end user's machine

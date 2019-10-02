@@ -1,11 +1,9 @@
-import * as e from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getMenuTemplate } from './menu';
-
-const electron = e.remote ? e.remote : e;
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -19,7 +17,7 @@ let mainWindow: Electron.BrowserWindow = null;
 let dataloaderProcess: ChildProcess = null;
 
 function createWindow(): void {
-  mainWindow = new electron.BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     minWidth: 640,
@@ -28,8 +26,8 @@ function createWindow(): void {
       nodeIntegration: true,
     }
   });
-  const menu: Electron.Menu = electron.Menu.buildFromTemplate(getMenuTemplate(mainWindow));
-  electron.Menu.setApplicationMenu(menu);
+  const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
+  Menu.setApplicationMenu(menu);
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   if (serve) {
@@ -45,18 +43,18 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-electron.app.on('ready', createWindow);
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
-electron.app.on('window-all-closed', () => {
+app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    electron.app.quit();
+    app.quit();
   }
 });
 
-electron.app.on('activate', () => {
+app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
@@ -74,11 +72,11 @@ electron.app.on('activate', () => {
  *  - print(text: string): line of text output from CLI
  *  - done(error: string): CLI is finished, with error text only if there was an error
  */
-electron.ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
-  const userDataDir: string = serve ? path.resolve('userData') : electron.app.getPath('userData');
+ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
+  const userDataDir: string = serve ? path.resolve('userData') : app.getPath('userData');
   const dataloaderDir: string = serve ?
     path.resolve('dataloader') :
-    path.join(electron.app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
+    path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
 
   // Locate the jar file
   const jarFiles: string[] = glob.sync('dataloader-*.jar', { cwd: dataloaderDir });
@@ -122,7 +120,7 @@ electron.ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) =>
   });
 });
 
-electron.ipcMain.on('stop', () => {
+ipcMain.on('stop', () => {
   if (dataloaderProcess) {
     dataloaderProcess.kill('SIGINT');
   }
