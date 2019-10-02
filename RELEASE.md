@@ -20,7 +20,7 @@ __Examples:__
 
  1. Checkout master
   
- 2. Run release script: `npm run release`. This will create a new commit and push to master. 
+ 2. Run release script: `yarn release`. This will create a new commit and push to master. 
 
  3. Wait for the Travis CI build to complete. Once finished, it will create the draft release and attach installers.
 

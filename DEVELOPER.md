@@ -28,17 +28,17 @@ git clone git@github.com:bullhorn/dataloader-ui.git
 cd dataloader-ui
 
 # Install
-npm install
+yarn
 
 # Launch electron app locally in dev mode
-npm start
+yarn start
 ```
 
 ### Make distributable executable
 
 ```
 # Generate installers for Windows and Mac (not bothering with Linux for now)
-npm run package
+yarn package
 ```
 
 ### Project structure

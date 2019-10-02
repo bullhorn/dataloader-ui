@@ -6,7 +6,7 @@
 
 ##### Verify that...
 
-- [ ] `npm run lint` passes
+- [ ] `yarn lint` passes
 - [ ] `ng serve` web-only angular app works
-- [ ] `npm start` debug app works
-- [ ] `npm run package` installer package works
+- [ ] `yarn start` debug app works
+- [ ] `yarn package` installer package works

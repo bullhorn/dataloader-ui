@@ -20,4 +20,4 @@ install:
 script:
   - yarn lint
   - travis_wait yarn build:prod
-#  - travis_wait npm run package
+#  - travis_wait yarn package
