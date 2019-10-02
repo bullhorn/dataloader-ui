@@ -1,9 +1,13 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import * as electron from 'electron';
+import { BrowserWindow, Menu, remote } from 'electron';
 import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getMenuTemplate } from './menu';
+
+const app = remote ? remote.app : electron.app;
+const ipcMain = remote ? remote.ipcMain : electron.ipcMain;
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
