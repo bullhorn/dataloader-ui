@@ -4,10 +4,10 @@ import { Component } from '@angular/core';
 import { NovoModalParams, NovoModalRef } from 'novo-elements';
 
 @Component({
-  selector: 'app-error-modal',
-  templateUrl: './error-modal.component.html',
+  selector: 'app-info-modal',
+  templateUrl: './info-modal.component.html',
 })
-export class ErrorModalComponent {
+export class InfoModalComponent {
   constructor(public params: NovoModalParams,
               private modalRef: NovoModalRef) {
   }

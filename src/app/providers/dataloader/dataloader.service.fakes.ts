@@ -72,4 +72,9 @@ export class DataloaderServiceFakes {
   static generateFakeMissingJavaCallback(callback: (error: Error) => void): void {
     setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 200000);
   }
+
+  static generateFakeLoginCallbacks(callback: (text: string) => void) {
+    const responseText = Math.floor(Math.random() * 2) ? 'Login Successful' : 'Login Failed';
+    setTimeout(() => callback(responseText), 2000);
+  }
 }

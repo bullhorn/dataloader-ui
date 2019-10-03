@@ -16,18 +16,17 @@ export class DataloaderService {
 
   /**
    * Combines the filePath argument with all of the settings and sends it over to the main process for
-   * executing the Data Loader in the correct directory.
+   * using the Data Loader to load the given csv file in the correct directory.
    *
    * Saves off the previewData for the history.
    *
    * @param {PreviewData} previewData
    */
-  start(previewData: PreviewData): void {
+  load(previewData: PreviewData): void {
     if (ElectronService.isElectron()) {
       const settings: Settings = this.fileService.readSettings();
       const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
-      const args: string[] = Utils.createArgs(settings, previewData, resultsFilePath);
-      this.electronService.ipcRenderer.send('start', args);
+      this.electronService.ipcRenderer.send('start', Utils.loadArgs(settings, previewData, resultsFilePath));
     }
   }
 
@@ -37,6 +36,26 @@ export class DataloaderService {
   stop(): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.send('stop');
+    }
+  }
+
+  /**
+   * Checks the login for the given credentials.
+   */
+  login(settings: Settings): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.send('start', Utils.loginArgs(settings));
+    }
+  }
+
+  /**
+   * Subscribe to login response text from Data Loader CLI
+   */
+  onLoginResponse(callback: (text: string) => void): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
+    } else {
+      DataloaderServiceFakes.generateFakeLoginCallbacks(callback);
     }
   }
 

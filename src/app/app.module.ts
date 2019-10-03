@@ -10,7 +10,7 @@ import { AnalyticsService } from './providers/analytics/analytics.service';
 import { AppComponent } from './app.component';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
-import { ErrorModalComponent } from './components/error-modal/error-modal.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { FileService } from './providers/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadComponent } from './components/load/load.component';
@@ -31,7 +31,7 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
   declarations: [
     AboutModalComponent,
     AppComponent,
-    ErrorModalComponent,
+    InfoModalComponent,
     HeaderComponent,
     LoadComponent,
     MissingJavaModalComponent,
@@ -41,7 +41,7 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
   ],
   entryComponents: [
     AboutModalComponent,
-    ErrorModalComponent,
+    InfoModalComponent,
     MissingJavaModalComponent,
     SettingsModalComponent,
   ],

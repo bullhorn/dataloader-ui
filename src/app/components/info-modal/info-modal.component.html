@@ -1,4 +1,4 @@
-<novo-notification type="error">
+<novo-notification [type]="params['type'] || 'error'">
   <h1 *ngIf="params['title']">{{ params['title'] }}</h1>
   <h2 *ngIf="params['message']">{{ params['message'] }}</h2>
   <button theme="standard" (click)="close()">Ok</button>
