@@ -19,5 +19,4 @@ install:
 
 script:
   - yarn lint
-  - travis_wait yarn build:prod
-#  - travis_wait yarn package
+  - travis_wait yarn package
