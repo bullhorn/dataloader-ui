@@ -24,6 +24,17 @@ $dl-header-height: 63px;
 body {
   overflow: hidden;
   zoom: 0.9;
+
+  // Zoom correction for positioning of popovers
+  .cdk-overlay-pane {
+    margin-bottom: calc(100vh * 0.11);
+    margin-right: calc(100vw * 0.11);
+  }
+
+  // Zoom correction for charts that can't handle zoom
+  canvas {
+    zoom: 1.11;
+  }
 }
 
 .table-header {
