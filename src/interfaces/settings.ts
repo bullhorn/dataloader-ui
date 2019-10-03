@@ -10,7 +10,6 @@ export interface Settings {
   password: string;
   clientId: string;
   clientSecret: string;
-  dataCenter: string;
   authorizeUrl: string;
   tokenUrl: string;
   loginUrl: string;

@@ -15,7 +15,7 @@ import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION = 5;
+  static SETTINGS_FILE_VERSION = 6;
 
   private defaultConfig: Config = {
     onboarded: false,
@@ -25,15 +25,14 @@ export class FileService {
     password: '',
     clientId: '',
     clientSecret: '',
-    dataCenter: 'bhnext',
     listDelimiter: ';',
     processEmptyAssociations: false,
     wildcardMatching: true,
     singleByteEncoding: false,
     dateFormat: 'MM/dd/yy HH:mm',
-    authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
-    tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
-    loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
+    authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
+    tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
+    loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
     numThreads: 15,
     caching: true,
   };
@@ -116,6 +115,13 @@ export class FileService {
           // Default caching before version 5
           if (!settings.version || settings.version < 5) {
             settings.caching = true;
+          }
+          // Remove dataCenter and default the URLs after version 6, since data center no longer matters
+          if (!settings.version || settings.version < 6) {
+            delete settings['dataCenter'];
+            settings.authorizeUrl = 'https://auth.bullhornstaffing.com/oauth/authorize';
+            settings.tokenUrl = 'https://auth.bullhornstaffing.com/oauth/token';
+            settings.loginUrl = 'https://rest.bullhornstaffing.com/rest-services/login';
           }
           return settings;
         } catch (parseErr) {
