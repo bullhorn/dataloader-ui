@@ -7,15 +7,15 @@ import * as momentDurationFormatSetup from 'moment-duration-format';
 import { NovoModalService } from 'novo-elements';
 // App
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
-import { AnalyticsService } from './providers/analytics/analytics.service';
-import { DataloaderService } from './providers/dataloader/dataloader.service';
-import { ElectronService } from './providers/electron/electron.service';
+import { AnalyticsService } from './services/analytics/analytics.service';
+import { Config, Results, Run, Settings } from '../interfaces';
+import { DataloaderService } from './services/dataloader/dataloader.service';
+import { ElectronService } from './services/electron/electron.service';
+import { FileService } from './services/file/file.service';
 import { InfoModalComponent } from './components/info-modal/info-modal.component';
-import { FileService } from './providers/file/file.service';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 import { Utils } from './utils/utils';
-import { Config, Results, Run, Settings } from '../interfaces';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);

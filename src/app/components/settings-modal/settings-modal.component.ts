@@ -3,8 +3,8 @@ import { Component, NgZone, OnInit } from '@angular/core';
 // Vendor
 import { FormUtils, NovoModalRef, NovoModalService } from 'novo-elements';
 // App
-import { DataloaderService } from '../../providers/dataloader/dataloader.service';
-import { FileService } from '../../providers/file/file.service';
+import { DataloaderService } from '../../services/dataloader/dataloader.service';
+import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { Settings } from '../../../interfaces';
 

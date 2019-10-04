@@ -3,9 +3,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } 
 // Vendor
 import * as Chart from 'chart.js';
 // App
-import { FileService } from '../../providers/file/file.service';
-import { Utils } from '../../utils/utils';
+import { FileService } from '../../services/file/file.service';
 import { PreviewData, Results } from '../../../interfaces';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-results',

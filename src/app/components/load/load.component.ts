@@ -4,10 +4,10 @@ import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } fro
 import { FieldInteractionApi, FormUtils, NovoFormGroup, NovoModalService, } from 'novo-elements';
 import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
-import { InfoModalComponent } from '../info-modal/info-modal.component';
-import { FileService } from '../../providers/file/file.service';
-import { Utils } from '../../utils/utils';
 import { ExistField, PreviewData, Run, Settings } from '../../../interfaces';
+import { FileService } from '../../services/file/file.service';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-load',

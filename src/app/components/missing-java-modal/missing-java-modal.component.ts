@@ -1,7 +1,7 @@
 // Angular
 import { Component } from '@angular/core';
 // Vendor
-import { ElectronService } from '../../providers/electron/electron.service';
+import { ElectronService } from '../../services/electron/electron.service';
 import { NovoModalParams, NovoModalRef } from 'novo-elements';
 
 @Component({
