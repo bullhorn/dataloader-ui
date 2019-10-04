@@ -1,6 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.11.0](https://github.com/bullhorn/dataloader-ui/compare/v1.10.0...v1.11.0) (2019-10-04)
+
+
+### Bug Fixes
+
+* **Tooltips:** Fixed tooltip position with better zoom out policy ([9a3d75b](https://github.com/bullhorn/dataloader-ui/commit/9a3d75b))
+
+
+### Features
+
+* **Settings:** Added credential check to determine if login is valid ([#95](https://github.com/bullhorn/dataloader-ui/issues/95)) ([b1e07f2](https://github.com/bullhorn/dataloader-ui/commit/b1e07f2))
+* **Settings:** Removed environment URLs since it's no longer needed ([#94](https://github.com/bullhorn/dataloader-ui/issues/94)) ([305bbd1](https://github.com/bullhorn/dataloader-ui/commit/305bbd1))
+* **UI:** Minor UI updates to loading screens ([f8c89f1](https://github.com/bullhorn/dataloader-ui/commit/f8c89f1))
 
 <a name="1.10.0"></a>
 # [1.10.0](https://github.com/bullhorn/dataloader-ui/compare/v1.9.0...v1.10.0) (2019-05-10)
