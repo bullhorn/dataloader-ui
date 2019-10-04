@@ -13,15 +13,8 @@ export class Utils {
    * @param resultsFilePath the path to generate for the results file
    * @returns {string[]} the array of arguments to pass to the CLI
    */
-  static createArgs(settings: Settings, previewData: PreviewData, resultsFilePath: string): string[] {
-    let args: string[] = [];
-    args = args.concat(['username', settings.username]);
-    args = args.concat(['password', settings.password]);
-    args = args.concat(['clientId', settings.clientId]);
-    args = args.concat(['clientSecret', settings.clientSecret]);
-    args = args.concat(['authorizeUrl', settings.authorizeUrl]);
-    args = args.concat(['loginUrl', settings.loginUrl]);
-    args = args.concat(['tokenUrl', settings.tokenUrl]);
+  static loadArgs(settings: Settings, previewData: PreviewData, resultsFilePath: string): string[] {
+    let args: string[] = this.baseArgs(settings);
     args = args.concat(['listDelimiter', settings.listDelimiter]);
     args = args.concat(['dateFormat', settings.dateFormat]);
     args = args.concat(['processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false']);
@@ -34,6 +27,22 @@ export class Utils {
     args = args.concat(['resultsFileWriteIntervalMsec', '500']);
     args = args.concat(Utils.createExistFieldArgs(settings, previewData.filePath));
     args = args.concat(['load', previewData.filePath]);
+    return args;
+  }
+
+  static loginArgs(settings: Settings): string[] {
+    return this.baseArgs(settings).concat('login');
+  }
+
+  static baseArgs(settings: Settings): string[] {
+    let args: string[] = [];
+    args = args.concat(['username', settings.username]);
+    args = args.concat(['password', settings.password]);
+    args = args.concat(['clientId', settings.clientId]);
+    args = args.concat(['clientSecret', settings.clientSecret]);
+    args = args.concat(['authorizeUrl', settings.authorizeUrl]);
+    args = args.concat(['loginUrl', settings.loginUrl]);
+    args = args.concat(['tokenUrl', settings.tokenUrl]);
     return args;
   }
 

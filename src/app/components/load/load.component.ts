@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } fro
 import { FieldInteractionApi, FormUtils, NovoFormGroup, NovoModalService, } from 'novo-elements';
 import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
-import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { FileService } from '../../providers/file/file.service';
 import { Utils } from '../../utils/utils';
 import { ExistField, PreviewData, Run, Settings } from '../../../interfaces';
@@ -101,7 +101,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   load(): void {
     const settings: Settings = this.fileService.readSettings();
     if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-      this.modalService.open(ErrorModalComponent, {
+      this.modalService.open(InfoModalComponent, {
         title: 'Missing Login Credentials',
         message: 'Open settings and fill out credentials before loading data',
       });
@@ -169,7 +169,7 @@ export class LoadComponent implements OnInit, OnDestroy {
 
   private onPreviewDataError(message: string): void {
     this.zone.run(() => {
-      this.modalService.open(ErrorModalComponent, { title: 'Error Parsing Input File', message });
+      this.modalService.open(InfoModalComponent, { title: 'Error Parsing Input File', message });
     });
   }
 }

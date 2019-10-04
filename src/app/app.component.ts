@@ -10,7 +10,7 @@ import { AboutModalComponent } from './components/about-modal/about-modal.compon
 import { AnalyticsService } from './providers/analytics/analytics.service';
 import { DataloaderService } from './providers/dataloader/dataloader.service';
 import { ElectronService } from './providers/electron/electron.service';
-import { ErrorModalComponent } from './components/error-modal/error-modal.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { FileService } from './providers/file/file.service';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
 
     // Subscribe to messages from the main process
     this.dataloaderService.onMessages((error) => {
-      this.modalService.open(ErrorModalComponent, error);
+      this.modalService.open(InfoModalComponent, error);
     }, (error) => {
       this.modalService.open(MissingJavaModalComponent, error);
     }, () => {
@@ -83,9 +83,9 @@ export class AppComponent implements OnInit {
   }
 
   onStarted(): void {
-    this.dataloaderService.onPrint(this.onPrint.bind(this));
-    this.dataloaderService.onDone(this.onDone.bind(this));
-    this.dataloaderService.start(this.currentRun.previewData);
+    this.dataloaderService.onPrint(this.onPrint.bind(this), 'load');
+    this.dataloaderService.onDone(this.onDone.bind(this), 'load');
+    this.dataloaderService.load(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.currentRun.running = true;
     this.analyticsService.trackEvent('Load', this.currentRun);

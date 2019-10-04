@@ -1,9 +1,11 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 // Vendor
-import { FormUtils, NovoModalRef } from 'novo-elements';
+import { FormUtils, NovoModalRef, NovoModalService } from 'novo-elements';
 // App
+import { DataloaderService } from '../../providers/dataloader/dataloader.service';
 import { FileService } from '../../providers/file/file.service';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { Settings } from '../../../interfaces';
 
 @Component({
@@ -14,8 +16,14 @@ import { Settings } from '../../../interfaces';
 export class SettingsModalComponent implements OnInit {
   form: any;
   fieldSets: any[];
+  checkingLogin = false;
 
-  constructor(private fileService: FileService, private formUtils: FormUtils, private modalRef: NovoModalRef) {}
+  constructor(private dataloaderService: DataloaderService,
+              private fileService: FileService,
+              private formUtils: FormUtils,
+              private modalService: NovoModalService,
+              private modalRef: NovoModalRef,
+              private zone: NgZone) {}
 
   private static removeExtraFields(value: Settings): Settings {
     const result: any = Object.assign({}, value);
@@ -42,6 +50,49 @@ export class SettingsModalComponent implements OnInit {
     this.close();
   }
 
+  enableCredentialCheck() {
+    return this.form.value &&
+      this.form.value.username &&
+      this.form.value.password &&
+      this.form.value.clientId &&
+      this.form.value.clientSecret;
+  }
+
+  checkLogin() {
+    this.checkingLogin = true;
+    this.dataloaderService.onPrint(this.onLoginResponse.bind(this), 'login');
+    this.dataloaderService.onDone(this.onDone.bind(this), 'login');
+    this.dataloaderService.login(this.form.value);
+  }
+
+  // The CLI responds with either 'Login Successful\n' or 'Login Failed\n' (with newlines)
+  onLoginResponse(loginResponse: string) {
+    this.zone.run(() => {
+      if (loginResponse.startsWith('Login Successful')) {
+        this.modalService.open(InfoModalComponent, {
+          type: 'success',
+          title: loginResponse,
+          message: 'Your credentials are valid',
+        });
+      } else if (loginResponse.startsWith('Login Failed')) {
+        this.modalService.open(InfoModalComponent, {
+          title: loginResponse,
+          message: 'Either your username/password or clientId/clientSecret is invalid. ' +
+            'Check if your username/password is valid by logging into Bullhorn.',
+        });
+      }
+    });
+  }
+
+  onDone() {
+    this.zone.run(() => {
+      this.dataloaderService.unsubscribe();
+      this.checkingLogin = false;
+    });
+  }
+
+  // The environment URLs are still in the form value, but not visible. This allows for the settings.json
+  // to be modified by end users to change URLs to QA Boxes to use a non production environment.
   private setupForm(): void {
     const meta: any = {
       sectionHeaders: [{

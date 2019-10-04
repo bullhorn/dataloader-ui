@@ -1,14 +1,13 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import * as path from 'path';
 import * as moment from 'moment';
 import { NovoModalService } from 'novo-elements';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { EncryptUtils } from '../../utils/encrypt-utils';
 import { environment } from '../../../environments/environment';
-import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
+import { InfoModalComponent } from '../../components/info-modal/info-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
 
@@ -125,7 +124,7 @@ export class FileService {
           }
           return settings;
         } catch (parseErr) {
-          this.modalService.open(ErrorModalComponent, {
+          this.modalService.open(InfoModalComponent, {
             title: 'Error Reading Settings File!',
             message: `Oops, something went wrong with reading '${this.settingsFile}' from disk.`
               + `Please re-save your settings.\n\n${parseErr}`,
@@ -162,7 +161,7 @@ export class FileService {
         try {
           return JSON.parse(this.electronService.fs.readFileSync(this.configFile, 'utf8'));
         } catch (parseErr) {
-          this.modalService.open(ErrorModalComponent, {
+          this.modalService.open(InfoModalComponent, {
             title: 'Error Reading Config File!',
             message: `Oops, something went wrong with reading '${this.configFile}' from disk.\n\n${parseErr}`,
           });
@@ -254,7 +253,7 @@ export class FileService {
   openFile(filePath: string, userDataDir: boolean = true): void {
     if (ElectronService.isElectron()) {
       if (userDataDir) {
-        this.electronService.shell.showItemInFolder(path.join(this.userDataDir, filePath));
+        this.electronService.shell.showItemInFolder(this.electronService.path.join(this.userDataDir, filePath));
       } else {
         this.electronService.shell.showItemInFolder(filePath);
       }
