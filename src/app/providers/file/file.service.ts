@@ -222,7 +222,7 @@ export class FileService {
         data: [],
       };
 
-      this.electronService.csv.fromPath(filePath, { headers: true, })
+      this.electronService.csv.parseFile(filePath, { headers: true, })
         .on('data', (row) => {
           previewData.total++;
           if (previewData.headers.length === 0) {
