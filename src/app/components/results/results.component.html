@@ -87,8 +87,8 @@
       <div class="output">{{ output }}</div>
     </novo-nav-content>
   </novo-nav-outlet>
-  <footer>
-    <button theme="primary" class="cancel-button" [disabled]="!running" (click)="stop()" color="negative" icon="times">
+  <footer *ngIf="running">
+    <button theme="primary" class="cancel-button" (click)="stop()" color="negative" icon="times">
       Stop
     </button>
   </footer>
