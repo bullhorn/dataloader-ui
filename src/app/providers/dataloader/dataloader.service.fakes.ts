@@ -51,7 +51,7 @@ export class DataloaderServiceFakes {
     'Finished loading Candidate records in 00:00:15\n',
   ];
 
-  static generateFakePrintCallbacks(callback: (text: string) => void): void {
+  static generateFakePrintLoadCallbacks(callback: (text: string) => void): void {
     let i = 0;
     const interval: Timer = setInterval(() => {
       callback(this.FAKE_OUTPUT_DATA[i]);
@@ -61,8 +61,17 @@ export class DataloaderServiceFakes {
     }, 500);
   }
 
-  static generateFakeDoneCallback(callback: (text: string) => void): void {
+  static generateFakePrintLoginCallback(callback: (text: string) => void) {
+    const responseText = Math.floor(Math.random() * 2) ? 'Login Successful' : 'Login Failed';
+    setTimeout(() => callback(responseText), 1500);
+  }
+
+  static generateFakeDoneLoadCallback(callback: (text: string) => void): void {
     setTimeout(() => callback('Fake Output'), 15500);
+  }
+
+  static generateFakeDoneLoginCallback(callback: (text: string) => void): void {
+    setTimeout(() => callback('Fake Output'), 2000);
   }
 
   static generateFakeErrorCallback(callback: (error: Error) => void): void {
@@ -71,10 +80,5 @@ export class DataloaderServiceFakes {
 
   static generateFakeMissingJavaCallback(callback: (error: Error) => void): void {
     setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 200000);
-  }
-
-  static generateFakeLoginCallbacks(callback: (text: string) => void) {
-    const responseText = Math.floor(Math.random() * 2) ? 'Login Successful' : 'Login Failed';
-    setTimeout(() => callback(responseText), 2000);
   }
 }

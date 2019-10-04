@@ -50,7 +50,7 @@ export class SettingsModalComponent implements OnInit {
     this.close();
   }
 
-  credentialsValid() {
+  enableCredentialCheck() {
     return this.form.value &&
       this.form.value.username &&
       this.form.value.password &&
@@ -60,15 +60,14 @@ export class SettingsModalComponent implements OnInit {
 
   checkLogin() {
     this.checkingLogin = true;
-    this.dataloaderService.onLoginResponse(this.onLoginResponse.bind(this));
-    this.dataloaderService.onDone(this.onDone.bind(this));
+    this.dataloaderService.onPrint(this.onLoginResponse.bind(this), 'login');
+    this.dataloaderService.onDone(this.onDone.bind(this), 'login');
     this.dataloaderService.login(this.form.value);
   }
 
-  // The CLI responds with either 'Login Successful' or 'Login Failed'
+  // The CLI responds with either 'Login Successful\n' or 'Login Failed\n' (with newlines)
   onLoginResponse(loginResponse: string) {
     this.zone.run(() => {
-      console.log('response:', loginResponse);
       if (loginResponse.startsWith('Login Successful')) {
         this.modalService.open(InfoModalComponent, {
           type: 'success',
@@ -87,12 +86,13 @@ export class SettingsModalComponent implements OnInit {
 
   onDone() {
     this.zone.run(() => {
-      console.log('Done!');
       this.dataloaderService.unsubscribe();
       this.checkingLogin = false;
     });
   }
 
+  // The environment URLs are still in the form value, but not visible. This allows for the settings.json
+  // to be modified by end users to change URLs to QA Boxes to use a non production environment.
   private setupForm(): void {
     const meta: any = {
       sectionHeaders: [{

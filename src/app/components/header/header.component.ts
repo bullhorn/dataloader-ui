@@ -1,5 +1,5 @@
 // Angular
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 // Vendor
 import { NovoModalService } from 'novo-elements';
 // App
@@ -11,6 +11,8 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  @Input() running: boolean;
+
   constructor(private modalService: NovoModalService) {}
 
   openSettingsModal(): void {

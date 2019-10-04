@@ -69,7 +69,7 @@
     </div>
     <div class="beta-indicator">BETA</div>
   </div>
-  <button class="settings-button" theme="secondary" inverse color="white" (click)="openSettingsModal()">
+  <button class="settings-button" theme="secondary" inverse color="white" (click)="openSettingsModal()" [disabled]="running">
     Settings
   </button>
 </header>

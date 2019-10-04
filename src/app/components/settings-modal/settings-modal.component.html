@@ -8,7 +8,7 @@
     <novo-dynamic-form [fieldsets]="fieldSets" [(form)]="form"></novo-dynamic-form>
   </section>
   <button theme="standard" (click)="close()">Cancel</button>
-  <button theme="secondary" (click)="checkLogin()" [disabled]="!credentialsValid()" [loading]="checkingLogin"
+  <button theme="secondary" (click)="checkLogin()" [disabled]="!enableCredentialCheck()" [loading]="checkingLogin"
           tooltip="Test if your credentials are valid">{{checkingLogin ? 'Checking...' : 'Check Credentials'}}
   </button>
   <button theme="primary" color="action" icon="check" (click)="save()" [disabled]="!form.valid">Save</button>

@@ -83,8 +83,8 @@ export class AppComponent implements OnInit {
   }
 
   onStarted(): void {
-    this.dataloaderService.onPrint(this.onPrint.bind(this));
-    this.dataloaderService.onDone(this.onDone.bind(this));
+    this.dataloaderService.onPrint(this.onPrint.bind(this), 'load');
+    this.dataloaderService.onDone(this.onDone.bind(this), 'load');
     this.dataloaderService.load(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.currentRun.running = true;

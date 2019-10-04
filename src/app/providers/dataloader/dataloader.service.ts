@@ -31,15 +31,6 @@ export class DataloaderService {
   }
 
   /**
-   * Stops the dataloader java process, same as pressing CTRL+C
-   */
-  stop(): void {
-    if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.send('stop');
-    }
-  }
-
-  /**
    * Checks the login for the given credentials.
    */
   login(settings: Settings): void {
@@ -49,35 +40,37 @@ export class DataloaderService {
   }
 
   /**
-   * Subscribe to login response text from Data Loader CLI
+   * Stops the dataloader java process, same as pressing CTRL+C
    */
-  onLoginResponse(callback: (text: string) => void): void {
+  stop(): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
-    } else {
-      DataloaderServiceFakes.generateFakeLoginCallbacks(callback);
+      this.electronService.ipcRenderer.send('stop');
     }
   }
 
   /**
    * Subscribe to real time printouts from the Data Loader CLI
    */
-  onPrint(callback: (text: string) => void): void {
+  onPrint(callback: (text: string) => void, caller: 'load' | 'login'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
-    } else {
-      DataloaderServiceFakes.generateFakePrintCallbacks(callback);
+    } else if (caller === 'load') {
+      DataloaderServiceFakes.generateFakePrintLoadCallbacks(callback);
+    } else if (caller === 'login') {
+      DataloaderServiceFakes.generateFakePrintLoginCallback(callback);
     }
   }
 
   /**
    * Subscribe to the done message from the Data Loader CLI
    */
-  onDone(callback: (text: string) => void): void {
+  onDone(callback: (text: string) => void, caller: 'load' | 'login'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('done', (event, text) => callback(text));
-    } else {
-      DataloaderServiceFakes.generateFakeDoneCallback(callback);
+    } else if (caller === 'load') {
+      DataloaderServiceFakes.generateFakeDoneLoadCallback(callback);
+    } else if (caller === 'login') {
+      DataloaderServiceFakes.generateFakeDoneLoginCallback(callback);
     }
   }
 
