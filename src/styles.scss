@@ -31,10 +31,11 @@ body {
     margin-right: calc(100vw * 0.11);
   }
 
-  // Zoom correction for charts that can't handle zoom
-  canvas {
-    zoom: 1.11;
-  }
+  // Zoom correction for charts that can't handle zoom -
+  //   use this if we ever need chart interactions
+  //canvas {
+  //  zoom: 1.11;
+  //}
 }
 
 .table-header {

@@ -116,7 +116,11 @@ export class AppComponent implements OnInit {
     this.zone.run(() => {
       const selectedIndex = this.runHistory.indexOf(this.selectedRun);
       this.runHistory = runs;
-      this.selectedRun = this.runHistory[Math.min(this.runHistory.length - 1, selectedIndex)];
+      if (this.runHistory.length) {
+        this.selectedRun = this.runHistory[Math.min(this.runHistory.length - 1, selectedIndex)];
+      } else {
+        this.selectedRun = this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
+      }
     });
   }
 
@@ -125,7 +129,6 @@ export class AppComponent implements OnInit {
    */
   private onRunDeleted(): void {
     this.zone.run(() => {
-      this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
       this.fileService.getAllRuns(this.onRunDataPostDelete.bind(this));
     });
   }
