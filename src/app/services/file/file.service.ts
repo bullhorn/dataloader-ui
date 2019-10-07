@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 // Vendor
 import * as moment from 'moment';
 import { NovoModalService } from 'novo-elements';
+import { Subject } from 'rxjs';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { EncryptUtils } from '../../utils/encrypt-utils';
@@ -15,6 +16,8 @@ import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
   static SETTINGS_FILE_VERSION = 6;
+
+  runDeleted = new Subject();
 
   private defaultConfig: Config = {
     onboarded: false,
@@ -290,6 +293,7 @@ export class FileService {
               if (this.electronService.fs.existsSync(previewData) && this.electronService.fs.existsSync(results)) {
                 try {
                   const run: Run = {
+                    runDirectory: dir,
                     previewData: JSON.parse(this.electronService.fs.readFileSync(previewData, 'utf8')),
                     results: JSON.parse(this.electronService.fs.readFileSync(results, 'utf8')),
                   };
@@ -309,6 +313,23 @@ export class FileService {
     } else {
       onSuccess(FileServiceFakes.getAllRuns());
     }
+  }
+
+  // Given a run object, deletes that run
+  deleteRun(runDirectory: string): void {
+    if (ElectronService.isElectron()) {
+      try {
+        this.electronService.rimraf.sync(runDirectory);
+      } catch (parseErr) {
+        this.modalService.open(InfoModalComponent, {
+          title: 'Error Deleting Historic Run Directory!',
+          message: `Oops, something went wrong with deleting '${runDirectory}' from disk:<br><br>` + parseErr,
+        });
+      }
+    } else {
+      FileServiceFakes.deleteRun(runDirectory);
+    }
+    this.runDeleted.next();
   }
 
   unsubscribe(): void {

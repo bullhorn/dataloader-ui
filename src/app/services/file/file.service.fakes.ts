@@ -57,6 +57,8 @@ export class FakePreviewData {
 }
 
 class Run {
+  static counter = 0;
+  runDirectory = `C:/path/to/dataloader/2019-10-07_10.11.${++Run.counter}`;
   previewData: PreviewData = new FakePreviewData();
   results: Results = new FakeResultsData(this.previewData);
   output = '\nData Loader Sample Output File\n   Total Records: 0\n';
@@ -125,7 +127,6 @@ export class FileServiceFakes {
   ];
 
   static getAllRuns(): Run[] {
-    this.ALL_RUNS.unshift(new Run());
     return this.ALL_RUNS;
   }
 
@@ -149,5 +150,11 @@ export class FileServiceFakes {
         clearInterval(interval);
       }
     }, 500);
+  }
+
+  static deleteRun(dir: string) {
+    this.ALL_RUNS = this.ALL_RUNS.filter((run) => {
+      return run.runDirectory !== dir;
+    });
   }
 }

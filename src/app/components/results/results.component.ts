@@ -6,6 +6,8 @@ import * as Chart from 'chart.js';
 import { FileService } from '../../services/file/file.service';
 import { PreviewData, Results } from '../../../interfaces';
 import { Utils } from '../../utils/utils';
+import { ConfirmModalComponent } from '../confirmModal/confirmModal.component';
+import { NovoModalService } from 'novo-elements';
 
 @Component({
   selector: 'app-results',
@@ -13,6 +15,7 @@ import { Utils } from '../../utils/utils';
   styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent implements OnInit, OnChanges {
+  @Input() runDirectory: string;
   @Input() previewData: PreviewData;
   @Input() results: Results;
   @Input() output: string;
@@ -34,7 +37,8 @@ export class ResultsComponent implements OnInit, OnChanges {
   donutChart: Chart;
   @ViewChild('overviewTab') private overviewTab: any;
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService,
+              private modalService: NovoModalService) {
   }
 
   ngOnInit(): void {
@@ -118,7 +122,18 @@ export class ResultsComponent implements OnInit, OnChanges {
   }
 
   stop(): void {
-    this.stopped.emit();
+    this.modalService.open(ConfirmModalComponent, {
+      headerText: 'Are you sure?',
+      subheaderText: 'This will immediately stop the Data Loader from loading records. ' +
+        'Consult results files afterwards to see which records were loaded.',
+      buttonColor: 'negative',
+      confirmButtonText: 'stop',
+      confirmButtonIcon: 'times',
+    }).onClosed.then((response) => {
+      if (response) {
+        this.stopped.emit();
+      }
+    });
   }
 
   openFile(filePath: string): void {
@@ -127,5 +142,21 @@ export class ResultsComponent implements OnInit, OnChanges {
 
   openInputFile(filePath: string): void {
     this.fileService.openFile(filePath, false);
+  }
+
+  delete() {
+    this.modalService.open(ConfirmModalComponent, {
+      headerText: 'Are you sure?',
+      subheaderText: 'This run will be deleted from the run history. ' +
+        'This will not affect any data in Bullhorn or any files on your computer. ' +
+        'Log files and results files from this run will remain in the log file / results file directories.',
+      buttonColor: 'negative',
+      confirmButtonText: 'delete',
+      confirmButtonIcon: 'delete',
+    }).onClosed.then((response) => {
+      if (response) {
+        this.fileService.deleteRun(this.runDirectory);
+      }
+    });
   }
 }

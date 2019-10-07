@@ -21,6 +21,7 @@
               [(run)]="currentRun"
               (started)="onStarted()"></app-load>
     <app-results *ngIf="selectedRun && (currentRun !== selectedRun || selectedRun.running)"
+                 [runDirectory]="selectedRun.runDirectory"
                  [previewData]="selectedRun.previewData"
                  [results]="selectedRun.results"
                  [output]="selectedRun.output"

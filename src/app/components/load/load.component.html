@@ -12,6 +12,9 @@
     </novo-table>
   </div>
   <footer>
-    <button theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()" icon="upload">Load</button>
+    <button theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()" icon="upload"
+            tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">
+      Load
+    </button>
   </footer>
 </section>

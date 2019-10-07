@@ -72,6 +72,7 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "novo-elements": "^3.13.0",
+    "rimraf": "^3.0.0",
     "text-mask-addons": "3.8.0",
     "uuidv4": "^5.0.1",
     "zone.js": "0.10.2"
@@ -90,7 +91,6 @@
     "electron-builder": "^21.2.0",
     "extract-zip": "^1.6.7",
     "pre-commit": "^1.2.2",
-    "rimraf": "^3.0.0",
     "standard-version": "^7.0.0",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",
