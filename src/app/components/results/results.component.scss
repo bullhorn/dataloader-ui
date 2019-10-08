@@ -3,6 +3,10 @@
 
 .results {
 
+  novo-nav {
+    background: $neutral;
+  }
+
   novo-nav-content {
     &.tab-overview {
       @include scrollable();
