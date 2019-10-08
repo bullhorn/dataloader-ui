@@ -17,6 +17,7 @@ export class ElectronService {
   os: any;
   path: any;
   process: any;
+  rimraf: any;
   shell: any;
   spawn: any;
 
@@ -35,6 +36,7 @@ export class ElectronService {
       this.os = window.require('os');
       this.path = window.require('path');
       this.process = window['process'];
+      this.rimraf = window.require('rimraf');
       this.shell = window.require('electron').shell;
       this.spawn = window.require('child_process').spawn;
     }

@@ -65,7 +65,7 @@
             </div>
             <div class="log-file">
               <button class="log-file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
-                      tooltip="Open: {{ results?.logFile }}" (click)="openFile(results?.logFile)">Log File
+                      tooltip="Open: {{ results?.logFile }}" (click)="openFile(results?.logFile)" [disabled]="!results?.logFile">Log File
               </button>
             </div>
           </div>
@@ -87,9 +87,14 @@
       <div class="output">{{ output }}</div>
     </novo-nav-content>
   </novo-nav-outlet>
-  <footer *ngIf="running">
-    <button theme="primary" class="cancel-button" (click)="stop()" color="negative" icon="times">
+  <footer>
+    <button *ngIf="running" theme="primary" class="cancel-button" (click)="stop()" color="negative" icon="times"
+            tooltip="Stop loading data immediately" tooltipPosition="top-left">
       Stop
+    </button>
+    <button *ngIf="!running && results" theme="primary" class="delete-button" (click)="delete()" color="negative" icon="delete"
+            tooltip="Remove this run from the run history" tooltipPosition="top-left">
+      Delete History
     </button>
   </footer>
 </section>

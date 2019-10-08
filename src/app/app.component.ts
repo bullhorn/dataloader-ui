@@ -30,7 +30,7 @@ momentDurationFormatSetup(moment);
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  static EMPTY_RUN: Run = { previewData: null, results: null, output: '\n' };
+  static EMPTY_RUN: Run = { runDirectory: '', previewData: null, results: null, output: '\n' };
 
   currentRun: Run = Object.assign({}, AppComponent.EMPTY_RUN);
   selectedRun: Run | null = this.currentRun;
@@ -63,6 +63,7 @@ export class AppComponent implements OnInit {
 
     // Initialize run history
     this.fileService.getAllRuns(this.onRunData.bind(this));
+    this.fileService.runDeleted.subscribe(this.onRunDeleted.bind(this));
 
     // Disable drag and drop to stop electron from redirecting away from the app to the dropped file
     document.addEventListener('dragover', (event) => event.preventDefault());
@@ -106,6 +107,28 @@ export class AppComponent implements OnInit {
         this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
       }
     });
+  }
+
+  /**
+   * Moves run selection to the next most logical run in the run history following a deletion.
+   */
+  private onRunDataPostDelete(runs: Run[]): void {
+    this.zone.run(() => {
+      const selectedIndex = this.runHistory.indexOf(this.selectedRun);
+      this.runHistory = runs;
+      if (this.runHistory.length) {
+        this.selectedRun = this.runHistory[Math.min(this.runHistory.length - 1, selectedIndex)];
+      } else {
+        this.selectedRun = this.currentRun = Object.assign({}, AppComponent.EMPTY_RUN);
+      }
+    });
+  }
+
+  /**
+   * Refresh the run history when there are changes on disk (a run directory deleted).
+   */
+  private onRunDeleted(): void {
+    this.fileService.getAllRuns(this.onRunDataPostDelete.bind(this));
   }
 
   /**
