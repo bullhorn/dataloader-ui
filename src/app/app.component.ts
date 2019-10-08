@@ -128,9 +128,7 @@ export class AppComponent implements OnInit {
    * Refresh the run history when there are changes on disk (a run directory deleted).
    */
   private onRunDeleted(): void {
-    this.zone.run(() => {
-      this.fileService.getAllRuns(this.onRunDataPostDelete.bind(this));
-    });
+    this.fileService.getAllRuns(this.onRunDataPostDelete.bind(this));
   }
 
   /**
