@@ -1,7 +1,7 @@
 // Vendor
 import * as moment from 'moment';
 // App
-import { Duration, ExistField, PreviewData, Settings } from '../../interfaces';
+import { Duration, ExistField, Field, Meta, PreviewData, Settings } from '../../interfaces';
 
 export class Utils {
 
@@ -15,19 +15,19 @@ export class Utils {
    */
   static loadArgs(settings: Settings, previewData: PreviewData, resultsFilePath: string): string[] {
     let args: string[] = this.baseArgs(settings);
-    args = args.concat(['listDelimiter', settings.listDelimiter]);
-    args = args.concat(['dateFormat', settings.dateFormat]);
-    args = args.concat(['processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false']);
-    args = args.concat(['wildcardMatching', settings.wildcardMatching ? 'true' : 'false']);
-    args = args.concat(['singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false']);
-    args = args.concat(['executeFormTriggers', settings.executeFormTriggers ? 'true' : 'false']);
-    args = args.concat(['numThreads', settings.numThreads.toString()]);
-    args = args.concat(['caching', settings.caching ? 'true' : 'false']);
-    args = args.concat(['resultsFileEnabled', 'true']);
-    args = args.concat(['resultsFilePath', resultsFilePath]);
-    args = args.concat(['resultsFileWriteIntervalMsec', '500']);
+    args = args.concat('listDelimiter', settings.listDelimiter);
+    args = args.concat('dateFormat', settings.dateFormat);
+    args = args.concat('processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false');
+    args = args.concat('wildcardMatching', settings.wildcardMatching ? 'true' : 'false');
+    args = args.concat('singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false');
+    args = args.concat('executeFormTriggers', settings.executeFormTriggers ? 'true' : 'false');
+    args = args.concat('numThreads', settings.numThreads.toString());
+    args = args.concat('caching', settings.caching ? 'true' : 'false');
+    args = args.concat('resultsFileEnabled', 'true');
+    args = args.concat('resultsFilePath', resultsFilePath);
+    args = args.concat('resultsFileWriteIntervalMsec', '500');
     args = args.concat(Utils.createExistFieldArgs(settings, previewData.filePath));
-    args = args.concat(['load', previewData.filePath]);
+    args = args.concat('load', previewData.filePath);
     return args;
   }
 
@@ -35,15 +35,20 @@ export class Utils {
     return this.baseArgs(settings).concat('login');
   }
 
+  static metaArgs(settings: Settings, previewData: PreviewData): string[] {
+    const entity = Utils.getEntityNameFromFile(previewData.filePath);
+    return this.baseArgs(settings).concat('meta', entity);
+  }
+
   static baseArgs(settings: Settings): string[] {
     let args: string[] = [];
-    args = args.concat(['username', settings.username]);
-    args = args.concat(['password', settings.password]);
-    args = args.concat(['clientId', settings.clientId]);
-    args = args.concat(['clientSecret', settings.clientSecret]);
-    args = args.concat(['authorizeUrl', settings.authorizeUrl]);
-    args = args.concat(['loginUrl', settings.loginUrl]);
-    args = args.concat(['tokenUrl', settings.tokenUrl]);
+    args = args.concat('username', settings.username);
+    args = args.concat('password', settings.password);
+    args = args.concat('clientId', settings.clientId);
+    args = args.concat('clientSecret', settings.clientSecret);
+    args = args.concat('authorizeUrl', settings.authorizeUrl);
+    args = args.concat('loginUrl', settings.loginUrl);
+    args = args.concat('tokenUrl', settings.tokenUrl);
     return args;
   }
 
@@ -53,7 +58,7 @@ export class Utils {
       const entity: string = Utils.getEntityNameFromFile(filePath);
       const existField: ExistField = Utils.getExistField(settings, entity);
       if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
-        args = args.concat([entity + 'ExistField', existField.fields.join(',')]);
+        args = args.concat(entity + 'ExistField', existField.fields.join(','));
       }
     }
     return args;
@@ -175,19 +180,15 @@ export class Utils {
     ];
   }
 
-  static createColumnConfig(data: any[]): any[] {
-    const columnConfig: any[] = [];
-
-    for (const key in data[0]) {
-      if (data[0].hasOwnProperty(key)) {
-        columnConfig.push({
-          name: key,
-          title: key,
-        });
-      }
-    }
-
-    return columnConfig;
+  // CSV Data comes back as a JSON array, where each object contains key/value pairs with headers as keys
+  static createColumnConfig(data: any[], meta: Meta): any[] {
+    const firstRow: string[] = data[0];
+    return Object.keys(firstRow).map(key => {
+      const field: Field = meta.fields.find((f) => f.name === key);
+      return field ?
+        { name: key, title: `${field.label} (${key})` } :
+        { name: key, title: key };
+    });
   }
 
   static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
@@ -317,5 +318,12 @@ export class Utils {
         return `${numStr.substr(0, substrTo)}${letter}`;
       }
     }
+  }
+
+  static addMetaToHeaders(headers: string[], meta: Meta): string[] {
+    return headers.map((header) => {
+      const field: Field = meta.fields.find((f) => f.name === header);
+      return field ? `${field.label} (${header})` : header;
+    });
   }
 }

@@ -11,6 +11,9 @@
       </novo-table-header>
     </novo-table>
   </div>
+  <div class="loading-container" *ngIf="this.previewDataWithoutMeta">
+    <novo-loading></novo-loading>
+  </div>
   <footer>
     <button theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()" icon="upload"
             tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">

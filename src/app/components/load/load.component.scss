@@ -14,6 +14,12 @@
     margin-bottom: 100px;
   }
 
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5em;
+  }
+
   footer {
     @include sticky-footer();
   }

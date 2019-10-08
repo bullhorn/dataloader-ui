@@ -1,6 +1,7 @@
 // Vendor
 import Timer = NodeJS.Timer;
 import { Error } from '../../../interfaces';
+import { FakeMeta } from './fake-meta';
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -66,12 +67,21 @@ export class DataloaderServiceFakes {
     setTimeout(() => callback(responseText), 1500);
   }
 
+  static generateFakePrintMetaCallback(callback: (text: string) => void) {
+    const responseText = JSON.stringify(FakeMeta.meta);
+    setTimeout(() => callback(responseText), 2700);
+  }
+
   static generateFakeDoneLoadCallback(callback: (text: string) => void): void {
     setTimeout(() => callback('Fake Output'), 15500);
   }
 
   static generateFakeDoneLoginCallback(callback: (text: string) => void): void {
     setTimeout(() => callback('Fake Output'), 2000);
+  }
+
+  static generateFakeDoneMetaCallback(callback: (text: string) => void): void {
+    setTimeout(() => callback('Fake Output'), 3000);
   }
 
   static generateFakeErrorCallback(callback: (error: Error) => void): void {

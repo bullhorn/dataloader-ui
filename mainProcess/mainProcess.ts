@@ -104,9 +104,13 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
     fs.writeFileSync(dest, fs.readFileSync(orig));
   }
 
-  // Output Data Loader version info
-  const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
-  event.sender.send('print', `Data Loader CLI v${version}\n`);
+  // Output Data Loader version info when loading, except when retrieving meta
+  const command = params[params.length - 2];
+  console.log('command:', command);
+  if (command !== 'meta') {
+    const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
+    event.sender.send('print', `Data Loader CLI v${version}\n`);
+  }
 
   // Execute dataloader in separate process
   params.unshift('-jar', path.join(dataloaderDir, jarFiles[0]));
@@ -116,6 +120,7 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
   });
 
   dataloaderProcess.stdout.on('data', (data) => {
+    console.log('data:', data);
     event.sender.send('print', data.toString());
   });
   dataloaderProcess.stderr.on('data', (data) => {

@@ -4,7 +4,8 @@ import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } fro
 import { FieldInteractionApi, FormUtils, NovoFormGroup, NovoModalService, } from 'novo-elements';
 import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
 // App
-import { ExistField, PreviewData, Run, Settings } from '../../../interfaces';
+import { DataloaderService } from '../../services/dataloader/dataloader.service';
+import { ExistField, Meta, PreviewData, Run, Settings } from '../../../interfaces';
 import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { Utils } from '../../utils/utils';
@@ -27,8 +28,12 @@ export class LoadComponent implements OnInit, OnDestroy {
   fileName = '';
   existField: ExistField;
   fieldInteractionApi: FieldInteractionApi;
+  previewDataWithoutMeta: PreviewData;
+  metaJson: string;
 
+  // TODO: Break this single form apart into multiple form steps
   constructor(private fileService: FileService,
+              private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
               private zone: NgZone,
               private formUtils: FormUtils) {
@@ -153,23 +158,60 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get the file information, then enrich it with field names from meta data
   private onPreviewData(previewData: PreviewData): void {
-    this.zone.run(() => {
-      this.run.previewData = previewData;
-      this.previewTable.columns = Utils.createColumnConfig(previewData.data);
-      this.previewTable.rows = previewData.data;
-      this.entity = Utils.getEntityNameFromFile(this.inputFilePath);
-      this.icon = Utils.getIconForFilename(this.inputFilePath);
-      this.theme = Utils.getThemeForFilename(this.inputFilePath);
-      this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
-      this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
-      this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
-    });
+    console.log('Got preview Data - getting meta now....');
+    this.previewDataWithoutMeta = previewData;
+    this.entity = Utils.getEntityNameFromFile(this.inputFilePath);
+    this.icon = Utils.getIconForFilename(this.inputFilePath);
+    this.theme = Utils.getThemeForFilename(this.inputFilePath);
+    this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
+
+    // TODO: Produce a better waiting state, like: "Retrieving field map data for this private label..."
+    //  Allow the user to click a stop button, in order to skip this part if they wish (or if it breaks).
+    this.getMeta();
   }
 
   private onPreviewDataError(message: string): void {
     this.zone.run(() => {
       this.modalService.open(InfoModalComponent, { title: 'Error Parsing Input File', message });
+    });
+  }
+
+  private getMeta(): void {
+    this.metaJson = '';
+    this.dataloaderService.onPrint(this.onMetaPrint.bind(this), 'meta');
+    this.dataloaderService.onDone(this.onMetaDone.bind(this), 'meta');
+    this.dataloaderService.meta(this.previewDataWithoutMeta);
+  }
+
+  // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which might take multiple
+  // electron buffers due to buffer length restrictions between the main and renderer processes.
+  private onMetaPrint(metaJsonPartial: string): void {
+    this.metaJson += metaJsonPartial;
+  }
+
+  // Once the process is done, we should have the entire string
+  private onMetaDone(): void {
+    this.zone.run(() => {
+      this.dataloaderService.unsubscribe();
+      try {
+        const meta: Meta = JSON.parse(this.metaJson);
+        this.run.previewData = this.previewDataWithoutMeta;
+        this.run.previewData.headers = Utils.addMetaToHeaders(this.run.previewData.headers, meta);
+        this.previewDataWithoutMeta = undefined;
+        this.previewTable.columns = Utils.createColumnConfig(this.run.previewData.data, meta);
+        this.previewTable.rows = this.run.previewData.data;
+        this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
+        this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
+      } catch (parseErr) {
+        // TODO: If this fails, it's probably bad credentials. Check for bad credential output:
+        //  ERROR: com.bullhornsdk.data.exception.RestApiException: Failed to create rest session
+        this.modalService.open(InfoModalComponent, {
+          title: 'Error Retrieving Meta!',
+          message: this.metaJson,
+        });
+      }
     });
   }
 }
