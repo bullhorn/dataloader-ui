@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/bullhorn/dataloader-ui/compare/v1.11.0...v1.12.0) (2019-10-08)
+
+
+### Features
+
+* **Run History:** Allow Deletes: https://github.com/bullhorn/dataloader-ui/issues/79 ([#96](https://github.com/bullhorn/dataloader-ui/issues/96)) ([c0f2af4](https://github.com/bullhorn/dataloader-ui/commit/c0f2af4))
+
 ## [1.11.0](https://github.com/bullhorn/dataloader-ui/compare/v1.10.0...v1.11.0) (2019-10-04)
 
 
