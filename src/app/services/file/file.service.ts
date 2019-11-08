@@ -15,7 +15,7 @@ import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION = 6;
+  static SETTINGS_FILE_VERSION = 7;
 
   runDeleted = new Subject();
 
@@ -31,6 +31,7 @@ export class FileService {
     processEmptyAssociations: false,
     wildcardMatching: true,
     singleByteEncoding: false,
+    executeFormTriggers: false,
     dateFormat: 'MM/dd/yy HH:mm',
     authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
     tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
@@ -124,6 +125,10 @@ export class FileService {
             settings.authorizeUrl = 'https://auth.bullhornstaffing.com/oauth/authorize';
             settings.tokenUrl = 'https://auth.bullhornstaffing.com/oauth/token';
             settings.loginUrl = 'https://rest.bullhornstaffing.com/rest-services/login';
+          }
+          // Default executeFormTriggers before version 7
+          if (!settings.version || settings.version < 7) {
+            settings.executeFormTriggers = false;
           }
           return settings;
         } catch (parseErr) {

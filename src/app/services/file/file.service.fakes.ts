@@ -81,6 +81,7 @@ export class FileServiceFakes {
     processEmptyAssociations: false,
     wildcardMatching: true,
     singleByteEncoding: false,
+    executeFormTriggers: false,
     numThreads: 15,
     caching: true,
     existFields: [{
