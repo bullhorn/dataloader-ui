@@ -230,6 +230,18 @@ export class SettingsModalComponent implements OnInit {
           { label: 'No', value: false }],
         sortOrder: 35,
       }, {
+        name: 'executeFormTriggers',
+        type: 'tiles',
+        label: 'Execute Form Triggers',
+        required: true,
+        description: 'If Yes then Rest Form Triggers will be executed on insert/update calls. ' +
+          'Default value is false, which will skip any existing Rest Form Triggers. Rest Form Triggers ' +
+          'are configurable in Bullhorn Admin for Add and Edit on all major entities.',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 36,
+      }, {
         name: 'numThreads',
         type: 'number',
         label: 'Number of Threads',

@@ -19,6 +19,7 @@ export interface Settings {
   processEmptyAssociations: boolean;
   wildcardMatching: boolean;
   singleByteEncoding: boolean;
+  executeFormTriggers: boolean;
   numThreads: number;
   caching: boolean;
 }
