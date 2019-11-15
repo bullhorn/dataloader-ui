@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/bullhorn/dataloader-ui/compare/v1.12.0...v1.13.0) (2019-11-15)
+
+
+### Features
+
+* **Settings:** Added Execute Form Triggers setting ([#99](https://github.com/bullhorn/dataloader-ui/issues/99)) ([b4df344](https://github.com/bullhorn/dataloader-ui/commit/b4df344da7fcc4bfc823dfa12755d4cf2beb87a9))
+
 ## [1.12.0](https://github.com/bullhorn/dataloader-ui/compare/v1.11.0...v1.12.0) (2019-10-08)
 
 
