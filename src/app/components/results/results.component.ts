@@ -6,7 +6,7 @@ import * as Chart from 'chart.js';
 import { FileService } from '../../services/file/file.service';
 import { PreviewData, Results } from '../../../interfaces';
 import { Utils } from '../../utils/utils';
-import { ConfirmModalComponent } from '../confirmModal/confirmModal.component';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { NovoModalService } from 'novo-elements';
 
 @Component({

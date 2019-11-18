@@ -8,7 +8,7 @@ import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { AnalyticsService } from './services/analytics/analytics.service';
 import { AppComponent } from './app.component';
-import { ConfirmModalComponent } from './components/confirmModal/confirmModal.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DataloaderService } from './services/dataloader/dataloader.service';
 import { ElectronService } from './services/electron/electron.service';
 import { FileService } from './services/file/file.service';
