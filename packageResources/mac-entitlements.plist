@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  This file is referenced from package.json, and is required in order to notarize mac apps for distribution
+  outside of the app store, by uploading it for virus scanning by Apple. These entitlements define what
+  the app requires in order to run. Google electron builder entitlements for more info.
+  https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
+-->
+<plist>
+  <dict>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+  </dict>
+</plist>
