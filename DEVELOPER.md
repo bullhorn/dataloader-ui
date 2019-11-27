@@ -99,7 +99,7 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 
 1. Do not commit the file `mac-certificate.txt` to source control!
 
-1. Setup secure environment variables in Travis CI:
+1. Setup Code Signing Certificate (CSC) secure environment variables in Travis CI, available only to `master` branch, so no other branches can sign/publish:
    
    - Set CSC_LINK to the contents of `mac-certificate.txt` by copying and pasting the very long one line string.
    
@@ -116,7 +116,8 @@ Electron Builder documentation on setting up code signing: https://www.electron.
    
 1. Generate an App-specific password: https://support.apple.com/en-us/HT204397.
    
-1. Setup secure environment variables in Travis CI:
+1. Setup APPLE account secure environment variables in Travis CI, available to all branches right now,
+   until the afterSign hook knows if signing happened: https://github.com/electron-userland/electron-builder/issues/4452.
    
    - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
    
