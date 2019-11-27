@@ -4,15 +4,8 @@ let extract = require('extract-zip');
 let rimraf = require('rimraf');
 let log = console.log;
 
-// TODO: Remove token access once DATALOADER is public, and move this file to packageResources
-const GH_TOKEN = process.env.GH_TOKEN;
-const BASE_URL = `https://${GH_TOKEN}:@api.github.com/repos/bullhorn/dataloader`;
+const BASE_URL = `http://api.github.com/repos/bullhorn/dataloader`;
 const FILE = 'dataloader.zip';
-
-if (GH_TOKEN === undefined) {
-  log(`ERROR: cannot download latest dataloader CLI release - missing 'GH_TOKEN' environment variable with private repo access.`);
-  process.exit();
-}
 
 let latestReleaseAssets = {
   url: `${BASE_URL}/releases/latest`,
@@ -26,7 +19,7 @@ request(latestReleaseAssets, (error, response, bodyString) => {
 
   let body = JSON.parse(bodyString);
   if (!body.tag_name) {
-    log(`ERROR: invalid or insufficient GH_TOKEN environment - cannot contact dataloader CLI repo.`);
+    log(`ERROR: something went wrong - cannot contact dataloader repo.`);
     process.exit();
   }
 

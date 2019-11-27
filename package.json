@@ -12,7 +12,7 @@
     "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --base-href .",
     "build:prod": "npm run build -- --prod",
     "compile": "tsc ./mainProcess/* --outDir dist",
-    "download": "node download-latest-dataloader.js",
+    "download": "node packageResources/download-latest-dataloader.js",
     "lint": "tslint --project tsconfig.json",
     "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
     "publish": "cd dist && electron-builder --mac --publish always",
