@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle(`Bullhorn Data Loader v${this.electronService.version()} (Beta Release)`);
+    this.titleService.setTitle(`Bullhorn Data Loader v${this.electronService.version()}`);
 
     // Subscribe to messages from the main process
     this.dataloaderService.onMessages((error) => {
