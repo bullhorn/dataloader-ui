@@ -1,13 +1,18 @@
 ![Data Loader Logo](dataloader.png)
 
-Data Loader Desktop Application Powered by the Bullhorn [Data Loader](https://github.com/bullhorn/dataloader) Command Line Interface.
+Data Loader desktop application for Windows and Mac that wraps the [Bullhorn Data Loader](https://github.com/bullhorn/dataloader) in a convenient, user friendly app.
 
-## Install the App
+## Download the App
 
-Download and run the [Latest Installer](https://github.com/bullhorn/dataloader-ui/releases/latest) for Windows or Mac
+Download the [Latest Installer](https://github.com/bullhorn/dataloader-ui/releases/latest) for Windows or Mac
 
-## Documentation
+### More Info
 
 *  **[Data Loader Wiki](https://github.com/bullhorn/dataloader/wiki)**
 *  **[Bullhorn Open Source](http://bullhorn.github.io)**
 *  **[Bullhorn Website](http://www.bullhorn.com)**
+
+### For Developers
+
+*  **[Getting Started](DEVELOPER.md)**
+*  **[Creating a Release](RELEASE.md)**
