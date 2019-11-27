@@ -4,6 +4,7 @@ let extract = require('extract-zip');
 let rimraf = require('rimraf');
 let log = console.log;
 
+// TODO: Remove token access once DATALOADER is public, and move this file to packageResources
 const GH_TOKEN = process.env.GH_TOKEN;
 const BASE_URL = `https://${GH_TOKEN}:@api.github.com/repos/bullhorn/dataloader`;
 const FILE = 'dataloader.zip';
