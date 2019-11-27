@@ -14,8 +14,8 @@
     "compile": "tsc ./mainProcess/* --outDir dist",
     "download": "node download-latest-dataloader.js",
     "lint": "tslint --project tsconfig.json",
-    "dist": "cd dist && electron-builder --publish always -mw -c.mac.identity=null",
-    "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run dist",
+    "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
+    "publish": "cd dist && electron-builder --mac --win --publish always",
     "serve": "electron dist/mainProcess.js --serve",
     "stage": "copyfiles package*.json 'dataloader/**/*' dist",
     "start": "npm run download && npm run build && npm run compile && npm run serve",
@@ -34,7 +34,14 @@
       "buildResources": "../buildResources",
       "output": "../packages"
     },
-    "asarUnpack": "dataloader/"
+    "asarUnpack": "dataloader/",
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "../packageResources/mac-entitlements.plist",
+      "entitlementsInherit": "../packageResources/mac-entitlements.plist"
+    },
+    "afterSign": "../packageResources/mac-notarize.js"
   },
   "browser": {
     "crypto": false,
@@ -73,6 +80,7 @@
     "moment-duration-format": "^2.3.2",
     "novo-elements": "^3.13.0",
     "rimraf": "^3.0.0",
+    "rxjs": "^6.5.3",
     "text-mask-addons": "3.8.0",
     "uuidv4": "^5.0.1",
     "zone.js": "0.10.2"
@@ -89,6 +97,7 @@
     "copyfiles": "^2.1.1",
     "electron": "6.0.10",
     "electron-builder": "^21.2.0",
+    "electron-notarize": "^0.2.1",
     "extract-zip": "^1.6.7",
     "pre-commit": "^1.2.2",
     "standard-version": "^7.0.0",

@@ -7,6 +7,8 @@ An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/
 
 ## For Developers
 
+TODO: REMOVE THIS ONCE DATALOADER IS PUBLIC
+
 ### Setup GitHub Token for API access to dataloader private repo
 
  1. Create GitHub Personal access token: [Personal access tokens](https://github.com/settings/tokens)
@@ -43,11 +45,12 @@ yarn package
 ### Project structure
 
 ```
-|-- buildResources     - image files used in creating the distributable electron-builder package
+|-- buildResources     - image files used in creating the distributable electron-builder installer
 |-- dataloader         - the latest downloaded Data Loader CLI
 |-- dist               - where the Angular App gets built and the Data Loader CLI gets copied to
 |-- mainProcess        - source files for the electron main process
     |-- mainProcess.ts - the entry point for the main process that kicks off the electron renderer process in a new Browser Window
+|-- packageResources   - files required to package the app for distribution as a Windows/Mac App from a certified developer
 |-- packages           - where the electron app from the dist folder gets packaged into an os-specific installer by electron-builder
 |-- src                - source files for the electron renderer process (the Angular front end)
     |-- main.ts        - the entry point for the renderer process that loads Angular
@@ -66,12 +69,60 @@ yarn package
 
 ### WebApp-only development server
 
-Run `ng serve` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. The app will not have any Electron functionality, but is useful for developing the Angular App using fake data without having to wait for Electron.
+Run `ng serve` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. 
+The app will automatically reload if you change any of the source files. 
+The app will not have any Electron functionality, but is useful for developing the Angular App using fake data without having to wait for Electron.
 
-#### Note on updating package.json
+### Notes on Setting up a Signed, Notarized Release for Windows/Mac
 
-The `package-lock.json` file is used by Travis CI to build the same exact version of dependencies that was used during development. The use of the [Bullhorn Internal Artifactory](https://artifactory.bullhorn.com) will break the use of `package-lock.json` by Travis CI. Prior to doing an `npm install`, make sure to switch back to the public npm repo: 
+Electron Builder documentation on setting up code signing: https://www.electron.build/code-signing
 
-  ```
-  nrm use npm
-  ```
+##### Windows
+
+1. 
+
+##### Mac
+
+1. In order to create a mac certificate, first request access to the Bullhorn Apple Developer account.
+
+1. After a confirmation email you will have access with your bullhorn email as the user ID.
+
+1. Create a **Mac Development Certificate** at: https://developer.apple.com/account/resources/certificates/list.
+
+1. Download the certificate to your Mac's keychain.
+
+1. From within Keychain Access, export the Mac Development Certificate using the .p12 file format.
+   Set a strong password on the file, but don't use special characters in the password because
+   “values are not escaped when your builds are executed”.
+
+1. Encode the file to base64 (macOS: `base64 -i yourFile.p12 -o mac-certificate.txt`).
+
+1. Do not commit the file `mac-certificate.txt` to source control!
+
+1. Setup secure environment variables in Travis CI:
+   
+   - Set CSC_LINK to the contents of `mac-certificate.txt` by copying and pasting the very long one line string.
+   
+   - Set CSC_KEY_PASSWORD to the password you chose when generating the .p12 file.
+
+1. Test locally by turning off application sharing on the certificate if it's on (defaults to off) and setting the CSC_LINK and CSC_KEY_PASSWORD
+   environment variables before running `yarn package`. This way electron builder won't default to the certificate in your Mac's keychain.
+
+1. Setup notarizing the mac app for distributing without virus scan warnings. This is required for Mac OSX Catalina and beyond in
+   order to distribute outside of the app store. See official notarizing rules:
+   https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution
+   
+1. Setup 2-factor authentication with developer.apple.com
+   
+1. Generate an App-specific password: https://support.apple.com/en-us/HT204397.
+   
+1. Setup secure environment variables in Travis CI:
+   
+   - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
+   
+   - Set APPLE_PASSWORD to the App-specific password you generated.
+   
+1. Test locally, by setting APPLE_ID / APPLE_PASSWORD environment variables on the command line and running `yarn package`
+
+   - The notarize step can take several minutes while it uploads the package to Apple for verification using their automated virus scan.
+
