@@ -19,6 +19,9 @@ import { MissingJavaModalComponent } from './components/missing-java-modal/missi
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
+import { StepComponent, StepperComponent } from './components/stepper/stepper.component';
+import { StepHeaderComponent } from './components/stepper/step-header.component';
+import { StepStatusComponent } from './components/stepper/step-status.component';
 
 @NgModule({
   imports: [
@@ -31,15 +34,19 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
   ],
   declarations: [
     AboutModalComponent,
-    ConfirmModalComponent,
     AppComponent,
-    InfoModalComponent,
+    ConfirmModalComponent,
     HeaderComponent,
+    InfoModalComponent,
     LoadComponent,
     MissingJavaModalComponent,
     ResultsComponent,
     RunComponent,
     SettingsModalComponent,
+    StepComponent,
+    StepperComponent,
+    StepHeaderComponent,
+    StepStatusComponent,
   ],
   entryComponents: [
     AboutModalComponent,
