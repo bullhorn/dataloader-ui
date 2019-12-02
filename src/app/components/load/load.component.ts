@@ -49,7 +49,25 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  setupForm(): void {
+  browse(): void {
+    console.log('browsing...');
+  }
+
+  load(): void {
+    const settings: Settings = this.fileService.readSettings();
+    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
+      this.modalService.open(InfoModalComponent, {
+        title: 'Missing Login Credentials',
+        message: 'Open settings and fill out credentials before loading data',
+      });
+    } else {
+      Utils.setExistField(settings, this.existField);
+      this.fileService.writeSettings(settings);
+      this.started.emit();
+    }
+  }
+
+  private setupForm(): void {
     const meta: any = {
       fields: [{
         name: 'file',
@@ -101,20 +119,6 @@ export class LoadComponent implements OnInit, OnDestroy {
         resizing: true,
       },
     };
-  }
-
-  load(): void {
-    const settings: Settings = this.fileService.readSettings();
-    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-      this.modalService.open(InfoModalComponent, {
-        title: 'Missing Login Credentials',
-        message: 'Open settings and fill out credentials before loading data',
-      });
-    } else {
-      Utils.setExistField(settings, this.existField);
-      this.fileService.writeSettings(settings);
-      this.started.emit();
-    }
   }
 
   private onFileChange(API: FieldInteractionApi): void {
