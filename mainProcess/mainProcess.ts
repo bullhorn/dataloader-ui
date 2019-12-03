@@ -1,4 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { autoUpdater } from 'electron-updater';
+import * as log from 'electron-log';
 import { ChildProcess, spawn } from 'child_process';
 import { glob } from 'glob';
 import * as fs from 'fs';
@@ -17,6 +19,13 @@ let mainWindow: Electron.BrowserWindow = null;
 let dataloaderProcess: ChildProcess = null;
 
 function createWindow(): void {
+  // Let the auto-updater run in the background, auto-install new updates
+  // and install when the app quits.
+  log.transports.file.level = 'info';
+  autoUpdater.logger = log;
+  autoUpdater.checkForUpdatesAndNotify();
+
+  // Create the Chromium window and load the Angular app
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -35,7 +44,7 @@ function createWindow(): void {
   }
 
   mainWindow.on('closed', () => {
-    // Dereference the window object.
+    // Dereference the Chromium window object that is being closed
     mainWindow = null;
   });
 }
