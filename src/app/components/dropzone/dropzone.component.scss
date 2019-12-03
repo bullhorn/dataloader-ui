@@ -1,0 +1,30 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    i {
+      font-size: 6em;
+      color: $light;
+    }
+
+    .main-text {
+      margin-top: 1em;
+      font-size: 1.7em;
+    }
+
+    .sub-text {
+      margin-top: 1em;
+      font-size: 1.1em;
+    }
+  }
+}

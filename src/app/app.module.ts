@@ -10,6 +10,7 @@ import { AnalyticsService } from './services/analytics/analytics.service';
 import { AppComponent } from './app.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DataloaderService } from './services/dataloader/dataloader.service';
+import { DropzoneComponent } from './components/dropzone/dropzone.component';
 import { ElectronService } from './services/electron/electron.service';
 import { FileService } from './services/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
@@ -36,6 +37,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
     AboutModalComponent,
     AppComponent,
     ConfirmModalComponent,
+    DropzoneComponent,
     HeaderComponent,
     InfoModalComponent,
     LoadComponent,

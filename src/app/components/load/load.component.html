@@ -1,20 +1,14 @@
 <section class="load">
   <app-stepper #stepper>
-    <app-step label="Select File" icon="upload">
-      <div class="dropzone-container">
-        <div class="dropzone">
-          <i class="bhi-dropzone"></i>
-          <span class="main-text">Select a CSV file to get started</span>
-          <span class="sub-text">Drag and drop anywhere on this page or <a (click)="browse()">click to browse</a></span>
-        </div>
-      </div>
+    <app-step [label]="'Select File'" icon="upload">
+      <app-dropzone selector="app-dropzone" (onDrop)="onFileDropped($event)"></app-dropzone>
     </app-step>
-    <app-step label="Choose Entity" icon="candidate">
+    <app-step [label]="'Choose Entity'" icon="candidate">
       <div>
         <button theme="primary" (click)="stepper.previous()">Next</button>
       </div>
     </app-step>
-    <app-step label="Map Columns" icon="list">
+    <app-step [label]="'Map Columns'" icon="list">
       <div>
         TODO
       </div>

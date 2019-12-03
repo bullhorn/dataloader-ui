@@ -49,8 +49,8 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  browse(): void {
-    console.log('browsing...');
+  onFileDropped(file: string): void {
+    console.log('file:', file);
   }
 
   load(): void {
