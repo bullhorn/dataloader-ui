@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/bullhorn/dataloader-ui/compare/v1.13.0...v1.14.0) (2019-12-03)
+
+
+### Features
+
+* **Release:** Removing beta indicator for upcoming public release ([8fd87c3](https://github.com/bullhorn/dataloader-ui/commit/8fd87c3))
+* **Sign:** Added Mac Signing/Notarization of App ([#100](https://github.com/bullhorn/dataloader-ui/issues/100)) ([9311bf5](https://github.com/bullhorn/dataloader-ui/commit/9311bf5))
+* **Updates:** Added auto updates ([a03249b](https://github.com/bullhorn/dataloader-ui/commit/a03249b))
+
 ## [1.13.0](https://github.com/bullhorn/dataloader-ui/compare/v1.12.0...v1.13.0) (2019-11-15)
 
 
