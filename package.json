@@ -3,7 +3,7 @@
   "productName": "Bullhorn Data Loader",
   "version": "1.14.0",
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
-  "repository": "https://github.com/bullhorn/dataloader-ui",
+  "repository": "https://github.com/bullhorn/dataloader-app",
   "author": "Bullhorn",
   "license": "UNLICENSED",
   "private": true,
