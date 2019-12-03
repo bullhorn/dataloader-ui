@@ -1,5 +1,11 @@
-<div class="dropzone">
-  <i class="bhi-dropzone"></i>
+<div class="not-dragging" *ngIf="!dragging">
+  <i class="bhi-dropzone" (click)="browse()"></i>
   <span class="main-text">Select a CSV file to get started</span>
   <span class="sub-text">Drag and drop anywhere on this page or <a (click)="browse()">click to browse</a></span>
+</div>
+<div class="dragging" *ngIf="dragging">
+  <div class="icon-background">
+    <i class="bhi-dropzone"></i>
+  </div>
+  <h1>Drop CSV file here to get started</h1>
 </div>

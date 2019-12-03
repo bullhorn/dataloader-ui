@@ -2,6 +2,8 @@
 @import '../node_modules/novo-elements/novo-elements.scss';
 
 $dl-header-height: 63px;
+$dl-stepper-height: 80px;
+$dl-side-pane-width: 300px;
 
 @mixin scrollable() {
   height: calc(100vh - #{$header-height});
@@ -15,7 +17,7 @@ $dl-header-height: 63px;
   position: fixed;
   bottom: 0;
   right: 0;
-  left: 300px;
+  left: $dl-side-pane-width;
   padding: 10px 15px;
   z-index: 100;
   background-color: $background;

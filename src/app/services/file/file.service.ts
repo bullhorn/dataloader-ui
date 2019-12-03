@@ -343,6 +343,22 @@ export class FileService {
     }
   }
 
+  browseForFile(onFileSelected: (filePath: string) => {}): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{ name: 'CSV Files', extensions: ['csv'] }],
+      }, function (result) {
+        if (result.filePaths) {
+          console.log('result.filePaths:', result.filePaths);
+          onFileSelected(result.filePaths[0]);
+        }
+      });
+    } else {
+      onFileSelected('/path/to/Candidate.csv');
+    }
+  }
+
   private readResultsFile(onChange: (results: Results) => {}): void {
     this.electronService.fs.readFile(this.resultsFile, 'utf8', (err, data) => {
       if (err) {

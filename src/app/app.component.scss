@@ -5,7 +5,7 @@
   display: flex;
 
   .side-pane {
-    width: 300px;
+    width: $dl-side-pane-width;
     box-shadow: 0 5px 5px rgba(0, 0, 0, .19);
 
     .new-run {
@@ -23,7 +23,7 @@
 
   .main {
     position: absolute;
-    left: 300px;
+    left: $dl-side-pane-width;
     width: calc(100% - 300px);
     overflow: hidden;
   }

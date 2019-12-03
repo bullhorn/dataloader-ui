@@ -1,5 +1,7 @@
 // Angular
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+// App
+import { FileService } from '../../services/file/file.service';
 
 @Component({
   selector: 'app-dropzone',
@@ -8,8 +10,8 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from
 })
 export class DropzoneComponent implements AfterViewInit, OnDestroy {
   @Input() selector: string;
-  @Output() onDrop: EventEmitter<any> = new EventEmitter();
-  private visible = false;
+  @Output() onFilePath: EventEmitter<string> = new EventEmitter();
+  private dragging = false;
   private commands: any;
   private target: any;
   private element: any;
@@ -22,6 +24,9 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
   private static noOpHandler(event: any): void {
     event.preventDefault();
     // do nothing
+  }
+
+  constructor(private fileService: FileService) {
   }
 
   ngAfterViewInit(): void {
@@ -50,7 +55,7 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
   }
 
   browse(): void {
-    console.log('TODO: Browse for file...');
+    this.fileService.browseForFile(this.onFileProvided.bind(this));
   }
 
   private dragEnterHandler(event: any): void {
@@ -61,14 +66,14 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
     }
 
     event.dataTransfer.dropEffect = 'copy';
-    this.visible = true;
+    this.dragging = true;
     this.target = event.target;
   }
 
   private dragLeaveHandler(event: any): void {
     event.preventDefault();
     if (this.target === event.target) {
-      this.visible = false;
+      this.dragging = false;
     }
   }
 
@@ -79,10 +84,14 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const file: any = dragEvent.dataTransfer.files[0];
-    if (file) {
-      this.onDrop.emit(file);
+    const file = dragEvent.dataTransfer.files[0];
+    this.onFileProvided(file.path || file.name); // path for electron, name for 'ng serve'
+    this.dragging = false;
+  }
+
+  private onFileProvided(filePath: string) {
+    if (filePath) {
+      this.onFilePath.emit(filePath);
     }
-    this.visible = false;
   }
 }
