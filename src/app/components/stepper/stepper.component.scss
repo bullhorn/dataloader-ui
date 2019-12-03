@@ -3,6 +3,9 @@
 
 :host {
   display: block;
+  position: fixed;
+  left: $dl-side-pane-width;
+  right: 0;
 
   .stepper-header-container {
     white-space: nowrap;
