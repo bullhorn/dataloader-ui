@@ -40,10 +40,10 @@ export class DataloaderService {
   /**
    * Starts the CLI to output a Meta json file for the current entity.
    */
-  meta(previewData: PreviewData): void {
+  meta(entity: string): void {
     if (ElectronService.isElectron()) {
       const settings: Settings = this.fileService.readSettings();
-      this.electronService.ipcRenderer.send('start', Utils.metaArgs(settings, previewData));
+      this.electronService.ipcRenderer.send('start', Utils.metaArgs(settings, entity));
     }
   }
 

@@ -28,6 +28,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   icon = '';
   theme = '';
   fileName = '';
+  meta: Meta = null;
   existField: ExistField;
   fieldInteractionApi: FieldInteractionApi;
   previewDataWithoutMeta: PreviewData;
@@ -51,21 +52,20 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFilePath(file: string): void {
-    console.log('file:', file);
+  onFileSelected(file: string): void {
     this.entity = Utils.getEntityNameFromFile(file);
-    console.log('this.entity:', this.entity);
+    this.verifySettings();
     this.stepper.next();
   }
 
-  load(): void {
-    const settings: Settings = this.fileService.readSettings();
-    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-      this.modalService.open(InfoModalComponent, {
-        title: 'Missing Login Credentials',
-        message: 'Open settings and fill out credentials before loading data',
-      });
-    } else {
+  onEntitySelected() {
+    this.getMeta();
+    this.stepper.next();
+  }
+
+  onLoad(): void {
+    if (this.verifySettings()) {
+      const settings: Settings = this.fileService.readSettings();
       Utils.setExistField(settings, this.existField);
       this.fileService.writeSettings(settings);
       this.started.emit();
@@ -175,9 +175,6 @@ export class LoadComponent implements OnInit, OnDestroy {
     this.icon = Utils.getIconForFilename(this.inputFilePath);
     this.theme = Utils.getThemeForFilename(this.inputFilePath);
     this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
-
-    // TODO: Produce a better waiting state, like: "Retrieving field map data for this private label..."
-    //  Allow the user to click a stop button, in order to skip this part if they wish (or if it breaks).
     this.getMeta();
   }
 
@@ -188,10 +185,11 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   private getMeta(): void {
+    this.meta = null;
     this.metaJson = '';
     this.dataloaderService.onPrint(this.onMetaPrint.bind(this), 'meta');
     this.dataloaderService.onDone(this.onMetaDone.bind(this), 'meta');
-    this.dataloaderService.meta(this.previewDataWithoutMeta);
+    this.dataloaderService.meta(this.entity);
   }
 
   // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which might take multiple
@@ -205,22 +203,32 @@ export class LoadComponent implements OnInit, OnDestroy {
     this.zone.run(() => {
       this.dataloaderService.unsubscribe();
       try {
-        const meta: Meta = JSON.parse(this.metaJson);
+        this.meta = JSON.parse(this.metaJson);
         this.run.previewData = this.previewDataWithoutMeta;
-        this.run.previewData.headers = Utils.addMetaToHeaders(this.run.previewData.headers, meta);
+        this.run.previewData.headers = Utils.addMetaToHeaders(this.run.previewData.headers, this.meta);
         this.previewDataWithoutMeta = undefined;
-        this.previewTable.columns = Utils.createColumnConfig(this.run.previewData.data, meta);
+        this.previewTable.columns = Utils.createColumnConfig(this.run.previewData.data, this.meta);
         this.previewTable.rows = this.run.previewData.data;
         this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
         this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
       } catch (parseErr) {
-        // TODO: If this fails, it's probably bad credentials. Check for bad credential output:
-        //  ERROR: com.bullhornsdk.data.exception.RestApiException: Failed to create rest session
         this.modalService.open(InfoModalComponent, {
           title: 'Error Retrieving Meta!',
-          message: this.metaJson,
+          message: parseErr,
         });
       }
     });
+  }
+
+  private verifySettings(): boolean {
+    const settings: Settings = this.fileService.readSettings();
+    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
+      this.modalService.open(InfoModalComponent, {
+        title: 'Missing Login Credentials',
+        message: 'Open settings and fill out credentials before continuing to load data',
+      });
+      return false;
+    }
+    return true;
   }
 }

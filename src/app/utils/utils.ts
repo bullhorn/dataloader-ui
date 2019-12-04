@@ -35,8 +35,7 @@ export class Utils {
     return this.baseArgs(settings).concat('login');
   }
 
-  static metaArgs(settings: Settings, previewData: PreviewData): string[] {
-    const entity = Utils.getEntityNameFromFile(previewData.filePath);
+  static metaArgs(settings: Settings, entity: string): string[] {
     return this.baseArgs(settings).concat('meta', entity);
   }
 

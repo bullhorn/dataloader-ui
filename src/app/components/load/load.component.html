@@ -1,7 +1,7 @@
 <section class="load">
   <app-stepper #stepper>
     <app-step [label]="'Select File'" icon="upload">
-      <app-dropzone selector="app-dropzone" (onFilePath)="onFilePath($event)"></app-dropzone>
+      <app-dropzone selector="app-dropzone" (onFilePath)="onFileSelected($event)"></app-dropzone>
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
@@ -11,25 +11,23 @@
           but you can still change it</span>
         <div class="choose-entity-picker">
           <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
-          <button theme="primary" [disabled]="!entity" (click)="stepper.next()">Next</button>
+          <button theme="primary" [disabled]="!entity" (click)="onEntitySelected()">Next</button>
         </div>
       </div>
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
-      <div class="table-container">
+      <div class="table-container" *ngIf="this.meta">
         TABLE GOES HERE
-        <div class="loading-container" *ngIf="this.previewDataWithoutMeta">
-          <novo-loading></novo-loading>
-          <div class="description">
-            Getting latest Field Map settings for this corporation
-          </div>
-        </div>
+      </div>
+      <div class="loading-container">
+        <span class="description">Getting latest {{ entity }} field map settings...</span>
+        <novo-loading></novo-loading>
       </div>
     </app-step>
   </app-stepper>
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
     <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
-    <button *ngIf="stepper.selectedIndex === 2" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()"
+    <button *ngIf="stepper.selectedIndex === 2" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
             icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
     </button>
   </footer>

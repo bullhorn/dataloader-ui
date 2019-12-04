@@ -7,8 +7,8 @@
   .choose-entity-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     height: 80vh;
 
     .main-text {
@@ -37,10 +37,21 @@
     }
   }
 
+  .table-container {
+  }
+
   .loading-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-top: 5em;
+    height: 80vh;
+
+    .description {
+      font-size: 1.7em;
+      margin-bottom: 2em;
+      text-align: center;
+    }
   }
 
   footer {
