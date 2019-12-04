@@ -5,6 +5,12 @@ import { Duration } from '../../interfaces';
 
 export class Util {
 
+  static noCaseCompare(a: string | null | undefined, b: string | null | undefined): boolean {
+    const aLower = a ? a.toLowerCase() : a;
+    const bLower = b ? b.toLowerCase() : b;
+    return aLower === bLower;
+  }
+
   static getFilenameFromPath(filePath: string): string {
     return filePath.replace(/^.*[\\\/]/, '');
   }

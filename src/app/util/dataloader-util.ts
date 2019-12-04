@@ -1,5 +1,5 @@
 // App
-import { ExistField, Field, Meta, PreviewData, Settings } from '../../interfaces';
+import { ExistField, PreviewData, Settings } from '../../interfaces';
 import { EntityUtil } from './entity-util';
 
 export class DataloaderUtil {
@@ -62,17 +62,6 @@ export class DataloaderUtil {
     return args;
   }
 
-  // CSV Data comes back as a JSON array, where each object contains key/value pairs with headers as keys
-  static createColumnConfig(data: any[], meta: Meta): any[] {
-    const firstRow: string[] = data[0];
-    return Object.keys(firstRow).map(key => {
-      const field: Field = meta.fields.find((f) => f.name === key);
-      return field ?
-        { name: key, title: `${field.label} (${key})` } :
-        { name: key, title: key };
-    });
-  }
-
   static getExistField(settings: Settings, entity: string): ExistField {
     let existField: ExistField = {
       entity: entity,
@@ -108,12 +97,5 @@ export class DataloaderUtil {
       });
     }
     return options;
-  }
-
-  static addMetaToHeaders(headers: string[], meta: Meta): string[] {
-    return headers.map((header) => {
-      const field: Field = meta.fields.find((f) => f.name === header);
-      return field ? `${field.label} (${header})` : header;
-    });
   }
 }

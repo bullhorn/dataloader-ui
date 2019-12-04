@@ -1,3 +1,4 @@
+// TODO: Use BullhornTypes
 // An individual meta field from rest
 export interface Field {
   name: string; // bullhorn internal field name
