@@ -5,7 +5,7 @@ import * as Chart from 'chart.js';
 // App
 import { FileService } from '../../services/file/file.service';
 import { PreviewData, Results } from '../../../interfaces';
-import { Utils } from '../../utils/utils';
+import { EntityUtil, Util } from '../../util';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { NovoModalService } from 'novo-elements';
 
@@ -97,18 +97,18 @@ export class ResultsComponent implements OnInit, OnChanges {
     this.loaded = this.results ? this.results.processed : 0;
     this.success = this.results ? this.results.inserted + this.results.updated : 0;
     this.errors = this.results && this.results.errors ? this.results.errors.length : 0;
-    this.startDate = this.results ? Utils.getStartDateString(this.results.startTime) : '';
-    this.duration = this.results ? Utils.msecToHMS(this.results.durationMsec) : '';
+    this.startDate = this.results ? Util.getStartDateString(this.results.startTime) : '';
+    this.duration = this.results ? Util.msecToHMS(this.results.durationMsec) : '';
     this.errorTable.rows = this.results && this.results.errors ? this.results.errors.slice() : [];
 
     if (this.previewData) {
-      this.total = Utils.getAbbreviatedNumber(this.previewData.total);
+      this.total = Util.getAbbreviatedNumber(this.previewData.total);
       this.inProgress = this.previewData.total - this.loaded;
       this.loadedPercent = this.loaded / this.previewData.total;
-      this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
-      this.entity = Utils.getEntityNameFromFile(this.previewData.filePath);
-      this.icon = Utils.getIconForFilename(this.previewData.filePath, false);
-      this.theme = Utils.getThemeForFilename(this.previewData.filePath);
+      this.fileName = Util.getFilenameFromPath(this.previewData.filePath);
+      this.entity = EntityUtil.getEntityNameFromFile(this.previewData.entity || this.previewData.filePath);
+      this.icon = EntityUtil.getIconForFilename(this.previewData.filePath, false);
+      this.theme = EntityUtil.getThemeForFilename(this.previewData.filePath);
     }
 
     if (this.donutChart) {

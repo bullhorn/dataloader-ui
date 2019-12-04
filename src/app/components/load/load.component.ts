@@ -9,7 +9,7 @@ import { ExistField, Meta, PreviewData, Run, Settings } from '../../../interface
 import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { StepperComponent } from '../stepper/stepper.component';
-import { Utils } from '../../utils/utils';
+import { DataloaderUtil, EntityUtil, Util } from '../../util';
 
 @Component({
   selector: 'app-load',
@@ -33,7 +33,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   fieldInteractionApi: FieldInteractionApi;
   previewDataWithoutMeta: PreviewData;
   metaJson: string;
-  entityPickerConfig = { options: Utils.ENTITY_NAMES };
+  entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
 
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
@@ -53,7 +53,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   onFileSelected(file: string): void {
-    this.entity = Utils.getEntityNameFromFile(file);
+    this.entity = EntityUtil.getEntityNameFromFile(file);
     this.verifySettings();
     this.stepper.next();
   }
@@ -66,7 +66,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   onLoad(): void {
     if (this.verifySettings()) {
       const settings: Settings = this.fileService.readSettings();
-      Utils.setExistField(settings, this.existField);
+      DataloaderUtil.setExistField(settings, this.existField);
       this.fileService.writeSettings(settings);
       this.started.emit();
     }
@@ -148,7 +148,7 @@ export class LoadComponent implements OnInit, OnDestroy {
     if (this.run.previewData) {
       this.existField.enabled = API.form.value.enabled === 'yes';
       if (this.existField.enabled) {
-        API.modifyPickerConfig('fields', { options: Utils.getExistFieldOptions(this.run.previewData) });
+        API.modifyPickerConfig('fields', { options: DataloaderUtil.getExistFieldOptions(this.run.previewData) });
         API.setValue('fields', this.existField.fields);
         API.show('fields');
       } else {
@@ -171,11 +171,9 @@ export class LoadComponent implements OnInit, OnDestroy {
   private onPreviewData(previewData: PreviewData): void {
     console.log('Got preview Data - getting meta now....');
     this.previewDataWithoutMeta = previewData;
-    this.entity = Utils.getEntityNameFromFile(this.inputFilePath);
-    this.icon = Utils.getIconForFilename(this.inputFilePath);
-    this.theme = Utils.getThemeForFilename(this.inputFilePath);
-    this.fileName = Utils.getFilenameFromPath(this.inputFilePath);
-    this.getMeta();
+    this.icon = EntityUtil.getIconForFilename(this.entity);
+    this.theme = EntityUtil.getThemeForFilename(this.entity);
+    this.fileName = Util.getFilenameFromPath(this.entity);
   }
 
   private onPreviewDataError(message: string): void {
@@ -220,7 +218,7 @@ export class LoadComponent implements OnInit, OnDestroy {
   }
 
   private setupTable(): void {
-    this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
+    this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
     // this.existField.enabled ? 'yes' : 'no'
   }
 

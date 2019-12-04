@@ -1,6 +1,16 @@
 export interface PreviewData {
+  // The file location
   filePath: string;
+
+  // The user selected entity for this data, if available
+  entity?: string;
+
+  // Total number of rows
   total: number;
+
+  // The first row in the data
   headers: string[];
+
+  // A handful of rows, for previewing only
   data: Object[];
 }

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { DataloaderServiceFakes } from './dataloader.service.fakes';
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
-import { Utils } from '../../utils/utils';
+import { DataloaderUtil } from '../../util';
 import { Error, PreviewData, Settings } from '../../../interfaces';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class DataloaderService {
     if (ElectronService.isElectron()) {
       const settings: Settings = this.fileService.readSettings();
       const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
-      this.electronService.ipcRenderer.send('start', Utils.loadArgs(settings, previewData, resultsFilePath));
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.loadArgs(settings, previewData, resultsFilePath));
     }
   }
 
@@ -33,7 +33,7 @@ export class DataloaderService {
    */
   login(settings: Settings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.send('start', Utils.loginArgs(settings));
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.loginArgs(settings));
     }
   }
 
@@ -43,7 +43,7 @@ export class DataloaderService {
   meta(entity: string): void {
     if (ElectronService.isElectron()) {
       const settings: Settings = this.fileService.readSettings();
-      this.electronService.ipcRenderer.send('start', Utils.metaArgs(settings, entity));
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.metaArgs(settings, entity));
     }
   }
 

@@ -6,7 +6,7 @@ import * as uuid from 'uuid/v4';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
-import { Utils } from '../../utils/utils';
+import { EntityUtil } from '../../util';
 import { Config, Run } from '../../../interfaces';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AnalyticsService {
 
   trackEvent(category: string, run: Run): void {
     // Params: 'send', 'event', category, action, label, value
-    ga('send', 'event', category, Utils.getEntityNameFromFile(run.previewData.filePath),
+    ga('send', 'event', category, EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath),
       this.electronService.version(), run.results ? run.results.processed : 0);
   }
 }

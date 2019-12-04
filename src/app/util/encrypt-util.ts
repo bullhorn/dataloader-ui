@@ -1,7 +1,7 @@
 // Vendor
 import { AES, enc } from 'crypto-js';
 
-export class EncryptUtils {
+export class EncryptUtil {
   static PASSWORD = 'viKing-761-biSCuIT';
 
   static encrypt(text: string): string {

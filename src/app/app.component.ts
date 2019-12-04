@@ -15,7 +15,7 @@ import { FileService } from './services/file/file.service';
 import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
-import { Utils } from './utils/utils';
+import { EntityUtil, Util } from './util';
 
 // Extend moment.duration with fn.format
 momentDurationFormatSetup(moment);
@@ -176,11 +176,11 @@ export class AppComponent implements OnInit {
   private sendNotification(): void {
     if (this.currentRun.results) {
       this.analyticsService.trackEvent('Completed', this.currentRun);
-      const entity = Utils.getEntityNameFromFile(this.currentRun.previewData.filePath);
+      const entity = EntityUtil.getEntityNameFromFile(this.currentRun.previewData.entity || this.currentRun.previewData.filePath);
       const total = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
       const counts =
         `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
-      const duration = Utils.msecToHMS(this.currentRun.results.durationMsec);
+      const duration = Util.msecToHMS(this.currentRun.results.durationMsec);
       new Notification(`Loaded ${total} ${entity} Records in ${duration}`, { body: counts }); // tslint:disable-line
     }
   }

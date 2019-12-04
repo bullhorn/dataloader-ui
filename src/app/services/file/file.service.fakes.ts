@@ -1,8 +1,9 @@
 // Vendor
 import Timer = NodeJS.Timer;
+import { EntityTypes } from '@bullhorn/bullhorn-types';
 // App
-import { Utils } from '../../utils/utils';
 import { Config, Errors, PreviewData, Results, Settings } from '../../../interfaces';
+import { EntityUtil } from '../../util';
 
 class FakeResultsData {
   processed = 0;
@@ -50,7 +51,7 @@ export class FakePreviewData {
   ];
 
   constructor() {
-    const entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (400 - 1)) + 1;
   }

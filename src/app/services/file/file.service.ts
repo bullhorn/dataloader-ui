@@ -6,11 +6,11 @@ import { NovoModalService } from 'novo-elements';
 import { Subject } from 'rxjs';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { EncryptUtils } from '../../utils/encrypt-utils';
 import { environment } from '../../../environments/environment';
 import { InfoModalComponent } from '../../components/info-modal/info-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
+import { EncryptUtil } from '../../util';
 
 @Injectable()
 export class FileService {
@@ -100,8 +100,8 @@ export class FileService {
           const settings: Settings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
           // Decrypt passwords for versions 1+
           if (settings.version && settings.version >= 1) {
-            settings.password = EncryptUtils.decrypt(settings.password);
-            settings.clientSecret = EncryptUtils.decrypt(settings.clientSecret);
+            settings.password = EncryptUtil.decrypt(settings.password);
+            settings.clientSecret = EncryptUtil.decrypt(settings.clientSecret);
           }
           // Default processEmptyAssociations before version 2
           if (!settings.version || settings.version < 2) {
@@ -153,8 +153,8 @@ export class FileService {
   writeSettings(settings: Settings): void {
     if (ElectronService.isElectron()) {
       const encryptedSettings: Settings = Object.assign({}, settings);
-      encryptedSettings.password = EncryptUtils.encrypt(settings.password);
-      encryptedSettings.clientSecret = EncryptUtils.encrypt(settings.clientSecret);
+      encryptedSettings.password = EncryptUtil.encrypt(settings.password);
+      encryptedSettings.clientSecret = EncryptUtil.encrypt(settings.clientSecret);
       encryptedSettings.version = FileService.SETTINGS_FILE_VERSION;
       this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(encryptedSettings, null, 2));
     }
