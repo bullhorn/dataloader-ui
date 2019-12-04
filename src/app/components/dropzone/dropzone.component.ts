@@ -11,7 +11,7 @@ import { FileService } from '../../services/file/file.service';
 export class DropzoneComponent implements AfterViewInit, OnDestroy {
   @Input() selector: string;
   @Output() onFilePath: EventEmitter<string> = new EventEmitter();
-  private dragging = false;
+  dragging = false;
   private commands: any;
   private target: any;
   private element: any;
