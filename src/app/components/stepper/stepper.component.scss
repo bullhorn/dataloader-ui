@@ -34,6 +34,10 @@
 
     .stepper-content {
       overflow: hidden;
+
+      &.collapsed {
+        height: 0;
+      }
     }
   }
 }

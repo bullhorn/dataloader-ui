@@ -1,41 +1,31 @@
 <section class="load">
   <app-stepper #stepper>
     <app-step [label]="'Select File'" icon="upload">
-      <app-dropzone selector="app-dropzone" (onFilePath)="onFileDropped($event)"></app-dropzone>
+      <app-dropzone selector="app-dropzone" (onFilePath)="onFilePath($event)"></app-dropzone>
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
-      <div>
-        <button theme="primary" (click)="stepper.previous()">Next</button>
+      <div class="choose-entity-container">
+        <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
+        <button theme="primary" (click)="stepper.next()">Next</button>
       </div>
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
-      <div>
-        TODO
+      <div class="table-container">
+        TABLE GOES HERE
+        <div class="loading-container" *ngIf="this.previewDataWithoutMeta">
+          <novo-loading></novo-loading>
+          <div class="description">
+            Getting latest Field Map settings for this corporation
+          </div>
+        </div>
       </div>
     </app-step>
   </app-stepper>
-
-
-  <!--  <div class="preview" *ngIf="run?.previewData">-->
-  <!--    <novo-table [theme]="theme" [rows]="previewTable.rows" [columns]="previewTable.columns"-->
-  <!--                [config]="previewTable.config">-->
-  <!--      <novo-table-header class="table-header">-->
-  <!--        <i class="header-icon" [class]="icon"></i>-->
-  <!--        <div class="header-titles">-->
-  <!--          <h1>{{ fileName }} - {{ run?.previewData?.total }} Rows</h1>-->
-  <!--        </div>-->
-  <!--      </novo-table-header>-->
-  <!--    </novo-table>-->
-  <!--  </div>-->
-  <div class="loading-container" *ngIf="this.previewDataWithoutMeta">
-    <novo-loading></novo-loading>
-  </div>
-  <footer>
-    <!--    TODO: Only show when on step 1+ -->
-    <button theme="standard" (click)="stepper.previous()">Back</button>
-    <button theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()" icon="upload"
-            tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">
-      Load
+  <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
+    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
+    <button *ngIf="stepper.selectedIndex === 2" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()"
+            icon="upload"
+            tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
     </button>
   </footer>
 </section>

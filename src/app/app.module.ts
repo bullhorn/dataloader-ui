@@ -1,5 +1,6 @@
 // Angular
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Vendor
@@ -27,6 +28,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
 @NgModule({
   imports: [
     // Angular
+    FormsModule,
     BrowserAnimationsModule,
     BrowserModule,
     // Vendor

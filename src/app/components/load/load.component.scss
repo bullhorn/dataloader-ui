@@ -4,14 +4,15 @@
 .load {
   @include scrollable();
 
-  .load-form {
-    margin: 20px;
-  }
+  .choose-entity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
 
-  .preview {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 100px;
+    button {
+      margin-left: 1em;
+    }
   }
 
   .loading-container {
@@ -22,5 +23,13 @@
 
   footer {
     @include sticky-footer();
+
+    &.one-button {
+      justify-content: flex-start;
+    }
+
+    &.two-buttons {
+      justify-content: space-between;
+    }
   }
 }

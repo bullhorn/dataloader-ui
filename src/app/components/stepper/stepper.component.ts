@@ -20,7 +20,7 @@ import { StepHeaderComponent } from './step-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepComponent extends CdkStep {
-  // Content for step label given by `<ng-template CdkStepLabel>`
+  // Content for step label
   @ContentChild(CdkStepLabel) stepLabel: CdkStepLabel;
 
   @Input() theme: string;
@@ -60,8 +60,8 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
   get completed(): boolean {
     try {
       const steps = this._steps.toArray();
-      const length = steps.length - 1;
-      return steps[length].completed && length === this.selectedIndex;
+      const lastIndex = steps.length - 1;
+      return steps[lastIndex].completed && lastIndex === this.selectedIndex;
     } catch (err) {
       return false;
     }
@@ -83,7 +83,7 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
     }
   }
 
-  getIndicatorType(index: number): 'none' | '' | 'edit' | 'done' {
+  getIndicatorType(index: number): 'none' | 'edit' | 'done' {
     const steps = this._steps.toArray();
     if (index === this.selectedIndex) {
       if (steps[index] && index === steps.length - 1 && steps[index].completed) {

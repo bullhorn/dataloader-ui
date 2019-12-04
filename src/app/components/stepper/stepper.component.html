@@ -23,9 +23,8 @@
 
 <div class="content-container">
   <div *ngFor="let step of _steps; let i = index"
-       class="stepper-content" role="tabpanel"
-       [@stepTransition]="_getAnimationDirection(i)"
-       [id]="_getStepContentId(i)">
+       class="stepper-content" [ngClass]="{expanded: selectedIndex === i, collapsed: selectedIndex !== i}"
+       [@stepTransition]="_getAnimationDirection(i)" [id]="_getStepContentId(i)">
     <ng-container [ngTemplateOutlet]="step.content"></ng-container>
   </div>
 </div>

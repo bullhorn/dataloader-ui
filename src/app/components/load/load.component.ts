@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, NovoFormGroup, NovoModalService, } from 'novo-elements';
 import { NovoFieldset } from 'novo-elements/elements/form/FormInterfaces';
@@ -8,6 +8,7 @@ import { DataloaderService } from '../../services/dataloader/dataloader.service'
 import { ExistField, Meta, PreviewData, Run, Settings } from '../../../interfaces';
 import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
+import { StepperComponent } from '../stepper/stepper.component';
 import { Utils } from '../../utils/utils';
 
 @Component({
@@ -18,6 +19,7 @@ import { Utils } from '../../utils/utils';
 export class LoadComponent implements OnInit, OnDestroy {
   @Input() run: Run;
   @Output() started = new EventEmitter();
+  @ViewChild('stepper') private stepper: StepperComponent;
   form: NovoFormGroup;
   fieldSets: NovoFieldset[];
   previewTable: any = {};
@@ -30,8 +32,8 @@ export class LoadComponent implements OnInit, OnDestroy {
   fieldInteractionApi: FieldInteractionApi;
   previewDataWithoutMeta: PreviewData;
   metaJson: string;
+  entityPickerConfig = { options: Utils.ENTITY_NAMES };
 
-  // TODO: Break this single form apart into multiple form steps
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
@@ -49,8 +51,11 @@ export class LoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFileDropped(file: string): void {
+  onFilePath(file: string): void {
     console.log('file:', file);
+    this.entity = Utils.getEntityNameFromFile(file);
+    console.log('this.entity:', this.entity);
+    this.stepper.next();
   }
 
   load(): void {
