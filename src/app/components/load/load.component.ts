@@ -204,20 +204,24 @@ export class LoadComponent implements OnInit, OnDestroy {
       this.dataloaderService.unsubscribe();
       try {
         this.meta = JSON.parse(this.metaJson);
-        this.run.previewData = this.previewDataWithoutMeta;
-        this.run.previewData.headers = Utils.addMetaToHeaders(this.run.previewData.headers, this.meta);
-        this.previewDataWithoutMeta = undefined;
-        this.previewTable.columns = Utils.createColumnConfig(this.run.previewData.data, this.meta);
-        this.previewTable.rows = this.run.previewData.data;
-        this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
-        this.fieldInteractionApi.setValue('enabled', this.existField.enabled ? 'yes' : 'no');
+        // this.run.previewData = this.previewDataWithoutMeta;
+        // this.run.previewData.headers = Utils.addMetaToHeaders(this.run.previewData.headers, this.meta);
+        // this.previewDataWithoutMeta = undefined;
+        // this.previewTable.columns = Utils.createColumnConfig(this.run.previewData.data, this.meta);
+        // this.previewTable.rows = this.run.previewData.data;
       } catch (parseErr) {
         this.modalService.open(InfoModalComponent, {
           title: 'Error Retrieving Meta!',
           message: parseErr,
         });
       }
+      this.setupTable();
     });
+  }
+
+  private setupTable(): void {
+    this.existField = Utils.getExistField(this.fileService.readSettings(), this.entity);
+    // this.existField.enabled ? 'yes' : 'no'
   }
 
   private verifySettings(): boolean {
