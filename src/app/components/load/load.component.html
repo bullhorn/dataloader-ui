@@ -16,10 +16,10 @@
       </div>
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
-      <div class="table-container" *ngIf="this.meta">
+      <div class="table-container" *ngIf="meta">
         TABLE GOES HERE
       </div>
-      <div class="loading-container">
+      <div class="loading-container" *ngIf="!meta">
         <span class="description">Getting latest {{ entity }} field map settings...</span>
         <novo-loading></novo-loading>
       </div>
