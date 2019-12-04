@@ -6,12 +6,34 @@
 
   .choose-entity-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 80vh;
 
-    button {
-      margin-left: 1em;
+    .main-text {
+      font-size: 1.7em;
+    }
+
+    .sub-text {
+      margin-top: 1em;
+      font-size: 1.1em;
+    }
+
+    .choose-entity-picker {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 3em;
+
+      novo-picker {
+        min-width: 22em;
+      }
+
+      button {
+        margin-left: 1em;
+        margin-right: 2em;
+      }
     }
   }
 

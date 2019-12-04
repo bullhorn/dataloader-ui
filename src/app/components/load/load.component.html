@@ -5,8 +5,14 @@
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
-        <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
-        <button theme="primary" (click)="stepper.next()">Next</button>
+        <span class="main-text">Choose the type of entity records this file contains</span>
+        <span class="sub-text" *ngIf="!entity">Select from one of the currently supported entities</span>
+        <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name,
+          but you can still change it</span>
+        <div class="choose-entity-picker">
+          <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
+          <button theme="primary" [disabled]="!entity" (click)="stepper.next()">Next</button>
+        </div>
       </div>
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
@@ -24,8 +30,7 @@
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
     <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
     <button *ngIf="stepper.selectedIndex === 2" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="load()"
-            icon="upload"
-            tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
+            icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
     </button>
   </footer>
 </section>
