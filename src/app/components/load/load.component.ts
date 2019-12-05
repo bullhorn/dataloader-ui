@@ -32,7 +32,6 @@ export class LoadComponent {
   fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig: { options: { name: string, label: string }[] };
   rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
-  selectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
   columns: any[];
   displayedColumns: string[];
   duplicateCheckForm: NovoFormGroup;
@@ -87,6 +86,12 @@ export class LoadComponent {
   }
 
   onPrevious(): void {
+    if (this.stepper.selectedIndex <= 3) {
+      this.duplicateCheckForm = null; // Clear form data
+    }
+    if (this.stepper.selectedIndex <= 2) {
+      this.rows = null; // Clear table data
+    }
     if (this.stepper.selectedIndex <= 1) {
       this.run.previewData = null; // Clear file data
     }
@@ -167,9 +172,6 @@ export class LoadComponent {
   }
 
   private setupDuplicateCheckForm(): void {
-    // Save off the selected rows before the table is hidden
-    this.selectedRows = this.tables.first.state.selected;
-
     const duplicateCheckFormMeta: any = {
       fields: [{
         name: 'enabled',
@@ -185,13 +187,14 @@ export class LoadComponent {
         name: 'fields',
         type: 'chips',
         label: 'Duplicate Check Columns',
-        options: [],
+        options: this.fieldNamesWithLabels.filter((field) => this.tables.first.state.selected.find((row) => row.field === field.name)),
         sortOrder: 2,
       }],
     };
 
     this.duplicateCheckFieldSets = this.formUtils.toFieldSets(duplicateCheckFormMeta, '$ USD', {}, { token: 'TOKEN' });
     this.duplicateCheckFieldSets[0].controls[0].interactions = [
+      { event: 'init', script: this.onDuplicateCheckEnabledInit.bind(this) },
       { event: 'change', script: this.onDuplicateCheckEnabledChange.bind(this) },
     ];
     this.duplicateCheckFieldSets[0].controls[1].interactions = [
@@ -200,28 +203,21 @@ export class LoadComponent {
     this.duplicateCheckForm = this.formUtils.toFormGroupFromFieldset(this.duplicateCheckFieldSets);
   }
 
+  private onDuplicateCheckEnabledInit(API: FieldInteractionApi): void {
+    API.setValue(API.currentKey, this.existField.enabled ? 'yes' : 'no');
+  }
+
   private onDuplicateCheckEnabledChange(API: FieldInteractionApi): void {
-    if (this.run.previewData) {
-      this.existField.enabled = API.form.value.enabled === 'yes';
-      if (this.existField.enabled) {
-        API.modifyPickerConfig('fields', {
-          options: this.fieldNamesWithLabels.filter((field) => this.selectedRows.find((row) => row.field === field.name))
-        });
-        API.setValue('fields', this.existField.fields);
-        API.show('fields');
-      } else {
-        API.hide('fields');
-      }
+    this.existField.enabled = API.getActiveValue() === 'yes';
+    this.existField.enabled ? API.show('fields') : API.hide('fields');
+    if (this.existField.enabled) {
+      API.setValue('fields', this.existField.fields);
     }
   }
 
   private onDuplicateCheckFieldsChange(API: FieldInteractionApi): void {
-    if (this.run.previewData && this.existField.enabled) {
-      if (API.form.value.fields) {
-        this.existField.fields = API.form.value.fields;
-      } else {
-        this.existField.fields = [];
-      }
+    if (this.existField.enabled) {
+      this.existField.fields = API.getActiveValue() ? API.getActiveValue() : [];
     }
   }
 
