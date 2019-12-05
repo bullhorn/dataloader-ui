@@ -32,7 +32,7 @@ export class LoadComponent {
   fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig: { options: { name: string, label: string }[] };
   rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
-  selectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
+  savedSelectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
   columns: any[];
   displayedColumns: string[];
   duplicateCheckForm: NovoFormGroup;
@@ -80,6 +80,17 @@ export class LoadComponent {
     }
   }
 
+  get selectedRows(): { header: string, sample: string, field: string, subfield: string }[] {
+    const selectedRows = [];
+    this.tables.forEach((table) => {
+      table.state.selected.forEach((row) => {
+        selectedRows.push(row);
+      });
+    });
+    console.log('selectedRows:', selectedRows);
+    return selectedRows;
+  }
+
   private getMeta(): void {
     this.meta = null;
     this.metaJson = '';
@@ -88,8 +99,10 @@ export class LoadComponent {
     this.dataloaderService.meta(this.entity);
   }
 
-  // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
-  // electron buffers due to buffer length restrictions between the main and renderer processes.
+  /**
+   * The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
+   * electron buffers due to buffer length restrictions between the main and renderer processes.
+   */
   private onMetaPrint(metaJsonPartial: string): void {
     this.metaJson += metaJsonPartial;
   }
@@ -150,12 +163,8 @@ export class LoadComponent {
   }
 
   private setupDuplicateCheckForm(): void {
-    this.selectedRows = [];
-    this.tables.forEach((table) => {
-      table.state.selected.forEach((row) => {
-        this.selectedRows.push(row);
-      });
-    });
+    // Save off the selected rows so that they don't have to be calculated over and over
+    this.savedSelectedRows = this.selectedRows;
 
     const duplicateCheckFormMeta: any = {
       fields: [{
@@ -193,7 +202,7 @@ export class LoadComponent {
       this.existField.enabled = API.form.value.enabled === 'yes';
       if (this.existField.enabled) {
         API.modifyPickerConfig('fields', {
-          options: this.fieldNamesWithLabels.filter((field) => this.selectedRows.find((row) => row.field === field.name))
+          options: this.fieldNamesWithLabels.filter((field) => this.savedSelectedRows.find((row) => row.field === field.name))
         });
         API.setValue('fields', this.existField.fields);
         API.show('fields');

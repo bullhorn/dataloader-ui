@@ -46,10 +46,15 @@
     </app-step>
   </app-stepper>
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
-    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
-    <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!entity" (click)="onColumnsMapped()">Next</button>
+    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">
+      Back
+    </button>
+    <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!selectedRows.length" (click)="onColumnsMapped()">
+      Next
+    </button>
     <button *ngIf="stepper.selectedIndex === 3" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
-            icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
+            icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">
+      Load
     </button>
   </footer>
 </section>
