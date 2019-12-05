@@ -36,8 +36,8 @@
     <app-step [label]="'Duplicate Check'" icon="duplicate">
       <div class="duplicate-check-container">
         <span class="main-text">Update existing records using duplicate check</span>
-        <span class="sub-text">Use a field or combination of fields to match imported records with
-          existing records for records updates instead of record inserts</span>
+        <span class="sub-text">Choose a field or combination of fields to match with
+          existing records for updates instead of inserts</span>
         <div class="form-container">
           <novo-dynamic-form *ngIf="duplicateCheckForm"
                              [fieldsets]="duplicateCheckFieldSets"

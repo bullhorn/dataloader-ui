@@ -176,7 +176,7 @@ export class LoadComponent {
       fields: [{
         name: 'enabled',
         type: 'tiles',
-        label: 'Enable',
+        label: 'Enable Duplicate Check',
         options: [
           { label: 'No', value: 'no' },
           { label: 'Yes', value: 'yes' },
