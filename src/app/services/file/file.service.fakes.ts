@@ -43,12 +43,29 @@ class FakeResultsData {
 export class FakePreviewData {
   filePath: string;
   total: number;
-  headers: string[] = ['firstName', 'lastName', 'email'];
+  headers: string[] = ['firstName', 'lastName', 'email', 'owner.id', 'primarySkills.name'];
   data: any[] = [
-    { firstName: 'John', lastName: 'Smith', email: 'jsmith@example.com' },
-    { firstName: 'John', lastName: 'Doe', email: 'jdoe@example.com' },
-    { firstName: 'Jane', lastName: 'Doe', email: 'jdoe@example.com' },
-  ];
+    {
+      firstName: 'John',
+      lastName: 'Smith',
+      email: 'jsmith@example.com',
+      'owner.id': 'Recruiter CorporateUser',
+      'primarySkills.name': 'Skill1',
+    },
+    {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'jdoe@example.com',
+      'owner.id': 'Recruiter CorporateUser',
+      'primarySkills.name': 'Skill2;Skill3',
+    },
+    {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jdoe@example.com',
+      'owner.id': 'Recruiter CorporateUser',
+      'primarySkills.name': 'Skill3;Skill4',
+    }];
 
   constructor() {
     const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 25)];

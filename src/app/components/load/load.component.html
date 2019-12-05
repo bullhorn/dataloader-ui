@@ -17,15 +17,15 @@
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
       <div class="table-container" *ngIf="meta">
+        <span class="main-text">Map columns from file to fields in Bullhorn</span>
+        <span class="sub-text">Mapping <strong>{{ rows?.length }} of {{ rows?.length }}</strong>
+          columns for {{ run.previewData?.total }} records.</span>
         <novo-data-table [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
-          <ng-template novoTemplate="duplicateCheckCell" let-row let-col="col">
-            <novo-checkbox label=""></novo-checkbox>
-          </ng-template>
           <ng-template novoTemplate="fieldCell" let-row let-col="col">
             <novo-picker [config]="fieldPickerConfig" placeholder="Choose Field"></novo-picker>
           </ng-template>
           <ng-template novoTemplate="subfieldCell" let-row let-col="col">
-            <novo-picker></novo-picker>
+            <novo-picker [config]="fieldPickerConfig" placeholder="Choose Field"></novo-picker>
             <span class='subfield-tooltip' tooltipPosition="left"
                   tooltip="This is not an exhaustive list of fields. Blah blah blah.">
               <i class="bhi-info"></i>
@@ -34,14 +34,26 @@
         </novo-data-table>
       </div>
       <div class="loading-container" *ngIf="!meta">
-        <span class="description">Getting latest {{ entity }} field map settings...</span>
+        <span class="main-text">Getting latest {{ entity }} field map settings...</span>
         <novo-loading></novo-loading>
+      </div>
+    </app-step>
+    <app-step [label]="'Duplicate Check'" icon="duplicate">
+      <div class="duplicate-check-container">
+        <span class="main-text">Choose which fields will be used to check for duplicates</span>
+        <span class="sub-text">This ensures that new records are properly matched with existing records so there
+          are no duplicates. Any field or combination of fields can be used, and an existing record will only
+          be updated if all of the selected fields match.</span>
+        <div>
+          DUPLICATE CHECK FORM HERE
+        </div>
       </div>
     </app-step>
   </app-stepper>
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
     <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
-    <button *ngIf="stepper.selectedIndex === 2" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
+    <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!entity" (click)="onColumnsMapped()">Next</button>
+    <button *ngIf="stepper.selectedIndex === 3" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
             icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
     </button>
   </footer>

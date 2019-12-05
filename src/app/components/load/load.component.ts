@@ -38,13 +38,12 @@ export class LoadComponent {
               private modalService: NovoModalService,
               private zone: NgZone) {
     this.columns = [
-      { id: 'duplicateCheck', label: 'Duplicate Check', enabled: true, type: 'text', template: 'duplicateCheckCell' },
       { id: 'header', label: 'Column Header', enabled: true, type: 'text' },
       { id: 'sample', label: 'Sample Data', enabled: true, type: 'text' },
       { id: 'field', label: 'Bullhorn Field', enabled: true, type: 'text', template: 'fieldCell' },
       { id: 'subfield', label: 'Sub Field', enabled: true, type: 'text', template: 'subfieldCell' },
     ];
-    this.displayedColumns = ['selection', 'duplicateCheck', 'header', 'sample', 'field', 'subfield'];
+    this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
   }
 
   onFileSelected(filePath: string): void {
@@ -57,6 +56,10 @@ export class LoadComponent {
 
   onEntitySelected() {
     this.getMeta();
+    this.stepper.next();
+  }
+
+  onColumnsMapped() {
     this.stepper.next();
   }
 
@@ -77,7 +80,7 @@ export class LoadComponent {
     this.dataloaderService.meta(this.entity);
   }
 
-  // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which might take multiple
+  // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
   // electron buffers due to buffer length restrictions between the main and renderer processes.
   private onMetaPrint(metaJsonPartial: string): void {
     this.metaJson += metaJsonPartial;
