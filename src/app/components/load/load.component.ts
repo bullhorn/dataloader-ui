@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
 import { NovoModalService, } from 'novo-elements';
 // App
@@ -19,6 +19,7 @@ export class LoadComponent {
   @Input() run: Run;
   @Output() started = new EventEmitter();
   @ViewChild('stepper') private stepper: StepperComponent;
+  @ViewChildren('table') tables: QueryList<any>;
   entity = '';
   icon = '';
   theme = '';
@@ -133,8 +134,16 @@ export class LoadComponent {
         sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
         field: field ? field.name : '',
         subfield: '',
-        _selected: true,
       };
+    });
+
+    // Start out all columns in the file as selected
+    setTimeout(() => {
+      this.tables.forEach((table) => {
+        table.dataSource.data.forEach((item) => {
+          table.selectRow(item);
+        });
+      });
     });
   }
 
