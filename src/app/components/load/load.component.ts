@@ -32,7 +32,7 @@ export class LoadComponent {
   fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig: { options: { name: string, label: string }[] };
   rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
-  savedSelectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
+  selectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
   columns: any[];
   displayedColumns: string[];
   duplicateCheckForm: NovoFormGroup;
@@ -50,6 +50,10 @@ export class LoadComponent {
       { id: 'subfield', label: 'Sub Field', enabled: true, type: 'text', template: 'subfieldCell' },
     ];
     this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
+  }
+
+  get numSelectedRows(): number {
+    return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
 
   onFileSelected(filePath: string): void {
@@ -79,16 +83,6 @@ export class LoadComponent {
       this.fileService.writeSettings(settings);
       this.started.emit();
     }
-  }
-
-  get selectedRows(): { header: string, sample: string, field: string, subfield: string }[] {
-    const selectedRows = [];
-    this.tables.forEach((table) => {
-      table.state.selected.forEach((row) => {
-        selectedRows.push(row);
-      });
-    });
-    return selectedRows;
   }
 
   private getMeta(): void {
@@ -163,8 +157,8 @@ export class LoadComponent {
   }
 
   private setupDuplicateCheckForm(): void {
-    // Save off the selected rows so that they don't have to be calculated over and over
-    this.savedSelectedRows = this.selectedRows;
+    // Save off the selected rows before the table is hidden
+    this.selectedRows = this.tables.first.state.selected;
 
     const duplicateCheckFormMeta: any = {
       fields: [{
@@ -181,7 +175,6 @@ export class LoadComponent {
         name: 'fields',
         type: 'chips',
         label: 'Duplicate Check Columns',
-        description: 'When using multiple fields, all fields must match',
         options: [],
         sortOrder: 2,
       }],
@@ -202,7 +195,7 @@ export class LoadComponent {
       this.existField.enabled = API.form.value.enabled === 'yes';
       if (this.existField.enabled) {
         API.modifyPickerConfig('fields', {
-          options: this.fieldNamesWithLabels.filter((field) => this.savedSelectedRows.find((row) => row.field === field.name))
+          options: this.fieldNamesWithLabels.filter((field) => this.selectedRows.find((row) => row.field === field.name))
         });
         API.setValue('fields', this.existField.fields);
         API.show('fields');
