@@ -176,7 +176,7 @@ export class LoadComponent {
       fields: [{
         name: 'enabled',
         type: 'tiles',
-        label: 'Duplicate Check Enabled',
+        label: 'Enable',
         options: [
           { label: 'No', value: 'no' },
           { label: 'Yes', value: 'yes' },
@@ -186,7 +186,7 @@ export class LoadComponent {
       }, {
         name: 'fields',
         type: 'chips',
-        label: 'Duplicate Check Fields',
+        label: 'Fields',
         options: this.fieldNamesWithLabels.filter((field) => this.tables.first.state.selected.find((row) => row.field === field.name)),
         sortOrder: 2,
       }],
