@@ -36,12 +36,12 @@
     </app-step>
     <app-step [label]="'Duplicate Check'" icon="duplicate">
       <div class="duplicate-check-container">
-        <span class="main-text">Choose which fields will be used to check for duplicates</span>
-        <span class="sub-text">Use any field or combination of fields to ensure that new records are properly
-          matched with existing records so there are no duplicates</span>
-        <div>
-          DUPLICATE CHECK FORM HERE
-        </div>
+        <span class="main-text">Choose whether to check for duplicates</span>
+        <span class="sub-text">Use a field or combination of fields to match new records with
+          existing records for records updates instead of record inserts</span>
+        <novo-dynamic-form *ngIf="duplicateCheckForm"
+                           [fieldsets]="duplicateCheckFieldSets"
+                           [(form)]="duplicateCheckForm"></novo-dynamic-form>
       </div>
     </app-step>
   </app-stepper>

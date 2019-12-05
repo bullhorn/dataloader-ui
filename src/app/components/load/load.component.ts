@@ -1,7 +1,7 @@
 // Angular
 import { Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
-import { NovoModalService, } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, NovoFieldset, NovoFormGroup, NovoModalService, } from 'novo-elements';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
 import { ExistField, Field, Meta, PreviewData, Run, Settings } from '../../../interfaces';
@@ -29,14 +29,19 @@ export class LoadComponent {
   existField: ExistField;
   metaJson: string;
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
+  fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig: { options: { name: string, label: string }[] };
-  rows: any[];
+  rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
+  selectedRows: { header: string, sample: string, field: string, subfield: string }[] = [];
   columns: any[];
   displayedColumns: string[];
+  duplicateCheckForm: NovoFormGroup;
+  duplicateCheckFieldSets: NovoFieldset[];
 
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
+              private formUtils: FormUtils,
               private zone: NgZone) {
     this.columns = [
       { id: 'header', label: 'Column Header', enabled: true, type: 'text' },
@@ -48,6 +53,7 @@ export class LoadComponent {
   }
 
   onFileSelected(filePath: string): void {
+    // TODO: Error modal if non-csv extension
     this.filePath = filePath;
     this.fileName = Util.getFilenameFromPath(filePath);
     this.entity = EntityUtil.getEntityNameFromFile(filePath);
@@ -61,6 +67,7 @@ export class LoadComponent {
   }
 
   onColumnsMapped() {
+    this.setupDuplicateCheckForm();
     this.stepper.next();
   }
 
@@ -100,6 +107,11 @@ export class LoadComponent {
         });
       }
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
+      this.fieldNamesWithLabels = this.meta.fields.map((field) => {
+        return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
+      });
+      this.fieldPickerConfig = { options: this.fieldNamesWithLabels };
+      // TODO: create the subfield picker config for each subfield in the table
     });
   }
 
@@ -107,12 +119,27 @@ export class LoadComponent {
   private onPreviewData(previewData: PreviewData): void {
     this.zone.run(() => {
       this.run.previewData = previewData;
-      this.fieldPickerConfig = {
-        options: this.meta.fields.map((field) => {
-          return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
-        })
-      };
-      this.createRows();
+      this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
+      this.rows = this.run.previewData.headers.map(header => {
+        const firstNonEmptyData: Object = this.run.previewData.data.find((data) => data[header]);
+        const field: Field = this.meta.fields.find((f) => Util.noCaseCompare(header, f.name) || Util.noCaseCompare(header, f.label));
+        return {
+          id: header,
+          header: header,
+          sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
+          field: field ? field.name : '',
+          subfield: '',
+        };
+      });
+
+      // Start out all columns in the file as selected
+      setTimeout(() => {
+        this.tables.forEach((table) => {
+          table.dataSource.data.forEach((item) => {
+            table.selectRow(item);
+          });
+        });
+      });
     });
   }
 
@@ -122,29 +149,68 @@ export class LoadComponent {
     });
   }
 
-  private createRows(): void {
-    this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
-    this.rows = this.run.previewData.headers.map(header => {
-      const firstNonEmptyData: Object = this.run.previewData.data.find((data) => data[header]);
-      const field: Field = this.meta.fields.find((f) => Util.noCaseCompare(header, f.name) || Util.noCaseCompare(header, f.label));
-      return {
-        id: header,
-        duplicateCheck: this.existField.enabled ? this.existField.fields.includes(header) : false,
-        header: header,
-        sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
-        field: field ? field.name : '',
-        subfield: '',
-      };
-    });
-
-    // Start out all columns in the file as selected
-    setTimeout(() => {
-      this.tables.forEach((table) => {
-        table.dataSource.data.forEach((item) => {
-          table.selectRow(item);
-        });
+  private setupDuplicateCheckForm(): void {
+    this.selectedRows = [];
+    this.tables.forEach((table) => {
+      table.state.selected.forEach((row) => {
+        this.selectedRows.push(row);
       });
     });
+
+    const duplicateCheckFormMeta: any = {
+      fields: [{
+        name: 'enabled',
+        type: 'tiles',
+        label: 'Duplicate Check',
+        options: [
+          { label: 'No', value: 'no' },
+          { label: 'Yes', value: 'yes' },
+        ],
+        defaultValue: 'no',
+        sortOrder: 1,
+      }, {
+        name: 'fields',
+        type: 'chips',
+        label: 'Duplicate Check Columns',
+        description: 'When using multiple fields, all fields must match',
+        options: [],
+        sortOrder: 2,
+      }],
+    };
+
+    this.duplicateCheckFieldSets = this.formUtils.toFieldSets(duplicateCheckFormMeta, '$ USD', {}, { token: 'TOKEN' });
+    this.duplicateCheckFieldSets[0].controls[0].interactions = [
+      { event: 'change', script: this.onDuplicateCheckEnabledChange.bind(this) },
+    ];
+    this.duplicateCheckFieldSets[0].controls[1].interactions = [
+      { event: 'change', script: this.onDuplicateCheckFieldsChange.bind(this) },
+    ];
+    this.duplicateCheckForm = this.formUtils.toFormGroupFromFieldset(this.duplicateCheckFieldSets);
+  }
+
+  private onDuplicateCheckEnabledChange(API: FieldInteractionApi): void {
+    if (this.run.previewData) {
+      this.existField.enabled = API.form.value.enabled === 'yes';
+      if (this.existField.enabled) {
+        API.modifyPickerConfig('fields', {
+          options: this.fieldNamesWithLabels.filter((field) => this.selectedRows.find((row) => row.field === field.name))
+        });
+        API.setValue('fields', this.existField.fields);
+        API.show('fields');
+      } else {
+        API.hide('fields');
+      }
+    }
+  }
+
+  private onDuplicateCheckFieldsChange(API: FieldInteractionApi): void {
+    if (this.run.previewData && this.existField.enabled) {
+      if (API.form.value.fields) {
+        this.existField.fields = API.form.value.fields;
+      } else {
+        this.existField.fields = [];
+      }
+    }
   }
 
   private verifySettings(): boolean {
@@ -156,6 +222,18 @@ export class LoadComponent {
       });
       return false;
     }
+    return true;
+  }
+
+  private verifyCsvFile(): boolean {
+    // const settings: Settings = this.fileService.readSettings();
+    // if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
+    //   this.modalService.open(InfoModalComponent, {
+    //     title: 'Missing Login Credentials',
+    //     message: 'Open settings and fill out credentials before continuing to load data',
+    //   });
+    //   return false;
+    // }
     return true;
   }
 }

@@ -88,14 +88,4 @@ export class DataloaderUtil {
       settings.existFields.push(existField);
     }
   }
-
-  static getExistFieldOptions(previewData: PreviewData): any[] {
-    let options: any[] = [];
-    if (previewData && previewData.headers) {
-      options = previewData.headers.map((header) => {
-        return { label: header, value: header };
-      });
-    }
-    return options;
-  }
 }
