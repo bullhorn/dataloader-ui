@@ -5,10 +5,9 @@
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
-        <span class="main-text">Choose the type of entity records this file contains</span>
+        <span class="main-text">Choose type of entity records to load</span>
         <span class="sub-text" *ngIf="!entity">Select from one of the currently supported entities</span>
-        <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name,
-          but you can still change it</span>
+        <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name, but you can still change it</span>
         <div class="choose-entity-picker">
           <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
           <button theme="primary" [disabled]="!entity" (click)="onEntitySelected()">Next</button>
@@ -18,8 +17,8 @@
     <app-step [label]="'Map Columns'" icon="list">
       <div class="table-container" *ngIf="meta">
         <span class="main-text">Map columns from file to fields in Bullhorn</span>
-        <span class="sub-text">Mapping <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
-          columns for {{ run.previewData?.total }} records.</span><!-- TODO: use proper number formatting -->
+        <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
+          columns for {{ run.previewData?.total }} records</span><!-- TODO: use proper number formatting -->
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row let-col="col">
             <novo-picker [config]="fieldPickerConfig" placeholder="Choose Field"></novo-picker>
@@ -36,8 +35,8 @@
     </app-step>
     <app-step [label]="'Duplicate Check'" icon="duplicate">
       <div class="duplicate-check-container">
-        <span class="main-text">Choose whether to check for duplicates</span>
-        <span class="sub-text">Use a field or combination of fields to match new records with
+        <span class="main-text">Update existing records using duplicate check</span>
+        <span class="sub-text">Use a field or combination of fields to match imported records with
           existing records for records updates instead of record inserts</span>
         <div class="form-container">
           <novo-dynamic-form *ngIf="duplicateCheckForm"
