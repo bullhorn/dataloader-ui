@@ -20,7 +20,7 @@
         <span class="main-text">Map columns from file to fields in Bullhorn</span>
         <span class="sub-text">Mapping <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ run.previewData?.total }} records.</span>
-        <novo-data-table [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
+        <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row let-col="col">
             <novo-picker [config]="fieldPickerConfig" placeholder="Choose Field"></novo-picker>
           </ng-template>
@@ -46,7 +46,7 @@
     </app-step>
   </app-stepper>
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
-    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="stepper.previous()">Back</button>
+    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="onPrevious()">Back</button>
     <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!numSelectedRows" (click)="onColumnsMapped()">Next</button>
     <button *ngIf="stepper.selectedIndex === 3" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
             icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load

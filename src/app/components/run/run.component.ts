@@ -38,8 +38,8 @@ export class RunComponent implements OnChanges {
     if (this.previewData) {
       this.total = Util.getAbbreviatedNumber(this.previewData.total);
       this.fileName = Util.getFilenameFromPath(this.previewData.filePath);
-      this.icon = EntityUtil.getIconForFilename(this.fileName);
-      this.theme = EntityUtil.getThemeForFilename(this.fileName);
+      this.icon = EntityUtil.getIconForFilename(this.previewData.entity || this.fileName);
+      this.theme = EntityUtil.getThemeForFilename(this.previewData.entity || this.fileName);
       if (this.results) {
         this.startDate = Util.getStartDateString(this.results.startTime);
         this.duration = Util.getDurationString(this.results.durationMsec);

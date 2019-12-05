@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
 import { FieldInteractionApi, FormUtils, NovoFieldset, NovoFormGroup, NovoModalService, } from 'novo-elements';
 // App
@@ -42,7 +42,8 @@ export class LoadComponent {
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
               private formUtils: FormUtils,
-              private zone: NgZone) {
+              private zone: NgZone,
+              private ref: ChangeDetectorRef) {
     this.columns = [
       { id: 'header', label: 'Column Header', enabled: true, type: 'text' },
       { id: 'sample', label: 'Sample Data', enabled: true, type: 'text' },
@@ -83,6 +84,13 @@ export class LoadComponent {
       this.fileService.writeSettings(settings);
       this.started.emit();
     }
+  }
+
+  onPrevious(): void {
+    if (this.stepper.selectedIndex <= 1) {
+      this.run.previewData = null; // Clear file data
+    }
+    this.stepper.previous();
   }
 
   private getMeta(): void {
@@ -147,6 +155,8 @@ export class LoadComponent {
           });
         });
       });
+
+      this.ref.markForCheck();
     });
   }
 
