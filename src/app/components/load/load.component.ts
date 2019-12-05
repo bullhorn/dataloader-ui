@@ -53,12 +53,13 @@ export class LoadComponent {
   }
 
   onFileSelected(filePath: string): void {
-    // TODO: Error modal if non-csv extension
-    this.filePath = filePath;
-    this.fileName = Util.getFilenameFromPath(filePath);
-    this.entity = EntityUtil.getEntityNameFromFile(filePath);
-    this.verifySettings();
-    this.stepper.next();
+    if (this.verifyCsvFile(filePath)) {
+      this.filePath = filePath;
+      this.fileName = Util.getFilenameFromPath(filePath);
+      this.entity = EntityUtil.getEntityNameFromFile(filePath);
+      this.verifySettings();
+      this.stepper.next();
+    }
   }
 
   onEntitySelected() {
@@ -87,7 +88,6 @@ export class LoadComponent {
         selectedRows.push(row);
       });
     });
-    console.log('selectedRows:', selectedRows);
     return selectedRows;
   }
 
@@ -234,15 +234,16 @@ export class LoadComponent {
     return true;
   }
 
-  private verifyCsvFile(): boolean {
-    // const settings: Settings = this.fileService.readSettings();
-    // if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-    //   this.modalService.open(InfoModalComponent, {
-    //     title: 'Missing Login Credentials',
-    //     message: 'Open settings and fill out credentials before continuing to load data',
-    //   });
-    //   return false;
-    // }
+  private verifyCsvFile(filepath: string): boolean {
+    const extension = filepath.split('.').pop();
+    if (extension !== 'csv') {
+      this.modalService.open(InfoModalComponent, {
+        title: 'Unsupported File Extension',
+        message: `Files with the '${extension}' extension are not supported, only CSV files.
+                  Save your spreadsheet data in the .csv file format before loading.`,
+      });
+      return false;
+    }
     return true;
   }
 }
