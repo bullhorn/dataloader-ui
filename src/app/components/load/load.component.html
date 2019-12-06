@@ -20,11 +20,18 @@
         <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ run.previewData?.total }} records</span><!-- TODO: use proper number formatting -->
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
-          <ng-template novoTemplate="fieldCell" let-row let-col="col">
-            <novo-picker [config]="fieldPickerConfig" placeholder="Choose Field"></novo-picker>
+          <ng-template novoTemplate="fieldCell" let-row>
+            <novo-picker [config]="fieldPickerConfig"
+                         (select)="onChanged($event, row)"
+                         [(ngModel)]="row.field"
+                         placeholder="Choose Field"></novo-picker>
           </ng-template>
-          <ng-template novoTemplate="subfieldCell" let-row let-col="col">
-            <novo-picker [config]="fieldPickerConfig" placeholder="Choose Subfield"></novo-picker>
+          <ng-template novoTemplate="subfieldCell" let-row>
+            <novo-picker *ngIf="row.fieldMeta?.associatedEntity"
+                         [config]="fieldPickerConfig"
+                         (select)="onChanged($event, row.subfield)"
+                         [(ngModel)]="row.subfield"
+                         placeholder="Choose Subfield"></novo-picker>
           </ng-template>
         </novo-data-table>
       </div>
@@ -44,7 +51,6 @@
                       [(ngModel)]="existField.enabled"></novo-tiles>
           <novo-chips *ngIf="existField.enabled"
                       [source]="duplicateCheckFieldsPickerConfig"
-                      (changed)="onDuplicateCheckFieldsChanged($event)"
                       [(ngModel)]="existField.fields"
                       placeholder="Choose Field(s)"></novo-chips>
           <span *ngIf="existField.fields?.length > 1" class="sub-text tip">All fields must match

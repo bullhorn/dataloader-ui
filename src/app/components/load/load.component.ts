@@ -149,14 +149,22 @@ export class LoadComponent {
       this.run.previewData = previewData;
       this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
       this.rows = this.run.previewData.headers.map(header => {
+        // Get sample data - the first non-empty cell out of the rows read in
         const firstNonEmptyData: Object = this.run.previewData.data.find((data) => data[header]);
-        const field: Field = this.meta.fields.find((f) => Util.noCaseCompare(header, f.name) || Util.noCaseCompare(header, f.label));
+
+        // Look up the base name of the header in meta (without the association)
+        const [fieldName, associatedFieldName] = header.split('.');
+        const field: Field = this.meta.fields
+          .find((f) => Util.noCaseCompare(fieldName, f.name) || Util.noCaseCompare(fieldName, f.label));
+
+        // TODO: The field/subfield names here are being rendered upon initialization with label and name set to name
         return {
           id: header,
           header: header,
           sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
           field: field ? field.name : '',
-          subfield: '',
+          subfield: associatedFieldName,
+          fieldMeta: field,
         };
       });
 
@@ -182,6 +190,7 @@ export class LoadComponent {
   private setupDuplicateCheck(): void {
     this.duplicateCheckFieldsPickerConfig.options = this.fieldNamesWithLabels
       .filter((field) => this.tables.first.state.selected.find((row) => row.field === field.name));
+    // TODO: The duplicate check picker is being rendered upon initialization with label and name set to name
     console.log('this.duplicateCheckFieldsPickerConfig:', this.duplicateCheckFieldsPickerConfig);
   }
 
@@ -210,7 +219,8 @@ export class LoadComponent {
     return true;
   }
 
-  onDuplicateCheckFieldsChanged($event: any) {
+  onChanged($event: any, tableValue: any) {
     console.log('$event:', $event);
+    console.log('tableValue:', tableValue);
   }
 }

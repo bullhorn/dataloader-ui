@@ -69,7 +69,7 @@ export class DataloaderServiceFakes {
 
   static generateFakePrintMetaCallback(callback: (text: string) => void) {
     const responseText = JSON.stringify(FakeMeta.meta);
-    setTimeout(() => callback(responseText), 2700);
+    setTimeout(() => callback(responseText), 1500);
   }
 
   static generateFakeDoneLoadCallback(callback: (text: string) => void): void {
@@ -81,7 +81,7 @@ export class DataloaderServiceFakes {
   }
 
   static generateFakeDoneMetaCallback(callback: (text: string) => void): void {
-    setTimeout(() => callback('Fake Output'), 3000);
+    setTimeout(() => callback('Fake Output'), 1600);
   }
 
   static generateFakeErrorCallback(callback: (error: Error) => void): void {
