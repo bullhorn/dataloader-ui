@@ -23,6 +23,19 @@ $dl-side-pane-width: 300px;
   background-color: $background;
 }
 
+@mixin main-text() {
+  font-size: 1.7em;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: center;
+}
+
+@mixin sub-text() {
+  font-size: 1.1em;
+  padding: 1em;
+  text-align: center;
+}
+
 body {
   overflow: hidden;
   zoom: 0.9;

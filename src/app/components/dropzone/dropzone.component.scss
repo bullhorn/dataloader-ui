@@ -12,21 +12,27 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: $dl-stepper-height;
+    cursor: pointer;
 
     i {
       font-size: 6em;
       color: $light;
-      cursor: pointer;
     }
 
     .main-text {
+      @include main-text();
       margin-top: 1em;
-      font-size: 1.7em;
     }
 
     .sub-text {
+      @include sub-text();
       margin-top: 1em;
-      font-size: 1.1em;
+
+      &.tip {
+        margin-top: -1em;
+        font-style: italic;
+        color: $grey;
+      }
     }
   }
 
