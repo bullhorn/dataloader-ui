@@ -52,8 +52,8 @@
           <novo-chips *ngIf="existField.enabled"
                       [source]="duplicateCheckFieldsPickerConfig"
                       [(ngModel)]="existField.fields"></novo-chips>
-          <span *ngIf="existField.fields?.length > 1" class="sub-text tip">All fields must match
-            for an existing record to be considered a match</span>
+          <span *ngIf="existField.enabled && existField.fields?.length > 1" class="sub-text tip">
+            All fields must match for an existing record to be considered a match</span>
         </div>
       </div>
     </app-step>
