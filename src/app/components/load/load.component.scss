@@ -60,11 +60,23 @@
 
     .sub-text {
       margin-bottom: 2em;
+
+      &.tip {
+        margin-top: 2em;
+        margin-bottom: 0;
+        font-style: italic;
+      }
     }
 
     .form-container {
-      width: 80%;
-      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      novo-tiles {
+        margin-bottom: 3em;
+      }
     }
   }
 

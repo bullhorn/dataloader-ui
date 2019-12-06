@@ -38,10 +38,17 @@
         <span class="main-text">Update existing records using duplicate check</span>
         <span class="sub-text">Choose a field or combination of fields to match with
           existing records for updates instead of inserts</span>
-        <div class="form-container">
-          <novo-dynamic-form *ngIf="duplicateCheckForm"
-                             [fieldsets]="duplicateCheckFieldSets"
-                             [(form)]="duplicateCheckForm"></novo-dynamic-form>
+        <div *ngIf="duplicateCheckFieldsPickerConfig.options?.length" class="form-container">
+          <novo-tiles [options]="duplicateCheckEnabledTileOptions"
+                      (onChange)="onDuplicateCheckEnabledChanged($event)"
+                      [(ngModel)]="existField.enabled"></novo-tiles>
+          <novo-chips *ngIf="existField.enabled"
+                      [source]="duplicateCheckFieldsPickerConfig"
+                      (changed)="onDuplicateCheckFieldsChanged($event)"
+                      [(ngModel)]="existField.fields"
+                      placeholder="Choose Field(s)"></novo-chips>
+          <span *ngIf="existField.fields?.length > 1" class="sub-text tip">All fields must match
+            for an existing record to be considered a match</span>
         </div>
       </div>
     </app-step>
