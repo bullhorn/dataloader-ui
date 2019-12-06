@@ -32,7 +32,7 @@ export class LoadComponent {
   metaJson: string;
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
   fieldNamesWithLabels: { name: string, label: string }[];
-  fieldPickerConfig: { options: { name: string, label: string }[] };
+  fieldPickerConfig: { field: 'name', format: '$label', options: { name: string, label: string }[] };
   rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
   columns: any[];
   displayedColumns: string[];
