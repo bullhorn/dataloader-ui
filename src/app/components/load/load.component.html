@@ -62,6 +62,10 @@
   <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
     <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="onPrevious()">Back</button>
     <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!numSelectedRows" (click)="onColumnsMapped()">Next</button>
+    <novo-tiles *ngIf="duplicateCheckFieldsPickerConfig.options?.length && existField.enabled && existField.fields?.length"
+                [options]="backupEnabledTileOptions" [(ngModel)]="backupEnabled"
+                tooltip="Generates a backup file for reverting mass updates to existing records to undo any changes made"
+                tooltipPosition="top"></novo-tiles>
     <button *ngIf="stepper.selectedIndex === 3" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
             icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
     </button>
