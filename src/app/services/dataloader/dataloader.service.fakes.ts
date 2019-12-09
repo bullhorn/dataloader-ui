@@ -85,10 +85,10 @@ export class DataloaderServiceFakes {
   }
 
   static generateFakeErrorCallback(callback: (error: Error) => void): void {
-    setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 300000);
+    setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 3000000);
   }
 
   static generateFakeMissingJavaCallback(callback: (error: Error) => void): void {
-    setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 200000);
+    setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 2000000);
   }
 }
