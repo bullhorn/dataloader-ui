@@ -19,7 +19,7 @@
       <div class="table-container" *ngIf="meta">
         <span class="main-text">Map columns from file to fields in Bullhorn</span>
         <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
-          columns for {{ run.previewData?.total }} records</span><!-- TODO: use proper number formatting -->
+          columns for {{ totalRows }} records</span>
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row>
             <novo-picker [config]="fieldPickerConfig"

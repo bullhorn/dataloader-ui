@@ -25,7 +25,8 @@ export class LoadComponent {
   icon = '';
   theme = '';
   fileName = '';
-  filePath: string = null;
+  filePath = '';
+  totalRows = '';
   meta: Meta = null;
   existField: ExistField;
   metaJson: string;
@@ -159,6 +160,7 @@ export class LoadComponent {
   private onPreviewData(previewData: PreviewData): void {
     this.zone.run(() => {
       this.run.previewData = previewData;
+      this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
       this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
       this.rows = this.run.previewData.headers.map(header => {
         // Get sample data - the first non-empty cell out of the rows read in
