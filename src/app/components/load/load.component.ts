@@ -32,12 +32,12 @@ export class LoadComponent {
   metaJson: string;
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
   fieldNamesWithLabels: { name: string, label: string }[];
-  fieldPickerConfig: { options: { name: string, label: string }[] };
+  fieldPickerConfig = { format: '$label', options: [] };
   rows: any[];
   columns: any[];
   displayedColumns: string[];
   duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
-  duplicateCheckFieldsPickerConfig = { field: 'name', format: '$label', options: [] };
+  duplicateCheckFieldsPickerConfig = { format: '$label', options: [] };
   backupEnabled = false;
 
   private _entity = '';
@@ -147,12 +147,14 @@ export class LoadComponent {
           message: parseErr,
         });
       }
-      this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
       this.fieldNamesWithLabels = this.meta.fields.map((field) => {
         return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
       });
-      this.fieldPickerConfig = { options: this.fieldNamesWithLabels };
+      this.fieldPickerConfig.options = this.fieldNamesWithLabels;
       // TODO: create the subfield picker config for each subfield in the table
+
+      // Kick off preview data from the CSV file, and wait to render table until it's finished reading
+      this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
     });
   }
 
@@ -167,16 +169,26 @@ export class LoadComponent {
         const firstNonEmptyData: Object = this.run.previewData.data.find((data) => data[header]);
 
         // Look up the base name of the header in meta (without the association)
+        // TODO: Improve this search using the longest possible match, for either field name or field label
         const [fieldName, associatedFieldName] = header.split('.');
         const field: Field = this.meta.fields
           .find((f) => Util.noCaseCompare(fieldName, f.name) || Util.noCaseCompare(fieldName, f.label));
+        const autoMatchedFieldName = field ? field.name : '';
+        // TODO: Clean this up so that subfields can reuse, except that there is no complete list, any string is allowed
+        // associatedFieldName = field.associatedEntity ? field.associatedEntity.fields[0].name : associatedFieldName;
 
-        // TODO: The field/subfield names here are being rendered upon initialization with label and name set to name
+        console.log('field:', field);
+        let fieldLabel = '';
+        if (field) {
+          const findResult = this.fieldNamesWithLabels.find((f) => f.name === autoMatchedFieldName);
+          fieldLabel = findResult ? findResult.label : field.label;
+        }
+
         return {
           id: header,
           header: header,
           sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
-          field: field ? field.name : '',
+          field: fieldLabel ? { name: autoMatchedFieldName, label: fieldLabel } : null,
           subfield: associatedFieldName,
           fieldMeta: field,
         };
@@ -202,10 +214,10 @@ export class LoadComponent {
   }
 
   private setupDuplicateCheck(): void {
-    this.duplicateCheckFieldsPickerConfig.options = this.fieldNamesWithLabels
-      .filter((field) => this.tables.first.state.selected.find((row) => row.field === field.name));
-    // TODO: The duplicate check picker is being rendered upon initialization with label and name set to name
+    // The list is populated with the values from the table's field picker column since the format is: { name: string, label: string }
+    this.duplicateCheckFieldsPickerConfig.options = this.tables.first.state.selected.map((row) => row.field);
     console.log('this.duplicateCheckFieldsPickerConfig:', this.duplicateCheckFieldsPickerConfig);
+    // TODO: Modify the existField data by comparing the field name to possible field names since the field labels will change
   }
 
   private verifySettings(): boolean {
