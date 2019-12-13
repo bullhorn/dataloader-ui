@@ -1,5 +1,5 @@
 // Angular
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, NgZone, OnDestroy, Output } from '@angular/core';
 // App
 import { FileService } from '../../services/file/file.service';
 
@@ -26,7 +26,8 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
     // do nothing
   }
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService,
+              private zone: NgZone) {
   }
 
   ngAfterViewInit(): void {
@@ -91,7 +92,9 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
 
   private onFileProvided(filePath: string) {
     if (filePath) {
-      this.onFilePath.emit(filePath);
+      this.zone.run(() => {
+        this.onFilePath.emit(filePath);
+      });
     }
   }
 }
