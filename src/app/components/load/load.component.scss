@@ -24,6 +24,15 @@
       justify-content: center;
       align-items: center;
       margin-top: 3em;
+      padding-bottom: 0.3em;
+
+      .entity-icon {
+        @include entity-background-color();
+        color: $white;
+        margin-right: 0.5em;
+        padding: 0.2em;
+        border-radius: 0.2em;
+      }
 
       novo-picker {
         min-width: 22em;

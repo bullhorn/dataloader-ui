@@ -36,6 +36,14 @@ $dl-side-pane-width: 300px;
   text-align: center;
 }
 
+@mixin entity-background-color() {
+  @each $entity, $color in $entity-colors {
+    &.#{$entity} {
+      background: $color;
+    }
+  }
+}
+
 body {
   overflow: hidden;
   zoom: 0.9;

@@ -111,6 +111,7 @@ export class EntityUtil {
   static get ENTITY_ICONS(): any {
     return {
       Appointment: 'appointment',
+      AppointmentAttendee: 'appointment',
       Candidate: 'candidate',
       CandidateCertification: 'certification',
       CandidateEducation: 'education',
@@ -120,31 +121,34 @@ export class EntityUtil {
       ClientCorporation: 'company',
       CustomObject: 'custom-objects',
       DistributionList: 'users',
+      HousingComplex: 'home',
       JobOrder: 'job',
+      JobSubmission: 'star-o',
       Lead: 'lead',
       Note: 'note',
+      NoteEntity: 'note',
       Opportunity: 'opportunity',
       Placement: 'star',
+      PlacementChangeRequest: 'republish',
+      PlacementCommission: 'commission',
+      Sendout: 'sendout',
       Task: 'check-o',
       Tearsheet: 'tearsheet',
-      JobSubmission: 'star-o',
-      Sendout: 'sendout',
-      PlacementChangeRequest: 'republish',
     };
   }
 
   static get ENTITY_THEMES(): any {
     return {
-      ClientCorporation: 'company',
       Candidate: 'candidate',
-      Lead: 'lead',
       ClientContact: 'contact',
-      Opportunity: 'opportunity',
+      ClientCorporation: 'company',
       JobOrder: 'job',
-      Submission: 'submission',
-      Sendout: 'sendout',
-      Placement: 'placement',
+      Lead: 'lead',
       Note: 'note',
+      Opportunity: 'opportunity',
+      Placement: 'placement',
+      Sendout: 'sendout',
+      Submission: 'submission',
     };
   }
 

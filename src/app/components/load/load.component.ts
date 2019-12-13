@@ -22,7 +22,6 @@ export class LoadComponent {
   @ViewChild('stepper') private stepper: StepperComponent;
   @ViewChildren('table') tables: QueryList<any>;
 
-  entity = '';
   icon = '';
   theme = '';
   fileName = '';
@@ -40,6 +39,8 @@ export class LoadComponent {
   duplicateCheckFieldsPickerConfig = { field: 'name', format: '$label', options: [] };
   backupEnabled = false;
 
+  private _entity = '';
+
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
@@ -52,6 +53,16 @@ export class LoadComponent {
       { id: 'subfield', label: 'Sub Field', enabled: true, type: 'text', template: 'subfieldCell' },
     ];
     this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
+  }
+
+  set entity(entity: string) {
+    this._entity = entity;
+    this.theme = this._entity ? EntityUtil.getThemeForFilename(this._entity) : '';
+    this.icon = this._entity ? EntityUtil.getIconForFilename(this._entity) : '';
+  }
+
+  get entity(): string {
+    return this._entity;
   }
 
   get numSelectedRows(): number {

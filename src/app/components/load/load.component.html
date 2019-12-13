@@ -9,8 +9,8 @@
         <span class="sub-text" *ngIf="!entity">Select from one of the currently supported entities</span>
         <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name, but you can still change it</span>
         <div class="choose-entity-picker">
-          <!--  TODO: Make this an entity style picker so that the colored icon shows up next to the entity name -->
-          <novo-picker [config]="entityPickerConfig" placeholder="Choose Entity" [(ngModel)]="entity"></novo-picker>
+          <i *ngIf="icon" class="entity-icon {{icon}} {{theme}}"></i>
+          <novo-picker [config]="entityPickerConfig" placeholder="Choose Bullhorn Entity" [(ngModel)]="entity"></novo-picker>
           <button theme="primary" [disabled]="!entity" (click)="onEntitySelected()" icon="next">Next</button>
         </div>
       </div>
