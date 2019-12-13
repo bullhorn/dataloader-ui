@@ -70,7 +70,7 @@ export class FakePreviewData {
   constructor() {
     const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
-    this.total = Math.floor(Math.random() * (400 - 1)) + 1;
+    this.total = Math.floor(Math.random() * (1500 - 1)) + 1;
   }
 }
 
