@@ -38,7 +38,6 @@ export class LoadComponent {
   displayedColumns: string[];
   duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
   duplicateCheckFieldsPickerConfig = { field: 'name', format: '$label', options: [] };
-  backupEnabledTileOptions = [{ label: 'Generate Undo File', value: true }, { label: 'Skip Undo File', value: false }];
   backupEnabled = false;
 
   constructor(private fileService: FileService,

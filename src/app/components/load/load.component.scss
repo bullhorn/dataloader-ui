@@ -102,5 +102,15 @@
     &.two-buttons {
       justify-content: space-between;
     }
+
+    .right-hand-side {
+      display: flex;
+      align-items: center;
+
+      // Hide the undo checkbox until it's ready to be implemented
+      novo-checkbox {
+        display: none;
+      }
+    }
   }
 }
