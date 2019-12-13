@@ -1,7 +1,7 @@
 <section class="load">
   <app-stepper #stepper>
     <app-step [label]="'Select File'" icon="upload">
-      <app-dropzone selector="app-dropzone" (onFilePath)="onFileSelected($event)"></app-dropzone>
+      <app-dropzone (onFilePath)="onFileSelected($event)"></app-dropzone>
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
