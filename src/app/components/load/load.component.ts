@@ -33,7 +33,7 @@ export class LoadComponent {
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
   fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig: { options: { name: string, label: string }[] };
-  rows: { header: string, sample: string, field: string, subfield: string }[]; // TODO: Type me
+  rows: any[];
   columns: any[];
   displayedColumns: string[];
   duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
