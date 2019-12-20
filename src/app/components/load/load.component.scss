@@ -13,10 +13,7 @@
   }
 
   .choose-entity-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include centered();
     height: 75vh;
 
     .choose-entity-picker {
@@ -46,10 +43,7 @@
   }
 
   .table-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include centered();
 
     .main-text {
       margin-top: 1em;
@@ -61,10 +55,7 @@
   }
 
   .duplicate-check-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include centered();
     height: 70vh;
 
     .sub-text {
@@ -78,10 +69,7 @@
     }
 
     .form-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      @include centered();
 
       novo-tiles {
         margin-bottom: 3em;
@@ -90,10 +78,7 @@
   }
 
   .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include centered();
     height: 80vh;
 
     .main-text {

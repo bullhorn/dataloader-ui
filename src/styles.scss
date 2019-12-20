@@ -23,6 +23,13 @@ $dl-side-pane-width: 300px;
   background-color: $background;
 }
 
+@mixin centered() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @mixin main-text() {
   font-size: 1.7em;
   padding-left: 1em;
