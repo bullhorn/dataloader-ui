@@ -1,8 +1,5 @@
 // Angular
-import { ChangeDetectionStrategy, Component, forwardRef, Inject, Input } from '@angular/core';
-// App
-import { StepperComponent } from './stepper.component';
-import { StepHeaderComponent } from './step-header.component';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-step-status',
@@ -18,9 +15,4 @@ import { StepHeaderComponent } from './step-header.component';
 })
 export class StepStatusComponent {
   @Input() state: string;
-
-  constructor(
-    @Inject(forwardRef(() => StepperComponent)) stepper: StepperComponent,
-    @Inject(forwardRef(() => StepHeaderComponent)) step: StepHeaderComponent,
-  ) {}
 }

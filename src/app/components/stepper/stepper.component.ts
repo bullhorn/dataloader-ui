@@ -11,6 +11,9 @@ import { takeUntil } from 'rxjs/operators';
 // App
 import { StepHeaderComponent } from './step-header.component';
 
+/**
+ * The step resides here with the stepper to avoid circular dependencies
+ */
 @Component({
   selector: 'app-step',
   template: `
@@ -20,11 +23,8 @@ import { StepHeaderComponent } from './step-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepComponent extends CdkStep {
-  // Content for step label
   @ContentChild(CdkStepLabel) stepLabel: CdkStepLabel;
 
-  @Input() theme: string;
-  @Input() color: string;
   @Input() icon: string;
 
   constructor(@Inject(forwardRef(() => StepperComponent)) stepper: CdkStepper) {
@@ -32,6 +32,9 @@ export class StepComponent extends CdkStep {
   }
 }
 
+/**
+ * The stepper extends the CdkStepper that contains the state machine
+ */
 @Component({
   selector: 'app-stepper',
   templateUrl: 'stepper.component.html',
@@ -54,7 +57,7 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
   // Steps that the stepper holds
   @ContentChildren(StepComponent) _steps: QueryList<StepComponent>;
 
-  // Consumer-specified template-refs to be used to override the header icons
+  // Consumer-specified template-refs used to override the header icons
   _iconOverrides: { [key: string]: TemplateRef<any> } = {};
 
   get completed(): boolean {
