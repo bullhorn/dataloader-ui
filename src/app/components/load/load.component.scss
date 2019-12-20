@@ -88,20 +88,13 @@
 
   footer {
     @include sticky-footer();
-
-    &.one-button {
-      justify-content: flex-start;
-    }
-
-    &.two-buttons {
-      justify-content: space-between;
-    }
+    justify-content: space-between;
 
     .right-hand-side {
       display: flex;
       align-items: center;
 
-      // Hide the undo checkbox until it's ready to be implemented
+      // TODO: Hide undo checkbox just until it's ready to be implemented
       novo-checkbox {
         display: none;
       }

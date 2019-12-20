@@ -10,8 +10,14 @@
         <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name, but you can still change it</span>
         <div class="choose-entity-picker">
           <i *ngIf="icon" class="entity-icon {{icon}} {{theme}}"></i>
-          <novo-picker [config]="entityPickerConfig" placeholder="Choose Bullhorn Entity" [(ngModel)]="entity"></novo-picker>
-          <button theme="primary" [disabled]="!entity" (click)="onEntitySelected()" icon="next">Next</button>
+          <novo-picker [config]="entityPickerConfig"
+                       placeholder="Choose Bullhorn Entity"
+                       [(ngModel)]="entity"></novo-picker>
+          <button theme="primary"
+                  [disabled]="!entity"
+                  (click)="onEntitySelected()"
+                  icon="next">Next
+          </button>
         </div>
       </div>
     </app-step>
@@ -59,17 +65,34 @@
       </div>
     </app-step>
   </app-stepper>
-  <footer [ngClass]="{'one-button': stepper.selectedIndex < 2, 'two-buttons': stepper.selectedIndex >= 2}">
-    <button *ngIf="stepper.selectedIndex > 0" theme="standard" (click)="onPrevious()">Back</button>
+  <footer>
+    <div class="left-hand-side">
+      <button *ngIf="stepper.selectedIndex > 0"
+              theme="standard"
+              (click)="onPrevious()">Back
+      </button>
+    </div>
     <div class="right-hand-side">
-      <button *ngIf="stepper.selectedIndex === 2" theme="primary" [disabled]="!numSelectedRows" (click)="onColumnsMapped()" icon="next">
-        Next
+      <button *ngIf="stepper.selectedIndex === 2"
+              theme="primary"
+              [disabled]="!numSelectedRows"
+              (click)="onColumnsMapped()"
+              icon="next">Next
       </button>
       <novo-checkbox *ngIf="duplicateCheckFieldsPickerConfig.options?.length && existField.enabled && existField.fields?.length"
-                     [(ngModel)]="backupEnabled" label="Generate Undo File" tooltipPosition="top-left"
-                     tooltip="Generates a backup file for reverting mass updates to existing records to undo any changes made"></novo-checkbox>
-      <button *ngIf="stepper.selectedIndex === 3" theme="primary" class="load-button" [disabled]="!run?.previewData" (click)="onLoad()"
-              icon="upload" tooltip="Start uploading data into Bullhorn" tooltipPosition="top-left">Load
+                     [(ngModel)]="backupEnabled"
+                     label="Generate Undo File"
+                     tooltipPosition="top-left"
+                     tooltip="Generates a backup file for reverting mass updates to existing records to undo any changes made">
+      </novo-checkbox>
+      <button *ngIf="stepper.selectedIndex === 3"
+              theme="primary"
+              class="load-button"
+              [disabled]="!run?.previewData"
+              (click)="onLoad()"
+              icon="upload"
+              tooltip="Start uploading data into Bullhorn"
+              tooltipPosition="top-left">Load
       </button>
     </div>
   </footer>
