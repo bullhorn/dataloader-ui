@@ -10,6 +10,13 @@ import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { StepperComponent } from '../stepper/stepper.component';
 import { DataloaderUtil, EntityUtil, Util } from '../../util';
 
+enum StepEnum {
+  SelectFile,
+  ChooseEntity,
+  MapColumns,
+  DuplicateCheck,
+}
+
 @Component({
   selector: 'app-load',
   templateUrl: './load.component.html',
@@ -39,6 +46,7 @@ export class LoadComponent {
   duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
   duplicateCheckFieldsPickerConfig = { format: '$label', options: [] };
   backupEnabled = false;
+  stepEnum: typeof StepEnum = StepEnum;
 
   private _entity = '';
 
@@ -70,46 +78,47 @@ export class LoadComponent {
     return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
 
-  onFileSelected(filePath: string): void {
-    if (this.verifyCsvFile(filePath)) {
-      this.filePath = filePath;
-      this.fileName = Util.getFilenameFromPath(filePath);
-      this.entity = EntityUtil.getEntityNameFromFile(filePath);
-      this.verifySettings();
-      this.stepper.next();
+  next(filePath?: string): void {
+    switch (this.stepper.selectedIndex) {
+      case StepEnum.SelectFile:
+        if (this.verifyCsvFile(filePath)) {
+          this.filePath = filePath;
+          this.fileName = Util.getFilenameFromPath(filePath);
+          this.entity = EntityUtil.getEntityNameFromFile(filePath);
+          this.verifySettings();
+          this.stepper.next();
+        }
+        break;
+      case StepEnum.ChooseEntity:
+        this.getMeta();
+        this.stepper.next();
+        break;
+      case StepEnum.MapColumns:
+        this.setupDuplicateCheck();
+        this.stepper.next();
+        break;
+      case StepEnum.DuplicateCheck:
+        if (this.verifySettings()) {
+          const settings: Settings = this.fileService.readSettings();
+          DataloaderUtil.setExistField(settings, this.existField);
+          this.fileService.writeSettings(settings);
+          this.started.emit();
+        }
+        break;
     }
   }
 
-  // TODO: Use single onNext() method and selected index so previous/next both match
-  //  Setup enums for the previous/next states to remove magic numbers
-  onEntitySelected() {
-    this.getMeta();
-    this.stepper.next();
-  }
-
-  onColumnsMapped() {
-    this.setupDuplicateCheck();
-    this.stepper.next();
-  }
-
-  onLoad(): void {
-    if (this.verifySettings()) {
-      const settings: Settings = this.fileService.readSettings();
-      DataloaderUtil.setExistField(settings, this.existField);
-      this.fileService.writeSettings(settings);
-      this.started.emit();
-    }
-  }
-
-  onPrevious(): void {
-    if (this.stepper.selectedIndex <= 3) {
-      this.duplicateCheckFieldsPickerConfig.options = []; // Clear duplicate check
-    }
-    if (this.stepper.selectedIndex <= 2) {
-      this.rows = null; // Clear table data
-    }
-    if (this.stepper.selectedIndex <= 1) {
-      this.run.previewData = null; // Clear file data
+  previous(): void {
+    switch (this.stepper.selectedIndex) {
+      case StepEnum.DuplicateCheck:
+        this.duplicateCheckFieldsPickerConfig.options = []; // Clear duplicate check data
+        break;
+      case StepEnum.MapColumns:
+        this.rows = null; // Clear column mapping table
+        break;
+      case StepEnum.ChooseEntity:
+        this.run.previewData = null; // Clear file data
+        break;
     }
     this.stepper.previous();
   }

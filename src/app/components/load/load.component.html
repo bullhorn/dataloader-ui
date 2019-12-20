@@ -1,7 +1,7 @@
 <section class="load">
   <app-stepper #stepper>
     <app-step [label]="'Select File'" icon="upload">
-      <app-dropzone (onFilePath)="onFileSelected($event)"></app-dropzone>
+      <app-dropzone (onFilePath)="next($event)"></app-dropzone>
     </app-step>
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
@@ -15,7 +15,7 @@
                        [(ngModel)]="entity"></novo-picker>
           <button theme="primary"
                   [disabled]="!entity"
-                  (click)="onEntitySelected()"
+                  (click)="next()"
                   icon="next">Next
           </button>
         </div>
@@ -67,16 +67,16 @@
   </app-stepper>
   <footer>
     <div class="left-hand-side">
-      <button *ngIf="stepper.selectedIndex > 0"
+      <button *ngIf="stepper.selectedIndex"
               theme="standard"
-              (click)="onPrevious()">Back
+              (click)="previous()">Back
       </button>
     </div>
     <div class="right-hand-side">
-      <button *ngIf="stepper.selectedIndex === 2"
+      <button *ngIf="stepper.selectedIndex === stepEnum.MapColumns"
               theme="primary"
               [disabled]="!numSelectedRows"
-              (click)="onColumnsMapped()"
+              (click)="next()"
               icon="next">Next
       </button>
       <novo-checkbox *ngIf="duplicateCheckFieldsPickerConfig.options?.length && existField.enabled && existField.fields?.length"
@@ -85,11 +85,11 @@
                      tooltipPosition="top-left"
                      tooltip="Generates a backup file for reverting mass updates to existing records to undo any changes made">
       </novo-checkbox>
-      <button *ngIf="stepper.selectedIndex === 3"
+      <button *ngIf="stepper.selectedIndex === stepEnum.DuplicateCheck"
               theme="primary"
               class="load-button"
               [disabled]="!run?.previewData"
-              (click)="onLoad()"
+              (click)="next()"
               icon="upload"
               tooltip="Start uploading data into Bullhorn"
               tooltipPosition="top-left">Load
