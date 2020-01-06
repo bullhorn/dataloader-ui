@@ -6,6 +6,7 @@ export class EntityUtil {
   // This is the full list of supported entities from Data Loader. It must be kept up to date manually with:
   // https://github.com/bullhorn/dataloader/blob/master/src/main/java/com/bullhorn/dataloader/enums/EntityInfo.java#L29
   // The EntityInfo enums in Data Loader that have a zero load order are not loadable, they are for lookup only.
+  // NoteEntity is intentionally left out since it is for internal use only, and not how notes are loaded.
   static get ENTITY_NAMES(): EntityTypes[] {
     return [
       EntityTypes.Appointment,
@@ -22,7 +23,6 @@ export class EntityUtil {
       EntityTypes.JobSubmission,
       EntityTypes.Lead,
       EntityTypes.Note,
-      EntityTypes.NoteEntity,
       EntityTypes.Opportunity,
       EntityTypes.Placement,
       EntityTypes.PlacementChangeRequest,
@@ -126,7 +126,6 @@ export class EntityUtil {
       JobSubmission: 'star-o',
       Lead: 'lead',
       Note: 'note',
-      NoteEntity: 'note',
       Opportunity: 'opportunity',
       Placement: 'star',
       PlacementChangeRequest: 'republish',
