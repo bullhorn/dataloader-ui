@@ -105,11 +105,15 @@ export class FileServiceFakes {
     existFields: [{
       entity: 'Candidate',
       enabled: true,
-      fields: ['email'],
+      fields: ['firstName', 'lastName', 'email'],
     }, {
       entity: 'ClientContact',
       enabled: true,
       fields: ['firstName', 'lastName'],
+    }, {
+      entity: 'Note',
+      enabled: true,
+      fields: ['externalID'],
     }],
   };
 

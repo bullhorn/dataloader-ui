@@ -45,6 +45,7 @@ export class LoadComponent {
   displayedColumns: string[];
   duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
   duplicateCheckFieldsPickerConfig = { format: '$label', options: [] };
+  duplicateCheckModel: { name: string, label: string }[] = [];
   backupEnabled = false;
   stepEnum: typeof StepEnum = StepEnum;
 
@@ -100,6 +101,7 @@ export class LoadComponent {
       case StepEnum.DuplicateCheck:
         if (this.verifySettings()) {
           const settings: Settings = this.fileService.readSettings();
+          this.existField.fields = this.duplicateCheckModel.map(field => field.name);
           DataloaderUtil.setExistField(settings, this.existField);
           this.fileService.writeSettings(settings);
           this.started.emit();
@@ -223,10 +225,9 @@ export class LoadComponent {
   }
 
   private setupDuplicateCheck(): void {
-    // The list is populated with the values from the table's field picker column since the format is: { name: string, label: string }
+    // The picker deals with values in the format: { name: string, label: string } while the existField data stored is names only
     this.duplicateCheckFieldsPickerConfig.options = this.tables.first.state.selected.map((row) => row.field);
-    console.log('this.duplicateCheckFieldsPickerConfig:', this.duplicateCheckFieldsPickerConfig);
-    // TODO: Modify the existField data by comparing the field name to possible field names since the field labels will change
+    this.duplicateCheckModel = this.duplicateCheckFieldsPickerConfig.options.filter(option => this.existField.fields.includes(option.name));
   }
 
   private verifySettings(): boolean {
