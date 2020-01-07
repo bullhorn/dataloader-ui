@@ -153,6 +153,8 @@ export class LoadComponent {
       this.dataloaderService.unsubscribe();
       try {
         this.meta = JSON.parse(this.metaJson);
+        // Ignore all hidden fields for now (fields that are read only in meta)
+        this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
       } catch (parseErr) {
         this.modalService.open(InfoModalComponent, {
           title: 'Error Retrieving Meta!',
@@ -208,8 +210,7 @@ export class LoadComponent {
   }
 
   private findMatchingFieldMeta(fieldName: string): Field | null {
-    const mutableFields = this.meta.fields.filter(f => !f.readOnly);
-    const fuzzySearch = new Fuse(mutableFields, { keys: ['name', 'label'] });
+    const fuzzySearch = new Fuse(this.meta.fields, { keys: ['name', 'label'] });
     const results = fuzzySearch.search(fieldName);
     return results.length ? results[0] : null;
   }
@@ -252,14 +253,12 @@ export class LoadComponent {
     return true;
   }
 
-  onFieldMappingChanged($event: any, tableValue: any) {
-    // TODO: Make the change to the field value change the row's meta for showing/hiding the subField picker
-    console.log('$event:', $event);
-    console.log('tableValue:', tableValue);
+  onFieldMappingChanged(event: any, tableValue: any) {
+    tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
   }
 
   onSubfieldMappingChanged($event: any, tableValue: any) {
-    // TODO: Make the change to the field value change the row's meta for showing/hiding the subField picker
+    // TODO: handle errors in column not being specified
     console.log('$event:', $event);
     console.log('tableValue:', tableValue);
   }
