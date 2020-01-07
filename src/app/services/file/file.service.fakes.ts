@@ -43,28 +43,43 @@ class FakeResultsData {
 export class FakePreviewData {
   filePath: string;
   total: number;
-  headers: string[] = ['firstName', 'lastName', 'email', 'owner.id', 'primarySkills.name'];
+  headers: string[] = ['First Name', 'Last', 'Email', 'Owner', 'primarySkills.name', 'Department', 'Skill Code', 'Age', 'Priority', 'TPS-GZD-TOKEN'];
   data: any[] = [
     {
-      firstName: 'John',
-      lastName: 'Smith',
-      email: 'jsmith@example.com',
-      'owner.id': 'Recruiter CorporateUser',
-      'primarySkills.name': 'Skill1',
+      'First Name': 'John',
+      'Last': 'Smith',
+      'Email': 'jsmith@example.com',
+      'Owner': '',
+      'primarySkills.name': '',
+      'Department': '',
+      'Skill Code': '',
+      'Age': 35,
+      'Priority': 4,
+      'TPS-GZD-TOKEN': 'ABCD123456',
     },
     {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-      'owner.id': 'Recruiter CorporateUser',
+      'First Name': 'John',
+      'Last': 'Doe',
+      'Email': 'jdoe@example.com',
+      'Owner': '',
       'primarySkills.name': 'Skill2;Skill3',
+      'Department': '',
+      'Skill Code': 'A123',
+      'Age': 25,
+      'Priority': 10,
+      'TPS-GZD-TOKEN': 'ABCD123456',
     },
     {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'jdoe@example.com',
-      'owner.id': 'Recruiter CorporateUser',
+      'First Name': 'Jane',
+      'Last': 'Doe',
+      'Email': 'jdoe@example.com',
+      'Owner': 'Recruiter CorporateUser',
       'primarySkills.name': 'Skill3;Skill4',
+      'Department': '',
+      'Skill Code': 'A123',
+      'Age': 30,
+      'Priority': 3,
+      'TPS-GZD-TOKEN': 'ABCD123456',
     }];
 
   constructor() {

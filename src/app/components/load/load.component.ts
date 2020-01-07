@@ -2,6 +2,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
 import { NovoModalService, } from 'novo-elements';
+import * as Fuse from 'fuse.js';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
 import { ExistField, Field, Meta, PreviewData, Run, Settings } from '../../../interfaces';
@@ -169,39 +170,27 @@ export class LoadComponent {
     });
   }
 
-  // Get the file information, then enrich it with field names from meta data
+  // Get CSV file data and match it up with meta
   private onPreviewData(previewData: PreviewData): void {
     this.zone.run(() => {
       this.run.previewData = previewData;
       this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
       this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
       this.rows = this.run.previewData.headers.map(header => {
-        // Get sample data - the first non-empty cell out of the rows read in
-        const firstNonEmptyData: Object = this.run.previewData.data.find((data) => data[header]);
-
-        // Look up the base name of the header in meta (without the association)
-        // TODO: Improve this search using the longest possible match, for either field name or field label
+        const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
         const [fieldName, associatedFieldName] = header.split('.');
-        const field: Field = this.meta.fields
-          .find((f) => Util.noCaseCompare(fieldName, f.name) || Util.noCaseCompare(fieldName, f.label));
-        const autoMatchedFieldName = field ? field.name : '';
-        // TODO: Clean this up so that subfields can reuse, except that there is no complete list, any string is allowed
-        // associatedFieldName = field.associatedEntity ? field.associatedEntity.fields[0].name : associatedFieldName;
+        const fieldMeta = this.findMatchingFieldMeta(fieldName);
 
-        console.log('field:', field);
-        let fieldLabel = '';
-        if (field) {
-          const findResult = this.fieldNamesWithLabels.find((f) => f.name === autoMatchedFieldName);
-          fieldLabel = findResult ? findResult.label : field.label;
-        }
+        // TODO: Construct specific subField meta with the couple options that exist in meta, plus any other string allowed
+        // subFieldMeta = field.associatedEntity ? field.associatedEntity.fields[0].name : associatedFieldName;
 
         return {
           id: header,
           header: header,
-          sample: firstNonEmptyData ? firstNonEmptyData[header] : '',
-          field: fieldLabel ? { name: autoMatchedFieldName, label: fieldLabel } : null,
-          subfield: associatedFieldName,
-          fieldMeta: field,
+          sample: sampleData ? sampleData[header] : '',
+          field: fieldMeta ? { name: fieldMeta.name, label: `${fieldMeta.label} (${fieldMeta.name})` } : null,
+          subfield: fieldMeta ? { name: fieldMeta.name, label: `${fieldMeta.label} (${fieldMeta.name})` } : null,
+          fieldMeta: fieldMeta,
         };
       });
 
@@ -218,6 +207,13 @@ export class LoadComponent {
     });
   }
 
+  private findMatchingFieldMeta(fieldName: string): Field | null {
+    const mutableFields = this.meta.fields.filter(f => !f.readOnly);
+    const fuzzySearch = new Fuse(mutableFields, { keys: ['name', 'label'] });
+    const results = fuzzySearch.search(fieldName);
+    return results.length ? results[0] : null;
+  }
+
   private onPreviewDataError(message: string): void {
     this.zone.run(() => {
       this.modalService.open(InfoModalComponent, { title: 'Error Parsing Input File', message });
@@ -227,7 +223,8 @@ export class LoadComponent {
   private setupDuplicateCheck(): void {
     // The picker deals with values in the format: { name: string, label: string } while the existField data stored is names only
     this.duplicateCheckFieldsPickerConfig.options = this.tables.first.state.selected.map((row) => row.field);
-    this.duplicateCheckModel = this.duplicateCheckFieldsPickerConfig.options.filter(option => this.existField.fields.includes(option.name));
+    this.duplicateCheckModel = this.duplicateCheckFieldsPickerConfig.options
+      .filter(option => option && this.existField.fields.includes(option.name));
   }
 
   private verifySettings(): boolean {

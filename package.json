@@ -76,6 +76,7 @@
     "electron-log": "~3.0.9",
     "electron-updater": "~4.2.0",
     "fast-csv": "3.4.0",
+    "fuse.js": "3.4.6",
     "ga-lite": "2.0.5",
     "glob": "7.1.4",
     "moment": "2.24.0",
