@@ -29,14 +29,14 @@
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row>
             <novo-picker [config]="fieldPickerConfig"
-                         (select)="onChanged($event, row)"
+                         (select)="onFieldMappingChanged($event, row)"
                          [(ngModel)]="row.field"
                          placeholder="Choose Field"></novo-picker>
           </ng-template>
           <ng-template novoTemplate="subfieldCell" let-row>
             <novo-picker *ngIf="row.fieldMeta?.associatedEntity"
                          [config]="fieldPickerConfig"
-                         (select)="onChanged($event, row.subfield)"
+                         (select)="onSubfieldMappingChanged($event, row.subfield)"
                          [(ngModel)]="row.subfield"
                          placeholder="Choose Subfield"></novo-picker>
           </ng-template>

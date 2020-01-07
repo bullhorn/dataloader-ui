@@ -163,7 +163,7 @@ export class LoadComponent {
         return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
       });
       this.fieldPickerConfig.options = this.fieldNamesWithLabels;
-      // TODO: create the subfield picker config for each subfield in the table
+      // TODO: create the subfield picker config for each subfield in the table, or just use a text entry field
 
       // Kick off preview data from the CSV file, and wait to render table until it's finished reading
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
@@ -252,7 +252,14 @@ export class LoadComponent {
     return true;
   }
 
-  onChanged($event: any, tableValue: any) {
+  onFieldMappingChanged($event: any, tableValue: any) {
+    // TODO: Make the change to the field value change the row's meta for showing/hiding the subField picker
+    console.log('$event:', $event);
+    console.log('tableValue:', tableValue);
+  }
+
+  onSubfieldMappingChanged($event: any, tableValue: any) {
+    // TODO: Make the change to the field value change the row's meta for showing/hiding the subField picker
     console.log('$event:', $event);
     console.log('tableValue:', tableValue);
   }
