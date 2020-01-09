@@ -35,8 +35,8 @@
                          placeholder="Choose Field"></novo-picker>
           </ng-template>
           <ng-template novoTemplate="subfieldCell" let-row>
-            <novo-picker *ngIf="row.fieldMeta?.associatedEntity"
-                         [config]="fieldPickerConfig"
+            <novo-picker *ngIf="row.associatedEntityMeta"
+                         [config]="row.subfieldPickerConfig"
                          (select)="onSubfieldMappingChanged($event, row.subfield)"
                          [(ngModel)]="row.subfield"
                          placeholder="Choose Subfield"></novo-picker>

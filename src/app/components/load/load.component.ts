@@ -39,7 +39,6 @@ export class LoadComponent {
   existField: ExistField;
   metaJson: string;
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
-  fieldNamesWithLabels: { name: string, label: string }[];
   fieldPickerConfig = { format: '$label', options: [] };
   rows: any[];
   columns: any[];
@@ -126,6 +125,17 @@ export class LoadComponent {
     this.stepper.previous();
   }
 
+  onFieldMappingChanged(event: any, tableValue: any) {
+    // TODO: Generate subfield config
+    tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
+  }
+
+  onSubfieldMappingChanged($event: any, tableValue: any) {
+    // TODO: handle errors in column not being specified
+    console.log('$event:', $event);
+    console.log('tableValue:', tableValue);
+  }
+
   private getMeta(): void {
     this.meta = null;
     this.metaJson = '';
@@ -148,7 +158,7 @@ export class LoadComponent {
       this.dataloaderService.unsubscribe();
       try {
         this.meta = JSON.parse(this.metaJson);
-        // Ignore all hidden fields for now (fields that are read only in meta)
+        // Ignore all hidden fields for now (fields that are read only in meta) - TODO: provide switch for this
         this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
       } catch (parseErr) {
         this.modalService.open(InfoModalComponent, {
@@ -156,12 +166,7 @@ export class LoadComponent {
           message: parseErr,
         });
       }
-      this.fieldNamesWithLabels = this.meta.fields.map((field) => {
-        return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
-      });
-      this.fieldPickerConfig.options = this.fieldNamesWithLabels;
-      // TODO: create the subfield picker config for each subfield in the table, or just use a text entry field
-
+      this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
       // Kick off preview data from the CSV file, and wait to render table until it's finished reading
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
     });
@@ -176,18 +181,22 @@ export class LoadComponent {
       this.rows = this.run.previewData.headers.map(header => {
         const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
         const [fieldName, associatedFieldName] = header.split('.');
-        const fieldMeta = this.findMatchingFieldMeta(fieldName);
-
-        // TODO: Construct specific subField meta with the couple options that exist in meta, plus any other string allowed
-        // subFieldMeta = field.associatedEntity ? field.associatedEntity.fields[0].name : associatedFieldName;
-
+        const fieldMeta = LoadComponent.findMatchingFieldMeta(this.meta, fieldName);
+        const associatedEntityMeta = fieldMeta && fieldMeta.associatedEntity;
+        const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
+        const subfieldPickerConfig = associatedEntityMeta && {
+          format: '$label',
+          options: LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta),
+        };
         return {
           id: header,
           header: header,
           sample: sampleData ? sampleData[header] : '',
-          field: fieldMeta ? { name: fieldMeta.name, label: `${fieldMeta.label} (${fieldMeta.name})` } : null,
-          subfield: fieldMeta ? { name: fieldMeta.name, label: `${fieldMeta.label} (${fieldMeta.name})` } : null,
-          fieldMeta: fieldMeta,
+          field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
+          subfield: subfieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta) : null,
+          fieldMeta,
+          associatedEntityMeta,
+          subfieldPickerConfig,
         };
       });
 
@@ -202,12 +211,6 @@ export class LoadComponent {
 
       this.ref.markForCheck();
     });
-  }
-
-  private findMatchingFieldMeta(fieldName: string): Field | null {
-    const fuzzySearch = new Fuse(this.meta.fields, { keys: ['name', 'label'] });
-    const results = fuzzySearch.search(fieldName);
-    return results.length ? results[0] : null;
   }
 
   private onPreviewDataError(message: string): void {
@@ -248,13 +251,19 @@ export class LoadComponent {
     return true;
   }
 
-  onFieldMappingChanged(event: any, tableValue: any) {
-    tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
+  private static findMatchingFieldMeta(meta: Meta, fieldName: string): Field | null {
+    const fuzzySearch = new Fuse(meta.fields, { keys: ['name', 'label'] });
+    const results = fuzzySearch.search(fieldName);
+    return results.length ? results[0] : null;
   }
 
-  onSubfieldMappingChanged($event: any, tableValue: any) {
-    // TODO: handle errors in column not being specified
-    console.log('$event:', $event);
-    console.log('tableValue:', tableValue);
+  private static createPickerOptionsFromMeta(meta: Meta): { name: string, label: string }[] {
+    return meta && meta.fields ? meta.fields.map((field) => {
+      return LoadComponent.createPickerOptionFromFieldMeta(field);
+    }) : null;
+  }
+
+  private static createPickerOptionFromFieldMeta(field: Field): { name: string, label: string } {
+    return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
   }
 }
