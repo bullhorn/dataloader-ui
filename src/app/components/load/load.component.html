@@ -26,7 +26,6 @@
         <span class="main-text">Map columns from file to fields in Bullhorn</span>
         <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ totalRows }} records</span>
-        <!-- TODO: Provide switch for showing hidden fields -->
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row>
             <novo-picker [config]="fieldPickerConfig"

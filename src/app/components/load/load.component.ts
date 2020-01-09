@@ -166,6 +166,7 @@ export class LoadComponent {
           message: parseErr,
         });
       }
+      // TODO: When opening the list, filter down to only the unmapped fields
       this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
       // Kick off preview data from the CSV file, and wait to render table until it's finished reading
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
