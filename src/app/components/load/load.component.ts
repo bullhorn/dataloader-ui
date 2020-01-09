@@ -60,7 +60,7 @@ export class LoadComponent {
       { id: 'header', label: 'Column Header', enabled: true, type: 'text' },
       { id: 'sample', label: 'Sample Data', enabled: true, type: 'text' },
       { id: 'field', label: 'Bullhorn Field', enabled: true, type: 'text', template: 'fieldCell' },
-      { id: 'subfield', label: 'Sub Field', enabled: true, type: 'text', template: 'subfieldCell' },
+      { id: 'subfield', label: 'Association Field', enabled: true, type: 'text', template: 'subfieldCell' },
     ];
     this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
   }
@@ -126,12 +126,12 @@ export class LoadComponent {
   }
 
   onFieldMappingChanged(event: any, tableValue: any) {
-    // TODO: Generate subfield config
     tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
+    Object.assign(tableValue, LoadComponent.getSubfieldData(tableValue.fieldMeta));
   }
 
   onSubfieldMappingChanged($event: any, tableValue: any) {
-    // TODO: handle errors in column not being specified
+    // TODO: handle any string entry by adding it to the list of options with an identifier key
     console.log('$event:', $event);
     console.log('tableValue:', tableValue);
   }
@@ -182,22 +182,13 @@ export class LoadComponent {
         const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
         const [fieldName, associatedFieldName] = header.split('.');
         const fieldMeta = LoadComponent.findMatchingFieldMeta(this.meta, fieldName);
-        const associatedEntityMeta = fieldMeta && fieldMeta.associatedEntity;
-        const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
-        const subfieldPickerConfig = associatedEntityMeta && {
-          format: '$label',
-          options: LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta),
-        };
-        return {
+        return Object.assign({
           id: header,
           header: header,
           sample: sampleData ? sampleData[header] : '',
           field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
-          subfield: subfieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta) : null,
           fieldMeta,
-          associatedEntityMeta,
-          subfieldPickerConfig,
-        };
+        }, LoadComponent.getSubfieldData(fieldMeta, associatedFieldName));
       });
 
       // Start out all columns in the file as selected
@@ -251,9 +242,23 @@ export class LoadComponent {
     return true;
   }
 
-  private static findMatchingFieldMeta(meta: Meta, fieldName: string): Field | null {
-    const fuzzySearch = new Fuse(meta.fields, { keys: ['name', 'label'] });
-    const results = fuzzySearch.search(fieldName);
+  private static getSubfieldData(fieldMeta: Field, associatedFieldName?: string): Object {
+    const associatedEntityMeta = fieldMeta && fieldMeta.associatedEntity;
+    const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
+    const subfield = subfieldMeta && LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta);
+    const subfieldPickerConfig = associatedEntityMeta && {
+      format: '$label',
+      options: LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta),
+    };
+    return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
+  }
+
+  private static findMatchingFieldMeta(meta: Meta, fieldName?: string): Field | null {
+    let results = [];
+    if (fieldName) {
+      const fuzzySearch = new Fuse(meta.fields, { keys: ['name', 'label'] });
+      results = fuzzySearch.search(fieldName);
+    }
     return results.length ? results[0] : null;
   }
 
