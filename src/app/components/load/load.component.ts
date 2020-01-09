@@ -126,11 +126,6 @@ export class LoadComponent {
     this.stepper.previous();
   }
 
-  onDuplicateCheckEnabledChanged(enabled: boolean): void {
-    console.log('enabled:', enabled);
-    console.log('this.existField:', this.existField);
-  }
-
   private getMeta(): void {
     this.meta = null;
     this.metaJson = '';
@@ -147,7 +142,7 @@ export class LoadComponent {
     this.metaJson += metaJsonPartial;
   }
 
-  // Once the process is done, we should have the entire string
+  // Once the CLI process is done, we should have the entire string
   private onMetaDone(): void {
     this.zone.run(() => {
       this.dataloaderService.unsubscribe();

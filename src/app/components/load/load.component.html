@@ -26,6 +26,7 @@
         <span class="main-text">Map columns from file to fields in Bullhorn</span>
         <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ totalRows }} records</span>
+        <!-- TODO: Provide switch for showing hidden fields -->
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
           <ng-template novoTemplate="fieldCell" let-row>
             <novo-picker [config]="fieldPickerConfig"
@@ -54,7 +55,6 @@
           existing records for updates instead of inserts</span>
         <div *ngIf="duplicateCheckFieldsPickerConfig.options?.length" class="form-container">
           <novo-tiles [options]="duplicateCheckEnabledTileOptions"
-                      (onChange)="onDuplicateCheckEnabledChanged($event)"
                       [(ngModel)]="existField.enabled"></novo-tiles>
           <novo-chips *ngIf="existField.enabled"
                       [source]="duplicateCheckFieldsPickerConfig"
