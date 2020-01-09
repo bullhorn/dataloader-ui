@@ -32,7 +32,7 @@
             <novo-picker [config]="fieldPickerConfig"
                          (select)="onFieldMappingChanged($event, row)"
                          [(ngModel)]="row.field"
-                         placeholder="{{ entity }} Field"></novo-picker>
+                         placeholder="{{ meta.label }} Field"></novo-picker>
           </ng-template>
           <ng-template novoTemplate="subfieldCell" let-row>
             <novo-picker *ngIf="row.associatedEntityMeta"
