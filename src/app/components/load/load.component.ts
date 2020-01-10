@@ -75,6 +75,7 @@ export class LoadComponent {
     return this._entity;
   }
 
+  // TODO: listen to row selection and gray out rows that are unselected to make stronger UX feedback
   get numSelectedRows(): number {
     return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
@@ -132,6 +133,7 @@ export class LoadComponent {
 
   onSubfieldMappingChanged($event: any, tableValue: any) {
     // TODO: handle any string entry by adding it to the list of options with an identifier key
+    //  may have to listen to events on the entry box for the picker, or create custom picker options call.
     console.log('$event:', $event);
     console.log('tableValue:', tableValue);
   }
@@ -166,7 +168,7 @@ export class LoadComponent {
           message: parseErr,
         });
       }
-      // TODO: When opening the list, filter down to only the unmapped fields
+      // TODO: Validate that fields are not duplicates before loading
       this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
       // Kick off preview data from the CSV file, and wait to render table until it's finished reading
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
