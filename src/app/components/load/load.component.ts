@@ -247,7 +247,8 @@ export class LoadComponent {
       options: (term) => {
         return new Promise((resolve) => {
           const options = LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta);
-          if (term.length && !options.find(option => option.label === term)) {
+          const exists = options.find(option => Util.equalsIgnoreCase(term, option.name) || Util.equalsIgnoreCase(term, option.label));
+          if (term.length && !exists) {
             options.unshift({ name: term, label: term });
           }
           resolve(options);
