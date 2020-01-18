@@ -130,13 +130,6 @@ export class LoadComponent {
     Object.assign(tableValue, LoadComponent.getSubfieldData(tableValue.fieldMeta));
   }
 
-  onSubfieldMappingChanged($event: any, tableValue: any) {
-    // TODO: handle any string entry by adding it to the list of options with an identifier key
-    //  may have to listen to events on the entry box for the picker, or create custom picker options call.
-    console.log('$event:', $event);
-    console.log('tableValue:', tableValue);
-  }
-
   private getMeta(): void {
     this.meta = null;
     this.metaJson = '';

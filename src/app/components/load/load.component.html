@@ -45,7 +45,6 @@
                          [class.disabled]="!table.isSelected(row)"
                          [disablePickerInput]="!table.isSelected(row)"
                          [config]="row.subfieldPickerConfig"
-                         (select)="onSubfieldMappingChanged($event, row.subfield)"
                          [(ngModel)]="row.subfield"
                          placeholder="{{ row.associatedEntityMeta.label }} Field"></novo-picker>
           </ng-template>
