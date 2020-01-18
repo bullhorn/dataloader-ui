@@ -27,14 +27,23 @@
         <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ totalRows }} records</span>
         <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
+          <ng-template novoTemplate="textCell" let-row let-col="col">
+            <div class="text-cell" [class.disabled]="!table.isSelected(row)">
+              {{ row[col.id] }}
+            </div>
+          </ng-template>
           <ng-template novoTemplate="fieldCell" let-row>
             <novo-picker [config]="fieldPickerConfig"
+                         [class.disabled]="!table.isSelected(row)"
+                         [disablePickerInput]="!table.isSelected(row)"
                          (select)="onFieldMappingChanged($event, row)"
                          [(ngModel)]="row.field"
                          placeholder="{{ meta.label }} Field"></novo-picker>
           </ng-template>
           <ng-template novoTemplate="subfieldCell" let-row>
             <novo-picker *ngIf="row.associatedEntityMeta"
+                         [class.disabled]="!table.isSelected(row)"
+                         [disablePickerInput]="!table.isSelected(row)"
                          [config]="row.subfieldPickerConfig"
                          (select)="onSubfieldMappingChanged($event, row.subfield)"
                          [(ngModel)]="row.subfield"

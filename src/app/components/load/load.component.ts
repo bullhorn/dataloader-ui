@@ -57,10 +57,10 @@ export class LoadComponent {
               private zone: NgZone,
               private ref: ChangeDetectorRef) {
     this.columns = [
-      { id: 'header', label: 'Column Header', enabled: true, type: 'text' },
-      { id: 'sample', label: 'Sample Data', enabled: true, type: 'text' },
-      { id: 'field', label: 'Bullhorn Field', enabled: true, type: 'text', template: 'fieldCell' },
-      { id: 'subfield', label: 'Association Field', enabled: true, type: 'text', template: 'subfieldCell' },
+      { id: 'header', label: 'Column Header', enabled: true, template: 'textCell' },
+      { id: 'sample', label: 'Sample Data', enabled: true, template: 'textCell' },
+      { id: 'field', label: 'Bullhorn Field', enabled: true, template: 'fieldCell' },
+      { id: 'subfield', label: 'Association Field', enabled: true, template: 'subfieldCell' },
     ];
     this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
   }
@@ -75,7 +75,6 @@ export class LoadComponent {
     return this._entity;
   }
 
-  // TODO: listen to row selection and gray out rows that are unselected to make stronger UX feedback
   get numSelectedRows(): number {
     return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
