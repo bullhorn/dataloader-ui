@@ -243,7 +243,16 @@ export class LoadComponent {
     const subfield = subfieldMeta && LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta);
     const subfieldPickerConfig = associatedEntityMeta && {
       format: '$label',
-      options: LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta),
+      minSearchLength: 0,
+      options: (term) => {
+        return new Promise((resolve) => {
+          const options = LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta);
+          if (term.length && !options.find(option => option.label === term)) {
+            options.unshift({ name: term, label: term });
+          }
+          resolve(options);
+        });
+      },
     };
     return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
   }
