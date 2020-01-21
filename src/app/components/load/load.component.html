@@ -22,37 +22,39 @@
       </div>
     </app-step>
     <app-step [label]="'Map Columns'" icon="list">
-      <div class="table-container" *ngIf="meta">
-        <span class="main-text">Map columns from file to fields in Bullhorn</span>
-        <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
+      <div class="scrollable-container" cdkScrollable *ngIf="meta">
+        <div class="scrollable-content">
+          <span class="main-text">Map columns from file to fields in Bullhorn</span>
+          <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
           columns for {{ totalRows }} records</span>
-        <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
-          <ng-template novoTemplate="textCell" let-row let-col="col">
-            <div class="text-cell" [class.disabled]="!table.isSelected(row)">
-              {{ row[col.id] }}
-            </div>
-          </ng-template>
-          <ng-template novoTemplate="fieldCell" let-row let-col="col">
-            <i *ngIf="table.isSelected(row) && !row[col.id]"
-               class="bhi-circle required-indicator"></i>
-            <novo-picker [config]="fieldPickerConfig"
-                         [class.disabled]="!table.isSelected(row)"
-                         [disablePickerInput]="!table.isSelected(row)"
-                         (select)="onFieldMappingChanged($event, row)"
-                         [(ngModel)]="row[col.id]"
-                         placeholder="{{ meta.label }} Field"></novo-picker>
-          </ng-template>
-          <ng-template novoTemplate="subfieldCell" let-row let-col="col">
-            <i *ngIf="row.associatedEntityMeta && table.isSelected(row) && !row[col.id]"
-               class="bhi-circle required-indicator"></i>
-            <novo-picker *ngIf="row.associatedEntityMeta"
-                         [class.disabled]="!table.isSelected(row)"
-                         [disablePickerInput]="!table.isSelected(row)"
-                         [config]="row.subfieldPickerConfig"
-                         [(ngModel)]="row[col.id]"
-                         placeholder="{{ row.associatedEntityMeta.label }} Field"></novo-picker>
-          </ng-template>
-        </novo-data-table>
+          <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
+            <ng-template novoTemplate="textCell" let-row let-col="col">
+              <div class="text-cell" [class.disabled]="!table.isSelected(row)">
+                {{ row[col.id] }}
+              </div>
+            </ng-template>
+            <ng-template novoTemplate="fieldCell" let-row let-col="col">
+              <i *ngIf="table.isSelected(row) && !row[col.id]"
+                 class="bhi-circle required-indicator"></i>
+              <novo-picker [config]="fieldPickerConfig"
+                           [class.disabled]="!table.isSelected(row)"
+                           [disablePickerInput]="!table.isSelected(row)"
+                           (select)="onFieldMappingChanged($event, row)"
+                           [(ngModel)]="row[col.id]"
+                           placeholder="{{ meta.label }} Field"></novo-picker>
+            </ng-template>
+            <ng-template novoTemplate="subfieldCell" let-row let-col="col">
+              <i *ngIf="row.associatedEntityMeta && table.isSelected(row) && !row[col.id]"
+                 class="bhi-circle required-indicator"></i>
+              <novo-picker *ngIf="row.associatedEntityMeta"
+                           [class.disabled]="!table.isSelected(row)"
+                           [disablePickerInput]="!table.isSelected(row)"
+                           [config]="row.subfieldPickerConfig"
+                           [(ngModel)]="row[col.id]"
+                           placeholder="{{ row.associatedEntityMeta.label }} Field"></novo-picker>
+            </ng-template>
+          </novo-data-table>
+        </div>
       </div>
       <div class="loading-container" *ngIf="!meta">
         <span class="main-text">Getting latest {{ entity }} field map settings...</span>

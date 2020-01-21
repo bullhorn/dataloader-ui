@@ -27,7 +27,7 @@ function createWindow(): void {
 
   // Create the Chromium window and load the Angular app
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1000,
     height: 600,
     minWidth: 800,
     minHeight: 440,

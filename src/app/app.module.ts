@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
@@ -31,6 +32,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
     FormsModule,
     BrowserAnimationsModule,
     BrowserModule,
+    ScrollingModule,
     // Vendor
     NovoElementsModule,
     NovoElementProviders.forRoot(),

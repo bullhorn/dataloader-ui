@@ -2,8 +2,6 @@
 @import '../../../styles.scss';
 
 .load {
-  @include scrollable();
-
   .main-text {
     @include main-text();
   }
@@ -42,25 +40,31 @@
     }
   }
 
-  .table-container {
-    @include centered();
+  .scrollable-container {
+    @include scrollable();
+    height: calc(85vh - 55px);
 
-    .main-text {
-      margin-top: 1em;
-    }
+    .scrollable-content {
+      @include centered();
+      padding-bottom: 7em;
 
-    .sub-text {
-      margin-bottom: 1em;
-    }
+      .main-text {
+        margin-top: 1em;
+      }
 
-    .disabled {
-      opacity: 0.5;
-    }
+      .sub-text {
+        margin-bottom: 1em;
+      }
 
-    .required-indicator {
-      font-size: 7px;
-      color: $negative;
-      margin-right: 10px;
+      .disabled {
+        opacity: 0.5;
+      }
+
+      .required-indicator {
+        font-size: 7px;
+        color: $negative;
+        margin-right: 10px;
+      }
     }
   }
 

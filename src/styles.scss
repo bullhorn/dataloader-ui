@@ -6,7 +6,7 @@ $dl-stepper-height: 80px;
 $dl-side-pane-width: 300px;
 
 @mixin scrollable() {
-  height: calc(100vh - #{$header-height});
+  height: calc(100vh - #{$dl-header-height});
   overflow-y: scroll;
   overflow-x: hidden;
 }
