@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 // Vendor
 import * as moment from 'moment';
 import * as momentDurationFormatSetup from 'moment-duration-format';
-import { NovoModalService } from 'novo-elements';
+import { NovoModalService, NovoToastService } from 'novo-elements';
 // App
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { AnalyticsService } from './services/analytics/analytics.service';
@@ -41,10 +41,12 @@ export class AppComponent implements OnInit {
               private electronService: ElectronService,
               private fileService: FileService,
               private modalService: NovoModalService,
+              private toaster: NovoToastService,
               private titleService: Title,
               private view: ViewContainerRef, // tslint:disable-line
               private zone: NgZone) {
     this.modalService.parentViewContainer = view;
+    this.toaster.parentViewContainer = view;
   }
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 // Angular
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
-import { NovoModalService, } from 'novo-elements';
+import { NovoModalService, NovoToastService, } from 'novo-elements';
 import * as Fuse from 'fuse.js';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
@@ -54,6 +54,7 @@ export class LoadComponent {
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
+              private toaster: NovoToastService,
               private zone: NgZone,
               private ref: ChangeDetectorRef) {
     this.columns = [
@@ -91,8 +92,19 @@ export class LoadComponent {
         }
         break;
       case StepEnum.ChooseEntity:
-        this.getMeta();
-        this.stepper.next();
+        if (this.entity) {
+          this.getMeta();
+          this.stepper.next();
+        } else {
+          this.toaster.alert({
+            title: 'Choose Entity to Continue',
+            message: 'Use the picker to select the bullhorn entity to load data for',
+            icon: 'caution',
+            theme: 'danger',
+            position: 'growlTopRight',
+            hideDelay: 5000,
+          });
+        }
         break;
       case StepEnum.MapColumns:
         this.setupDuplicateCheck();

@@ -10,6 +10,10 @@
     @include sub-text();
   }
 
+  .form-invalid {
+    opacity: 0.5;
+  }
+
   .choose-entity-container {
     @include centered();
     height: 75vh;

@@ -14,7 +14,7 @@
                        placeholder="Choose Bullhorn Entity"
                        [(ngModel)]="entity"></novo-picker>
           <button theme="primary"
-                  [disabled]="!entity"
+                  [class.form-invalid]="!entity"
                   (click)="next()"
                   icon="next">Next
           </button>
