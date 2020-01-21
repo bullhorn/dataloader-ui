@@ -51,6 +51,7 @@ $dl-side-pane-width: 300px;
   }
 }
 
+// Zoom out 90% to match Novo sizing
 body {
   overflow: hidden;
   zoom: 0.9;
@@ -61,24 +62,8 @@ body {
     margin-right: calc(100vw * 0.11);
   }
 
-  // Zoom correction for charts that can't handle zoom -
-  //   use this if we ever need chart interactions
+  // Zoom correction for charts that can't handle zoom - only use if chart interactions are enabled
   //canvas {
   //  zoom: 1.11;
   //}
-}
-
-.table-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  i {
-    margin: 10px;
-  }
-
-  h1 {
-    font-size: 1.6em;
-    padding: 0;
-  }
 }
