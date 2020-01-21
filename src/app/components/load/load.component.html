@@ -32,20 +32,24 @@
               {{ row[col.id] }}
             </div>
           </ng-template>
-          <ng-template novoTemplate="fieldCell" let-row>
+          <ng-template novoTemplate="fieldCell" let-row let-col="col">
+            <i *ngIf="table.isSelected(row) && !row[col.id]"
+               class="bhi-circle required-indicator"></i>
             <novo-picker [config]="fieldPickerConfig"
                          [class.disabled]="!table.isSelected(row)"
                          [disablePickerInput]="!table.isSelected(row)"
                          (select)="onFieldMappingChanged($event, row)"
-                         [(ngModel)]="row.field"
+                         [(ngModel)]="row[col.id]"
                          placeholder="{{ meta.label }} Field"></novo-picker>
           </ng-template>
-          <ng-template novoTemplate="subfieldCell" let-row>
+          <ng-template novoTemplate="subfieldCell" let-row let-col="col">
+            <i *ngIf="row.associatedEntityMeta && table.isSelected(row) && !row[col.id]"
+               class="bhi-circle required-indicator"></i>
             <novo-picker *ngIf="row.associatedEntityMeta"
                          [class.disabled]="!table.isSelected(row)"
                          [disablePickerInput]="!table.isSelected(row)"
                          [config]="row.subfieldPickerConfig"
-                         [(ngModel)]="row.subfield"
+                         [(ngModel)]="row[col.id]"
                          placeholder="{{ row.associatedEntityMeta.label }} Field"></novo-picker>
           </ng-template>
         </novo-data-table>

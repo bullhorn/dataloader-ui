@@ -56,6 +56,12 @@
     .disabled {
       opacity: 0.5;
     }
+
+    .required-indicator {
+      font-size: 7px;
+      color: $negative;
+      margin-right: 10px;
+    }
   }
 
   .duplicate-check-container {
