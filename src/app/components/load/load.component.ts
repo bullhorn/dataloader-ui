@@ -139,10 +139,12 @@ export class LoadComponent {
       case StepEnum.DuplicateCheck:
         if (this.duplicateCheckValid) {
           if (this.verifySettings()) {
-            const settings: Settings = this.fileService.readSettings();
-            this.existField.fields = this.duplicateCheckModel.map(field => field.name);
-            DataloaderUtil.setExistField(settings, this.existField);
-            this.fileService.writeSettings(settings);
+            if (this.existField.enabled) {
+              const settings: Settings = this.fileService.readSettings();
+              this.existField.fields = this.duplicateCheckModel.map(field => field.name);
+              DataloaderUtil.setExistField(settings, this.existField);
+              this.fileService.writeSettings(settings);
+            }
             this.started.emit();
           }
         } else {
