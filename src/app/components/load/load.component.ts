@@ -95,6 +95,14 @@ export class LoadComponent {
       this.numInvalidRows ? `There are ${this.numInvalidRows} selected columns that are not mapped to a bullhorn field` : '';
   }
 
+  get duplicateCheckValid(): boolean {
+    return !this.existField.enabled || !!this.duplicateCheckModel;
+  }
+
+  get duplicateCheckTooltip(): string {
+    return this.duplicateCheckValid ? 'Start uploading data into Bullhorn' : 'No duplicate check field selected';
+  }
+
   next(filePath?: string): void {
     switch (this.stepper.selectedIndex) {
       case StepEnum.SelectFile:
@@ -137,12 +145,23 @@ export class LoadComponent {
         }
         break;
       case StepEnum.DuplicateCheck:
-        if (this.verifySettings()) {
-          const settings: Settings = this.fileService.readSettings();
-          this.existField.fields = this.duplicateCheckModel.map(field => field.name);
-          DataloaderUtil.setExistField(settings, this.existField);
-          this.fileService.writeSettings(settings);
-          this.started.emit();
+        if (this.duplicateCheckValid) {
+          if (this.verifySettings()) {
+            const settings: Settings = this.fileService.readSettings();
+            this.existField.fields = this.duplicateCheckModel.map(field => field.name);
+            DataloaderUtil.setExistField(settings, this.existField);
+            this.fileService.writeSettings(settings);
+            this.started.emit();
+          }
+        } else {
+          this.toaster.alert({
+            title: `No Duplicate Check Fields Selected`,
+            message: `Select field(s) to use when duplicate checking, or disable duplicate checking.`,
+            icon: 'caution',
+            theme: 'danger',
+            position: 'growlTopRight',
+            hideDelay: 5000,
+          });
         }
         break;
     }

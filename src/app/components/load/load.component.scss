@@ -22,6 +22,12 @@
     color: $negative;
   }
 
+  .required-indicator {
+    font-size: 7px;
+    color: $negative;
+    margin-right: 10px;
+  }
+
   .choose-entity-container {
     @include centered();
     height: 75vh;
@@ -71,12 +77,6 @@
       .disabled {
         opacity: 0.5;
       }
-
-      .required-indicator {
-        font-size: 7px;
-        color: $negative;
-        margin-right: 10px;
-      }
     }
   }
 
@@ -99,6 +99,12 @@
 
       novo-tiles {
         margin-bottom: 3em;
+      }
+
+      .picker-container {
+        display: flex;
+        align-items: center;
+        min-width: 25em;
       }
     }
   }

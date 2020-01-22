@@ -71,11 +71,14 @@
         <div *ngIf="duplicateCheckFieldsPickerConfig.options?.length" class="form-container">
           <novo-tiles [options]="duplicateCheckEnabledTileOptions"
                       [(ngModel)]="existField.enabled"></novo-tiles>
-          <novo-chips *ngIf="existField.enabled"
-                      [source]="duplicateCheckFieldsPickerConfig"
-                      [(ngModel)]="duplicateCheckModel"></novo-chips>
-          <span *ngIf="existField.enabled && existField.fields?.length > 1" class="sub-text tip">
-            All fields must match for an existing record to be considered a match</span>
+          <div class="picker-container">
+            <i *ngIf="!duplicateCheckValid" class="bhi-circle required-indicator"></i>
+            <novo-chips *ngIf="existField.enabled"
+                        [source]="duplicateCheckFieldsPickerConfig"
+                        [(ngModel)]="duplicateCheckModel"></novo-chips>
+          </div>
+          <span *ngIf="duplicateCheckModel?.length > 1" class="sub-text tip">
+            With multiple fields selected, all fields must match for an existing record to be considered a match</span>
         </div>
       </div>
     </app-step>
@@ -105,10 +108,10 @@
       <button *ngIf="stepper.selectedIndex === stepEnum.DuplicateCheck"
               theme="primary"
               class="load-button"
-              [disabled]="!run?.previewData"
+              [class.form-invalid]="!duplicateCheckValid"
               (click)="next()"
               icon="upload"
-              tooltip="Start uploading data into Bullhorn"
+              [tooltip]="duplicateCheckTooltip"
               tooltipPosition="top-left">Load
       </button>
     </div>
