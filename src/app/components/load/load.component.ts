@@ -96,7 +96,7 @@ export class LoadComponent {
   }
 
   get duplicateCheckValid(): boolean {
-    return !this.existField.enabled || !!this.duplicateCheckModel;
+    return !this.existField.enabled || (this.duplicateCheckModel && this.duplicateCheckModel.length > 0);
   }
 
   get duplicateCheckTooltip(): string {
@@ -240,7 +240,7 @@ export class LoadComponent {
         });
       });
 
-      this.ref.markForCheck();
+      this.ref.detectChanges();
     });
   }
 
