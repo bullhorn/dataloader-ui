@@ -14,9 +14,12 @@
     opacity: 0.5;
   }
 
+  .strong-text {
+    font-weight: bold;
+  }
+
   .error-text {
     color: $negative;
-    font-weight: bold;
   }
 
   .choose-entity-container {

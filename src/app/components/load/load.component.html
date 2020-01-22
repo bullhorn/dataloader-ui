@@ -25,11 +25,9 @@
       <div class="scrollable-container" cdkScrollable *ngIf="meta">
         <div class="scrollable-content">
           <span class="main-text">Map columns from file to fields in Bullhorn</span>
-          <span *ngIf="numSelectedRows" class="sub-text">
-            Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong> columns for {{ totalRows }} records
-          </span>
-          <span *ngIf="!numSelectedRows" class="sub-text error-text">
-            No columns are mapped, select one or more columns to continue
+          <span class="sub-text">Loading
+            <span class="strong-text" [class.error-text]="!numSelectedRows">{{ numSelectedRows }} of {{ rows?.length }}</span>
+            columns for {{ totalRows }} records
           </span>
           <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
             <ng-template novoTemplate="textCell" let-row let-col="col">
