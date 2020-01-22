@@ -80,6 +80,12 @@ export class LoadComponent {
     return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
 
+  get selectedRowsValid(): boolean {
+    return !!this.numSelectedRows && this.tables.first.state.selected.reduce((acc, row) => {
+      return acc && row.field && (!row.associatedEntityMeta || row.subfield);
+    }, true);
+  }
+
   next(filePath?: string): void {
     switch (this.stepper.selectedIndex) {
       case StepEnum.SelectFile:
@@ -107,8 +113,19 @@ export class LoadComponent {
         }
         break;
       case StepEnum.MapColumns:
-        this.setupDuplicateCheck();
-        this.stepper.next();
+        if (this.selectedRowsValid) {
+          this.setupDuplicateCheck();
+          this.stepper.next();
+        } else if (this.numSelectedRows) {
+          this.toaster.alert({
+            title: 'Missing Column Mappings',
+            message: 'All selected columns must be mapped to a bullhorn field, including an associated field for associations',
+            icon: 'caution',
+            theme: 'danger',
+            position: 'growlTopRight',
+            hideDelay: 5000,
+          });
+        }
         break;
       case StepEnum.DuplicateCheck:
         if (this.verifySettings()) {

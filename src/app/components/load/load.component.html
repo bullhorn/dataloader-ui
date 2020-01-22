@@ -25,8 +25,12 @@
       <div class="scrollable-container" cdkScrollable *ngIf="meta">
         <div class="scrollable-content">
           <span class="main-text">Map columns from file to fields in Bullhorn</span>
-          <span class="sub-text">Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong>
-          columns for {{ totalRows }} records</span>
+          <span *ngIf="numSelectedRows" class="sub-text">
+            Loading <strong>{{ numSelectedRows }} of {{ rows?.length }}</strong> columns for {{ totalRows }} records
+          </span>
+          <span *ngIf="!numSelectedRows" class="sub-text error-text">
+            No columns are mapped, select one or more columns to continue
+          </span>
           <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
             <ng-template novoTemplate="textCell" let-row let-col="col">
               <div class="text-cell" [class.disabled]="!table.isSelected(row)">
@@ -88,7 +92,9 @@
     <div class="right-hand-side">
       <button *ngIf="stepper.selectedIndex === stepEnum.MapColumns"
               theme="primary"
-              [disabled]="!numSelectedRows"
+              [class.form-invalid]="!numSelectedRows || !selectedRowsValid"
+              [tooltip]="!numSelectedRows ? 'No columns are mapped, select one or more columns to continue' : ''"
+              tooltipPosition="top-left"
               (click)="next()"
               icon="next">Next
       </button>
