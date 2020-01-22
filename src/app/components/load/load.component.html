@@ -91,7 +91,7 @@
       <button *ngIf="stepper.selectedIndex === stepEnum.MapColumns"
               theme="primary"
               [class.form-invalid]="!numSelectedRows || !selectedRowsValid"
-              [tooltip]="!numSelectedRows ? 'No columns are mapped, select one or more columns to continue' : ''"
+              [tooltip]="mapColumnsTooltip"
               tooltipPosition="top-left"
               (click)="next()"
               icon="next">Next

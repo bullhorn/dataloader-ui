@@ -81,9 +81,18 @@ export class LoadComponent {
   }
 
   get selectedRowsValid(): boolean {
-    return !!this.numSelectedRows && this.tables.first.state.selected.reduce((acc, row) => {
-      return acc && row.field && (!row.associatedEntityMeta || row.subfield);
-    }, true);
+    return !this.numInvalidRows;
+  }
+
+  get numInvalidRows(): number {
+    return !this.numSelectedRows ? 0 : this.tables.first.state.selected.reduce((acc, row) => {
+      return acc + (row.field && (!row.associatedEntityMeta || row.subfield) ? 0 : 1);
+    }, 0);
+  }
+
+  get mapColumnsTooltip(): string {
+    return !this.numSelectedRows ? `No columns are mapped, select one or more columns to continue` :
+      this.numInvalidRows ? `There are ${this.numInvalidRows} selected columns that are not mapped to a bullhorn field` : '';
   }
 
   next(filePath?: string): void {
@@ -113,13 +122,13 @@ export class LoadComponent {
         }
         break;
       case StepEnum.MapColumns:
-        if (this.selectedRowsValid) {
+        if (this.numSelectedRows && this.selectedRowsValid) {
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {
           this.toaster.alert({
-            title: 'Missing Column Mappings',
-            message: 'All selected columns must be mapped to a bullhorn field, including an associated field for associations',
+            title: `${this.numInvalidRows} Selected Columns Not Mapped`,
+            message: `All selected columns must be mapped to a bullhorn field, including an associated field for associations`,
             icon: 'caution',
             theme: 'danger',
             position: 'growlTopRight',
