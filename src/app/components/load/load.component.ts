@@ -119,14 +119,10 @@ export class LoadComponent {
           this.getMeta();
           this.stepper.next();
         } else {
-          this.toaster.alert({
+          this.toaster.alert(LoadComponent.createAlertOptions({
             title: 'Choose Entity to Continue',
-            message: 'Use the picker to select the bullhorn entity to load data for',
-            icon: 'caution',
-            theme: 'danger',
-            position: 'growlTopRight',
-            hideDelay: 5000,
-          });
+            message: 'Use the picker to select the bullhorn entity to load data for'
+          }));
         }
         break;
       case StepEnum.MapColumns:
@@ -134,14 +130,10 @@ export class LoadComponent {
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {
-          this.toaster.alert({
+          this.toaster.alert(LoadComponent.createAlertOptions({
             title: `${this.numInvalidRows} Selected Columns Not Mapped`,
             message: `All selected columns must be mapped to a bullhorn field, including an associated field for associations`,
-            icon: 'caution',
-            theme: 'danger',
-            position: 'growlTopRight',
-            hideDelay: 5000,
-          });
+          }));
         }
         break;
       case StepEnum.DuplicateCheck:
@@ -154,14 +146,10 @@ export class LoadComponent {
             this.started.emit();
           }
         } else {
-          this.toaster.alert({
+          this.toaster.alert(LoadComponent.createAlertOptions({
             title: `No Duplicate Check Fields Selected`,
             message: `Select field(s) to use when duplicate checking, or disable duplicate checking.`,
-            icon: 'caution',
-            theme: 'danger',
-            position: 'growlTopRight',
-            hideDelay: 5000,
-          });
+          }));
         }
         break;
     }
@@ -332,5 +320,9 @@ export class LoadComponent {
 
   private static createPickerOptionFromFieldMeta(field: Field): { name: string, label: string } {
     return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
+  }
+
+  private static createAlertOptions(options: Object): Object {
+    return Object.assign({ icon: 'caution', theme: 'danger', position: 'growlTopRight', hideDelay: 5000 }, options);
   }
 }
