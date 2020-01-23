@@ -48,6 +48,7 @@ export class LoadComponent {
   duplicateCheckModel: { name: string, label: string }[] = [];
   backupEnabled = false;
   stepEnum: typeof StepEnum = StepEnum;
+  entityPickerModifiedByUser = false;
 
   private _entity = '';
 
@@ -110,6 +111,7 @@ export class LoadComponent {
           this.filePath = filePath;
           this.fileName = Util.getFilenameFromPath(filePath);
           this.entity = EntityUtil.getEntityNameFromFile(filePath);
+          this.entityPickerModifiedByUser = false;
           this.verifySettings();
           this.stepper.next();
         }

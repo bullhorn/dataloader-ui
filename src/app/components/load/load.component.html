@@ -7,11 +7,13 @@
       <div class="choose-entity-container">
         <span class="main-text">Choose type of entity records to load</span>
         <span class="sub-text" *ngIf="!entity">Select from one of the currently supported entities</span>
-        <span class="sub-text" *ngIf="entity">The entity has been preselected based on the file name, but you can still change it</span>
+        <span class="sub-text" *ngIf="entity && !entityPickerModifiedByUser">
+          The entity has been preselected based on the file name, but you can still change it</span>
         <div class="choose-entity-picker">
           <i *ngIf="icon" class="entity-icon {{icon}} {{theme}}"></i>
           <novo-picker [config]="entityPickerConfig"
                        placeholder="Choose Bullhorn Entity"
+                       (changed)="entityPickerModifiedByUser = true"
                        [(ngModel)]="entity"></novo-picker>
           <button theme="primary"
                   [class.form-invalid]="!entity"
