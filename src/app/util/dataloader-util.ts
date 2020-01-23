@@ -1,6 +1,5 @@
 // App
 import { ExistField, PreviewData, Settings } from '../../interfaces';
-import { EntityUtil } from './entity-util';
 
 export class DataloaderUtil {
 
@@ -25,7 +24,14 @@ export class DataloaderUtil {
     args = args.concat('resultsFileEnabled', 'true');
     args = args.concat('resultsFilePath', resultsFilePath);
     args = args.concat('resultsFileWriteIntervalMsec', '500');
-    args = args.concat(DataloaderUtil.createExistFieldArgs(settings, previewData.filePath));
+
+    if (settings.existFields) {
+      const existField: ExistField = DataloaderUtil.getExistField(settings, previewData.entity);
+      if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
+        args = args.concat(previewData.entity + 'ExistField', existField.fields.join(','));
+      }
+    }
+
     args = args.concat('load', previewData.filePath);
     return args;
   }
@@ -47,18 +53,6 @@ export class DataloaderUtil {
     args = args.concat('authorizeUrl', settings.authorizeUrl);
     args = args.concat('loginUrl', settings.loginUrl);
     args = args.concat('tokenUrl', settings.tokenUrl);
-    return args;
-  }
-
-  static createExistFieldArgs(settings: Settings, filePath: string): string[] {
-    let args: string[] = [];
-    if (settings.existFields) {
-      const entity: string = EntityUtil.getEntityNameFromFile(filePath);
-      const existField: ExistField = DataloaderUtil.getExistField(settings, entity);
-      if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
-        args = args.concat(entity + 'ExistField', existField.fields.join(','));
-      }
-    }
     return args;
   }
 
