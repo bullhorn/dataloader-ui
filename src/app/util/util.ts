@@ -11,6 +11,14 @@ export class Util {
     return aLower === bLower;
   }
 
+  static getWordsFromText(text: string): string[] {
+    return text
+      .replace(/([A-Z]+)/g, ' $1')
+      .replace(/([A-Z][a-z])/g, ' $1')
+      .split(' ')
+      .filter(t => !!t);
+  }
+
   static getFilenameFromPath(filePath: string): string {
     return filePath.replace(/^.*[\\\/]/, '');
   }
@@ -44,8 +52,8 @@ export class Util {
    * Transform a number to it's abbreviated notation (without rounding)
    * Examples:
    *         199 =>    199
-   *        1200 =>   1.2k
-   *   125000000 => 125.0m
+   *        1254 =>   1.2k
+   *   125016659 => 125.0m
    */
   static getAbbreviatedNumber(num: number): string {
     if (num < 1000) {

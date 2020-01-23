@@ -1,4 +1,7 @@
+// Vendor
 import { EntityTypes } from '@bullhorn/bullhorn-types';
+import * as Fuse from 'fuse.js';
+// App
 import { Util } from './util';
 
 export class EntityUtil {
@@ -7,7 +10,7 @@ export class EntityUtil {
   // https://github.com/bullhorn/dataloader/blob/master/src/main/java/com/bullhorn/dataloader/enums/EntityInfo.java#L29
   // The EntityInfo enums in Data Loader that have a zero load order are not loadable, they are for lookup only.
   // NoteEntity is intentionally left out since it is for internal use only, and not how notes are loaded.
-  static get ENTITY_NAMES(): EntityTypes[] {
+  static get ENTITY_NAMES(): string[] {
     return [
       EntityTypes.Appointment,
       EntityTypes.AppointmentAttendee,
@@ -172,8 +175,8 @@ export class EntityUtil {
   /**
    * Given an entity name or filepath, returns the theme that should be used for it (defaults to note)
    */
-  static getThemeForFilename(filePath: string): string {
-    let theme = 'note';
+  static getThemeForFilename(filePath: string, defaultValue = 'note'): string {
+    let theme = defaultValue;
     const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
     if (entityName && EntityUtil.ENTITY_THEMES[entityName]) {
       theme = EntityUtil.ENTITY_THEMES[entityName];
@@ -185,16 +188,49 @@ export class EntityUtil {
    * Given filename or filepath, returns the entity name that most closely matches.
    */
   static getEntityNameFromFile(filePath: string): string {
-    const fileName: string = Util.getFilenameFromPath(filePath);
     let bestMatch = '';
+    const fileName: string = Util.getFilenameFromPath(filePath).replace(/\..+$/, '');
+
+    // Preserve the original startsWith() logic so that changes are backwards compatible
     EntityUtil.ENTITY_NAMES.forEach((entityName) => {
-      if (fileName.toUpperCase().startsWith(entityName.toString().toUpperCase())) {
-        if (bestMatch.length < entityName.toString().length) {
-          // longer name is better
-          bestMatch = entityName.toString();
+      if (fileName.toLowerCase().startsWith(entityName.toLowerCase())) {
+        if (bestMatch.length < entityName.length) {
+          bestMatch = entityName; // longer name is better
         }
       }
     });
+
+    if (!bestMatch) {
+      // Search for the entity name anywhere in the filename
+      EntityUtil.ENTITY_NAMES.forEach((entityName) => {
+        if (fileName.toLowerCase().includes(entityName.toLowerCase()) ||
+          fileName.toLowerCase().includes(this.getThemeForFilename(entityName.toLowerCase(), null))) {
+          if (bestMatch.length < entityName.length) {
+            bestMatch = entityName; // longer name is better
+          }
+        }
+      });
+    }
+
+    // If no entity names exist in the file name, then try a fuzzy search using the words in the filename
+    if (!bestMatch) {
+      const entities = EntityUtil.ENTITY_NAMES.map(name => {
+        return {
+          name: name,
+          label: Util.getWordsFromText(name).join(' '),
+          theme: this.getThemeForFilename(name, ''),
+        };
+      });
+      const fuzzySearch = new Fuse(entities, { keys: ['name', 'label'], includeScore: true });
+      const words = Util.getWordsFromText(fileName);
+      const results = words.reduce((acc, current) => {
+        return acc.concat(fuzzySearch.search(current));
+      }, []);
+      if (results.length) {
+        const sortedResults = results.sort((a, b) => b.score - a.score);
+        bestMatch = sortedResults[0].item.name;
+      }
+    }
     return bestMatch;
   }
 }

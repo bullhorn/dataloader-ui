@@ -354,7 +354,7 @@ export class FileService {
         }
       });
     } else {
-      onFileSelected('/path/to/Candidate.csv');
+      onFileSelected('/path/to/LatestRecruiterJobsToImport.csv');
     }
   }
 
