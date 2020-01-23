@@ -88,9 +88,15 @@
       margin-bottom: 2em;
 
       &.tip {
-        margin-top: 2em;
-        margin-bottom: 0;
-        font-style: italic;
+        margin: 3em;
+        padding: 1em;
+        color: #5a5a5a;
+        background: #eeeeee;
+
+        i {
+          margin-right: 1em;
+          color: #aaaaaa;
+        }
       }
     }
 

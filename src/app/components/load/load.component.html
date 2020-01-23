@@ -77,8 +77,10 @@
                         [source]="duplicateCheckFieldsPickerConfig"
                         [(ngModel)]="duplicateCheckModel"></novo-chips>
           </div>
-          <span *ngIf="duplicateCheckModel?.length > 1" class="sub-text tip">
-            With multiple fields selected, all fields must match for an existing record to be considered a match</span>
+          <div *ngIf="duplicateCheckModel?.length > 1" class="sub-text tip">
+            <i class="bhi-info"></i>
+            <label>All fields in this combination of fields must match for an existing record to be updated</label>
+          </div>
         </div>
       </div>
     </app-step>

@@ -325,6 +325,6 @@ export class LoadComponent {
   }
 
   private static createAlertOptions(options: Object): Object {
-    return Object.assign({ icon: 'caution', theme: 'danger', position: 'growlTopRight', hideDelay: 5000 }, options);
+    return Object.assign({ icon: 'caution', theme: 'danger', position: 'growlTopRight', hideDelay: 7000 }, options);
   }
 }
