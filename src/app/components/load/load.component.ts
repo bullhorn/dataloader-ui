@@ -209,7 +209,6 @@ export class LoadComponent {
           message: parseErr,
         });
       }
-      // TODO: Validate that selected fields are filled in and are not duplicates before loading
       this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
       // Kick off preview data from the CSV file, and wait to render table until it's finished reading
       this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
