@@ -118,6 +118,7 @@ export class LoadComponent {
         break;
       case StepEnum.ChooseEntity:
         if (this.entity) {
+          this.run.previewData.entity = this.entity;
           this.getMeta();
           this.stepper.next();
         } else {
