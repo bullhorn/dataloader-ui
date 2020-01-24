@@ -129,6 +129,11 @@ export class LoadComponent {
         break;
       case StepEnum.MapColumns:
         if (this.numSelectedRows && !this.numInvalidRows) {
+          this.run.previewData.columnMap = this.tables.first.state.selected.reduce((acc, row) => {
+            return Object.assign(acc, {
+              [row.header]: row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name,
+            });
+          }, {});
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {
