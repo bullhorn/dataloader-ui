@@ -172,6 +172,7 @@ export class LoadComponent {
         break;
       case StepEnum.MapColumns:
         this.rows = null; // Clear column mapping table
+        this.ref.detectChanges();
         break;
       case StepEnum.ChooseEntity:
         this.run.previewData = null; // Clear file data

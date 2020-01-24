@@ -34,6 +34,7 @@ export class RunComponent implements OnChanges {
   total: string;
   duration: string;
 
+  // TODO: Handle delete key on the selected run
   ngOnChanges(): void {
     if (this.previewData) {
       this.total = Util.getAbbreviatedNumber(this.previewData.total);
