@@ -235,6 +235,7 @@ export class FileService {
           previewData.total++;
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
+            previewData.headers.forEach(h => h.trim());
           }
           if (previewData.total <= MAX_ROWS) {
             previewData.data.push(row);

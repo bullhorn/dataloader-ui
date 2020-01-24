@@ -118,7 +118,6 @@ export class LoadComponent {
         break;
       case StepEnum.ChooseEntity:
         if (this.entity) {
-          this.run.previewData.entity = this.entity;
           this.getMeta();
           this.stepper.next();
         } else {
@@ -130,9 +129,10 @@ export class LoadComponent {
         break;
       case StepEnum.MapColumns:
         if (this.numSelectedRows && !this.numInvalidRows) {
-          this.run.previewData.columnMap = this.tables.first.state.selected.reduce((acc, row) => {
+          this.run.previewData.entity = this.entity;
+          this.run.previewData.columnMap = this.rows.reduce((acc, row) => {
             return Object.assign(acc, {
-              [row.header]: row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name,
+              [row.header]: this.tables.first.isSelected(row) ? row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name : '',
             });
           }, {});
           this.setupDuplicateCheck();
@@ -207,8 +207,8 @@ export class LoadComponent {
       this.dataloaderService.unsubscribe();
       try {
         this.meta = JSON.parse(this.metaJson);
-        // Ignore all hidden fields for now (fields that are read only in meta) - TODO: provide switch for this
-        this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
+        // TODO: Provide show hidden fields switch (readOnly == hidden)
+        // this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
       } catch (parseErr) {
         this.modalService.open(InfoModalComponent, {
           title: 'Error Retrieving Meta!',
