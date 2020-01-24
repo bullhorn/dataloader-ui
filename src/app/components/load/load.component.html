@@ -33,7 +33,9 @@
             <span class="strong-text" [class.error-text]="!numSelectedRows">{{ numSelectedRows }} of {{ rows?.length }}</span>
             columns for {{ totalRows }} records
           </span>
-          <!-- TODO: Add tipwell about columns being auto mapped and that they need to be either unselected to be ignored or mapped to be used -->
+          <novo-tip-well name="mapped-columns" icon="info"
+                         tip="Data Loader has attempted to auto-map column header names to {{meta.label}} fields. All columns must be
+                         mapped to a field on the entity or unselected to ignore them."></novo-tip-well>
           <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
             <ng-template novoTemplate="textCell" let-row let-col="col">
               <i *ngIf="col.id === 'header' && table.isSelected(row) && !isRowValid(row)"
@@ -84,7 +86,7 @@
                         [source]="duplicateCheckFieldsPickerConfig"
                         [(ngModel)]="duplicateCheckModel"></novo-chips>
           </div>
-          <novo-tip-well *ngIf="duplicateCheckModel?.length > 1" icon="info" name="combination"
+          <novo-tip-well *ngIf="duplicateCheckModel?.length > 1" name="combination" icon="info"
                          tip="All fields in a combination must match for an existing record to be updated"></novo-tip-well>
         </div>
       </div>
