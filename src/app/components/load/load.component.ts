@@ -81,13 +81,9 @@ export class LoadComponent {
     return this.tables.first ? this.tables.first.state.selected.length : 0;
   }
 
-  get selectedRowsValid(): boolean {
-    return !this.numInvalidRows;
-  }
-
   get numInvalidRows(): number {
     return !this.numSelectedRows ? 0 : this.tables.first.state.selected.reduce((acc, row) => {
-      return acc + (row.field && (!row.associatedEntityMeta || row.subfield) ? 0 : 1);
+      return acc + (this.isRowValid(row) ? 0 : 1);
     }, 0);
   }
 
@@ -102,6 +98,10 @@ export class LoadComponent {
 
   get duplicateCheckTooltip(): string {
     return this.duplicateCheckValid ? 'Start uploading data into Bullhorn' : 'No duplicate check field selected';
+  }
+
+  isRowValid(row: any): boolean {
+    return row.field && (!row.associatedEntityMeta || row.subfield);
   }
 
   next(filePath?: string): void {
@@ -128,7 +128,7 @@ export class LoadComponent {
         }
         break;
       case StepEnum.MapColumns:
-        if (this.numSelectedRows && this.selectedRowsValid) {
+        if (this.numSelectedRows && !this.numInvalidRows) {
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {

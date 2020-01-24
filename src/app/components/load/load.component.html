@@ -33,6 +33,8 @@
           </span>
           <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
             <ng-template novoTemplate="textCell" let-row let-col="col">
+              <i *ngIf="col.id === 'header' && table.isSelected(row) && !isRowValid(row)"
+                 class="bhi-circle required-indicator"></i>
               <div class="text-cell" [class.disabled]="!table.isSelected(row)">
                 {{ row[col.id] }}
               </div>
@@ -80,7 +82,7 @@
                         [(ngModel)]="duplicateCheckModel"></novo-chips>
           </div>
           <novo-tip-well *ngIf="duplicateCheckModel?.length > 1" icon="info"
-                         tip="All fields in the combination must match for an existing record to be updated"></novo-tip-well>
+                         tip="All fields in a combination must match for an existing record to be updated"></novo-tip-well>
         </div>
       </div>
     </app-step>
@@ -95,7 +97,7 @@
     <div class="right-hand-side">
       <button *ngIf="stepper.selectedIndex === stepEnum.MapColumns"
               theme="primary"
-              [class.form-invalid]="!numSelectedRows || !selectedRowsValid"
+              [class.form-invalid]="!numSelectedRows || numInvalidRows"
               [tooltip]="mapColumnsTooltip"
               tooltipPosition="top-left"
               (click)="next()"

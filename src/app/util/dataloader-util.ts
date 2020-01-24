@@ -32,7 +32,11 @@ export class DataloaderUtil {
       }
     }
 
+    // TODO: Insert column mapping args
+
+    args = args.concat('entity', previewData.entity);
     args = args.concat('load', previewData.filePath);
+    console.log('args:', args);
     return args;
   }
 
