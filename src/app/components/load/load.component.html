@@ -81,7 +81,7 @@
                         [source]="duplicateCheckFieldsPickerConfig"
                         [(ngModel)]="duplicateCheckModel"></novo-chips>
           </div>
-          <novo-tip-well *ngIf="duplicateCheckModel?.length > 1" icon="info"
+          <novo-tip-well *ngIf="duplicateCheckModel?.length > 1" icon="info" name="combination"
                          tip="All fields in a combination must match for an existing record to be updated"></novo-tip-well>
         </div>
       </div>
