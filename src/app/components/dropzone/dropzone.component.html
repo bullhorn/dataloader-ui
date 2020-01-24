@@ -1,8 +1,10 @@
-<div class="not-dragging" *ngIf="!dragging" (click)="browse()">
-  <i class="bhi-dropzone"></i>
-  <span class="main-text">Select a CSV file to get started</span>
-  <span class="sub-text">Drag and drop anywhere on this page or <a>click to browse</a></span>
-  <span class="sub-text tip">The first row in the file must be a header row</span>
+<div class="not-dragging" *ngIf="!dragging">
+  <div class="clickable" (click)="browse()">
+    <i class="bhi-dropzone"></i>
+    <span class="main-text">Select a CSV file to get started</span>
+    <span class="sub-text">Drag and drop anywhere on this page or <a>click to browse</a></span>
+  </div>
+  <novo-tip-well tip="The first row in the file must be a header row" icon="info"></novo-tip-well>
 </div>
 <div class="dragging" *ngIf="dragging">
   <div class="icon-background">

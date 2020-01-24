@@ -83,21 +83,14 @@
   .duplicate-check-container {
     @include centered();
     height: 70vh;
+    overflow: auto;
 
     .sub-text {
       margin-bottom: 2em;
+    }
 
-      &.tip {
-        margin: 3em;
-        padding: 1em;
-        color: #5a5a5a;
-        background: #eeeeee;
-
-        i {
-          margin-right: 1em;
-          color: #aaaaaa;
-        }
-      }
+    novo-tip-well {
+      margin-top: 3em;
     }
 
     .form-container {
