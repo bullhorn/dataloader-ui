@@ -222,7 +222,7 @@ export class FileService {
       if (this.electronService.path.extname(filePath).toLowerCase() !== '.csv') {
         onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
       }
-      const MAX_ROWS = 100;
+      const MAX_ROWS = 25;
       const previewData: PreviewData = {
         filePath: filePath,
         total: 0,
@@ -233,9 +233,14 @@ export class FileService {
       this.electronService.csv.parseFile(filePath, { headers: true, })
         .on('data', (row) => {
           previewData.total++;
+          // Trim headers (keys in data objects) and cell values in each row
+          row = Object.keys(row).reduce((acc, key) => {
+            return Object.assign(acc, {
+              [key.trim()]: row[key].trim(),
+            });
+          }, {});
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
-            previewData.headers = previewData.headers.map(h => h.trim());
           }
           if (previewData.total <= MAX_ROWS) {
             previewData.data.push(row);

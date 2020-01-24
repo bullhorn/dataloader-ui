@@ -32,7 +32,13 @@ export class DataloaderUtil {
       }
     }
 
-    // TODO: Insert column mapping args
+    if (previewData.columnMap) {
+      Object.keys(previewData.columnMap).forEach(key => {
+        if (key !== previewData.columnMap[key]) {
+          args = args.concat(`${key}Column`, `${previewData.columnMap[key]}`);
+        }
+      });
+    }
 
     args = args.concat('entity', previewData.entity);
     args = args.concat('load', previewData.filePath);

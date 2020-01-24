@@ -6,9 +6,11 @@
     <app-step [label]="'Choose Entity'" icon="candidate">
       <div class="choose-entity-container">
         <span class="main-text">Choose type of entity records to load</span>
-        <span class="sub-text" *ngIf="!entity">Select from one of the currently supported entities</span>
-        <span class="sub-text" *ngIf="entity && !entityPickerModifiedByUser">
+        <span class="sub-text" *ngIf="entity && !entityPickerModifiedByUser; else elseBlock">
           The entity has been preselected based on the file name, but you can still change it</span>
+        <ng-template #elseBlock>
+          <span class="sub-text">Select from one of the currently supported entities</span>
+        </ng-template>
         <div class="choose-entity-picker">
           <i *ngIf="icon" class="entity-icon {{icon}} {{theme}}"></i>
           <novo-picker [config]="entityPickerConfig"
@@ -31,6 +33,7 @@
             <span class="strong-text" [class.error-text]="!numSelectedRows">{{ numSelectedRows }} of {{ rows?.length }}</span>
             columns for {{ totalRows }} records
           </span>
+          <!-- TODO: Add tipwell about columns being auto mapped and that they need to be either unselected to be ignored or mapped to be used -->
           <novo-data-table *ngIf="rows" [rows]="rows" [columns]="columns" [displayedColumns]="displayedColumns" #table>
             <ng-template novoTemplate="textCell" let-row let-col="col">
               <i *ngIf="col.id === 'header' && table.isSelected(row) && !isRowValid(row)"
