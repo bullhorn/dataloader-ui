@@ -15,7 +15,7 @@
     "download": "node packageResources/download-latest-dataloader.js",
     "lint": "tslint --project tsconfig.json",
     "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
-    "publish": "cd dist && electron-builder --mac",
+    "publish": "cd dist && electron-builder --mac --win",
     "serve": "electron dist/mainProcess.js --serve",
     "stage": "copyfiles package*.json 'dataloader/**/*' dist",
     "start": "npm run download && npm run build && npm run compile && npm run serve",
