@@ -2,19 +2,133 @@
 @import '../../../styles.scss';
 
 .load {
-  @include scrollable();
-
-  .load-form {
-    margin: 20px;
+  .main-text {
+    @include main-text();
   }
 
-  .preview {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 100px;
+  .sub-text {
+    @include sub-text();
+  }
+
+  .form-invalid {
+    opacity: 0.5;
+  }
+
+  .strong-text {
+    font-weight: bold;
+  }
+
+  .error-text {
+    color: $negative;
+  }
+
+  .required-indicator {
+    font-size: 7px;
+    color: $negative;
+    margin-right: 10px;
+  }
+
+  .choose-entity-container {
+    @include centered();
+    height: 75vh;
+
+    .choose-entity-picker {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 3em;
+      padding-bottom: 0.3em;
+
+      .entity-icon {
+        @include entity-background-color();
+        color: $white;
+        margin-right: 0.5em;
+        padding: 0.2em;
+        border-radius: 0.2em;
+      }
+
+      novo-picker {
+        min-width: 22em;
+      }
+
+      button {
+        margin-left: 1em;
+        margin-right: 2em;
+      }
+    }
+  }
+
+  .scrollable-container {
+    @include scrollable();
+    height: calc(85vh - 55px);
+
+    .scrollable-content {
+      @include centered();
+      padding-bottom: 7em;
+
+      .main-text {
+        margin-top: 1em;
+      }
+
+      .sub-text {
+        margin-bottom: 1em;
+      }
+
+      .disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .duplicate-check-container {
+    @include centered();
+    height: 70vh;
+    overflow: auto;
+
+    .sub-text {
+      margin-bottom: 2em;
+    }
+
+    novo-tip-well {
+      margin-top: 3em;
+    }
+
+    .form-container {
+      @include centered();
+
+      novo-tiles {
+        margin-bottom: 3em;
+      }
+
+      .picker-container {
+        display: flex;
+        align-items: center;
+        min-width: 25em;
+      }
+    }
+  }
+
+  .loading-container {
+    @include centered();
+    height: 80vh;
+
+    .main-text {
+      margin-bottom: 2em;
+    }
   }
 
   footer {
     @include sticky-footer();
+    justify-content: space-between;
+
+    .right-hand-side {
+      display: flex;
+      align-items: center;
+
+      // TODO: Hide undo checkbox just until it's ready to be implemented
+      novo-checkbox {
+        display: none;
+      }
+    }
   }
 }

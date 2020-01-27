@@ -68,6 +68,7 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
             .replace('app.asar', 'app.asar.unpacked'));
         },
       }, {
+        // Eventually either remove the developer option, or extend it to provide the log file location for even more testing
         type: 'separator',
       }, {
         label: 'Developer',

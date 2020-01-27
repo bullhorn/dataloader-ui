@@ -1,7 +1,7 @@
 // Angular
 import { Component, Input, OnChanges } from '@angular/core';
 // App
-import { Utils } from '../../utils/utils';
+import { EntityUtil, Util } from '../../util';
 import { PreviewData, Results } from '../../../interfaces';
 
 @Component({
@@ -34,15 +34,16 @@ export class RunComponent implements OnChanges {
   total: string;
   duration: string;
 
+  // TODO: Handle delete key on the selected run
   ngOnChanges(): void {
     if (this.previewData) {
-      this.total = Utils.getAbbreviatedNumber(this.previewData.total);
-      this.fileName = Utils.getFilenameFromPath(this.previewData.filePath);
-      this.icon = Utils.getIconForFilename(this.fileName);
-      this.theme = Utils.getThemeForFilename(this.fileName);
+      this.total = Util.getAbbreviatedNumber(this.previewData.total);
+      this.fileName = Util.getFilenameFromPath(this.previewData.filePath);
+      this.icon = EntityUtil.getIconForFilename(this.previewData.entity || this.fileName);
+      this.theme = EntityUtil.getThemeForFilename(this.previewData.entity || this.fileName);
       if (this.results) {
-        this.startDate = Utils.getStartDateString(this.results.startTime);
-        this.duration = Utils.getDurationString(this.results.durationMsec);
+        this.startDate = Util.getStartDateString(this.results.startTime);
+        this.duration = Util.getDurationString(this.results.durationMsec);
       }
     } else {
       this.fileName = 'New Load';

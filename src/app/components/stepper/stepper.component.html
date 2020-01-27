@@ -1,0 +1,23 @@
+<div class="stepper-header-container">
+  <div class="stepper-line complete"></div>
+  <ng-container *ngFor="let step of _steps; let i = index; let isLast = last">
+    <app-step-header class="stepper-header"
+                     [active]="step.completed || selectedIndex === i"
+                     [icon]="step.icon"
+                     [id]="_getStepLabelId(i)"
+                     [index]="i"
+                     [label]="step.label"
+                     [selected]="selectedIndex === i"
+                     [state]="getIndicatorType(i)">
+    </app-step-header>
+  </ng-container>
+  <div class="stepper-line" [class.complete]="completed"></div>
+</div>
+<div class="content-container">
+  <div class="stepper-content"
+       *ngFor="let step of _steps; let i = index"
+       [ngClass]="{expanded: selectedIndex === i, collapsed: selectedIndex !== i}"
+       [@stepTransition]="_getAnimationDirection(i)" [id]="_getStepContentId(i)">
+    <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+  </div>
+</div>

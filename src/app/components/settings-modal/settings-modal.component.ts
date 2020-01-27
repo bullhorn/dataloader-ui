@@ -66,7 +66,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   // The CLI responds with either 'Login Successful\n' or 'Login Failed\n' (with newlines)
-  onLoginResponse(loginResponse: string) {
+  private onLoginResponse(loginResponse: string) {
     this.zone.run(() => {
       if (loginResponse.startsWith('Login Successful')) {
         this.modalService.open(InfoModalComponent, {
@@ -84,7 +84,7 @@ export class SettingsModalComponent implements OnInit {
     });
   }
 
-  onDone() {
+  private onDone() {
     this.zone.run(() => {
       this.dataloaderService.unsubscribe();
       this.checkingLogin = false;

@@ -12,6 +12,7 @@ import { ipcRenderer, shell } from 'electron';
 export class ElectronService {
   app: any;
   csv: any;
+  dialog: any;
   fs: any;
   ipcRenderer: any;
   os: any;
@@ -31,6 +32,7 @@ export class ElectronService {
     if (ElectronService.isElectron()) {
       this.app = window.require('electron').remote.app;
       this.csv = window.require('fast-csv');
+      this.dialog = window.require('electron').remote.dialog;
       this.fs = window.require('fs');
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.os = window.require('os');

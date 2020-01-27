@@ -1,0 +1,53 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+:host {
+  overflow: visible;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  height: $dl-stepper-height;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+
+  .step-label {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 4px 0;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: $grey;
+
+    .step-text-label {
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &.selected {
+      color: $positive;
+    }
+  }
+
+  .step-icon {
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: $grey;
+
+    &.selected {
+      color: $positive;
+    }
+  }
+}

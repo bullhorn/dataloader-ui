@@ -1,6 +1,7 @@
 // Vendor
 import Timer = NodeJS.Timer;
 import { Error } from '../../../interfaces';
+import { FakeMeta } from './fake-meta';
 
 /**
  * Fake test data for running in `ng serve` mode
@@ -66,6 +67,11 @@ export class DataloaderServiceFakes {
     setTimeout(() => callback(responseText), 1500);
   }
 
+  static generateFakePrintMetaCallback(callback: (text: string) => void) {
+    const responseText = JSON.stringify(FakeMeta.meta);
+    setTimeout(() => callback(responseText), 1500);
+  }
+
   static generateFakeDoneLoadCallback(callback: (text: string) => void): void {
     setTimeout(() => callback('Fake Output'), 15500);
   }
@@ -74,11 +80,15 @@ export class DataloaderServiceFakes {
     setTimeout(() => callback('Fake Output'), 2000);
   }
 
+  static generateFakeDoneMetaCallback(callback: (text: string) => void): void {
+    setTimeout(() => callback('Fake Output'), 1600);
+  }
+
   static generateFakeErrorCallback(callback: (error: Error) => void): void {
-    setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 300000);
+    setTimeout(() => callback({ title: 'Fake Error Message', message: 'Fake Error Content' }), 3000000);
   }
 
   static generateFakeMissingJavaCallback(callback: (error: Error) => void): void {
-    setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 200000);
+    setTimeout(() => callback({ title: 'Missing Java', message: 'Fake ENOENT system message' }), 2000000);
   }
 }

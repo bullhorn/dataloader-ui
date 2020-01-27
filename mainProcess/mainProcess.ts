@@ -27,10 +27,10 @@ function createWindow(): void {
 
   // Create the Chromium window and load the Angular app
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1000,
     height: 600,
-    minWidth: 640,
-    minHeight: 440,
+    minWidth: 800,
+    minHeight: 500,
     webPreferences: {
       nodeIntegration: true,
     }
@@ -104,9 +104,12 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
     fs.writeFileSync(dest, fs.readFileSync(orig));
   }
 
-  // Output Data Loader version info
-  const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
-  event.sender.send('print', `Data Loader CLI v${version}\n`);
+  // Output Data Loader version info when loading, except when retrieving meta
+  const command = params[params.length - 2];
+  if (command !== 'meta') {
+    const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
+    event.sender.send('print', `Data Loader CLI v${version}\n`);
+  }
 
   // Execute dataloader in separate process
   params.unshift('-jar', path.join(dataloaderDir, jarFiles[0]));

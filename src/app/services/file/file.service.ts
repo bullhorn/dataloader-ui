@@ -6,11 +6,11 @@ import { NovoModalService } from 'novo-elements';
 import { Subject } from 'rxjs';
 // App
 import { ElectronService } from '../electron/electron.service';
-import { EncryptUtils } from '../../utils/encrypt-utils';
 import { environment } from '../../../environments/environment';
 import { InfoModalComponent } from '../../components/info-modal/info-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
+import { EncryptUtil } from '../../util';
 
 @Injectable()
 export class FileService {
@@ -100,8 +100,8 @@ export class FileService {
           const settings: Settings = JSON.parse(this.electronService.fs.readFileSync(this.settingsFile, 'utf8'));
           // Decrypt passwords for versions 1+
           if (settings.version && settings.version >= 1) {
-            settings.password = EncryptUtils.decrypt(settings.password);
-            settings.clientSecret = EncryptUtils.decrypt(settings.clientSecret);
+            settings.password = EncryptUtil.decrypt(settings.password);
+            settings.clientSecret = EncryptUtil.decrypt(settings.clientSecret);
           }
           // Default processEmptyAssociations before version 2
           if (!settings.version || settings.version < 2) {
@@ -153,8 +153,8 @@ export class FileService {
   writeSettings(settings: Settings): void {
     if (ElectronService.isElectron()) {
       const encryptedSettings: Settings = Object.assign({}, settings);
-      encryptedSettings.password = EncryptUtils.encrypt(settings.password);
-      encryptedSettings.clientSecret = EncryptUtils.encrypt(settings.clientSecret);
+      encryptedSettings.password = EncryptUtil.encrypt(settings.password);
+      encryptedSettings.clientSecret = EncryptUtil.encrypt(settings.clientSecret);
       encryptedSettings.version = FileService.SETTINGS_FILE_VERSION;
       this.electronService.fs.writeFileSync(this.settingsFile, JSON.stringify(encryptedSettings, null, 2));
     }
@@ -222,7 +222,7 @@ export class FileService {
       if (this.electronService.path.extname(filePath).toLowerCase() !== '.csv') {
         onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
       }
-      const MAX_ROWS = 100;
+      const MAX_ROWS = 25;
       const previewData: PreviewData = {
         filePath: filePath,
         total: 0,
@@ -233,6 +233,12 @@ export class FileService {
       this.electronService.csv.parseFile(filePath, { headers: true, })
         .on('data', (row) => {
           previewData.total++;
+          // Trim headers (keys in data objects) and cell values in each row
+          row = Object.keys(row).reduce((acc, key) => {
+            return Object.assign(acc, {
+              [key.trim()]: row[key].trim(),
+            });
+          }, {});
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
           }
@@ -340,6 +346,21 @@ export class FileService {
   unsubscribe(): void {
     if (ElectronService.isElectron()) {
       this.electronService.fs.unwatchFile(this.resultsFile);
+    }
+  }
+
+  browseForFile(onFileSelected: (filePath: string) => {}): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{ name: 'CSV Files', extensions: ['csv'] }],
+      }, function (filePaths: string[]) {
+        if (filePaths && filePaths.length) {
+          onFileSelected(filePaths[0]);
+        }
+      });
+    } else {
+      onFileSelected('/path/to/LatestRecruiterJobsToImport.csv');
     }
   }
 

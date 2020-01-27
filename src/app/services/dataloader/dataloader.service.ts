@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { DataloaderServiceFakes } from './dataloader.service.fakes';
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
-import { Utils } from '../../utils/utils';
+import { DataloaderUtil } from '../../util';
 import { Error, PreviewData, Settings } from '../../../interfaces';
 
 @Injectable()
@@ -18,24 +18,32 @@ export class DataloaderService {
    * Combines the filePath argument with all of the settings and sends it over to the main process for
    * using the Data Loader to load the given csv file in the correct directory.
    *
-   * Saves off the previewData for the history.
-   *
-   * @param {PreviewData} previewData
+   * Saves off the previewData for historic run.
    */
   load(previewData: PreviewData): void {
     if (ElectronService.isElectron()) {
       const settings: Settings = this.fileService.readSettings();
       const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
-      this.electronService.ipcRenderer.send('start', Utils.loadArgs(settings, previewData, resultsFilePath));
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.loadArgs(settings, previewData, resultsFilePath));
     }
   }
 
   /**
-   * Checks the login for the given credentials.
+   * Starts the CLI to check login for the given credentials.
    */
   login(settings: Settings): void {
     if (ElectronService.isElectron()) {
-      this.electronService.ipcRenderer.send('start', Utils.loginArgs(settings));
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.loginArgs(settings));
+    }
+  }
+
+  /**
+   * Starts the CLI to output a Meta json file for the current entity.
+   */
+  meta(entity: string): void {
+    if (ElectronService.isElectron()) {
+      const settings: Settings = this.fileService.readSettings();
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.metaArgs(settings, entity));
     }
   }
 
@@ -51,26 +59,30 @@ export class DataloaderService {
   /**
    * Subscribe to real time printouts from the Data Loader CLI
    */
-  onPrint(callback: (text: string) => void, caller: 'load' | 'login'): void {
+  onPrint(callback: (text: string) => void, caller: 'load' | 'login' | 'meta'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
     } else if (caller === 'load') {
       DataloaderServiceFakes.generateFakePrintLoadCallbacks(callback);
     } else if (caller === 'login') {
       DataloaderServiceFakes.generateFakePrintLoginCallback(callback);
+    } else if (caller === 'meta') {
+      DataloaderServiceFakes.generateFakePrintMetaCallback(callback);
     }
   }
 
   /**
    * Subscribe to the done message from the Data Loader CLI
    */
-  onDone(callback: (text: string) => void, caller: 'load' | 'login'): void {
+  onDone(callback: (text: string) => void, caller: 'load' | 'login' | 'meta'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('done', (event, text) => callback(text));
     } else if (caller === 'load') {
       DataloaderServiceFakes.generateFakeDoneLoadCallback(callback);
     } else if (caller === 'login') {
       DataloaderServiceFakes.generateFakeDoneLoginCallback(callback);
+    } else if (caller === 'meta') {
+      DataloaderServiceFakes.generateFakeDoneMetaCallback(callback);
     }
   }
 

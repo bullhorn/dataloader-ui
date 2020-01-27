@@ -2,9 +2,11 @@
 @import '../node_modules/novo-elements/novo-elements.scss';
 
 $dl-header-height: 63px;
+$dl-stepper-height: 80px;
+$dl-side-pane-width: 300px;
 
 @mixin scrollable() {
-  height: calc(100vh - #{$header-height});
+  height: calc(100vh - #{$dl-header-height});
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -15,12 +17,41 @@ $dl-header-height: 63px;
   position: fixed;
   bottom: 0;
   right: 0;
-  left: 300px;
+  left: $dl-side-pane-width;
   padding: 10px 15px;
   z-index: 100;
   background-color: $background;
 }
 
+@mixin centered() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin main-text() {
+  font-size: 1.7em;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: center;
+}
+
+@mixin sub-text() {
+  font-size: 1.1em;
+  padding: 1em;
+  text-align: center;
+}
+
+@mixin entity-background-color() {
+  @each $entity, $color in $entity-colors {
+    &.#{$entity} {
+      background: $color;
+    }
+  }
+}
+
+// Zoom out 90% to match Novo sizing
 body {
   overflow: hidden;
   zoom: 0.9;
@@ -31,24 +62,8 @@ body {
     margin-right: calc(100vw * 0.11);
   }
 
-  // Zoom correction for charts that can't handle zoom -
-  //   use this if we ever need chart interactions
+  // Zoom correction for charts that can't handle zoom - only use if chart interactions are enabled
   //canvas {
   //  zoom: 1.11;
   //}
-}
-
-.table-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  i {
-    margin: 10px;
-  }
-
-  h1 {
-    font-size: 1.6em;
-    padding: 0;
-  }
 }

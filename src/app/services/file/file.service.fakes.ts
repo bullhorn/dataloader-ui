@@ -1,8 +1,9 @@
 // Vendor
 import Timer = NodeJS.Timer;
+import { EntityTypes } from '@bullhorn/bullhorn-types';
 // App
-import { Utils } from '../../utils/utils';
 import { Config, Errors, PreviewData, Results, Settings } from '../../../interfaces';
+import { EntityUtil } from '../../util';
 
 class FakeResultsData {
   processed = 0;
@@ -42,17 +43,49 @@ class FakeResultsData {
 export class FakePreviewData {
   filePath: string;
   total: number;
-  headers: string[] = ['firstName', 'lastName', 'email'];
+  headers: string[] = ['First Name', 'Last', 'Email', 'Owner', 'primarySkills.name', 'Department', 'Skill Code', 'Age', 'Priority', 'TPS-GZD-TOKEN'];
   data: any[] = [
-    { firstName: 'John', lastName: 'Smith', email: 'jsmith@example.com' },
-    { firstName: 'John', lastName: 'Doe', email: 'jdoe@example.com' },
-    { firstName: 'Jane', lastName: 'Doe', email: 'jdoe@example.com' },
-  ];
+    {
+      'First Name': 'John',
+      'Last': 'Smith',
+      'Email': 'jsmith@example.com',
+      'Owner': '',
+      'primarySkills.name': '',
+      'Department': '',
+      'Skill Code': '',
+      'Age': 35,
+      'Priority': 4,
+      'TPS-GZD-TOKEN': 'ABCD123456',
+    },
+    {
+      'First Name': 'John',
+      'Last': 'Doe',
+      'Email': 'jdoe@example.com',
+      'Owner': '',
+      'primarySkills.name': 'Skill2;Skill3',
+      'Department': '',
+      'Skill Code': 'A123',
+      'Age': 25,
+      'Priority': 10,
+      'TPS-GZD-TOKEN': 'ABCD123456',
+    },
+    {
+      'First Name': 'Jane',
+      'Last': 'Doe',
+      'Email': 'jdoe@example.com',
+      'Owner': 'Recruiter CorporateUser',
+      'primarySkills.name': 'Skill3;Skill4',
+      'Department': '',
+      'Skill Code': 'A123',
+      'Age': 30,
+      'Priority': 3,
+      'TPS-GZD-TOKEN': 'ABCD123456',
+    }];
 
   constructor() {
-    const entityName: string = Utils.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 25)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
-    this.total = Math.floor(Math.random() * (400 - 1)) + 1;
+    this.total = Math.floor(Math.random() * (1500 - 1)) + 1;
   }
 }
 
@@ -87,11 +120,15 @@ export class FileServiceFakes {
     existFields: [{
       entity: 'Candidate',
       enabled: true,
-      fields: ['email'],
+      fields: ['firstName', 'lastName', 'email'],
     }, {
       entity: 'ClientContact',
       enabled: true,
       fields: ['firstName', 'lastName'],
+    }, {
+      entity: 'Note',
+      enabled: true,
+      fields: ['externalID'],
     }],
   };
 

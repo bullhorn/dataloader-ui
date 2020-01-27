@@ -1,7 +1,9 @@
 // Angular
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 // Vendor
 import { NovoElementProviders, NovoElementsModule } from 'novo-elements';
 // App
@@ -10,6 +12,7 @@ import { AnalyticsService } from './services/analytics/analytics.service';
 import { AppComponent } from './app.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DataloaderService } from './services/dataloader/dataloader.service';
+import { DropzoneComponent } from './components/dropzone/dropzone.component';
 import { ElectronService } from './services/electron/electron.service';
 import { FileService } from './services/file/file.service';
 import { HeaderComponent } from './components/header/header.component';
@@ -19,27 +22,37 @@ import { MissingJavaModalComponent } from './components/missing-java-modal/missi
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
+import { StepComponent, StepperComponent } from './components/stepper/stepper.component';
+import { StepHeaderComponent } from './components/stepper/step-header.component';
+import { StepStatusComponent } from './components/stepper/step-status.component';
 
 @NgModule({
   imports: [
     // Angular
+    FormsModule,
     BrowserAnimationsModule,
     BrowserModule,
+    ScrollingModule,
     // Vendor
     NovoElementsModule,
     NovoElementProviders.forRoot(),
   ],
   declarations: [
     AboutModalComponent,
-    ConfirmModalComponent,
     AppComponent,
-    InfoModalComponent,
+    ConfirmModalComponent,
+    DropzoneComponent,
     HeaderComponent,
+    InfoModalComponent,
     LoadComponent,
     MissingJavaModalComponent,
     ResultsComponent,
     RunComponent,
     SettingsModalComponent,
+    StepComponent,
+    StepperComponent,
+    StepHeaderComponent,
+    StepStatusComponent,
   ],
   entryComponents: [
     AboutModalComponent,

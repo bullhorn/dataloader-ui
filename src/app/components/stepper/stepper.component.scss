@@ -1,0 +1,43 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+:host {
+  display: block;
+  position: fixed;
+  left: $dl-side-pane-width;
+  right: 0;
+
+  .stepper-header-container {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+    background: $background;
+    pointer-events: none;
+  }
+
+  .stepper-line {
+    border-bottom: 1px solid $light;
+    flex: auto;
+    min-width: 0;
+    height: $dl-stepper-height;
+
+    &.complete {
+      border-bottom: 1px solid $positive;
+    }
+  }
+
+  .content-container {
+    overflow: hidden;
+    padding: 0 24px 24px 24px;
+
+    .stepper-content {
+      overflow: hidden;
+
+      &.collapsed {
+        height: 0;
+      }
+    }
+  }
+}
