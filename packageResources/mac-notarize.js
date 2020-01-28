@@ -10,18 +10,15 @@ module.exports = async function (params) {
   if (process.platform !== 'darwin') {
     return;
   }
-  console.log('afterSign hook triggered');
 
-  // Same appId in package.json
+  // Only notarize if we are packaging for mac, not windows
   let appId = 'com.bullhorn.dataloader';
-
   let appPath = path.join(params.appOutDir, `${params.packager.appInfo.productFilename}.app`);
   if (!fs.existsSync(appPath)) {
-    throw new Error(`Cannot find application at: ${appPath}`);
+    return;
   }
 
-  console.log(`Notarizing ${appId} found at ${appPath}`);
-
+  console.log(` * notarizing       ${appPath}`);
   try {
     await electron_notarize.notarize({
       appBundleId: appId,
@@ -32,6 +29,4 @@ module.exports = async function (params) {
   } catch (error) {
     console.error(error);
   }
-
-  console.log(`Done notarizing ${appId}`);
 };
