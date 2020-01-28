@@ -7,6 +7,16 @@ An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/
 
 ## For Developers
 
+### Setup GitHub Token for API access to dataloader repo for automatic downloads
+
+ 1. Create GitHub Personal access token: [Personal access tokens](https://github.com/settings/tokens)
+
+    1. Generate new token
+    
+    2. Select just the first box, `repo` access - _Full control of private repos_
+ 
+ 2. Assign token value to a new `GH_TOKEN` environment variable on your machine
+
 ### Quick Start
 
 ```
@@ -73,45 +83,45 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 
 1. In order to create a mac certificate, first request access to the Bullhorn Apple Developer account.
 
-1. After a confirmation email you will have access with your bullhorn email as the user ID.
+2. After a confirmation email you will have access with your bullhorn email as the user ID.
 
-1. Create a **Mac Development Certificate** at: https://developer.apple.com/account/resources/certificates/list.
+3. Create a **Mac Development Certificate** at: https://developer.apple.com/account/resources/certificates/list.
 
-1. Download the certificate to your Mac's keychain.
+4. Download the certificate to your Mac's keychain.
 
-1. From within Keychain Access, export the Mac Development Certificate using the .p12 file format.
+5. From within Keychain Access, export the Mac Development Certificate using the .p12 file format.
    Set a strong password on the file, but don't use special characters in the password because
    “values are not escaped when your builds are executed”.
 
-1. Encode the file to base64 (macOS: `base64 -i yourFile.p12 -o mac-certificate.txt`).
+6. Encode the file to base64 (macOS: `base64 -i yourFile.p12 -o mac-certificate.txt`).
 
-1. Do not commit the file `mac-certificate.txt` to source control!
+7. Do not commit the file `mac-certificate.txt` to source control!
 
-1. Setup Code Signing Certificate (CSC) secure environment variables in Travis CI, available only to `master` branch, so no other branches can sign/publish:
+8. Setup Code Signing Certificate (CSC) secure environment variables in Travis CI, available only to `master` branch, so no other branches can sign/publish:
    
    - Set CSC_LINK to the contents of `mac-certificate.txt` by copying and pasting the very long one line string.
    
    - Set CSC_KEY_PASSWORD to the password you chose when generating the .p12 file.
 
-1. Test locally by turning off application sharing on the certificate if it's on (defaults to off) and setting the CSC_LINK and CSC_KEY_PASSWORD
+9. Test locally by turning off application sharing on the certificate if it's on (defaults to off) and setting the CSC_LINK and CSC_KEY_PASSWORD
    environment variables before running `yarn package`. This way electron builder won't default to the certificate in your Mac's keychain.
 
-1. Setup notarizing the mac app for distributing without virus scan warnings. This is required for Mac OSX Catalina and beyond in
+10. Setup notarizing the mac app for distributing without virus scan warnings. This is required for Mac OSX Catalina and beyond in
    order to distribute outside of the app store. See official notarizing rules:
    https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution
    
-1. Setup 2-factor authentication with developer.apple.com
+11. Setup 2-factor authentication with developer.apple.com
    
-1. Generate an App-specific password: https://support.apple.com/en-us/HT204397.
+12. Generate an App-specific password: https://support.apple.com/en-us/HT204397.
    
-1. Setup APPLE account secure environment variables in Travis CI, available to all branches right now,
+13. Setup APPLE account secure environment variables in Travis CI, available to all branches right now,
    until the afterSign hook knows if signing happened: https://github.com/electron-userland/electron-builder/issues/4452.
    
    - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
    
    - Set APPLE_PASSWORD to the App-specific password you generated.
    
-1. Test locally, by setting APPLE_ID / APPLE_PASSWORD environment variables on the command line and running `yarn package`
+14. Test locally, by setting APPLE_ID / APPLE_PASSWORD environment variables on the command line and running `yarn package`
 
    - The notarize step can take several minutes while it uploads the package to Apple for verification using their automated virus scan.
 
