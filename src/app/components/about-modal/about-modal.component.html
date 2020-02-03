@@ -1,16 +1,21 @@
 <novo-modal>
-  <header title="About Data Loader" icon="info" theme="light"></header>
+  <header title="About Bullhorn Data Loader" icon="info" theme="light"></header>
   <section>
-    <h1>Terms of Use</h1>
-    <h3>With great power comes great responsibility</h3>
-    <p>Data Loader can change your data in a big way that may not be possible to reverse if mistakes are made. By using it, you acknowledge that you
-      understand the risks in mass-importing, mass-updating and mass-deleting data in Bullhorn.</p>
-    <h3>Be mindful of others</h3>
-    <p>Data Loader can load millions of records in a very short time from an API user. This can have an impact on actual users of the system. If you
-      plan to load more than 100,000 records at once, please do it off-hours.</p>
-    <h3>For more information</h3>
-    <p>Consult the <a href="https://github.com/bullhorn/dataloader/wiki">Data Loader Wiki</a> for more helpful ideas. Report bugs or feature
-      requests through the <a href="https://github.com/bullhorn/dataloader/issues">Data Loader Issues</a> on GitHub.
+    <h3>Getting started?</h3>
+    <p>
+      Check out the <a
+      (click)="openLink('https://docs.google.com/document/d/1ESwQCvuGwfQgsuFwFPtycfEVXInYduWEo4AWjIGUkeY')">
+      Execution Guidelines and Best Practices</a>.
+    </p>
+    <h3>Getting stuck?</h3>
+    <p>
+      Consult the <a (click)="openLink('https://github.com/bullhorn/dataloader/wiki')">Data Loader Wiki</a> for answers.
+    </p>
+    <h3>Still stuck?</h3>
+    <p>
+      Add an issue for the
+      <a (click)="openLink('https://github.com/bullhorn/dataloader-app/issues')">Desktop App</a> or the
+      <a (click)="openLink('https://github.com/bullhorn/dataloader/issues')">Data Loader</a> on GitHub.
     </p>
   </section>
   <button theme="standard" (click)="close()">Ok</button>
