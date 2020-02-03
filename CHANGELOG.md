@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.1](https://github.com/bullhorn/dataloader-app/compare/v1.15.0...v1.15.1) (2020-02-03)
+
+
+### Bug Fixes
+
+* **About:** Updated about modal ([#102](https://github.com/bullhorn/dataloader-app/issues/102)) ([660d6e8](https://github.com/bullhorn/dataloader-app/commit/660d6e844156337c1fcc42ee81abba7b6765828b))
+* **Settings:** More descriptive error when field map settings call fails due to bad credentials ([#101](https://github.com/bullhorn/dataloader-app/issues/101)) ([70a2a6f](https://github.com/bullhorn/dataloader-app/commit/70a2a6f0fa5140fb032d4416a52a0b544e888d18))
+
 ## [1.15.0](https://github.com/bullhorn/dataloader-app/compare/v1.14.1...v1.15.0) (2020-01-27)
 
 
