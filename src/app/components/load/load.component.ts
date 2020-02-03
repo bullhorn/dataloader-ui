@@ -10,6 +10,7 @@ import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { StepperComponent } from '../stepper/stepper.component';
 import { DataloaderUtil, EntityUtil, Util } from '../../util';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 
 enum StepEnum {
   SelectFile,
@@ -211,9 +212,11 @@ export class LoadComponent {
         // TODO: Provide show hidden fields switch (readOnly == hidden)
         // this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
       } catch (parseErr) {
+        this.previous();
+        this.modalService.open(SettingsModalComponent);
         this.modalService.open(InfoModalComponent, {
-          title: 'Error Retrieving Meta!',
-          message: parseErr,
+          title: 'Error Getting Field Map Settings',
+          message: 'Check that your login credentials are valid and then try again',
         });
       }
       this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
