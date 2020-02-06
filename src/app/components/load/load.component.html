@@ -29,7 +29,7 @@
       <div class="scrollable-container" cdkScrollable *ngIf="meta">
         <div class="scrollable-content">
           <span class="main-text">Map columns from file to fields in Bullhorn</span>
-          <span class="sub-text">Loading
+          <span class="sub-text" *ngIf="rows">Loading
             <span class="strong-text" [class.error-text]="!numSelectedRows">{{ numSelectedRows }} of {{ rows?.length }}</span>
             columns for {{ totalRows }} records
           </span>
