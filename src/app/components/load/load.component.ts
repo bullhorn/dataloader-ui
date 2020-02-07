@@ -296,7 +296,7 @@ export class LoadComponent {
   }
 
   private static getSubfieldData(fieldMeta: Field, associatedFieldName?: string): Object {
-    const associatedEntityMeta = fieldMeta && fieldMeta.associatedEntity;
+    const associatedEntityMeta = this.getAssociatedEntityMeta(fieldMeta);
     const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
     const subfield = subfieldMeta && LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta);
     const subfieldPickerConfig = associatedEntityMeta && {
@@ -314,6 +314,22 @@ export class LoadComponent {
       },
     };
     return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
+  }
+
+  // Handles converting composite fields into the associated entity format for simplicity
+  private static getAssociatedEntityMeta(fieldMeta: Field): Meta {
+    if (fieldMeta) {
+      if (fieldMeta.associatedEntity) {
+        return fieldMeta.associatedEntity;
+      } else if (fieldMeta.fields) {
+        return {
+          entity: fieldMeta.dataType,
+          label: fieldMeta.label,
+          fields: fieldMeta.fields,
+        };
+      }
+    }
+    return null;
   }
 
   private static findMatchingFieldMeta(meta: Meta, fieldName?: string): Field | null {

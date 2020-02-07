@@ -23,6 +23,104 @@ export class FakeMeta {
         'hint': '',
         'name': 'address',
         'dataSpecialization': 'ADDRESS_BLOCK',
+        'fields': [
+          {
+            'dataType': 'String',
+            'sortOrder': 155,
+            'hint': '',
+            'name': 'address1',
+            'description': '',
+            'optional': true,
+            'readOnly': false,
+            'label': 'Address',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 160,
+            'hint': '',
+            'name': 'address2',
+            'description': '',
+            'optional': true,
+            'readOnly': false,
+            'label': 'Address2',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 165,
+            'hint': '',
+            'name': 'city',
+            'description': '',
+            'optional': true,
+            'readOnly': false,
+            'label': 'City',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 170,
+            'hint': '',
+            'name': 'state',
+            'description': '',
+            'optional': true,
+            'readOnly': false,
+            'label': 'State',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 175,
+            'hint': '',
+            'name': 'zip',
+            'description': '',
+            'optional': true,
+            'readOnly': false,
+            'label': 'Zip',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'Integer',
+            'sortOrder': 180,
+            'hint': '',
+            'name': 'countryID',
+            'description': '',
+            'optional': false,
+            'readOnly': false,
+            'label': 'Country',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': true,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'name': 'countryCode',
+            'optional': true,
+            'type': 'SCALAR'
+          },
+          {
+            'dataType': 'String',
+            'name': 'countryName',
+            'optional': true,
+            'type': 'SCALAR'
+          }
+        ],
         'confidential': false
       },
       {
@@ -202,6 +300,20 @@ export class FakeMeta {
               'name': 'id',
               'optional': false,
               'type': 'ID'
+            },
+            {
+              'dataType': 'String',
+              'sortOrder': 10,
+              'hint': '',
+              'name': 'name',
+              'description': '',
+              'optional': true,
+              'readOnly': false,
+              'label': 'Credential',
+              'type': 'SCALAR',
+              'multiValue': false,
+              'required': true,
+              'confidential': false
             }
           ],
           'entity': 'CandidateCertification'
@@ -234,7 +346,7 @@ export class FakeMeta {
         'required': false,
         'confidential': false,
         'associatedEntity': {
-          'label': 'Trump Company',
+          'label': 'Company',
           'fields': [
             {
               'dataType': 'Integer',
@@ -278,7 +390,7 @@ export class FakeMeta {
         'required': false,
         'confidential': false,
         'associatedEntity': {
-          'label': 'Trump Company',
+          'label': 'Company',
           'fields': [
             {
               'dataType': 'Integer',
@@ -2571,7 +2683,7 @@ export class FakeMeta {
         'description': '',
         'optional': true,
         'readOnly': false,
-        'label': 'Candidate Name',
+        'label': 'First Name',
         'type': 'SCALAR',
         'multiValue': false,
         'required': true,
@@ -2740,7 +2852,7 @@ export class FakeMeta {
         'description': '',
         'optional': true,
         'readOnly': false,
-        'label': 'Candidate Name',
+        'label': 'Last Name',
         'type': 'SCALAR',
         'multiValue': false,
         'required': true,
@@ -2931,7 +3043,7 @@ export class FakeMeta {
         'description': '',
         'optional': true,
         'readOnly': false,
-        'label': 'Candidate Name',
+        'label': 'Middle Name',
         'type': 'SCALAR',
         'multiValue': false,
         'required': false,
@@ -3439,6 +3551,104 @@ export class FakeMeta {
         'hint': '',
         'name': 'secondaryAddress',
         'dataSpecialization': 'ADDRESS_BLOCK',
+        'fields': [
+          {
+            'dataType': 'String',
+            'sortOrder': 190,
+            'hint': '',
+            'name': 'address1',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'Address',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 195,
+            'hint': '',
+            'name': 'address2',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'Address2',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 200,
+            'hint': '',
+            'name': 'city',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'City',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 205,
+            'hint': '',
+            'name': 'state',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'State',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'sortOrder': 210,
+            'hint': '',
+            'name': 'zip',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'Zip',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'Integer',
+            'sortOrder': 215,
+            'hint': '',
+            'name': 'countryID',
+            'description': '',
+            'optional': true,
+            'readOnly': true,
+            'label': 'Country',
+            'type': 'SCALAR',
+            'multiValue': false,
+            'required': false,
+            'confidential': false
+          },
+          {
+            'dataType': 'String',
+            'name': 'countryCode',
+            'optional': true,
+            'type': 'SCALAR'
+          },
+          {
+            'dataType': 'String',
+            'name': 'countryName',
+            'optional': true,
+            'type': 'SCALAR'
+          }
+        ],
         'confidential': false
       },
       {
