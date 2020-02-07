@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.2](https://github.com/bullhorn/dataloader-app/compare/v1.15.1...v1.15.2) (2020-02-07)
+
+
+### Bug Fixes
+
+* **Address:** Fix associated fields for address not showing up ([#103](https://github.com/bullhorn/dataloader-app/issues/103)) ([bced6e1](https://github.com/bullhorn/dataloader-app/commit/bced6e1ea2bb6cb50bd9b7b30321da6cded8da99))
+* **Docs:** Add tip about preferred duplicate check fields ([7bd88b4](https://github.com/bullhorn/dataloader-app/commit/7bd88b4ecb1550c10893011ce5d2cf672a595d92))
+* **Load:** Fixing the UI to not flash right before the table loads ([bffd980](https://github.com/bullhorn/dataloader-app/commit/bffd980c91bf8a3eae611fcbbc1c82a3b62dbf8e))
+
 ### [1.15.1](https://github.com/bullhorn/dataloader-app/compare/v1.15.0...v1.15.1) (2020-02-03)
 
 
