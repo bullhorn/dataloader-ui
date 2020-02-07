@@ -42,7 +42,6 @@ export class DataloaderUtil {
 
     args = args.concat('entity', previewData.entity);
     args = args.concat('load', previewData.filePath);
-    console.log('args:', args);
     return args;
   }
 
