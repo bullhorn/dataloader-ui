@@ -43,7 +43,23 @@ class FakeResultsData {
 export class FakePreviewData {
   filePath: string;
   total: number;
-  headers: string[] = ['First Name', 'Last', 'Email', 'Owner', 'primarySkills.name', 'Department', 'Skill Code', 'Age', 'Priority', 'TPS-GZD-TOKEN'];
+  headers: string[] = [
+    'First Name',
+    'Last',
+    'Email',
+    'Owner',
+    'primarySkills.name',
+    'Department',
+    'Skill Code',
+    'Age',
+    'Priority',
+    'TPS-GZD-TOKEN',
+    'address.address1',
+    'address.address2',
+    'address.city',
+    'address.state',
+    'address.zip',
+    'address.countryName'];
   data: any[] = [
     {
       'First Name': 'John',
@@ -56,6 +72,12 @@ export class FakePreviewData {
       'Age': 35,
       'Priority': 4,
       'TPS-GZD-TOKEN': 'ABCD123456',
+      'address.address1': '',
+      'address.address2': '',
+      'address.city': '',
+      'address.state': '',
+      'address.zip': '',
+      'address.countryName': '',
     },
     {
       'First Name': 'John',
@@ -68,6 +90,12 @@ export class FakePreviewData {
       'Age': 25,
       'Priority': 10,
       'TPS-GZD-TOKEN': 'ABCD123456',
+      'address.address1': '',
+      'address.address2': '',
+      'address.city': '',
+      'address.state': '',
+      'address.zip': '',
+      'address.countryName': '',
     },
     {
       'First Name': 'Jane',
@@ -80,6 +108,12 @@ export class FakePreviewData {
       'Age': 30,
       'Priority': 3,
       'TPS-GZD-TOKEN': 'ABCD123456',
+      'address.address1': '100 Summer Street',
+      'address.address2': '17th Floor',
+      'address.city': 'Boston',
+      'address.state': 'MA',
+      'address.zip': '2150',
+      'address.countryName': 'United States',
     }];
 
   constructor() {
