@@ -209,8 +209,6 @@ export class LoadComponent {
       this.dataloaderService.unsubscribe();
       try {
         this.meta = JSON.parse(this.metaJson);
-        // TODO: Provide show hidden fields switch (readOnly == hidden)
-        // this.meta.fields = this.meta.fields.filter(f => !f.readOnly);
       } catch (parseErr) {
         this.previous();
         this.modalService.open(SettingsModalComponent);
@@ -344,12 +342,21 @@ export class LoadComponent {
   }
 
   private static findMatchingFieldMeta(meta: Meta, fieldName?: string): Field | null {
-    let results = [];
+    let bestMatch: Field;
     if (fieldName) {
-      const fuzzySearch = new Fuse(meta.fields, { keys: ['name', 'label'] });
-      results = fuzzySearch.search(fieldName);
+      // Try to match name or label of the field first
+      bestMatch = meta.fields.find(field => Util.equalsIgnoreCase(field.name, fieldName));
+      if (!bestMatch) {
+        bestMatch = meta.fields.find(field => Util.equalsIgnoreCase(field.label, fieldName));
+      }
+      // Fuzzy match only on non-hidden fields to avoid unused fields from being selected as the default
+      if (!bestMatch) {
+        const fuzzySearch = new Fuse(meta.fields.filter(f => !f.readOnly), { keys: ['name', 'label'] });
+        const results = fuzzySearch.search(fieldName);
+        bestMatch = results.length ? results[0] : null;
+      }
     }
-    return results.length ? results[0] : null;
+    return bestMatch;
   }
 
   private static createPickerOptionsFromMeta(meta: Meta): { name: string, label: string }[] {
