@@ -316,20 +316,31 @@ export class LoadComponent {
     return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
   }
 
-  // Handles converting composite fields into the associated entity format for simplicity
+  // Convert composite fields into the associated entity format for simplicity
   private static getAssociatedEntityMeta(fieldMeta: Field): Meta {
+    let meta: Meta;
     if (fieldMeta) {
       if (fieldMeta.associatedEntity) {
-        return fieldMeta.associatedEntity;
+        meta = fieldMeta.associatedEntity;
       } else if (fieldMeta.fields) {
-        return {
+        meta = {
           entity: fieldMeta.dataType,
           label: fieldMeta.label,
           fields: fieldMeta.fields,
         };
       }
     }
-    return null;
+    // Using name instead of firstName/lastName is the preferred approach
+    if (meta && meta.fields) {
+      const firstNameField = meta.fields.find(f => f.name === 'firstName');
+      const lastNameField = meta.fields.find(f => f.name === 'lastName');
+      const nameField = meta.fields.find(f => f.name === 'name');
+      if (firstNameField && lastNameField && !nameField) {
+        meta.fields = meta.fields.filter(f => f.name !== 'firstName' && f.name !== 'lastName');
+        meta.fields.push({ name: 'name', type: 'SCALAR', dataType: 'String' });
+      }
+    }
+    return meta;
   }
 
   private static findMatchingFieldMeta(meta: Meta, fieldName?: string): Field | null {
