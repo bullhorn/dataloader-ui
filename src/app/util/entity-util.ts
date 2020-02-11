@@ -214,21 +214,24 @@ export class EntityUtil {
 
     // If no entity names exist in the file name, then try a fuzzy search using the words in the filename
     if (!bestMatch) {
-      const entities = EntityUtil.ENTITY_NAMES.map(name => {
-        return {
-          name: name,
-          label: Util.getWordsFromText(name).join(' '),
-          theme: this.getThemeForFilename(name, ''),
-        };
-      });
-      const fuzzySearch = new Fuse(entities, { keys: ['name', 'label'], includeScore: true });
+      const entities = EntityUtil.ENTITY_NAMES
+        .filter(name => name.toLowerCase().includes('custom') ? fileName.toLowerCase().includes('custom') :
+          name.toLowerCase().includes('housing') ? fileName.toLowerCase().includes('housing') : true)
+        .map(name => {
+          return {
+            name: name,
+            label: Util.getWordsFromText(name).join(' '),
+            theme: this.getThemeForFilename(name, ''),
+          };
+        });
+      const fuzzySearch = new Fuse(entities, { keys: ['name', 'label', 'theme'], includeScore: true });
       const words = Util.getWordsFromText(fileName);
       const results = words.reduce((acc, current) => {
         return acc.concat(fuzzySearch.search(current));
       }, []);
       if (results.length) {
-        const sortedResults = results.sort((a, b) => b.score - a.score);
-        bestMatch = sortedResults[0].item.name;
+        results.sort((a, b) => a.score - b.score);
+        bestMatch = results[0].item.name;
       }
     }
     return bestMatch;

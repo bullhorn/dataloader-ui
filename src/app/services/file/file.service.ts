@@ -360,7 +360,7 @@ export class FileService {
         }
       });
     } else {
-      onFileSelected('/path/to/LatestRecruiterJobsToImport.csv');
+      onFileSelected('/path/to/CandidImport.csv');
     }
   }
 
