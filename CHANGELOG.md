@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.3](https://github.com/bullhorn/dataloader-app/compare/v1.15.2...v1.15.3) (2020-02-11)
+
+
+### Bug Fixes
+
+* **Column Mapping:** Improved accuracy of automatic column mapping ([2b2886b](https://github.com/bullhorn/dataloader-app/commit/2b2886b84541fefdf0c33f694cb0953ea0b24ab3))
+* **Column Mapping:** Using name instead of firstName/lastName for associated fields ([3957c79](https://github.com/bullhorn/dataloader-app/commit/3957c7999fb7dc303fa4c59512a35ea4b1dc3a88))
+* **Filename:** Improved accuracy of automatic entity from filename ([859934b](https://github.com/bullhorn/dataloader-app/commit/859934b406a7bb6b25703efc08999d2dc2038a58))
+
 ### [1.15.2](https://github.com/bullhorn/dataloader-app/compare/v1.15.1...v1.15.2) (2020-02-07)
 
 
