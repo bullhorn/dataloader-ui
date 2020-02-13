@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/bullhorn/dataloader-app/compare/v1.15.3...v2.0.0) (2020-02-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Windows:** The app can now be released to the general audience
+
+### Features
+
+* **Windows:** Officially signed app ([1d04dbe](https://github.com/bullhorn/dataloader-app/commit/1d04dbe0a9489c008c38dcd98b35c4184a8f4d56))
+
+
+### Bug Fixes
+
+* **Column Mapping:** Fixed spacing on scrolling the form ([878aa64](https://github.com/bullhorn/dataloader-app/commit/878aa6466293a316190be92d2ed5cc472a4b7a7a))
+* **Duplicate Check:** Fixed duplicate check being always on ([ff52b2c](https://github.com/bullhorn/dataloader-app/commit/ff52b2cd4f6f703f613c1ff0579950e6d2f3ba62))
+
 ### [1.15.3](https://github.com/bullhorn/dataloader-app/compare/v1.15.2...v1.15.3) (2020-02-11)
 
 
