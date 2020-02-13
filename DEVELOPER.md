@@ -81,7 +81,7 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 
 1. In Jira, put in an SE ticket request for a Microsoft Authenticode certificate from Digicert.
 
-2. Save the certificate in the .p12 file format?????
+2. Save the certificate in the .p12 file format
 
 3. Encode the file to base64 (macOS: `base64 -i yourFile.p12 -o win-certificate.txt`).
 
