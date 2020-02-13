@@ -60,11 +60,10 @@
 
   .scrollable-container {
     @include scrollable();
-    height: calc(85vh - 55px);
 
     .scrollable-content {
       @include centered();
-      padding-bottom: 7em;
+      padding-bottom: 10em;
 
       .main-text {
         margin-top: 1em;
