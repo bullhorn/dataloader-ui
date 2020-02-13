@@ -101,8 +101,20 @@ export class LoadComponent {
     return this.duplicateCheckValid ? 'Start uploading data into Bullhorn' : 'No duplicate check field selected';
   }
 
-  isRowValid(row: any): boolean {
-    return row.field && (!row.associatedEntityMeta || row.subfield);
+  previous(): void {
+    switch (this.stepper.selectedIndex) {
+      case StepEnum.DuplicateCheck:
+        this.duplicateCheckFieldsPickerConfig.options = []; // Clear duplicate check data
+        break;
+      case StepEnum.MapColumns:
+        this.rows = null; // Clear column mapping table
+        this.ref.detectChanges();
+        break;
+      case StepEnum.ChooseEntity:
+        this.run.previewData = null; // Clear file data
+        break;
+    }
+    this.stepper.previous();
   }
 
   next(filePath?: string): void {
@@ -113,7 +125,7 @@ export class LoadComponent {
           this.fileName = Util.getFilenameFromPath(filePath);
           this.entity = EntityUtil.getEntityNameFromFile(filePath);
           this.entityPickerModifiedByUser = false;
-          this.verifySettings();
+          this.verifyCredentialSettings();
           this.stepper.next();
         }
         break;
@@ -147,13 +159,8 @@ export class LoadComponent {
         break;
       case StepEnum.DuplicateCheck:
         if (this.duplicateCheckValid) {
-          if (this.verifySettings()) {
-            if (this.existField.enabled) {
-              const settings: Settings = this.fileService.readSettings();
-              this.existField.fields = this.duplicateCheckModel.map(field => field.name);
-              DataloaderUtil.setExistField(settings, this.existField);
-              this.fileService.writeSettings(settings);
-            }
+          if (this.verifyCredentialSettings()) {
+            this.writeExistFieldSettings();
             this.started.emit();
           }
         } else {
@@ -166,25 +173,13 @@ export class LoadComponent {
     }
   }
 
-  previous(): void {
-    switch (this.stepper.selectedIndex) {
-      case StepEnum.DuplicateCheck:
-        this.duplicateCheckFieldsPickerConfig.options = []; // Clear duplicate check data
-        break;
-      case StepEnum.MapColumns:
-        this.rows = null; // Clear column mapping table
-        this.ref.detectChanges();
-        break;
-      case StepEnum.ChooseEntity:
-        this.run.previewData = null; // Clear file data
-        break;
-    }
-    this.stepper.previous();
-  }
-
   onFieldMappingChanged(event: any, tableValue: any) {
     tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
     Object.assign(tableValue, LoadComponent.getSubfieldData(tableValue.fieldMeta));
+  }
+
+  isRowValid(row: any): boolean {
+    return row.field && (!row.associatedEntityMeta || row.subfield);
   }
 
   private getMeta(): void {
@@ -195,16 +190,14 @@ export class LoadComponent {
     this.dataloaderService.meta(this.entity);
   }
 
-  /**
-   * The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
-   * electron buffers due to buffer length restrictions between the main and renderer processes.
-   */
   private onMetaPrint(metaJsonPartial: string): void {
+    // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
+    // electron buffers due to buffer length restrictions between the main and renderer processes.
     this.metaJson += metaJsonPartial;
   }
 
-  // Once the CLI process is done, we should have the entire string
   private onMetaDone(): void {
+    // Once the CLI process is done, we should have the entire string
     this.zone.run(() => {
       this.dataloaderService.unsubscribe();
       try {
@@ -223,8 +216,8 @@ export class LoadComponent {
     });
   }
 
-  // Get CSV file data and match it up with meta
   private onPreviewData(previewData: PreviewData): void {
+    // Get CSV file data and match it up with meta
     this.zone.run(() => {
       this.run.previewData = previewData;
       this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
@@ -268,18 +261,6 @@ export class LoadComponent {
       .filter(option => option && this.existField.fields.includes(option.name));
   }
 
-  private verifySettings(): boolean {
-    const settings: Settings = this.fileService.readSettings();
-    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
-      this.modalService.open(InfoModalComponent, {
-        title: 'Missing Login Credentials',
-        message: 'Open settings and fill out credentials before continuing to load data',
-      });
-      return false;
-    }
-    return true;
-  }
-
   private verifyCsvFile(filepath: string): boolean {
     const extension = filepath.split('.').pop();
     if (extension !== 'csv') {
@@ -291,6 +272,25 @@ export class LoadComponent {
       return false;
     }
     return true;
+  }
+
+  private verifyCredentialSettings(): boolean {
+    const settings: Settings = this.fileService.readSettings();
+    if (!settings.username || !settings.password || !settings.clientId || !settings.clientSecret) {
+      this.modalService.open(InfoModalComponent, {
+        title: 'Missing Login Credentials',
+        message: 'Open settings and fill out credentials before continuing to load data',
+      });
+      return false;
+    }
+    return true;
+  }
+
+  private writeExistFieldSettings(): void {
+    const settings: Settings = this.fileService.readSettings();
+    this.existField.fields = this.duplicateCheckModel.map(field => field.name);
+    DataloaderUtil.setExistField(settings, this.existField);
+    this.fileService.writeSettings(settings);
   }
 
   private static getSubfieldData(fieldMeta: Field, associatedFieldName?: string): Object {
@@ -314,8 +314,8 @@ export class LoadComponent {
     return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
   }
 
-  // Convert composite fields into the associated entity format for simplicity
   private static getAssociatedEntityMeta(fieldMeta: Field): Meta {
+    // Convert composite fields into the associated entity format for simplicity
     let meta: Meta;
     if (fieldMeta) {
       if (fieldMeta.associatedEntity) {
