@@ -74,7 +74,7 @@ yarn package
 
 ### WebApp-only development server
 
-Run `ng serve` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. 
+Run `yarn test` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. 
 The app will automatically reload if you change any of the source files. 
 The app will not have any Electron functionality, but is useful for developing the Angular App using fake data without having to wait for Electron.
 

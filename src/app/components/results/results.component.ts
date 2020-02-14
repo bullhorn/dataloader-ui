@@ -21,6 +21,7 @@ export class ResultsComponent implements OnInit, OnChanges {
   @Input() output: string;
   @Input() running: boolean;
   @Output() stopped = new EventEmitter();
+  @ViewChild('overviewTab', { static: false }) private overviewTab: any;
   loaded = 0;
   success = 0;
   errors = 0;
@@ -35,7 +36,6 @@ export class ResultsComponent implements OnInit, OnChanges {
   fileName = '';
   errorTable: any = {};
   donutChart: Chart;
-  @ViewChild('overviewTab') private overviewTab: any;
 
   constructor(private fileService: FileService,
               private modalService: NovoModalService) {

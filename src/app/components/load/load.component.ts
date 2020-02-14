@@ -28,7 +28,7 @@ export class LoadComponent {
   @Input() run: Run;
   @Output() started = new EventEmitter();
 
-  @ViewChild('stepper') private stepper: StepperComponent;
+  @ViewChild('stepper', { static: false }) private stepper: StepperComponent;
   @ViewChildren('table') tables: QueryList<any>;
 
   icon = '';

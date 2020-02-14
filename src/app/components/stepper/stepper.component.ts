@@ -23,7 +23,7 @@ import { StepHeaderComponent } from './step-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepComponent extends CdkStep {
-  @ContentChild(CdkStepLabel) stepLabel: CdkStepLabel;
+  @ContentChild(CdkStepLabel, { static: false }) stepLabel: CdkStepLabel;
 
   @Input() icon: string;
 
