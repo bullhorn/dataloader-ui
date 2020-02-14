@@ -15,15 +15,12 @@ The windows/mac installer files are published there along with additional files 
 
 ### Prerequisites
 
-#### Setup GitHub token for API access to dataloader repo for automatic downloads
-
- 1. Create GitHub personal access token: [Personal access tokens](https://github.com/settings/tokens)
-
-    1. Generate new token
-    
-    2. Select just the first box, `repo` access - _Full control of private repos_
- 
- 2. Assign token value to a new `GH_TOKEN` environment variable on your machine
+ * Node 12
+ * Setup GitHub token for API access to dataloader repo for automatic downloads
+   * Create GitHub personal access token: [Personal access tokens](https://github.com/settings/tokens)
+   * Generate new token
+   * Select just the first box, `repo` access - _Full control of private repos_
+   * Assign token value to a new `GH_TOKEN` environment variable on your machine
 
 ### Quick Start
 
