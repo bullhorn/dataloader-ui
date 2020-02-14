@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "analyze": "npm run build:prod -- --stats-json && npx webpack-bundle-analyzer ./dist/stats.json",
-    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --base-href .",
+    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --base-href . &> build.log",
     "build:prod": "npm run build -- --prod",
     "compile": "tsc ./mainProcess/* --outDir dist",
     "download": "node packageResources/download-latest-dataloader.js",
