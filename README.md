@@ -5,12 +5,13 @@
 
 An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/) App that utilizes [Novo Elements](http://bullhorn.github.io/novo-elements/) to bring a rich user experience to Data Loader. Uses [Electron Builder](https://github.com/electron-userland/electron-builder) to package the Angular App inside of a Windows/Mac one-step installer that uses the latest [Bullhorn Data Loader](https://github.com/bullhorn/dataloader).
 
-### Development / Deployment
+### Development vs Deployment
 
 This is a PRIVATE repo that contains the Desktop App code and developer documentation.
 
 Installers are published happens to the [Data Loader App](https://github.com/bullhorn/dataloader-app) PUBLIC repo
 which contains the installers and user facing documentation.
+The windows/mac installer files are published there along with additional files that enable auto-updates using electron-updater.
 
 ### Prerequisites
 
