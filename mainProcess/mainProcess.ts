@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as log from 'electron-log';
 import { ChildProcess, spawn } from 'child_process';
-import { glob } from 'glob';
+import * as glob from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getMenuTemplate } from './menu';
