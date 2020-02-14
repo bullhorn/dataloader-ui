@@ -107,12 +107,11 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
 
   // Use standard menu submenu for the mac's app menu item
   if (process.platform === 'darwin') {
-    const name: string = app.getName();
     menuTemplate.unshift(
       {
-        label: name,
+        label: app.name,
         submenu: [{
-          label: `About ${name}`,
+          label: `About ${app.name}`,
           role: 'about',
         }, {
           type: 'separator',
@@ -123,7 +122,7 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
         }, {
           type: 'separator',
         }, {
-          label: `Hide ${name}`,
+          label: `Hide ${app.name}`,
           accelerator: 'Command+H',
           role: 'hide',
         }, {
