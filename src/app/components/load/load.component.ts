@@ -173,9 +173,9 @@ export class LoadComponent {
     }
   }
 
-  onFieldMappingChanged(event: any, tableValue: any) {
-    tableValue.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
-    Object.assign(tableValue, LoadComponent.getSubfieldData(tableValue.fieldMeta));
+  onFieldMappingChanged(event: any, row: any) {
+    row.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
+    Object.assign(row, LoadComponent.getSubfieldData(row.fieldMeta));
   }
 
   isRowValid(row: any): boolean {
@@ -294,7 +294,7 @@ export class LoadComponent {
   }
 
   private static getSubfieldData(fieldMeta: Field, associatedFieldName?: string): Object {
-    const associatedEntityMeta = this.getAssociatedEntityMeta(fieldMeta);
+    const associatedEntityMeta = this.getAssociatedEntityMeta(fieldMeta, associatedFieldName);
     const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
     const subfield = subfieldMeta && LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta);
     const subfieldPickerConfig = associatedEntityMeta && {
@@ -302,6 +302,7 @@ export class LoadComponent {
       minSearchLength: 0,
       options: (term) => {
         return new Promise((resolve) => {
+          // When using a subfield picker, allow the user to enter any term as the subfield name, since the names are not exhaustive
           const options = LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta);
           const exists = options.find(option => Util.equalsIgnoreCase(term, option.name) || Util.equalsIgnoreCase(term, option.label));
           if (term.length && !exists) {
@@ -314,8 +315,8 @@ export class LoadComponent {
     return { associatedEntityMeta, subfieldMeta, subfield, subfieldPickerConfig };
   }
 
-  private static getAssociatedEntityMeta(fieldMeta: Field): Meta {
-    // Convert composite fields into the associated entity format for simplicity
+  private static getAssociatedEntityMeta(fieldMeta: Field, associatedFieldName?: string): Meta {
+    // Convert composite fields (address only) into the associated entity format for simplicity
     let meta: Meta;
     if (fieldMeta) {
       if (fieldMeta.associatedEntity) {
@@ -335,7 +336,14 @@ export class LoadComponent {
       const nameField = meta.fields.find(f => f.name === 'name');
       if (firstNameField && lastNameField && !nameField) {
         meta.fields = meta.fields.filter(f => f.name !== 'firstName' && f.name !== 'lastName');
-        meta.fields.push({ name: 'name', type: 'SCALAR', dataType: 'String' });
+        meta.fields.push({ name: 'name', type: 'SCALAR' });
+      }
+    }
+    // Allow the user defined subfield specified in the header to be used as a valid picker value
+    if (associatedFieldName) {
+      const name = associatedFieldName.replace(/\s/g, '');
+      if (!meta.fields.find(field => Util.equalsIgnoreCase(field.name, name) || Util.equalsIgnoreCase(field.label, name))) {
+        meta.fields.unshift({ name, type: 'SCALAR' });
       }
     }
     return meta;
