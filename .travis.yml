@@ -1,4 +1,5 @@
 os: osx
+osx_image: xcode11.2
 
 language: node_js
 node_js: "10"
@@ -18,4 +19,4 @@ install:
 
 script:
   - yarn lint
-  - travis_wait yarn package
+  - travis_wait 45 yarn package
