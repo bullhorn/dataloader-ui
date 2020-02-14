@@ -25,3 +25,7 @@ __Examples:__
  3. Wait for the Travis CI build to complete. Once finished, it will create the draft release and attach installers.
 
  4. Copy generated release notes from `CHANGELOG.md` to the release draft and publish release.
+    
+    NOTE: In GitHub, the last release that you touch in any way (like adding release notes) gets the "Latest release" tag.
+    Auto-updates will not work if the last version published does not have this tag, so make sure that older releases
+    don't accidentally get this by re-editing the latest release.
