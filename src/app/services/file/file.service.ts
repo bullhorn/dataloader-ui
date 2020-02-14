@@ -354,9 +354,9 @@ export class FileService {
       this.electronService.dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'CSV Files', extensions: ['csv'] }],
-      }).then((filePaths: string[]) => {
-        if (filePaths && filePaths.length) {
-          onFileSelected(filePaths[0]);
+      }).then((result) => {
+        if (result.filePaths && result.filePaths.length) {
+          onFileSelected(result.filePaths[0]);
         }
       });
     } else {
