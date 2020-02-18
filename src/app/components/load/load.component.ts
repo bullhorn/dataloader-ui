@@ -60,8 +60,8 @@ export class LoadComponent {
               private zone: NgZone,
               private ref: ChangeDetectorRef) {
     this.columns = [
-      { id: 'header', label: 'Column Header', enabled: true, template: 'textCell' },
-      { id: 'sample', label: 'Sample Data', enabled: true, template: 'textCell' },
+      { id: 'header', label: 'Column Header', enabled: true, template: 'textCell', sortable: true, filterable: true },
+      { id: 'sample', label: 'Sample Data', enabled: true, template: 'textCell', sortable: true, filterable: true },
       { id: 'field', label: 'Bullhorn Field', enabled: true, template: 'fieldCell' },
       { id: 'subfield', label: 'Association Field', enabled: true, template: 'subfieldCell' },
     ];
