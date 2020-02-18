@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/bullhorn/dataloader-app/compare/v2.0.2...v2.1.0) (2020-02-18)
+
+
+### Features
+
+* **Column Mapping:** Added sorting and filtering of header and sample data ([e8c91e2](https://github.com/bullhorn/dataloader-app/commit/e8c91e25a8aa30a4973967e173c824ec203fdb06))
+
 ### [2.0.2](https://github.com/bullhorn/dataloader-app/compare/v2.0.1...v2.0.2) (2020-02-15)
 
 ### [2.0.1](https://github.com/bullhorn/dataloader-app/compare/v2.0.0...v2.0.1) (2020-02-14)
