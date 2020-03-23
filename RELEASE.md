@@ -30,6 +30,9 @@ __Examples:__
     Auto-updates will not work if the last version published does not have this tag, so make sure that older releases
     don't accidentally get this by re-editing the latest release.
 
+ 5. Update the [Data Loader App README](https://github.com/bullhorn/dataloader-app/blob/master/README.md)
+    download links with the new release version.
+
 ### Notes on Setting up a Signed, Notarized Release for Windows/Mac
 
 Electron Builder documentation on setting up code signing: https://www.electron.build/code-signing
