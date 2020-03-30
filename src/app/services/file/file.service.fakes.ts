@@ -171,9 +171,9 @@ export class FileServiceFakes {
   };
 
   static CONFIG: Config = {
-    onboarded: true,
     uuid: 'localhost-testing-uuid',
     version: 'NEXT',
+    acceptedLicenseVersion: 0,
   };
 
   static ALL_RUNS: Run[] = [

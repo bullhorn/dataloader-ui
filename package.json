@@ -75,7 +75,9 @@
     "date-fns": "2.9.0",
     "electron-log": "~4.0.6",
     "electron-updater": "~4.2.0",
+    "external-ip": "^2.1.1",
     "fast-csv": "4.1.0",
+    "fullname": "^4.0.1",
     "fuse.js": "3.4.6",
     "ga-lite": "2.0.5",
     "glob": "7.1.6",
@@ -85,6 +87,7 @@
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "text-mask-addons": "3.8.0",
+    "username": "^5.1.0",
     "uuidv4": "6.0.2",
     "zone.js": "0.9.1"
   },

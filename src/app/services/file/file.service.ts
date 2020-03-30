@@ -19,9 +19,7 @@ export class FileService {
 
   runDeleted = new Subject();
 
-  private defaultConfig: Config = {
-    onboarded: false,
-  };
+  private defaultConfig: Config = {};
   private defaultSettings: Settings = {
     username: '',
     password: '',

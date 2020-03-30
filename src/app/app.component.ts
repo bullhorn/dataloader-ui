@@ -79,9 +79,8 @@ export class AppComponent implements OnInit {
 
     // Show about modal if this is the first time the user is opening the app
     const config: Config = this.fileService.readConfig();
-    if (!config.onboarded) {
+    if (!config.acceptedLicenseVersion || config.acceptedLicenseVersion !== ElectronService.LICENSE_VERSION) {
       this.modalService.open(AboutModalComponent);
-      this.fileService.writeConfig(Object.assign(config, { onboarded: true }));
     }
   }
 

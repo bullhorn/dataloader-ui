@@ -1,0 +1,19 @@
+@import '../../../../node_modules/novo-elements/novo-elements.scss';
+@import '../../../styles.scss';
+
+:host {
+
+  .terms {
+    display: flex;
+    flex-direction: column;
+
+    .license {
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 15em;
+      max-height: 23em;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+  }
+}
