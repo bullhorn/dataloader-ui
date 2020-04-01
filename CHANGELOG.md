@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/bullhorn/dataloader-app/compare/v2.1.0...v2.2.0) (2020-04-01)
+
+
+### Features
+
+* **Legal:** Added license agreement ([8750835](https://github.com/bullhorn/dataloader-app/commit/8750835fa01f8f58d58d28b14cae010fda188ac4))
+
 ## [2.1.0](https://github.com/bullhorn/dataloader-app/compare/v2.0.2...v2.1.0) (2020-02-18)
 
 
