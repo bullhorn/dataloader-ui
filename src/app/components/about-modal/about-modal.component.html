@@ -1,22 +1,40 @@
 <novo-modal>
   <header title="About Bullhorn Data Loader" icon="info" theme="light"></header>
   <section>
-    <h3>Getting started?</h3>
-    <p>
-      Check out the <a
-      (click)="openLink('https://docs.google.com/document/d/1ESwQCvuGwfQgsuFwFPtycfEVXInYduWEo4AWjIGUkeY')">
-      Execution Guidelines and Best Practices</a>.
-    </p>
-    <h3>Getting stuck?</h3>
-    <p>
-      Consult the <a (click)="openLink('https://github.com/bullhorn/dataloader/wiki')">Data Loader Wiki</a> for answers.
-    </p>
-    <h3>Still stuck?</h3>
-    <p>
-      Add an issue for the
-      <a (click)="openLink('https://github.com/bullhorn/dataloader-app/issues')">Desktop App</a> or the
-      <a (click)="openLink('https://github.com/bullhorn/dataloader/issues')">Data Loader</a> on GitHub.
-    </p>
+    <div *ngIf="showLicense" class="terms">
+      <h3>Terms and Conditions</h3>
+      <div class="directive">
+        You must accept the
+        <a (click)="openLink('https://github.com/bullhorn/dataloader/blob/master/LICENSE')">Data Loader License Agreement</a>
+        in order to use the Data Loader:
+      </div>
+      <textarea class="license">{{license}}</textarea>
+      <novo-tip-well icon="info" tip="{{analyticsDisclaimer}}" [button]="false"></novo-tip-well>
+    </div>
+    <div *ngIf="!showLicense">
+      <h3>Getting started?</h3>
+      <p>
+        Check out the <a (click)="openLink('https://docs.google.com/document/d/1ESwQCvuGwfQgsuFwFPtycfEVXInYduWEo4AWjIGUkeY')">
+        Execution Guidelines and Best Practices</a>
+      </p>
+      <p>
+        For sample templates select View > Example Files from the menu bar.
+      </p>
+      <h3>Getting stuck?</h3>
+      <p>
+        Consult the <a (click)="openLink('https://github.com/bullhorn/dataloader/wiki')">Data Loader Wiki</a> for answers.
+      </p>
+      <h3>Still stuck?</h3>
+      <p>
+        Add an issue for the
+        <a (click)="openLink('https://github.com/bullhorn/dataloader-app/issues')">Desktop App</a> or the
+        <a (click)="openLink('https://github.com/bullhorn/dataloader/issues')">Data Loader</a> on GitHub.
+      </p>
+      <div class="terms-link">
+        <a (click)="openLink('https://github.com/bullhorn/dataloader/blob/master/LICENSE')">Terms and Conditions</a>
+      </div>
+    </div>
+    <button *ngIf="showLicense" theme="standard" (click)="accept()">Accept Terms and Conditions</button>
+    <button *ngIf="!showLicense" theme="standard" (click)="close()">Close</button>
   </section>
-  <button theme="standard" (click)="close()">Ok</button>
 </novo-modal>
