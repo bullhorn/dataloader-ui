@@ -47,6 +47,12 @@ export class AboutModalComponent implements OnInit {
     this.modalRef.close();
   }
 
+  get analyticsDisclaimer(): string {
+    return 'Google Analytics is used to gather generic statistics about the type of entities loaded and the number of records per run. ' +
+      'This provides aggregate data points that helps Bullhorn understand how Data Loader is being used and how to improve it over time. ' +
+      'No personally identifiable information is ever tracked or logged in any way.';
+  }
+
   // A copy-paste from https://raw.githubusercontent.com/bullhorn/dataloader/master/LICENSE for offline access
   get license(): string {
     return `

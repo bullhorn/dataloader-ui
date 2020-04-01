@@ -6,14 +6,20 @@
   .terms {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     .license {
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 15em;
-      max-height: 23em;
+      min-width: 95%;
+      max-width: 95%;
+      min-height: 14em;
+      max-height: 14em;
       margin-top: 1em;
       margin-bottom: 1em;
     }
+  }
+
+  .terms-link {
+    text-align: center;
+    margin: 2em;
   }
 }
