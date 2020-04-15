@@ -5,7 +5,7 @@
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-app",
   "author": "Bullhorn",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0",
   "private": true,
   "scripts": {
     "analyze": "npm run build:prod -- --stats-json && npx webpack-bundle-analyzer ./dist/stats.json",
