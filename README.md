@@ -7,9 +7,9 @@ An [Angular CLI](https://cli.angular.io/) / [Electron](https://electron.atom.io/
 
 ### Development vs Deployment
 
-This is a PRIVATE repo that contains the Desktop App code and developer documentation.
+This repo contains the Desktop App source code and developer documentation.
 
-Installers are published happens to the [Data Loader App](https://github.com/bullhorn/dataloader-app) PUBLIC repo
+Installers are published to the [Data Loader App](https://github.com/bullhorn/dataloader-app) repo
 which contains the installers and user facing documentation.
 The windows/mac installer files are published there along with additional files that enable auto-updates using electron-updater.
 
