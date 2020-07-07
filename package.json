@@ -100,7 +100,7 @@
     "@types/node": "12.12.27",
     "codelyzer": "5.2.1",
     "copyfiles": "2.2.0",
-    "electron": "7.1.12",
+    "electron": "7.2.4",
     "electron-builder": "22.3.2",
     "electron-notarize": "0.2.1",
     "extract-zip": "1.6.7",
