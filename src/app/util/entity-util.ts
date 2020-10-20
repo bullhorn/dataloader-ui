@@ -1,6 +1,6 @@
 // Vendor
 import { EntityTypes } from '@bullhorn/bullhorn-types';
-import * as Fuse from 'fuse.js';
+import Fuse from 'fuse.js';
 // App
 import { Util } from './util';
 

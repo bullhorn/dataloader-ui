@@ -23,7 +23,7 @@ function createWindow(): void {
   // and install when the app quits.
   log.transports.file.level = 'info';
   autoUpdater.logger = log;
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdatesAndNotify(); // TODO: .then() the promise and allow popup to be shown
 
   // Create the Chromium window and load the Angular app
   mainWindow = new BrowserWindow({
@@ -33,6 +33,7 @@ function createWindow(): void {
     minHeight: 500,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     }
   });
   const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));

@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 // Vendor
 import { NovoModalService, NovoToastService, } from 'novo-elements';
-import * as Fuse from 'fuse.js';
+import Fuse from 'fuse.js';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
 import { ExistField, Field, Meta, PreviewData, Run, Settings } from '../../../interfaces';
@@ -350,7 +350,7 @@ export class LoadComponent {
   }
 
   private static findMatchingFieldMeta(meta: Meta, fieldName?: string): Field | null {
-    let bestMatch: Field;
+    let bestMatch: Field | null;
     if (fieldName) {
       // Try to match name or label of the field first
       bestMatch = meta.fields.find(field => Util.equalsIgnoreCase(field.name, fieldName));
@@ -361,7 +361,7 @@ export class LoadComponent {
       if (!bestMatch) {
         const fuzzySearch = new Fuse(meta.fields.filter(f => !f.readOnly), { keys: ['name', 'label'] });
         const results = fuzzySearch.search(fieldName);
-        bestMatch = results.length ? results[0] : null;
+        bestMatch = results.length ? results[0].item : null;
       }
     }
     return bestMatch;
