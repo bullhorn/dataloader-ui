@@ -228,15 +228,9 @@ export class FileService {
         data: [],
       };
 
-      this.electronService.csv.parseFile(filePath, { headers: true, })
+      this.electronService.csv.parseFile(filePath, { headers: true, trim: true, strictColumnHandling: true })
         .on('data', (row) => {
           previewData.total++;
-          // Trim headers (keys in data objects) and cell values in each row
-          row = Object.keys(row).reduce((acc, key) => {
-            return Object.assign(acc, {
-              [key.trim()]: row[key].trim(),
-            });
-          }, {});
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
           }

@@ -55,6 +55,7 @@ $dl-side-pane-width: 300px;
 body {
   overflow: hidden;
   zoom: 0.9;
+  background: $white;
 
   // Zoom correction for positioning of popovers
   .cdk-overlay-pane {
