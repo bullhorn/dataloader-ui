@@ -70,6 +70,13 @@ yarn package
      * Log Files
      * Results Files
 
+### How to triage the packaged application
+
+`electron-log` is used to log debug messages and errors that occur in the main process.
+The main process is responsible for opening the application window and also for spawning
+off the Data Loader CLI for doing the actual work. Check out the
+[electron-log documentation](https://www.npmjs.com/package/electron-log) for more information.
+
 ### WebApp-only development server
 
 Run `yarn test` for the Angular CLI dev server. Navigate to `http://localhost:4200/`. 
