@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 // Vendor
 import * as ga from 'ga-lite';
-import * as uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 // App
 import { ElectronService } from '../electron/electron.service';
 import { FileService } from '../file/file.service';
