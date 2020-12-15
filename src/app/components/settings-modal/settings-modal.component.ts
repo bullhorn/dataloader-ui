@@ -201,6 +201,17 @@ export class SettingsModalComponent implements OnInit {
           { label: 'No', value: false }],
         sortOrder: 33,
       }, {
+        name: 'skipDuplicates',
+        type: 'tiles',
+        label: 'Skip Duplicates',
+        required: true,
+        description: 'If Yes then updating of existing duplicate records will be skipped. New records will be added but ' +
+          'any existing records found will not be touched',
+        options: [
+          { label: 'Yes', value: true },
+          { label: 'No', value: false }],
+        sortOrder: 33,
+      }, {
         name: 'wildcardMatching',
         type: 'tiles',
         label: 'Wildcard Matching',

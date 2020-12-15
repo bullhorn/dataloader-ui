@@ -46,6 +46,16 @@
                 </item-title>
               </item-header>
             </novo-list-item>
+            <novo-list-item class="total skipped" *ngIf="results?.skipped">
+              <item-header>
+                <item-avatar icon="bhi-times"></item-avatar>
+                <item-title>
+                  <div class="amount">{{ results?.skipped.toLocaleString() }} Skipped</div>
+                  <button *ngIf="loaded > 0" class="file-button" theme="dialogue" icon="viewall" tooltipPosition="top-left"
+                          tooltip="Open: {{ results?.successFile }}" (click)="openFile(results?.successFile)"></button>
+                </item-title>
+              </item-header>
+            </novo-list-item>
             <novo-list-item class="total failed" *ngIf="results?.failed">
               <item-header>
                 <item-avatar icon="bhi-caution"></item-avatar>

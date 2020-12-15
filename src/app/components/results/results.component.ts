@@ -95,7 +95,7 @@ export class ResultsComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.loaded = this.results ? this.results.processed : 0;
-    this.success = this.results ? this.results.inserted + this.results.updated : 0;
+    this.success = this.results ? this.results.inserted + this.results.updated + this.results.skipped : 0;
     this.errors = this.results && this.results.errors ? this.results.errors.length : 0;
     this.startDate = this.results ? Util.getStartDateString(this.results.startTime) : '';
     this.duration = this.results ? Util.msecToHMS(this.results.durationMsec) : '';
