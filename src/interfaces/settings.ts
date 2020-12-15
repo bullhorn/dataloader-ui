@@ -17,6 +17,7 @@ export interface Settings {
   listDelimiter: string;
   dateFormat: string;
   processEmptyAssociations: boolean;
+  skipDuplicates: boolean;
   wildcardMatching: boolean;
   singleByteEncoding: boolean;
   executeFormTriggers: boolean;

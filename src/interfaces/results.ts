@@ -8,6 +8,7 @@ export interface Results {
   processed?: number;
   inserted?: number;
   updated?: number;
+  skipped?: number;
   deleted?: number;
   failed?: number;
   successFile?: string;

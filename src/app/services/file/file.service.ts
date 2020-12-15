@@ -15,7 +15,7 @@ import { EncryptUtil } from '../../util';
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION = 7;
+  static SETTINGS_FILE_VERSION = 8;
 
   runDeleted = new Subject();
 
@@ -27,6 +27,7 @@ export class FileService {
     clientSecret: '',
     listDelimiter: ';',
     processEmptyAssociations: false,
+    skipDuplicates: false,
     wildcardMatching: true,
     singleByteEncoding: false,
     executeFormTriggers: false,
@@ -127,6 +128,12 @@ export class FileService {
           // Default executeFormTriggers before version 7
           if (!settings.version || settings.version < 7) {
             settings.executeFormTriggers = false;
+          }
+          // Default skipDuplicates to false before version 8 and default wildcardMatching to false
+          // since it can cause headaches with special symbols
+          if (!settings.version || settings.version < 8) {
+            settings.skipDuplicates = false;
+            settings.wildcardMatching = false;
           }
           return settings;
         } catch (parseErr) {

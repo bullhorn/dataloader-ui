@@ -9,6 +9,7 @@ class FakeResultsData {
   processed = 0;
   inserted = 0;
   updated = 0;
+  skipped = 0;
   deleted = 0;
   failed = 0;
   successFile = '/Path/to/dataloader/results/Candidate_load_success.csv';
@@ -26,8 +27,13 @@ class FakeResultsData {
       this.failed = Math.floor(previewData.total * (Math.random() / 4));
       this.inserted = previewData.total - this.failed;
       if (Math.random() > 0.5) {
-        this.updated = Math.floor(this.inserted / 2);
-        this.inserted = this.inserted - this.updated;
+        if (Math.random() > 0.5) {
+          this.updated = Math.floor(this.inserted / 2);
+          this.inserted = this.inserted - this.updated;
+        } else {
+          this.skipped = Math.floor(this.inserted / 2);
+          this.inserted = this.inserted - this.skipped;
+        }
       }
       for (let i = 0; i < this.failed; ++i) {
         this.errors.push({
@@ -150,6 +156,7 @@ export class FileServiceFakes {
     listDelimiter: ';',
     dateFormat: 'MM/dd/yyyy',
     processEmptyAssociations: false,
+    skipDuplicates: false,
     wildcardMatching: true,
     singleByteEncoding: false,
     executeFormTriggers: false,
@@ -211,9 +218,10 @@ export class FileServiceFakes {
     const MAX_ITERATIONS = 30;
     let i = 0;
     const interval: Timer = setInterval(() => {
-      fakeResults.processed += 7;
+      fakeResults.processed += 8;
       fakeResults.inserted += 4;
       fakeResults.updated += 2;
+      fakeResults.skipped += 1;
       fakeResults.failed += 1;
       fakeResults.durationMsec += 1000;
       fakeResults.errors.push({

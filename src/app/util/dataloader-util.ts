@@ -16,6 +16,7 @@ export class DataloaderUtil {
     args = args.concat('listDelimiter', settings.listDelimiter);
     args = args.concat('dateFormat', settings.dateFormat);
     args = args.concat('processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false');
+    args = args.concat('skipDuplicates', settings.skipDuplicates ? 'true' : 'false');
     args = args.concat('wildcardMatching', settings.wildcardMatching ? 'true' : 'false');
     args = args.concat('singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false');
     args = args.concat('executeFormTriggers', settings.executeFormTriggers ? 'true' : 'false');
