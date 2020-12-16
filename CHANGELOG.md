@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/bullhorn/dataloader-app/compare/v2.2.1...v2.3.0) (2020-12-16)
+
+
+### Features
+
+* **Skip Duplicates:** Added option for skipping duplicates when loading ([#117](https://github.com/bullhorn/dataloader-app/issues/117)) ([505cc8e](https://github.com/bullhorn/dataloader-app/commit/505cc8e1bfba2bd83d9c8193da9e0886f6b570c3))
+
+
+### Bug Fixes
+
+* **Dependencies:** Updated to node 14 and latest dependencies ([#116](https://github.com/bullhorn/dataloader-app/issues/116)) ([aafeed4](https://github.com/bullhorn/dataloader-app/commit/aafeed430fc9a3367a78dad8aa6c324eccf8fc0e))
+* **Dependencies:** Updating to latest dependencies ([711ba98](https://github.com/bullhorn/dataloader-app/commit/711ba98ea679d92129bd733c94e9c43943f07fff))
+
 ### [2.2.1](https://github.com/bullhorn/dataloader-app/compare/v2.2.0...v2.2.1) (2020-05-22)
 
 ## [2.2.0](https://github.com/bullhorn/dataloader-app/compare/v2.1.0...v2.2.0) (2020-04-01)
