@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/bullhorn/dataloader-app/compare/v2.3.0...v2.3.1) (2020-12-16)
+
+
+### Bug Fixes
+
+* **Cannot Get Field Map:** Fix for https://github.com/bullhorn/dataloader-app/issues/2 ([3d69639](https://github.com/bullhorn/dataloader-app/commit/3d69639849305fe4b4ebe6b1c4e798373b82243c))
+
 ## [2.3.0](https://github.com/bullhorn/dataloader-app/compare/v2.2.1...v2.3.0) (2020-12-16)
 
 
