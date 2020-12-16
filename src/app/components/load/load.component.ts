@@ -38,6 +38,7 @@ export class LoadComponent {
   totalRows = '';
   meta: Meta = null;
   existField: ExistField;
+  metaLoginFailed = false;
   metaJson: string;
   entityPickerConfig = { options: EntityUtil.ENTITY_NAMES };
   fieldPickerConfig = { format: '$label', options: [] };
@@ -184,35 +185,50 @@ export class LoadComponent {
 
   private getMeta(): void {
     this.meta = null;
+    this.metaLoginFailed = false;
     this.metaJson = '';
     this.dataloaderService.onPrint(this.onMetaPrint.bind(this), 'meta');
     this.dataloaderService.onDone(this.onMetaDone.bind(this), 'meta');
     this.dataloaderService.meta(this.entity);
   }
 
+  // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
+  // electron buffers due to buffer length restrictions between the main and renderer processes.
   private onMetaPrint(metaJsonPartial: string): void {
-    // The CLI responds by returning the entire meta JSON object as a single printout to stdout, which may take multiple
-    // electron buffers due to buffer length restrictions between the main and renderer processes.
-    this.metaJson += metaJsonPartial;
+    // If the Java process itself throws any sort of warnings or errors prior to starting the actual JSON object,
+    // then ignore those and wait for the actual start of meta data.
+    if (metaJsonPartial.includes('ERROR: com.bullhornsdk.data.exception.RestApiException')) {
+      this.metaLoginFailed = true;
+    } else if (metaJsonPartial.startsWith('{') || this.metaJson !== '') {
+      this.metaJson += metaJsonPartial;
+    }
   }
 
   private onMetaDone(): void {
     // Once the CLI process is done, we should have the entire string
     this.zone.run(() => {
       this.dataloaderService.unsubscribe();
-      try {
-        this.meta = JSON.parse(this.metaJson);
-      } catch (parseErr) {
+      if (this.metaLoginFailed) {
         this.previous();
         this.modalService.open(SettingsModalComponent);
         this.modalService.open(InfoModalComponent, {
           title: 'Error Getting Field Map Settings',
           message: 'Check that your login credentials are valid and then try again',
         });
+      } else {
+        try {
+          this.meta = JSON.parse(this.metaJson);
+        } catch (parseErr) {
+          this.previous();
+          this.modalService.open(InfoModalComponent, {
+            title: 'Technical Error Getting Meta Data',
+            message: `${parseErr}`,
+          });
+        }
+        this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
+        // Kick off preview data from the CSV file, and wait to render table until it's finished reading
+        this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
       }
-      this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
-      // Kick off preview data from the CSV file, and wait to render table until it's finished reading
-      this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
     });
   }
 
