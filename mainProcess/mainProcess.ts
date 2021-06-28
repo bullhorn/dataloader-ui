@@ -34,6 +34,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      contextIsolation: false,
     }
   });
   const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
