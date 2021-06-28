@@ -127,7 +127,7 @@ export class FakePreviewData {
     }];
 
   constructor() {
-    const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 25)];
+    const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 30)];
     this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (1500 - 1)) + 1;
   }
@@ -183,30 +183,9 @@ export class FileServiceFakes {
     acceptedLicenseVersion: 0,
   };
 
-  static ALL_RUNS: Run[] = [
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
-    new Run(),
+  static ALL_RUNS: Run[] = [new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
+    new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
+    new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
   ];
 
   static getAllRuns(): Run[] {

@@ -356,7 +356,7 @@ export class LoadComponent {
       }
     }
     // Allow the user defined subfield specified in the header to be used as a valid picker value
-    if (associatedFieldName) {
+    if (meta && associatedFieldName) {
       const name = associatedFieldName.replace(/\s/g, '');
       if (!meta.fields.find(field => Util.equalsIgnoreCase(field.name, name) || Util.equalsIgnoreCase(field.label, name))) {
         meta.fields.unshift({ name, type: 'SCALAR' });
