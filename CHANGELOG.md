@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/bullhorn/dataloader-app/compare/v2.3.1...v2.4.0) (2021-06-29)
+
+
+### Features
+
+* **Entities:** Add Pay Bill Entities ([#126](https://github.com/bullhorn/dataloader-app/issues/126)) ([38ce0b7](https://github.com/bullhorn/dataloader-app/commit/38ce0b734344a5f274597edc77b60e89d6f05fa0))
+
 ### [2.3.1](https://github.com/bullhorn/dataloader-app/compare/v2.3.0...v2.3.1) (2020-12-16)
 
 
