@@ -19,7 +19,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { LoadComponent } from './components/load/load.component';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
-import { ParseResumesComponent } from './components/parse-resumes/parse-resumes.component';
 import { ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
@@ -47,7 +46,6 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
     InfoModalComponent,
     LoadComponent,
     MissingJavaModalComponent,
-    ParseResumesComponent,
     ResultsComponent,
     RunComponent,
     SettingsModalComponent,
