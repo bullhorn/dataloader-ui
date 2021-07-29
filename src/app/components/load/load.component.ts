@@ -1,16 +1,16 @@
 // Angular
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 // Vendor
-import { NovoModalService, NovoToastService, } from 'novo-elements';
+import {NovoModalService, NovoToastService,} from 'novo-elements';
 import Fuse from 'fuse.js';
 // App
-import { DataloaderService } from '../../services/dataloader/dataloader.service';
-import { ExistField, Field, Meta, PreviewData, Run, Settings } from '../../../interfaces';
-import { FileService } from '../../services/file/file.service';
-import { InfoModalComponent } from '../info-modal/info-modal.component';
-import { StepperComponent } from '../stepper/stepper.component';
-import { DataloaderUtil, EntityUtil, Util } from '../../util';
-import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
+import {DataloaderService} from '../../services/dataloader/dataloader.service';
+import {ExistField, Field, Meta, PreviewData, Run, Settings} from '../../../interfaces';
+import {FileService} from '../../services/file/file.service';
+import {InfoModalComponent} from '../info-modal/info-modal.component';
+import {StepperComponent} from '../stepper/stepper.component';
+import {DataloaderUtil, EntityUtil, Util} from '../../util';
+import {SettingsModalComponent} from '../settings-modal/settings-modal.component';
 
 enum StepEnum {
   SelectFile,
@@ -51,6 +51,7 @@ export class LoadComponent {
   backupEnabled = false;
   stepEnum: typeof StepEnum = StepEnum;
   entityPickerModifiedByUser = false;
+  cliAction = 'load';
 
   private _entity = '';
 
@@ -181,6 +182,19 @@ export class LoadComponent {
 
   isRowValid(row: any): boolean {
     return row.field && (!row.associatedEntityMeta || row.subfield);
+  }
+
+  toggleCliAction(cliAction: string): void {
+    console.log(`event val - ${cliAction}`);
+    if (cliAction === 'load') {
+      this.cliAction = 'parseResumes';
+    } else {
+      this.cliAction = 'load';
+    }
+  }
+
+  handleParseResumes(event): void {
+    // handle parse
   }
 
   private getMeta(): void {

@@ -1,15 +1,27 @@
 // Angular
 import {
-  AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, TemplateRef,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  ContentChildren,
+  EventEmitter,
+  forwardRef,
+  Inject,
+  Input,
+  Output,
+  QueryList,
+  TemplateRef,
   ViewChildren,
 } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CdkStep, CdkStepLabel, CdkStepper } from '@angular/cdk/stepper';
-import { FocusableOption } from '@angular/cdk/a11y';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {CdkStep, CdkStepLabel, CdkStepper} from '@angular/cdk/stepper';
+import {FocusableOption} from '@angular/cdk/a11y';
 // Vendor
-import { takeUntil } from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 // App
-import { StepHeaderComponent } from './step-header.component';
+import {StepHeaderComponent} from './step-header.component';
+import {Run} from '../../../interfaces';
 
 /**
  * The step resides here with the stepper to avoid circular dependencies
@@ -51,11 +63,26 @@ export class StepComponent extends CdkStep {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperComponent extends CdkStepper implements AfterContentInit {
+  @Input() run: Run;
+  @Output() cliActionChange = new EventEmitter<string>();
   // The list of step headers of the steps in the stepper
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<FocusableOption>;
 
   // Steps that the stepper holds
   @ContentChildren(StepComponent) _steps: QueryList<StepComponent>;
+
+  cliActionValue = 'load';
+  cliActionOptions: Array<any> = [
+    {
+      label: 'Load',
+      value: 'load'
+    },
+    {
+      label: 'Parse',
+      value: 'parseResumes'
+    }
+  ];
+
 
   // Consumer-specified template-refs used to override the header icons
   _iconOverrides: { [key: string]: TemplateRef<any> } = {};
@@ -98,5 +125,11 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
       return 'done';
     }
     return 'none';
+  }
+
+  handleChange(event): void {
+    console.log('event');
+    console.log(event);
+    this.cliActionChange.emit(this.cliActionValue);
   }
 }

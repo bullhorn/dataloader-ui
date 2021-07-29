@@ -24,6 +24,7 @@
     height: $dl-stepper-height;
 
     &.complete {
+      pointer-events: all;
       border-bottom: 1px solid $positive;
     }
   }

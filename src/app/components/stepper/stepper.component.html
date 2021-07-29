@@ -1,5 +1,9 @@
 <div class="stepper-header-container">
-  <div class="stepper-line complete"></div>
+  <div class="stepper-line complete">
+    <novo-tiles [options]="cliActionOptions"
+                [(ngModel)]="cliActionValue"
+                (onChange)="handleChange($event)"></novo-tiles>
+  </div>
   <ng-container *ngFor="let step of _steps; let i = index; let isLast = last">
     <app-step-header class="stepper-header"
                      [active]="step.completed || selectedIndex === i"

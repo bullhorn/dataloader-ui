@@ -1,5 +1,5 @@
-<section class="load">
-  <app-stepper #stepper>
+<section class="load" *ngIf="cliAction === 'load'">
+  <app-stepper #stepper (cliActionChange)="toggleCliAction($event)">
     <app-step [label]="'Select File'" icon="upload">
       <app-dropzone (onFilePath)="next($event)"></app-dropzone>
     </app-step>
@@ -126,4 +126,11 @@
       </button>
     </div>
   </footer>
+</section>
+<section class="load" *ngIf="cliAction === 'parseResumes'">
+  <app-stepper (cliActionChange)="toggleCliAction($event)">
+    <app-step [label]="'Select Folder'" icon="upload">
+      <app-dropzone (onFilePath)="handleParseResumes($event)"></app-dropzone>
+    </app-step>
+  </app-stepper>
 </section>
