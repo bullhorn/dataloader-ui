@@ -1,6 +1,6 @@
 export interface Errors {
   row: number;
-  id: number;
+  id?: number;
   errorCode: number;
   title: string;
   message: string;
