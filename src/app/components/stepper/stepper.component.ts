@@ -1,7 +1,6 @@
 // Angular
 import {
-  AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, TemplateRef,
-  ViewChildren,
+  AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, TemplateRef, ViewChildren,
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkStep, CdkStepLabel, CdkStepper } from '@angular/cdk/stepper';
@@ -51,6 +50,8 @@ export class StepComponent extends CdkStep {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperComponent extends CdkStepper implements AfterContentInit {
+  // TODO: Need to use the updated CDK logic for how stepper should work - this logic doesn't jive any longer with the latest CDK version
+
   // The list of step headers of the steps in the stepper
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<FocusableOption>;
 
