@@ -102,6 +102,10 @@
             tooltip="Stop loading data immediately" tooltipPosition="top-left">
       Stop
     </button>
+    <button *ngIf="!running && results" theme="primary" class="revert-button" (click)="revertChanges()" icon="clock-arrow"
+            tooltip="Use backup file to revert updated records to their original values" tooltipPosition="top">
+      Revert Updates
+    </button>
     <button *ngIf="!running && results" theme="primary" class="delete-button" (click)="delete()" color="negative" icon="delete"
             tooltip="Remove this run from the run history" tooltipPosition="top-left">
       Delete History

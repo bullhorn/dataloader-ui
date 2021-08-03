@@ -111,9 +111,9 @@
       </button>
       <novo-checkbox *ngIf="duplicateCheckFieldsPickerConfig.options?.length && existField.enabled && existField.fields?.length"
                      [(ngModel)]="backupEnabled"
-                     label="Generate Undo File"
+                     label="Generate Rollback File"
                      tooltipPosition="top-left"
-                     tooltip="Generates a backup file for reverting mass updates to existing records to undo any changes made">
+                     tooltip="Generates a backup file for later reverting updates to existing records">
       </novo-checkbox>
       <button *ngIf="stepper.selectedIndex === stepEnum.DuplicateCheck"
               theme="primary"

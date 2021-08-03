@@ -123,11 +123,6 @@
     .right-hand-side {
       display: flex;
       align-items: center;
-
-      // TODO: Hide undo checkbox just until it's ready to be implemented
-      novo-checkbox {
-        display: none;
-      }
     }
   }
 }

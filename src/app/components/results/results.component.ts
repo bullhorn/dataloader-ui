@@ -175,4 +175,8 @@ export class ResultsComponent implements OnInit, OnChanges {
       }
     });
   }
+
+  revertChanges() {
+
+  }
 }
