@@ -3,7 +3,7 @@
 
 .results {
 
-  novo-nav {
+  > novo-nav {
     background: $neutral;
   }
 
@@ -93,6 +93,26 @@
           font-size: 1.6em;
           padding: 0;
         }
+      }
+    }
+
+    .resume-results {
+      background-color: $white;
+      box-shadow: $whiteframe-shadow-z3;
+      border-radius: 0.4em;
+      position: relative;
+      overflow-x: hidden;
+      margin: 4em 2em 2em;
+
+      .parsing-results-title {
+        font-size: 1.4em;
+        font-weight: 600;
+        padding: 1em;
+        border-bottom: 1px solid $off-white;
+      }
+
+      .text-cell {
+        margin-left: 1em;
       }
     }
 

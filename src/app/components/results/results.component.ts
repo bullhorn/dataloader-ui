@@ -1,5 +1,5 @@
 // Angular
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 // Vendor
 import * as Chart from 'chart.js';
 // App
@@ -31,6 +31,7 @@ export class ResultsComponent implements OnInit, OnChanges {
   @Input() results: Results;
   @Input() output: string;
   @Input() running: boolean;
+  @Input() parsingResumes: boolean;
   @Output() stopped = new EventEmitter();
   @ViewChild('overviewTab', { static: false }) private overviewTab: any;
   loaded = 0;
@@ -47,12 +48,26 @@ export class ResultsComponent implements OnInit, OnChanges {
   fileName = '';
   errorTable: any = {};
   donutChart: Chart;
+  resumeRows: any[];
+  resumeColumns = [
+    { id: 'id', label: 'Candidate ID', template: 'idCell', sortable: true, filterable: true },
+    { id: 'name', label: 'Candidate Name', type: 'text', sortable: true, filterable: true },
+    { id: 'fileName', label: 'File Name', type: 'text', sortable: true, filterable: true },
+    { id: 'fileExtension', label: 'File Type', type: 'text', sortable: true, filterable: true },
+  ];
+  resumeDisplayedColumns = this.resumeColumns.map(col => col.id);
 
   constructor(private fileService: FileService,
-              private modalService: NovoModalService) {
+              private modalService: NovoModalService,
+              private ref: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    if (this.parsingResumes) {
+      this.icon = 'resume';
+      this.theme = 'candidate';
+    }
+
     this.donutChart = new Chart('donutChart', {
       type: 'doughnut',
       data: {
@@ -110,6 +125,29 @@ export class ResultsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    if (this.parsingResumes) {
+      if (!this.resumeRows) {
+        this.resumeRows = [{
+          id: 5114,
+          name: 'Burt Bacharrat',
+          fileName: 'Burt-resume.pdf',
+          fileExtension: 'PDF',
+        }, {
+          id: 5115,
+          name: 'Zach Ringlestone',
+          fileName: 'zach-resume.docx',
+          fileExtension: 'DOCX',
+        }, {
+          id: 5117,
+          name: 'Jenny Otterway',
+          fileName: 'jennifer.otterway.pdf',
+          fileExtension: 'PDF',
+        }];
+      }
+
+      this.ref.detectChanges();
+    }
+
     this.loaded = this.results ? this.results.processed : 0;
     this.success = this.results ? this.results.inserted + this.results.updated + this.results.skipped : 0;
     this.errors = this.results && this.results.errors ? this.results.errors.length : 0;

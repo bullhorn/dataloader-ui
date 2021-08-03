@@ -1,6 +1,6 @@
 <div class="not-dragging" *ngIf="!dragging">
   <div class="csv-file">
-    <div class="clickable" (click)="browse()">
+    <div class="clickable" (click)="browseForCsvFile()">
       <i class="bhi-dropzone"></i>
       <span class="main-text">Load Data from CSV File</span>
       <span class="sub-text">Drag and drop CSV file or <a>click to browse</a></span>
@@ -9,17 +9,23 @@
   </div>
   <div class="separator"></div>
   <div class="parse-resumes">
-    <div class="clickable" (click)="parseResumes()">
+    <div class="clickable" (click)="browseForResumeDirectory()">
       <i class="bhi-resume"></i>
-      <span class="main-text">Load Resume Files</span>
+      <span class="main-text">Load Resumes from Folder</span>
       <span class="sub-text">Drag and drop folder or <a>click to browse</a></span>
     </div>
     <novo-tip-well name="parse-resumes" icon="info" tip="Parses a folder of resume files and creates new candidates"></novo-tip-well>
   </div>
 </div>
-<div class="dragging" *ngIf="dragging">
+<div class="dragging" *ngIf="false">
   <div class="icon-background">
     <i class="bhi-dropzone"></i>
   </div>
   <h1>Drop CSV file here to get started</h1>
+</div>
+<div class="dragging" *ngIf="dragging">
+  <div class="icon-background">
+    <i class="bhi-resume"></i>
+  </div>
+  <h1>Drop Resume Directory here to get started</h1>
 </div>

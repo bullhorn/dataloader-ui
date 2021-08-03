@@ -62,6 +62,16 @@ export class DataloaderServiceFakes {
     }, 500);
   }
 
+  static generateFakePrintParseResumesCallbacks(callback: (text: string) => void): void {
+    let i = 0;
+    const interval: Timer = setInterval(() => {
+      callback(this.FAKE_OUTPUT_DATA[i]);
+      if (++i >= this.FAKE_OUTPUT_DATA.length) {
+        clearInterval(interval);
+      }
+    }, 500);
+  }
+
   static generateFakePrintLoginCallback(callback: (text: string) => void) {
     const responseText = Math.floor(Math.random() * 2) ? 'Login Successful' : 'Login Failed';
     setTimeout(() => callback(responseText), 1500);
@@ -73,6 +83,10 @@ export class DataloaderServiceFakes {
   }
 
   static generateFakeDoneLoadCallback(callback: (text: string) => void): void {
+    setTimeout(() => callback('Fake Output'), 15500);
+  }
+
+  static generateFakeDoneParseResumesCallback(callback: any) {
     setTimeout(() => callback('Fake Output'), 15500);
   }
 

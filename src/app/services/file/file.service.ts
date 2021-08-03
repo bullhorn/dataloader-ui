@@ -348,7 +348,7 @@ export class FileService {
     }
   }
 
-  browseForFile(onFileSelected: (filePath: string) => {}): void {
+  browseForCsvFile(onFileSelected: (filePath: string) => {}): void {
     if (ElectronService.isElectron()) {
       this.electronService.dialog.showOpenDialog({
         properties: ['openFile'],
@@ -360,6 +360,21 @@ export class FileService {
       });
     } else {
       onFileSelected('/path/to/CandidImport.csv');
+    }
+  }
+
+  browseForResumeDirectory(onDirectorySelected: (dirPath: string) => {}): void {
+    if (ElectronService.isElectron()) {
+      this.electronService.dialog.showOpenDialog({
+        properties: ['openDirectory', 'createDirectory'],
+        filters: [],
+      }).then((result) => {
+        if (result.filePaths && result.filePaths.length) {
+          onDirectorySelected(result.filePaths[0]);
+        }
+      });
+    } else {
+      onDirectorySelected('/path/to/resumes');
     }
   }
 

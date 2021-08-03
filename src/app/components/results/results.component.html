@@ -1,5 +1,7 @@
 <section class="results">
-  <header title="{{ fileName }} - {{ total }} Rows"
+  <header *ngIf="parsingResumes" title="Resumes - {{ total }} Files Parsed"
+          [icon]="icon" [theme]="theme"></header>
+  <header *ngIf="!parsingResumes" title="{{ fileName }} - {{ total }} Rows"
           [icon]="icon" [theme]="theme"></header>
   <novo-nav [outlet]="tabs" direction="horizontal" [hidden]="!output">
     <novo-tab #overviewTab>Overview</novo-tab>
@@ -81,9 +83,8 @@
           </div>
         </div>
       </div>
-      <div class="errors" *ngIf="results?.errors">
-        <novo-table theme="grapefruit" [rows]="errorTable.rows" [columns]="errorTable.columns"
-                    [config]="errorTable.config">
+      <div class="errors" *ngIf="!parsingResumes && results?.errors">
+        <novo-table theme="grapefruit" [rows]="errorTable.rows" [columns]="errorTable.columns" [config]="errorTable.config">
           <novo-table-header class="table-header">
             <i class="header-icon bhi-caution"></i>
             <div class="header-titles">
@@ -91,6 +92,46 @@
             </div>
           </novo-table-header>
         </novo-table>
+      </div>
+      <div *ngIf="this.resumeRows" class="resume-results">
+        <div class="parsing-results-title">Parsing Results</div>
+        <novo-nav [outlet]="outlet" theme="white">
+          <novo-tab>Candidates Added (36)</novo-tab>
+          <novo-tab>Duplicates (0)</novo-tab>
+          <novo-tab>Failures (0)</novo-tab>
+        </novo-nav>
+        <novo-nav-outlet #outlet>
+          <novo-nav-content>
+            <novo-data-table [rows]="resumeRows" [columns]="resumeColumns" [displayedColumns]="resumeDisplayedColumns">
+              <ng-template novoTemplate="idCell" let-row let-col="col">
+                <a href="https://www.bullhorn.com"><i class="bhi-viewall" tooltip="View candidate in Bullhorn"></i></a>
+                <div class="text-cell">
+                  {{ row[col.id] }}
+                </div>
+              </ng-template>
+            </novo-data-table>
+          </novo-nav-content>
+          <novo-nav-content>
+            <novo-data-table [rows]="resumeRows" [columns]="resumeColumns" [displayedColumns]="resumeDisplayedColumns">
+              <ng-template novoTemplate="idCell" let-row let-col="col">
+                <a href="https://www.bullhorn.com"><i class="bhi-viewall" tooltip="View candidate in Bullhorn"></i></a>
+                <div class="text-cell">
+                  {{ row[col.id] }}
+                </div>
+              </ng-template>
+            </novo-data-table>
+          </novo-nav-content>
+          <novo-nav-content>
+            <novo-data-table [rows]="resumeRows" [columns]="resumeColumns" [displayedColumns]="resumeDisplayedColumns">
+              <ng-template novoTemplate="idCell" let-row let-col="col">
+                <a href="https://www.bullhorn.com"><i class="bhi-viewall" tooltip="View candidate in Bullhorn"></i></a>
+                <div class="text-cell">
+                  {{ row[col.id] }}
+                </div>
+              </ng-template>
+            </novo-data-table>
+          </novo-nav-content>
+        </novo-nav-outlet>
       </div>
     </novo-nav-content>
     <novo-nav-content class="tab-command-line">

@@ -9,13 +9,17 @@ import { FileService } from '../../services/file/file.service';
   styleUrls: ['./dropzone.component.scss'],
 })
 export class DropzoneComponent implements AfterViewInit, OnDestroy {
-  @Output() onFilePath: EventEmitter<string> = new EventEmitter();
+  @Output() onCsvFile: EventEmitter<string> = new EventEmitter();
+  @Output() onResumeDirectory: EventEmitter<string> = new EventEmitter();
   dragging = false;
   private commands: any;
   private target: any;
 
+  // TODO: Distinguish between files and directories and change drag-over message
+  //  https://stackoverflow.com/questions/25016442/how-to-distinguish-if-a-file-or-folder-is-being-dragged-prior-to-it-being-droppe
   private static isDragFileEvent(event: any): boolean {
     const { types } = event.dataTransfer;
+    console.log(`types:`, types);
     return types && types.length && types.includes('Files');
   }
 
@@ -46,8 +50,12 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  browse(): void {
-    this.fileService.browseForFile(this.onFileProvided.bind(this));
+  browseForCsvFile(): void {
+    this.fileService.browseForCsvFile(this.onCsvFileProvided.bind(this));
+  }
+
+  browseForResumeDirectory(): void {
+    this.fileService.browseForResumeDirectory(this.onResumeDirectoryProvided.bind(this));
   }
 
   private dragEnterHandler(event: any): void {
@@ -68,22 +76,28 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
 
   private dropHandler(event: any): void {
     event.preventDefault();
+    // TODO: If directory, call onResumeDirectoryProvided()
     if (DropzoneComponent.isDragFileEvent(event)) {
       const file = event.dataTransfer.files[0];
-      this.onFileProvided(file.path || file.name); // path for electron, name for 'ng serve'
+      this.onResumeDirectoryProvided(file.path || file.name); // path for electron, name for 'ng serve'
+      // this.onCsvFileProvided(file.path || file.name); // path for electron, name for 'ng serve'
       this.dragging = false;
     }
   }
 
-  private onFileProvided(filePath: string) {
+  private onCsvFileProvided(filePath: string) {
     if (filePath) {
       this.zone.run(() => {
-        this.onFilePath.emit(filePath);
+        this.onCsvFile.emit(filePath);
       });
     }
   }
 
-  parseResumes() {
-
+  private onResumeDirectoryProvided(dirPath: string) {
+    if (dirPath) {
+      this.zone.run(() => {
+        this.onResumeDirectory.emit(dirPath);
+      });
+    }
   }
 }

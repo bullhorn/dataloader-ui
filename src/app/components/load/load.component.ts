@@ -26,7 +26,7 @@ enum StepEnum {
 })
 export class LoadComponent {
   @Input() run: Run;
-  @Output() started = new EventEmitter();
+  @Output() started = new EventEmitter<string>();
 
   @ViewChild('stepper', { static: false }) private stepper: StepperComponent;
   @ViewChildren('table') tables: QueryList<any>;
@@ -51,6 +51,11 @@ export class LoadComponent {
   backupEnabled = false;
   stepEnum: typeof StepEnum = StepEnum;
   entityPickerModifiedByUser = false;
+
+  parsingResumes = false;
+  resumeDir: string;
+  parseResumeDuplicateCheckName = false;
+  duplicateCheckResumeTileOptions = [{ label: 'Email, Phone', value: false }, { label: 'Email, Phone, Name', value: true }];
 
   private _entity = '';
 
@@ -116,6 +121,17 @@ export class LoadComponent {
         break;
     }
     this.stepper.previous();
+  }
+
+  parseResumes(resumeDir?: string): void {
+    this.parsingResumes = true;
+    this.resumeDir = resumeDir;
+    this.stepper.next();
+    this.ref.detectChanges();
+  }
+
+  loadResumes(): void {
+    this.started.emit('parseResumes');
   }
 
   next(filePath?: string): void {

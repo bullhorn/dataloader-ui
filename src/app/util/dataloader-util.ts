@@ -46,6 +46,40 @@ export class DataloaderUtil {
     return args;
   }
 
+  static parseResumeArgs(settings: Settings, previewData: PreviewData, resultsFilePath: string) {
+    let args: string[] = this.baseArgs(settings);
+    args = args.concat('listDelimiter', settings.listDelimiter);
+    args = args.concat('dateFormat', settings.dateFormat);
+    args = args.concat('processEmptyAssociations', settings.processEmptyAssociations ? 'true' : 'false');
+    args = args.concat('skipDuplicates', settings.skipDuplicates ? 'true' : 'false');
+    args = args.concat('wildcardMatching', settings.wildcardMatching ? 'true' : 'false');
+    args = args.concat('singleByteEncoding', settings.singleByteEncoding ? 'true' : 'false');
+    args = args.concat('executeFormTriggers', settings.executeFormTriggers ? 'true' : 'false');
+    args = args.concat('numThreads', settings.numThreads.toString());
+    args = args.concat('caching', settings.caching ? 'true' : 'false');
+    args = args.concat('resultsFileEnabled', 'true');
+    args = args.concat('resultsFilePath', resultsFilePath);
+    args = args.concat('resultsFileWriteIntervalMsec', '500');
+
+    if (settings.existFields) {
+      const existField: ExistField = DataloaderUtil.getExistField(settings, previewData.entity);
+      if (existField.enabled && Array.isArray(existField.fields) && existField.fields.length) {
+        args = args.concat(previewData.entity + 'ExistField', existField.fields.join(','));
+      }
+    }
+
+    if (previewData.columnMap) {
+      Object.keys(previewData.columnMap).forEach(key => {
+        if (key !== previewData.columnMap[key]) {
+          args = args.concat(`${key}Column`, `${previewData.columnMap[key]}`);
+        }
+      });
+    }
+
+    args = args.concat('parseResumes', previewData.filePath);
+    return args;
+  }
+
   static loginArgs(settings: Settings): string[] {
     return this.baseArgs(settings).concat('login');
   }

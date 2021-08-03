@@ -28,6 +28,14 @@ export class DataloaderService {
     }
   }
 
+  parseResumes(previewData: PreviewData): void {
+    if (ElectronService.isElectron()) {
+      const settings: Settings = this.fileService.readSettings();
+      const resultsFilePath: string = this.fileService.initializeResultsFile(previewData);
+      this.electronService.ipcRenderer.send('start', DataloaderUtil.parseResumeArgs(settings, previewData, resultsFilePath));
+    }
+  }
+
   /**
    * Starts the CLI to check login for the given credentials.
    */
@@ -59,11 +67,13 @@ export class DataloaderService {
   /**
    * Subscribe to real time printouts from the Data Loader CLI
    */
-  onPrint(callback: (text: string) => void, caller: 'load' | 'login' | 'meta'): void {
+  onPrint(callback: (text: string) => void, caller: 'load' | 'parseResumes' | 'login' | 'meta'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('print', (event, text) => callback(text));
     } else if (caller === 'load') {
       DataloaderServiceFakes.generateFakePrintLoadCallbacks(callback);
+    } else if (caller === 'parseResumes') {
+      DataloaderServiceFakes.generateFakePrintParseResumesCallbacks(callback);
     } else if (caller === 'login') {
       DataloaderServiceFakes.generateFakePrintLoginCallback(callback);
     } else if (caller === 'meta') {
@@ -74,11 +84,13 @@ export class DataloaderService {
   /**
    * Subscribe to the done message from the Data Loader CLI
    */
-  onDone(callback: (text: string) => void, caller: 'load' | 'login' | 'meta'): void {
+  onDone(callback: (text: string) => void, caller: 'load' | 'parseResumes' | 'login' | 'meta'): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('done', (event, text) => callback(text));
     } else if (caller === 'load') {
       DataloaderServiceFakes.generateFakeDoneLoadCallback(callback);
+    } else if (caller === 'parseResumes') {
+      DataloaderServiceFakes.generateFakeDoneParseResumesCallback(callback);
     } else if (caller === 'login') {
       DataloaderServiceFakes.generateFakeDoneLoginCallback(callback);
     } else if (caller === 'meta') {

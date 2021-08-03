@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   currentRun: Run = Object.assign({}, AppComponent.EMPTY_RUN);
   selectedRun: Run | null = this.currentRun;
   runHistory: Run[] = [];
+  parsingResumes = false;
 
   constructor(private analyticsService: AnalyticsService,
               private dataloaderService: DataloaderService,
@@ -84,13 +85,23 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onStarted(): void {
-    this.dataloaderService.onPrint(this.onPrint.bind(this), 'load');
-    this.dataloaderService.onDone(this.onDone.bind(this), 'load');
-    this.dataloaderService.load(this.currentRun.previewData);
-    this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
-    this.currentRun.running = true;
-    this.analyticsService.trackEvent('Load', this.currentRun);
+  onStarted(task: 'load' | 'parseResumes'): void {
+    if (task === 'parseResumes') {
+      this.parsingResumes = true;
+      this.dataloaderService.onPrint(this.onPrint.bind(this), 'parseResumes');
+      this.dataloaderService.onDone(this.onDone.bind(this), 'parseResumes');
+      this.dataloaderService.parseResumes(this.currentRun.previewData);
+      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
+      this.currentRun.running = true;
+      // this.analyticsService.trackEvent('ParseResumes', this.currentRun);
+    } else {
+      this.dataloaderService.onPrint(this.onPrint.bind(this), 'load');
+      this.dataloaderService.onDone(this.onDone.bind(this), 'load');
+      this.dataloaderService.load(this.currentRun.previewData);
+      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
+      this.currentRun.running = true;
+      this.analyticsService.trackEvent('Load', this.currentRun);
+    }
   }
 
   onStopped(): void {
