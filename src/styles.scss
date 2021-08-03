@@ -21,6 +21,10 @@ $dl-side-pane-width: 300px;
   padding: 10px 15px;
   z-index: 100;
   background-color: $background;
+
+  button {
+    margin-left: 1em;
+  }
 }
 
 @mixin centered() {
