@@ -1,7 +1,10 @@
 export interface Errors {
   row: number;
   id: number;
+  errorCode: number;
+  title: string;
   message: string;
+  tipsToResolve: string;
 }
 
 export interface Results {
