@@ -1,10 +1,21 @@
 <div class="not-dragging" *ngIf="!dragging">
-  <div class="clickable" (click)="browse()">
-    <i class="bhi-dropzone"></i>
-    <span class="main-text">Select a CSV file to get started</span>
-    <span class="sub-text">Drag and drop anywhere on this page or <a>click to browse</a></span>
+  <div class="csv-file">
+    <div class="clickable" (click)="browse()">
+      <i class="bhi-dropzone"></i>
+      <span class="main-text">Load Data from CSV File</span>
+      <span class="sub-text">Drag and drop CSV file or <a>click to browse</a></span>
+    </div>
+    <novo-tip-well name="first-row" icon="info" tip="The first row in the file must be a header row"></novo-tip-well>
   </div>
-  <novo-tip-well name="first-row" icon="info" tip="The first row in the file must be a header row"></novo-tip-well>
+  <div class="separator"></div>
+  <div class="parse-resumes">
+    <div class="clickable" (click)="parseResumes()">
+      <i class="bhi-resume"></i>
+      <span class="main-text">Load Resume Files</span>
+      <span class="sub-text">Drag and drop folder or <a>click to browse</a></span>
+    </div>
+    <novo-tip-well name="parse-resumes" icon="info" tip="Parses a folder of resume files and creates new candidates"></novo-tip-well>
+  </div>
 </div>
 <div class="dragging" *ngIf="dragging">
   <div class="icon-background">

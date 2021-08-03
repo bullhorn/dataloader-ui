@@ -9,15 +9,18 @@
 
   .not-dragging {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
     padding-bottom: $dl-stepper-height;
+    width: 80%;
 
     .clickable {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      min-width: 23em;
 
       i {
         font-size: 6em;
@@ -33,6 +36,12 @@
         @include sub-text();
         margin-top: 1em;
       }
+    }
+
+    .separator {
+      height: 18em;
+      margin: 2em;
+      border-right: 1px solid $light;
     }
 
     novo-tip-well {

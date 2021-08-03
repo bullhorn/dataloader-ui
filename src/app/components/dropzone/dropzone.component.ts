@@ -82,4 +82,8 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
       });
     }
   }
+
+  parseResumes() {
+
+  }
 }
