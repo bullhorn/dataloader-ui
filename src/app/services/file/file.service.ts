@@ -273,12 +273,14 @@ export class FileService {
     }
   }
 
-  onResultsFileChange(onChange: (results: Results) => {}): void {
+  onResultsFileChange(onChange: (results: Results) => {}, caller: 'load' | 'parseResumes'): void {
     if (ElectronService.isElectron()) {
       const options: { persistent?: boolean; interval?: number; } = { persistent: true, interval: 500 };
       this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
-    } else {
-      FileServiceFakes.generateFakeResults(onChange);
+    } else if (caller === 'load') {
+      FileServiceFakes.generateFakeLoadResults(onChange);
+    } else if (caller === 'parseResumes') {
+      FileServiceFakes.generateFakeParseResumeResults(onChange);
     }
   }
 

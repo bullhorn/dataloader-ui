@@ -9,6 +9,7 @@ header {
   padding-right: 10px;
   background: $navigation;
   width: 100%;
+  user-select: none;
 
   .logo {
     display: flex;

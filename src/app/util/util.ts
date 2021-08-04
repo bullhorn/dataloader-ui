@@ -20,7 +20,7 @@ export class Util {
   }
 
   static getFilenameFromPath(filePath: string): string {
-    return filePath.replace(/^.*[\\\/]/, '');
+    return filePath.replace(/^.*[\\\/]/, '').replace('.csv', '');
   }
 
   /**

@@ -127,7 +127,8 @@ export class LoadComponent {
     this.parsingResumes = true;
     this.resumeDir = resumeDir;
     this.stepper.next();
-    this.ref.detectChanges();
+    // Kick off preview data from the CSV file, and wait to render table until it's finished reading
+    this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
   }
 
   loadResumes(): void {
@@ -251,30 +252,35 @@ export class LoadComponent {
   private onPreviewData(previewData: PreviewData): void {
     // Get CSV file data and match it up with meta
     this.zone.run(() => {
-      this.run.previewData = previewData;
-      this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
-      this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
-      this.rows = this.run.previewData.headers.map(header => {
-        const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
-        const [fieldName, associatedFieldName] = header.split('.');
-        const fieldMeta = LoadComponent.findMatchingFieldMeta(this.meta, fieldName);
-        return Object.assign({
-          id: header,
-          header: header,
-          sample: sampleData ? sampleData[header] : '',
-          field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
-          fieldMeta,
-        }, LoadComponent.getSubfieldData(fieldMeta, associatedFieldName));
-      });
+      // Hacky hack
+      if (this.parsingResumes) {
+        this.entity = 'Candidate';
+        this.run.previewData = previewData;
+        this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
+      } else {
+        this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
+        this.rows = this.run.previewData.headers.map(header => {
+          const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
+          const [fieldName, associatedFieldName] = header.split('.');
+          const fieldMeta = LoadComponent.findMatchingFieldMeta(this.meta, fieldName);
+          return Object.assign({
+            id: header,
+            header: header,
+            sample: sampleData ? sampleData[header] : '',
+            field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
+            fieldMeta,
+          }, LoadComponent.getSubfieldData(fieldMeta, associatedFieldName));
+        });
 
-      // Start out all columns in the file as selected
-      setTimeout(() => {
-        this.tables.forEach((table) => {
-          table.dataSource.data.forEach((item) => {
-            table.selectRow(item);
+        // Start out all columns in the file as selected
+        setTimeout(() => {
+          this.tables.forEach((table) => {
+            table.dataSource.data.forEach((item) => {
+              table.selectRow(item);
+            });
           });
         });
-      });
+      }
 
       this.ref.detectChanges();
     });

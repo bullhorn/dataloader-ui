@@ -21,6 +21,50 @@ class FakeResultsData {
 
   constructor(previewData: PreviewData = null) {
     this.startTime = Math.floor(Math.random() * (Date.now()));
+    this.durationMsec = Math.floor(Math.random() * (2000000 - 1000)) + 1000;
+    if (previewData) {
+      this.processed = previewData.total;
+      this.failed = Math.floor(previewData.total * (Math.random() / 4));
+      this.inserted = previewData.total - this.failed;
+      if (Math.random() > 0.5) {
+        if (Math.random() > 0.5) {
+          this.updated = Math.floor(this.inserted / 2);
+          this.inserted = this.inserted - this.updated;
+        } else {
+          this.skipped = Math.floor(this.inserted / 2);
+          this.inserted = this.inserted - this.skipped;
+        }
+      }
+      for (let i = 0; i < this.failed; ++i) {
+        this.errors.push({
+          row: i,
+          id: i + 10000,
+          errorCode: 303,
+          title: `Record Not Found`,
+          message: `Cannot find Person with externalID: '${i}'`,
+          tipsToResolve: `Check that data exists in Bullhorn or remove association.`,
+        });
+      }
+    }
+  }
+}
+
+class FakeResumeParsingData {
+  processed = 0;
+  inserted = 0;
+  updated = 0;
+  skipped = 0;
+  deleted = 0;
+  failed = 0;
+  successFile = '/Path/to/dataloader/results/Candidate_load_success.csv';
+  failureFile = '/Path/to/dataloader/results/Candidate_load_failure.csv';
+  logFile = '/Path/to/dataloader/log/dataloader_2017-11-20_08.22.21.log';
+  startTime: number;
+  durationMsec: number;
+  errors: Errors[] = [];
+
+  constructor(previewData: PreviewData = null) {
+    this.startTime = Math.floor(Math.random() * (Date.now()));
     this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
     if (previewData) {
       this.processed = previewData.total;
@@ -131,7 +175,7 @@ export class FakePreviewData {
 
   constructor() {
     const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 30)];
-    this.filePath = `../path/to/dataloader/data/${entityName}-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
+    this.filePath = `../path/to/dataloader/data/resumes-${Math.floor(Math.random() * (100 - 1)) + 1}.csv`;
     this.total = Math.floor(Math.random() * (1500 - 1)) + 1;
   }
 }
@@ -195,7 +239,7 @@ export class FileServiceFakes {
     return this.ALL_RUNS;
   }
 
-  static generateFakeResults(callback: (results: Results) => {}): void {
+  static generateFakeLoadResults(callback: (results: Results) => {}): void {
     const fakeResults: Results = new FakeResultsData();
     const MAX_ITERATIONS = 30;
     let i = 0;
@@ -214,6 +258,22 @@ export class FileServiceFakes {
         message: `Cannot find Person with name: 'Waldo'`,
         tipsToResolve: `Check that data exists in Bullhorn or remove association.`,
       });
+      callback(fakeResults);
+      if (++i >= MAX_ITERATIONS) {
+        clearInterval(interval);
+      }
+    }, 500);
+  }
+
+  static generateFakeParseResumeResults(callback: (results: Results) => {}) {
+    const fakeResults: Results = new FakeResumeParsingData();
+    const MAX_ITERATIONS = 30;
+    let i = 0;
+    const interval: Timer = setInterval(() => {
+      fakeResults.processed += 3;
+      fakeResults.inserted += 2;
+      fakeResults.skipped += 1;
+      fakeResults.durationMsec += 1000;
       callback(fakeResults);
       if (++i >= MAX_ITERATIONS) {
         clearInterval(interval);

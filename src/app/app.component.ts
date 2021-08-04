@@ -91,14 +91,14 @@ export class AppComponent implements OnInit {
       this.dataloaderService.onPrint(this.onPrint.bind(this), 'parseResumes');
       this.dataloaderService.onDone(this.onDone.bind(this), 'parseResumes');
       this.dataloaderService.parseResumes(this.currentRun.previewData);
-      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
+      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this), 'parseResumes');
       this.currentRun.running = true;
       // this.analyticsService.trackEvent('ParseResumes', this.currentRun);
     } else {
       this.dataloaderService.onPrint(this.onPrint.bind(this), 'load');
       this.dataloaderService.onDone(this.onDone.bind(this), 'load');
       this.dataloaderService.load(this.currentRun.previewData);
-      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
+      this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this), 'load');
       this.currentRun.running = true;
       this.analyticsService.trackEvent('Load', this.currentRun);
     }

@@ -167,14 +167,14 @@ export class EntityUtil {
    * Given an entity name or filepath, returns the icon that should be used for it (defaults to circle)
    */
   static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
-    let icon = 'circle';
-    let entityName: string = EntityUtil.getEntityNameFromFile(filePath);
-    if (entityName.includes('CustomObject')) {
-      entityName = 'CustomObject';
-    }
-    if (entityName && EntityUtil.ENTITY_ICONS[entityName]) {
-      icon = EntityUtil.ENTITY_ICONS[entityName];
-    }
+    let icon = 'resume';
+    // let entityName: string = EntityUtil.getEntityNameFromFile(filePath);
+    // if (entityName.includes('CustomObject')) {
+    //   entityName = 'CustomObject';
+    // }
+    // if (entityName && EntityUtil.ENTITY_ICONS[entityName]) {
+    //   icon = EntityUtil.ENTITY_ICONS[entityName];
+    // }
     if (useBhiPrefix) {
       icon = 'bhi-' + icon;
     }
@@ -185,12 +185,13 @@ export class EntityUtil {
    * Given an entity name or filepath, returns the theme that should be used for it (defaults to note)
    */
   static getThemeForFilename(filePath: string, defaultValue = 'note'): string {
-    let theme = defaultValue;
-    const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
-    if (entityName && EntityUtil.ENTITY_THEMES[entityName]) {
-      theme = EntityUtil.ENTITY_THEMES[entityName];
-    }
-    return theme;
+    return 'candidate';
+    // let theme = defaultValue;
+    // const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
+    // if (entityName && EntityUtil.ENTITY_THEMES[entityName]) {
+    //   theme = EntityUtil.ENTITY_THEMES[entityName];
+    // }
+    // return theme;
   }
 
   /**

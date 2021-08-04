@@ -14,7 +14,7 @@ import { PreviewData, Results } from '../../../interfaces';
         <div class="filename">{{ fileName }}</div>
       </div>
       <div class="details" *ngIf="previewData">
-        <div class="rows">{{ total }} Rows</div>
+        <div class="rows">{{ total }} Resumes</div>
         <div class="start-date" *ngIf="results && !running">{{ startDate }}</div>
         <div class="loading" *ngIf="results && running">Loading</div>
         <div class="duration" *ngIf="results">{{ duration }}</div>
@@ -41,6 +41,10 @@ export class RunComponent implements OnChanges {
       this.fileName = Util.getFilenameFromPath(this.previewData.filePath);
       this.icon = EntityUtil.getIconForFilename(this.previewData.entity || this.fileName);
       this.theme = EntityUtil.getThemeForFilename(this.previewData.entity || this.fileName);
+      // this.total = Util.getAbbreviatedNumber(this.previewData.total);
+      // this.fileName = Util.getFilenameFromPath(this.previewData.filePath);
+      // this.icon = EntityUtil.getIconForFilename(this.previewData.entity || this.fileName);
+      // this.theme = EntityUtil.getThemeForFilename(this.previewData.entity || this.fileName);
       if (this.results) {
         this.startDate = Util.getStartDateString(this.results.startTime);
         this.duration = Util.getDurationString(this.results.durationMsec);

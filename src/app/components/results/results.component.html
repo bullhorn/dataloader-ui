@@ -1,5 +1,5 @@
 <section class="results">
-  <header *ngIf="parsingResumes" title="Resumes - {{ total }} Files Parsed"
+  <header *ngIf="parsingResumes" title="Resumes - {{ loaded }} Files Parsed"
           [icon]="icon" [theme]="theme"></header>
   <header *ngIf="!parsingResumes" title="{{ fileName }} - {{ total }} Rows"
           [icon]="icon" [theme]="theme"></header>
@@ -96,8 +96,8 @@
       <div *ngIf="this.resumeRows" class="resume-results">
         <div class="parsing-results-title">Parsing Results</div>
         <novo-nav [outlet]="outlet" theme="white">
-          <novo-tab>Candidates Added (36)</novo-tab>
-          <novo-tab>Duplicates (0)</novo-tab>
+          <novo-tab>Candidates Added ({{results?.inserted}})</novo-tab>
+          <novo-tab>Duplicates ({{results?.skipped}})</novo-tab>
           <novo-tab>Failures (0)</novo-tab>
         </novo-nav>
         <novo-nav-outlet #outlet>
