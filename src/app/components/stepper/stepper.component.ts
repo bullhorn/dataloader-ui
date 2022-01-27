@@ -1,10 +1,7 @@
 // Angular
-import {
-  AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, TemplateRef, ViewChildren,
-} from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, ViewChildren } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkStep, CdkStepLabel, CdkStepper } from '@angular/cdk/stepper';
-import { FocusableOption } from '@angular/cdk/a11y';
 // Vendor
 import { takeUntil } from 'rxjs/operators';
 // App
@@ -50,16 +47,14 @@ export class StepComponent extends CdkStep {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperComponent extends CdkStepper implements AfterContentInit {
-  // TODO: Need to use the updated CDK logic for how stepper should work - this logic doesn't jive any longer with the latest CDK version
-
   // The list of step headers of the steps in the stepper
-  @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<FocusableOption>;
+  @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<StepHeaderComponent>;
 
-  // Steps that the stepper holds
-  @ContentChildren(StepComponent) _steps: QueryList<StepComponent>;
+  // Full list of steps inside the stepper, including inside nested steppers.
+  @ContentChildren(StepComponent, {descendants: true}) _steps: QueryList<StepComponent>;
 
-  // Consumer-specified template-refs used to override the header icons
-  _iconOverrides: { [key: string]: TemplateRef<any> } = {};
+  // Steps that belong to the current stepper, excluding ones from nested steppers.
+  steps: QueryList<StepComponent> = new QueryList<StepComponent>();
 
   get completed(): boolean {
     try {
@@ -71,8 +66,10 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
     }
   }
 
-  // Mark the component for change detection whenever the content children query changes
   ngAfterContentInit() {
+    super.ngAfterContentInit();
+
+    // Mark the component for change detection whenever the content children query changes
     this._steps.changes.pipe(takeUntil(this._destroyed)).subscribe(() => this._stateChanged());
   }
 

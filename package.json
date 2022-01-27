@@ -82,7 +82,7 @@
     "glob": "7.1.7",
     "moment": "2.29.1",
     "moment-duration-format": "2.3.2",
-    "novo-elements": "github:bullhorn/novo-elements-snapshot#master",
+    "novo-elements": "5.13.1",
     "rimraf": "3.0.2",
     "rxjs": "6.6.7",
     "text-mask-addons": "3.8.0",
