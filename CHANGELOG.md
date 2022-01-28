@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/bullhorn/dataloader-app/compare/v2.4.0...v2.5.0) (2022-01-28)
+
+
+### Features
+
+* **Fields:** Add additional customText fields to JobOrder and more ([#130](https://github.com/bullhorn/dataloader-app/issues/130)) ([ad392ff](https://github.com/bullhorn/dataloader-app/commit/ad392ff7445da5d543cb89ff09463a01e5bbf5c8))
+
 ## [2.4.0](https://github.com/bullhorn/dataloader-app/compare/v2.3.1...v2.4.0) (2021-06-29)
 
 
