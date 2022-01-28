@@ -99,7 +99,7 @@
     "@types/node": "14.17.6",
     "codelyzer": "6.0.2",
     "copyfiles": "2.4.1",
-    "electron": "13.1.7",
+    "electron": "13.3.0",
     "electron-builder": "22.11.7",
     "electron-notarize": "1.0.0",
     "extract-zip": "2.0.1",
