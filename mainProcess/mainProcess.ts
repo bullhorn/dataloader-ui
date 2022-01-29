@@ -1,11 +1,15 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as log from 'electron-log';
+import * as remoteMain from '@electron/remote/main';
 import { ChildProcess, spawn } from 'child_process';
 import * as glob from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getMenuTemplate } from './menu';
+
+// Initialize the UI thread
+remoteMain.initialize();
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
@@ -33,13 +37,13 @@ function createWindow(): void {
     minHeight: 500,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false,
     }
   });
   const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
   Menu.setApplicationMenu(menu);
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+  remoteMain.enable(mainWindow.webContents);
 
   if (serve) {
     mainWindow.webContents.openDevTools();
