@@ -36,9 +36,9 @@ export class ElectronService {
   constructor() {
     if (ElectronService.isElectron()) {
       const { promisify } = require('util');
-      this.app = window.require('electron').remote.app;
+      this.app = window.require('@electron/remote').app;
       this.csv = window.require('fast-csv');
-      this.dialog = window.require('electron').remote.dialog;
+      this.dialog = window.require('@electron/remote').dialog;
       this.fs = window.require('fs');
       this.fullName = window.require('fullname');
       this.getIp = promisify(window.require('external-ip')());
