@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/bullhorn/dataloader-app/compare/v2.5.0...v2.5.1) (2022-01-31)
+
+
+### Bug Fixes
+
+* **Build:** Upgrade to latest dependencies - routine maintenance ([#139](https://github.com/bullhorn/dataloader-app/issues/139)) ([7fa7128](https://github.com/bullhorn/dataloader-app/commit/7fa71281a76b2ee2496dde12855d9b2fa4d0c059))
+
 ## [2.5.0](https://github.com/bullhorn/dataloader-app/compare/v2.4.0...v2.5.0) (2022-01-28)
 
 
