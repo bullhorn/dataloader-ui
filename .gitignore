@@ -15,6 +15,7 @@ dataloader.zip
 
 # Running electron package locally
 build.log
+local-only-package.sh
 
 # dependencies
 /node_modules
