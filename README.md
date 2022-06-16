@@ -15,7 +15,7 @@ The windows/mac installer files are published there along with additional files 
 
 ### Prerequisites
 
- * Node 14
+ * Node 16
  * Yarn (latest)
  * Setup GitHub token for API access to dataloader repo for automatic downloads
    * Create GitHub personal access token: [Personal access tokens](https://github.com/settings/tokens)
