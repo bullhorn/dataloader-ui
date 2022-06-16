@@ -15,6 +15,7 @@ cache:
     - $HOME/Library/Caches/electron-builder
 
 install:
+  - npm install yarn
   - yarn --frozen-lockfile
 
 script:
