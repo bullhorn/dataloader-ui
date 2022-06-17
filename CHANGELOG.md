@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/bullhorn/dataloader-app/compare/v2.5.1...v2.6.0) (2022-06-17)
+
+
+### Features
+
+* **Entities:** Added GeneralLedgerSegment1-5, GeneralLedgerServiceCode, and PersonCustomObjects 11-25 ([#152](https://github.com/bullhorn/dataloader-app/issues/152)) ([4cc3305](https://github.com/bullhorn/dataloader-app/commit/4cc3305ccaafc353f1e6d72ea78c808961e4b91a))
+
 ### [2.5.1](https://github.com/bullhorn/dataloader-app/compare/v2.5.0...v2.5.1) (2022-01-31)
 
 
