@@ -1,7 +1,7 @@
 {
   "name": "dataloader-ui",
   "productName": "Bullhorn Data Loader",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-app",
   "author": "Bullhorn",
