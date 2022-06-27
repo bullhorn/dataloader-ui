@@ -22,13 +22,17 @@ __Examples:__
   
  2. Run release script: `npm run release`. This will create a new commit and push to master. 
 
- 3. Wait for all Travis CI builds to complete. Once finished, it will create the draft release and attach installers.
+ 3. Wait for all Travis CI builds to complete. Once finished, it will create the draft release and attach installers. 
 
- 4. Copy generated release notes from `CHANGELOG.md` to the release draft and publish release.
+    > NOTE: The tag build and master build both generate release artifacts, but only the master branch version of the artifacts
+    will work with auto-updating the app. If master fails because artifacts are already present in GitHub, 
+    delete the artifacts and restart the master build.
+
+ 4. Copy generated release notes from `CHANGELOG.md` to the release draft, change the release name to the version number minus the 'v', and publish release.
     
-    NOTE: In GitHub, the last release that you touch in any way (like adding release notes) gets the "Latest release" tag.
-    Auto-updates will not work if the last version published does not have this tag, so make sure that older releases
-    don't accidentally get this by re-editing the latest release.
+     > NOTE: In GitHub, the last release that you touch in any way (like adding release notes) gets the "Latest release" tag.
+     Auto-updates will not work if the last version published does not have this tag, so make sure that older releases
+     don't accidentally get this by re-editing the latest release.
 
  5. Update the [Data Loader App README](https://github.com/bullhorn/dataloader-app/blob/master/README.md)
     download links with the new release version.
