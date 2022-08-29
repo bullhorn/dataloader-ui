@@ -22,15 +22,7 @@ export class EntityUtil {
       EntityTypes.CandidateWorkHistory,
       EntityTypes.ClientContact,
       EntityTypes.ClientCorporation,
-      EntityTypes.HousingComplex,
-      EntityTypes.InvoiceStatementMessageTemplate,
-      EntityTypes.InvoiceTerm,
-      EntityTypes.JobOrder,
-      EntityTypes.JobSubmission,
-      EntityTypes.Lead,
-      EntityTypes.Location,
-      EntityTypes.Note,
-      EntityTypes.Opportunity,
+      EntityTypes.FederalTaxForm,
       EntityTypes.GeneralLedgerAccount,
       EntityTypes.GeneralLedgerSegment1,
       EntityTypes.GeneralLedgerSegment2,
@@ -38,10 +30,21 @@ export class EntityUtil {
       EntityTypes.GeneralLedgerSegment4,
       EntityTypes.GeneralLedgerSegment5,
       EntityTypes.GeneralLedgerServiceCode,
+      EntityTypes.HousingComplex,
+      EntityTypes.InvoiceStatementMessageTemplate,
+      EntityTypes.InvoiceTerm,
+      EntityTypes.JobOrder,
+      EntityTypes.JobSubmission,
+      EntityTypes.Lead,
+      EntityTypes.LocalTaxForm,
+      EntityTypes.Location,
+      EntityTypes.Note,
+      EntityTypes.Opportunity,
       EntityTypes.Placement,
       EntityTypes.PlacementChangeRequest,
       EntityTypes.PlacementCommission,
       EntityTypes.Sendout,
+      EntityTypes.StateTaxForm,
       EntityTypes.Task,
       EntityTypes.Tearsheet,
       EntityTypes.ClientCorporationCustomObjectInstance1,
@@ -139,33 +142,35 @@ export class EntityUtil {
 
   static get ENTITY_ICONS(): any {
     return {
-      Appointment: 'appointment',
-      AppointmentAttendee: 'appointment',
-      BillingProfile: 'notes',
-      Candidate: 'candidate',
-      CandidateCertification: 'certification',
-      CandidateEducation: 'education',
-      CandidateReference: 'users',
-      CandidateWorkHistory: 'job',
-      ClientContact: 'person',
-      ClientCorporation: 'company',
-      CustomObject: 'custom-objects',
-      DistributionList: 'users',
-      HousingComplex: 'home',
-      InvoiceStatementMessageTemplate: 'email-invoice-template',
-      InvoiceTerm: 'crane',
-      JobOrder: 'job',
-      JobSubmission: 'star-o',
-      Lead: 'lead',
-      Location: 'location',
-      Note: 'note',
-      Opportunity: 'opportunity',
-      Placement: 'star',
-      PlacementChangeRequest: 'republish',
-      PlacementCommission: 'commission',
-      Sendout: 'sendout',
-      Task: 'check-o',
-      Tearsheet: 'tearsheet',
+      [EntityTypes.Appointment]: 'appointment',
+      [EntityTypes.AppointmentAttendee]: 'appointment',
+      [EntityTypes.BillingProfile]: 'notes',
+      [EntityTypes.Candidate]: 'candidate',
+      [EntityTypes.CandidateCertification]: 'certification',
+      [EntityTypes.CandidateEducation]: 'education',
+      [EntityTypes.CandidateReference]: 'users',
+      [EntityTypes.CandidateWorkHistory]: 'job',
+      [EntityTypes.ClientContact]: 'person',
+      [EntityTypes.ClientCorporation]: 'company',
+      [EntityTypes.DistributionList]: 'users',
+      [EntityTypes.FederalTaxForm]: 'rate',
+      [EntityTypes.HousingComplex]: 'home',
+      [EntityTypes.InvoiceStatementMessageTemplate]: 'email-invoice-template',
+      [EntityTypes.InvoiceTerm]: 'crane',
+      [EntityTypes.JobOrder]: 'job',
+      [EntityTypes.JobSubmission]: 'star-o',
+      [EntityTypes.Lead]: 'lead',
+      [EntityTypes.LocalTaxForm]: 'rate',
+      [EntityTypes.Location]: 'location',
+      [EntityTypes.Note]: 'note',
+      [EntityTypes.Opportunity]: 'opportunity',
+      [EntityTypes.Placement]: 'star',
+      [EntityTypes.PlacementChangeRequest]: 'republish',
+      [EntityTypes.PlacementCommission]: 'commission',
+      [EntityTypes.Sendout]: 'sendout',
+      [EntityTypes.StateTaxForm]: 'rate',
+      [EntityTypes.Task]: 'check-o',
+      [EntityTypes.Tearsheet]: 'tearsheet',
     };
   }
 
@@ -189,17 +194,13 @@ export class EntityUtil {
    */
   static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
     let icon = 'circle';
-    let entityName: string = EntityUtil.getEntityNameFromFile(filePath);
+    const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
     if (entityName.includes('CustomObject')) {
-      entityName = 'CustomObject';
+        icon = 'custom-objects';
+    } else if (EntityUtil.ENTITY_ICONS[entityName]) {
+        icon = EntityUtil.ENTITY_ICONS[entityName];
     }
-    if (entityName && EntityUtil.ENTITY_ICONS[entityName]) {
-      icon = EntityUtil.ENTITY_ICONS[entityName];
-    }
-    if (useBhiPrefix) {
-      icon = 'bhi-' + icon;
-    }
-    return icon;
+    return useBhiPrefix ? 'bhi-' + icon : icon;
   }
 
   /**
