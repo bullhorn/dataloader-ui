@@ -194,19 +194,13 @@ export class EntityUtil {
    */
   static getIconForFilename(filePath: string, useBhiPrefix: boolean = true): string {
     let icon = 'circle';
-
     const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
     if (entityName.includes('CustomObject')) {
-      icon = 'custom-objects';
-    } else if (entityName && EntityUtil.ENTITY_ICONS[entityName]) {
-      icon = EntityUtil.ENTITY_ICONS[entityName];
+        icon = 'custom-objects';
+    } else if (EntityUtil.ENTITY_ICONS[entityName]) {
+        icon = EntityUtil.ENTITY_ICONS[entityName];
     }
-
-    if (useBhiPrefix) {
-      icon = 'bhi-' + icon;
-    }
-
-    return icon;
+    return useBhiPrefix ? 'bhi-' + icon : icon;
   }
 
   /**
