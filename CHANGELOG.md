@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/bullhorn/dataloader-app/compare/v2.6.2...v2.7.0) (2022-11-03)
+
+
+### Features
+
+* **Entities:** Added CandidateTaxInfo ([#156](https://github.com/bullhorn/dataloader-app/issues/156)) ([ab4211d](https://github.com/bullhorn/dataloader-app/commit/ab4211d0558b8d11286974af3757d5da433e726b))
+* **Entities:** Added FederalTaxForm, StateTaxForm, and LocalTaxForm ([#154](https://github.com/bullhorn/dataloader-app/issues/154)) ([1841ebe](https://github.com/bullhorn/dataloader-app/commit/1841ebe43b9eaa51a8f31acc3c14d53c1f233b77))
+
 ### [2.6.2](https://github.com/bullhorn/dataloader-app/compare/v2.6.1...v2.6.2) (2022-06-17)
 
 
