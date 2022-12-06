@@ -222,7 +222,10 @@ export class LoadComponent {
           this.previous();
           this.modalService.open(InfoModalComponent, {
             title: 'Technical Error Getting Meta Data',
-            message: `${parseErr}`,
+            message: 'This may be due to the version of Java on your machine.' +
+              ' Ensure that you have the latest version of Java 1.8 installed,' +
+              ' and there are no other competing Java versions installed on your machine.' +
+              '\n\nActual error:' + parseErr,
           });
         }
         this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
