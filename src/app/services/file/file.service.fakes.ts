@@ -39,7 +39,10 @@ class FakeResultsData {
         this.errors.push({
           row: i,
           id: i + 10000,
-          message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: '${i}'`,
+          errorCode: 303,
+          title: `Record Not Found`,
+          message: `Cannot find Person with externalID: '${i}'`,
+          tipsToResolve: `Check that data exists in Bullhorn or remove association.`,
         });
       }
     }
@@ -206,7 +209,10 @@ export class FileServiceFakes {
       fakeResults.errors.push({
         row: fakeResults.failed,
         id: fakeResults.failed + 4,
-        message: `com.bullhornsdk.data.exception.RestApiException: Cannot find To-One Association: 'owner.name' with value: 'Bogus'`,
+        errorCode: 303,
+        title: `Record Not Found`,
+        message: `Cannot find Person with name: 'Waldo'`,
+        tipsToResolve: `Check that data exists in Bullhorn or remove association.`,
       });
       callback(fakeResults);
       if (++i >= MAX_ITERATIONS) {

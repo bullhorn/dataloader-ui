@@ -7,7 +7,18 @@ import { FileService } from '../../services/file/file.service';
 import { PreviewData, Results } from '../../../interfaces';
 import { EntityUtil, Util } from '../../util';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
-import { NovoModalService } from 'novo-elements';
+import { BaseRenderer, NovoModalService } from 'novo-elements';
+
+@Component({
+  selector: 'error-details',
+  template: `
+    <strong>Message</strong>
+    <p>{{ data.message }}</p>
+    <strong>Tips to Resolve</strong>
+    <p>{{ data.tipsToResolve }}</p>
+  `,
+})
+export class ErrorDetailsComponent extends BaseRenderer {}
 
 @Component({
   selector: 'app-results',
@@ -76,6 +87,9 @@ export class ResultsComponent implements OnInit, OnChanges {
         title: 'ID',
         name: 'id',
       }, {
+        title: 'Error',
+        name: 'title',
+      }, {
         title: 'Message',
         name: 'message',
       }],
@@ -89,6 +103,8 @@ export class ResultsComponent implements OnInit, OnChanges {
           current: 1,
           itemsPerPage: 10,
         },
+        hasDetails: true,
+        detailsRenderer: ErrorDetailsComponent,
       },
     };
   }

@@ -150,8 +150,11 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
     log.error(`Process StdErr:`, data.toString());
     event.sender.send('print', data.toString());
     event.sender.send('error', {
-      title: 'Technical error executing Java',
-      message: data.toString(),
+      title: 'Technical Error Executing Java',
+      message: 'This may be due to the version of Java on your machine.' +
+        ' Ensure that you have the latest version of Java 1.8 installed,' +
+        ' and there are no other competing Java versions installed on your machine.' +
+        '\n\nActual error:' + data.toString(),
     });
   });
   dataloaderProcess.on('close', () => {

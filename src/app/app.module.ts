@@ -19,7 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { LoadComponent } from './components/load/load.component';
 import { MissingJavaModalComponent } from './components/missing-java-modal/missing-java-modal.component';
-import { ResultsComponent } from './components/results/results.component';
+import { ErrorDetailsComponent, ResultsComponent } from './components/results/results.component';
 import { RunComponent } from './components/run/run.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 import { StepComponent, StepperComponent } from './components/stepper/stepper.component';
@@ -42,6 +42,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
     AppComponent,
     ConfirmModalComponent,
     DropzoneComponent,
+    ErrorDetailsComponent,
     HeaderComponent,
     InfoModalComponent,
     LoadComponent,
@@ -57,6 +58,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
   entryComponents: [
     AboutModalComponent,
     ConfirmModalComponent,
+    ErrorDetailsComponent,
     InfoModalComponent,
     MissingJavaModalComponent,
     SettingsModalComponent,
