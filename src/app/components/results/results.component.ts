@@ -12,8 +12,8 @@ import { BaseRenderer, NovoModalService } from 'novo-elements';
 @Component({
   selector: 'error-details',
   template: `
-    <strong>Message</strong>
-    <p>{{ data.message }}</p>
+    <strong>Error Code</strong>
+    <p>{{ data.errorCode }}</p>
     <strong>Tips to Resolve</strong>
     <p>{{ data.tipsToResolve }}</p>
   `,
