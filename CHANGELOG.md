@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/bullhorn/dataloader-app/compare/v2.7.0...v2.8.0) (2022-12-09)
+
+
+### Features
+
+* **Errors:** Updated enhanced error messages to include error code ([5a0ff98](https://github.com/bullhorn/dataloader-app/commit/5a0ff98202d7f89eec0c55a60f840d64d12b0663))
+* **Results:** Enhanced error messages ([#129](https://github.com/bullhorn/dataloader-app/issues/129)) ([6a1509e](https://github.com/bullhorn/dataloader-app/commit/6a1509ed017772b178af807d7c4cea7e8d3ec48d))
+
 ## [2.7.0](https://github.com/bullhorn/dataloader-app/compare/v2.6.2...v2.7.0) (2022-11-03)
 
 
