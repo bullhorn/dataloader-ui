@@ -199,7 +199,7 @@ export class FileService {
   /**
    * Since the CLI does not save off the stderr/stdout to file, we capture it and save it out when a run completes
    *
-   * @param output: the output text that has been captured during a run
+   * @param output - the output text that has been captured during a run
    */
   writeOutputFile(output: string): void {
     if (ElectronService.isElectron()) {
