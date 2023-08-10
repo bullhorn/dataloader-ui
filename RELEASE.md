@@ -92,7 +92,8 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 13. Setup APPLE account secure environment variables in Travis CI, available to all branches right now,
     until the afterSign hook knows if signing happened: https://github.com/electron-userland/electron-builder/issues/4452.
     - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
-    - Set APPLE_PASSWORD to the App-specific password you generated.
-   
-14. Test locally, by setting APPLE_ID / APPLE_PASSWORD environment variables on the command line and running `yarn package`
+    - Set APPLE_APP_SPECIFIC_PASSWORD to the App-specific password you generated.
+    - Set APPLE_TEAM_ID to the Bullhorn Team ID from Apple: https://developer.apple.com/account#MembershipDetailsCard
+
+14. Test locally, by setting APPLE_ID / APPLE_APP_SPECIFIC_PASSWORD environment variables on the command line and running `yarn package`
     - The notarize step can take several minutes while it uploads the package to Apple for verification using their automated virus scan.

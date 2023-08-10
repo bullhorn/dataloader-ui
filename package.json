@@ -8,17 +8,17 @@
   "license": "AGPL-3.0",
   "private": true,
   "scripts": {
-    "analyze": "npm run build:prod -- --stats-json && npx webpack-bundle-analyzer ./dist/stats.json",
+    "analyze": "yarn build:prod -- --stats-json && npx webpack-bundle-analyzer ./dist/stats.json",
     "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --base-href .",
-    "build:prod": "npm run build -- --prod &> build.log",
+    "build:prod": "yarn build -- --configuration production &> build.log",
     "compile": "tsc ./mainProcess/mainProcess.ts ./mainProcess/menu.ts --skipLibCheck true --outDir dist",
     "download": "node packageResources/download-latest-dataloader.js",
     "lint": "tslint --project tsconfig.json",
-    "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
+    "package": "yarn download && yarn build:prod && yarn compile && yarn stage && yarn publish",
     "publish": "cd dist && electron-builder --win --mac",
     "serve": "electron dist/mainProcess.js --serve",
     "stage": "copyfiles package*.json 'dataloader/**/*' dist",
-    "start": "npm run download && npm run build && npm run compile && npm run serve",
+    "start": "yarn download && yarn build && yarn compile && yarn serve",
     "test": "ng serve",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
     "release": "standard-version",
@@ -40,9 +40,11 @@
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "../packageResources/mac-entitlements.plist",
-      "entitlementsInherit": "../packageResources/mac-entitlements.plist"
-    },
-    "afterSign": "../packageResources/mac-notarize.js"
+      "entitlementsInherit": "../packageResources/mac-entitlements.plist",
+      "notarize": {
+        "teamId": "8AGHEBNNMX"
+      }
+    }
   },
   "browser": {
     "crypto": false,
@@ -104,7 +106,6 @@
     "@angular-devkit/core": "~13.3.0",
     "@angular/cli": "~13.3.0",
     "@angular/compiler-cli": "~13.3.0",
-    "@electron/notarize": "2.1.0",
     "@types/chart.js": "2.9.37",
     "@types/crypto-js": "4.1.1",
     "@types/node": "16.18.39",
