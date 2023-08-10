@@ -52,11 +52,8 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 4. Do not commit the file `win-certificate.txt` to source control!
 
 5. Setup Code Signing Certificate (CSC) secure environment variables in Travis CI, available only to `master` branch, so no other branches can sign/publish:
-   
    - Set WIN_CSC_LINK to the contents of `win-certificate.txt` by copying and pasting the very long one line string.
-   
    - Set WIN_CSC_KEY_PASSWORD to the password you chose when generating the .p12 file.
-
 
 ##### Mac
 
@@ -79,9 +76,7 @@ Electron Builder documentation on setting up code signing: https://www.electron.
 7. Do not commit the file `mac-certificate.txt` to source control!
 
 8. Setup Code Signing Certificate (CSC) secure environment variables in Travis CI, available only to `master` branch, so no other branches can sign/publish:
-   
    - Set CSC_LINK to the contents of `mac-certificate.txt` by copying and pasting the very long one line string.
-   
    - Set CSC_KEY_PASSWORD to the password you chose when generating the .p12 file.
 
 9. Test locally by setting the CSC_LINK and CSC_KEY_PASSWORD environment variables before running `yarn package`.
@@ -96,11 +91,8 @@ Electron Builder documentation on setting up code signing: https://www.electron.
    
 13. Setup APPLE account secure environment variables in Travis CI, available to all branches right now,
     until the afterSign hook knows if signing happened: https://github.com/electron-userland/electron-builder/issues/4452.
-   
-   - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
-   
-   - Set APPLE_PASSWORD to the App-specific password you generated.
+    - Set APPLE_ID to you bullhorn apple developer email (your bullhorn email address)
+    - Set APPLE_PASSWORD to the App-specific password you generated.
    
 14. Test locally, by setting APPLE_ID / APPLE_PASSWORD environment variables on the command line and running `yarn package`
-
-   - The notarize step can take several minutes while it uploads the package to Apple for verification using their automated virus scan.
+    - The notarize step can take several minutes while it uploads the package to Apple for verification using their automated virus scan.

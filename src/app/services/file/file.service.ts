@@ -11,6 +11,7 @@ import { InfoModalComponent } from '../../components/info-modal/info-modal.compo
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
 import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
 import { EncryptUtil } from '../../util';
+import { OpenDialogReturnValue } from 'electron';
 
 @Injectable()
 export class FileService {
@@ -339,7 +340,7 @@ export class FileService {
     } else {
       FileServiceFakes.deleteRun(runDirectory);
     }
-    this.runDeleted.next();
+    this.runDeleted.next(null);
   }
 
   unsubscribe(): void {
@@ -353,7 +354,7 @@ export class FileService {
       this.electronService.dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'CSV Files', extensions: ['csv'] }],
-      }).then((result) => {
+      }).then((result: OpenDialogReturnValue) => {
         if (result.filePaths && result.filePaths.length) {
           onFileSelected(result.filePaths[0]);
         }

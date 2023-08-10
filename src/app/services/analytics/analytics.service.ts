@@ -23,15 +23,15 @@ export class AnalyticsService {
       }
       // This is the way that the ga-lite grabs the user id
       window.localStorage.setItem('uid', config.uuid);
-      ga('create', 'UA-84038213-1');
+      // ga('create', 'G-HH51W1WWJ3');
     }
   }
 
   trackEvent(category: string, run: Run): void {
     if (ElectronService.isElectron()) {
       // Params: 'send', 'event', category, action, label, value
-      ga('send', 'event', category, EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath),
-        this.electronService.version(), run.results ? run.results.processed : 0);
+      // ga('send', 'event', category, EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath),
+      //   this.electronService.version(), run.results ? run.results.processed : 0);
     }
   }
 
@@ -41,7 +41,7 @@ export class AnalyticsService {
       const fullName = await this.electronService.fullName();
       const ipAddress = await this.getIpAddress();
       // Params: 'send', 'event', category, action, label, value
-      ga('send', 'event', 'Accepted', `${fullName} (${username})`, ipAddress, version);
+      // ga('send', 'event', 'Accepted', `${fullName} (${username})`, ipAddress, version);
     }
   }
 

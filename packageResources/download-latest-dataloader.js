@@ -1,8 +1,8 @@
-let fs = require('fs');
-let request = require('request');
-let extract = require('extract-zip');
-let rimraf = require('rimraf');
-let log = console.log;
+const fs = require('fs');
+const request = require('request');
+const extract = require('extract-zip');
+const rimraf = require('rimraf');
+const log = console.log;
 
 const GH_TOKEN = process.env.GH_TOKEN;
 const BASE_URL = `https://${GH_TOKEN}:@api.github.com/repos/bullhorn/dataloader`;

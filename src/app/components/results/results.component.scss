@@ -3,10 +3,6 @@
 
 .results {
 
-  novo-nav {
-    background: $neutral;
-  }
-
   novo-nav-content {
     &.tab-overview {
       @include scrollable();
@@ -101,8 +97,6 @@
       padding: 0 1.5rem 20rem;
       font-family: monospace;
       white-space: pre-line;
-      color: white;
-      background: $dark;
     }
   }
 

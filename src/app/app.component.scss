@@ -14,10 +14,9 @@
     }
 
     .run-history {
-      height: 100vh;
-      overflow-y: scroll;
+      height: calc(100vh - $dl-header-height - $dl-new-run-height);
+      overflow-y: auto;
       overflow-x: hidden;
-      padding-bottom: 100px;
     }
   }
 

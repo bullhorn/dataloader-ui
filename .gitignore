@@ -9,6 +9,7 @@ dataloader.zip
 /tmp
 /out-tsc
 /packages
+/.angular
 
 # Running electron in dev mode
 /userData
