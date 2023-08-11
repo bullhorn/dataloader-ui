@@ -88,7 +88,6 @@
     "glob": "10.3.3",
     "moment": "2.29.4",
     "moment-duration-format": "2.3.2",
-    "node-fetch": "3.3.2",
     "novo-design-tokens": "0.0.9",
     "novo-elements": "8.1.0",
     "rimraf": "5.0.1",
