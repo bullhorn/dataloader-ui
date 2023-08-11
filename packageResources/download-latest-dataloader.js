@@ -12,7 +12,7 @@ if (GH_TOKEN === undefined) {
   process.exit();
 }
 
-async function download() {
+(async () => {
   const headers = {
     'User-Agent': `Data Loader UI Downloader`,
     'Authorization': `Bearer ${GH_TOKEN}`,
@@ -50,6 +50,4 @@ async function download() {
   await extract(ZIP_FILE_NAME, { dir: process.cwd() });
   console.log('deleting zip file');
   rimraf.sync(ZIP_FILE_NAME);
-}
-
-download();
+})();
