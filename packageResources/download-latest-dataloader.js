@@ -1,4 +1,5 @@
-const { createWriteStream, existsSync } = require('fs');
+const { existsSync } = require('fs');
+const { writeFile } = require('fs').promises;
 const extract = require('extract-zip');
 const rimraf = require('rimraf');
 
@@ -43,7 +44,7 @@ async function download() {
   });
   const blob = await response.blob();
   const arrayBuffer = await blob.arrayBuffer();
-  createWriteStream(ZIP_FILE_NAME).write(Buffer.from(arrayBuffer));
+  await writeFile(ZIP_FILE_NAME, Buffer.from(arrayBuffer));
 
   console.log('extracting');
   await extract(ZIP_FILE_NAME, { dir: process.cwd() });
