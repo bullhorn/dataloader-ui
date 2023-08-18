@@ -2,7 +2,7 @@
 import Timer = NodeJS.Timer;
 import { EntityTypes } from '@bullhorn/bullhorn-types';
 // App
-import { Config, Errors, PreviewData, Results, Settings } from '../../../interfaces';
+import { Config, DataCenters, Errors, PreviewData, Results, Settings } from '../../../interfaces';
 import { EntityUtil } from '../../util';
 
 class FakeResultsData {
@@ -153,6 +153,7 @@ export class FileServiceFakes {
     password: 'password!',
     clientId: '12345',
     clientSecret: '67890',
+    dataCenter: DataCenters.waltham,
     authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
     tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
     loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',

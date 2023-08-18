@@ -9,14 +9,14 @@ import { ElectronService } from '../electron/electron.service';
 import { environment } from '../../../environments/environment';
 import { InfoModalComponent } from '../../components/info-modal/info-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
-import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
+import { Config, DataCenters, PreviewData, Results, Run, Settings } from '../../../interfaces';
 import { EncryptUtil } from '../../util';
 import { OpenDialogReturnValue } from 'electron';
 
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION = 8;
+  static SETTINGS_FILE_VERSION = 9;
 
   runDeleted = new Subject();
 
@@ -33,6 +33,7 @@ export class FileService {
     singleByteEncoding: false,
     executeFormTriggers: false,
     dateFormat: 'MM/dd/yy HH:mm',
+    dataCenter: DataCenters.waltham,
     authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
     tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
     loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
@@ -135,6 +136,10 @@ export class FileService {
           if (!settings.version || settings.version < 8) {
             settings.skipDuplicates = false;
             settings.wildcardMatching = false;
+          }
+          // Default dataCenter to 'waltham' before version 9 because dataCenter used to be waltham
+          if (!settings.version || settings.version < 9) {
+            settings.dataCenter = DataCenters.waltham;
           }
           return settings;
         } catch (parseErr) {
