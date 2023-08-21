@@ -1,7 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import * as ga from 'ga-lite';
 import { v4 as uuid } from 'uuid';
 // App
 import { ElectronService } from '../electron/electron.service';
@@ -21,17 +20,17 @@ export class AnalyticsService {
         config.uuid = uuid();
         this.fileService.writeConfig(config);
       }
-      // This is the way that the ga-lite grabs the user id
-      window.localStorage.setItem('uid', config.uuid);
-      // ga('create', 'G-HH51W1WWJ3');
     }
   }
 
   trackEvent(category: string, run: Run): void {
     if (ElectronService.isElectron()) {
-      // Params: 'send', 'event', category, action, label, value
-      // ga('send', 'event', category, EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath),
-      //   this.electronService.version(), run.results ? run.results.processed : 0);
+      const action = EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath);
+      window['gtag']('event', action, {
+        event_category: category,
+        event_label: this.electronService.version(),
+        value: run.results ? run.results.processed : 0,
+      });
     }
   }
 
@@ -39,9 +38,13 @@ export class AnalyticsService {
     if (ElectronService.isElectron()) {
       const username = await this.electronService.username();
       const fullName = await this.electronService.fullName();
+      const action = `${fullName} (${username})`;
       const ipAddress = await this.getIpAddress();
-      // Params: 'send', 'event', category, action, label, value
-      // ga('send', 'event', 'Accepted', `${fullName} (${username})`, ipAddress, version);
+      window['gtag']('event', action, {
+        event_category: 'Accepted',
+        event_label: ipAddress,
+        value: version,
+      });
     }
   }
 
