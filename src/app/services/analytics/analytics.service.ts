@@ -10,6 +10,7 @@ import { Config, Run } from '../../../interfaces';
 
 @Injectable()
 export class AnalyticsService {
+  private readonly clientID: string;
 
   constructor(private electronService: ElectronService,
               private fileService: FileService) {
@@ -20,32 +21,48 @@ export class AnalyticsService {
         config.uuid = uuid();
         this.fileService.writeConfig(config);
       }
+      this.clientID = config.uuid;
     }
   }
 
-  trackEvent(category: string, run: Run): void {
+  trackEvent(run: Run): void {
     if (ElectronService.isElectron()) {
-      const action = EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath);
-      window['gtag']('event', action, {
-        event_category: category,
-        event_label: this.electronService.version(),
-        value: run.results ? run.results.processed : 0,
+      const entityName = EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath);
+      const rowCount = run.results ? run.results.processed : 0;
+      this.sendEvent('purchase', {
+        items: [{
+          item_name: entityName,
+          quantity: rowCount,
+          price: 1,
+        }],
+        value: rowCount,
       });
     }
   }
 
   async acceptTermsAndConditions(version: number): Promise<void> {
     if (ElectronService.isElectron()) {
-      const username = await this.electronService.username();
       const fullName = await this.electronService.fullName();
-      const action = `${fullName} (${username})`;
+      const username = await this.electronService.username();
       const ipAddress = await this.getIpAddress();
-      window['gtag']('event', action, {
-        event_category: 'Accepted',
-        event_label: ipAddress,
-        value: version,
+      this.sendEvent('login', {
+        name: fullName,
+        username: username,
+        address: ipAddress,
+        version: `Version ${version}`,
       });
     }
+  }
+
+  private sendEvent(name: string, params: Object): Promise<Response> {
+    return fetch(`https://google-analytics.com/mp/collect?measurement_id=G-HH51W1WWJ3&api_secret=2rmO0J1RTTCxJXbK2Y8A4A`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: this.clientID,
+        events: [{ name, params }],
+      }),
+    });
   }
 
   private async getIpAddress() {
