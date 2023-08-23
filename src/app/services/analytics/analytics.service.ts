@@ -29,14 +29,7 @@ export class AnalyticsService {
     if (ElectronService.isElectron()) {
       const entityName = EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath);
       const rowCount = run.results ? run.results.processed : 0;
-      this.sendEvent('purchase', {
-        items: [{
-          item_name: entityName,
-          quantity: rowCount,
-          price: 1,
-        }],
-        value: rowCount,
-      });
+      this.sendEvent(entityName, rowCount);
     }
   }
 
@@ -45,22 +38,27 @@ export class AnalyticsService {
       const fullName = await this.electronService.fullName();
       const username = await this.electronService.username();
       const ipAddress = await this.getIpAddress();
-      this.sendEvent('login', {
-        name: fullName,
-        username: username,
-        address: ipAddress,
-        version: `Version ${version}`,
-      });
+      this.sendEvent(`${fullName} (${username}) - ${ipAddress} - v${version}`);
     }
   }
 
-  private sendEvent(name: string, params: Object): Promise<Response> {
+  private sendEvent(name: string, count = null): Promise<Response> {
     return fetch(`https://google-analytics.com/mp/collect?measurement_id=G-HH51W1WWJ3&api_secret=2rmO0J1RTTCxJXbK2Y8A4A`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         client_id: this.clientID,
-        events: [{ name, params }],
+        events: [{
+          name: 'purchase',
+          params: {
+            items: [{
+              item_name: name,
+              quantity: count || 1,
+              price: count ? 1 : 0,
+            }],
+            value: count || 0,
+          }
+        }],
       }),
     });
   }
@@ -69,7 +67,7 @@ export class AnalyticsService {
     let ipAddress: string;
     try {
       const ip = await this.electronService.getIp();
-      ipAddress = `Location: ${ip.replace(/\./g, ' / ')}`;
+      ipAddress = ip.replace(/\./g, ' / ');
     } catch (error) {
       ipAddress = 'Error Obtaining Location';
     }
