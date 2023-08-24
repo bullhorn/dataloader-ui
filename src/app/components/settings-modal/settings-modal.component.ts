@@ -1,12 +1,12 @@
 // Angular
 import { Component, NgZone, OnInit } from '@angular/core';
 // Vendor
-import { FormUtils, NovoModalRef, NovoModalService } from 'novo-elements';
+import { FieldInteractionApi, FormUtils, NovoModalRef, NovoModalService } from 'novo-elements';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
 import { FileService } from '../../services/file/file.service';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
-import { Settings } from '../../../interfaces';
+import { DataCenters, Settings } from '../../../interfaces';
 
 @Component({
   selector: 'app-settings',
@@ -30,6 +30,90 @@ export class SettingsModalComponent implements OnInit {
     delete result.existFields;
     delete result.version;
     return result;
+  }
+
+  /**
+   * Auto set the Environment URLs based on the data center quick selection
+   */
+  private static onDataCenterChange(API: FieldInteractionApi): void {
+    // Predefined URLs for known data centers
+    const dataCenterUrls: { [key: string]: { authorizeUrl: string, tokenUrl: string, loginUrl: string } } = {
+      [DataCenters.waltham]: {
+        authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.east]: {
+        authorizeUrl: 'https://auth-east.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-east.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-east.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.west]: {
+        authorizeUrl: 'https://auth-west.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.west50]: {
+        authorizeUrl: 'https://auth-west50.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west50.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west50.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.apac]: {
+        authorizeUrl: 'https://auth-apac.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-apac.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-apac.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.aus]: {
+        authorizeUrl: 'https://auth-aus.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-aus.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-aus.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.uk]: {
+        authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.germany]: {
+        authorizeUrl: 'https://auth-ger.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-ger.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-ger.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.france]: {
+        authorizeUrl: 'https://auth-fra.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-fra.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-fra.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.bhnext]: {
+        authorizeUrl: 'https://auth9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest9.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.cls91]: {
+        authorizeUrl: 'https://auth-west9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-west9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-west9.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.cls29]: {
+        authorizeUrl: 'https://auth-emea9.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-emea9.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-emea9.bullhornstaffing.com/rest-services/login',
+      },
+      [DataCenters.other]: {
+        authorizeUrl: '',
+        tokenUrl: '',
+        loginUrl: '',
+      },
+    };
+
+    const currentValue: string = API.getActiveValue();
+    if (dataCenterUrls[currentValue]) {
+      const urls: any = dataCenterUrls[currentValue];
+      for (const key in urls) {
+        if (urls.hasOwnProperty(key)) {
+          API.setValue(key, urls[key]);
+        }
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -106,7 +190,7 @@ export class SettingsModalComponent implements OnInit {
         name: 'environmentUrls',
         icon: 'bhi-globe',
         sortOrder: 20,
-        enabled: false,
+        enabled: true,
       }, {
         label: 'Formatting',
         name: 'formatting',
@@ -149,27 +233,49 @@ export class SettingsModalComponent implements OnInit {
         description: 'Required when making REST calls. To retrieve your clientSecret, contact Bullhorn Support.',
         sortOrder: 14,
       }, {
+        name: 'dataCenter',
+        type: 'select',
+        label: 'Data Center',
+        required: true,
+        description: 'The location of the Bullhorn REST server endpoints to use when loading data: ' +
+          'http://bullhorn.github.io/Data-Center-URLs',
+        options: [
+          { label: 'U.S. East (Waltham) - CLS5, CLS2, CLS20', value: 'waltham' },
+          { label: 'U.S. East - CLS40, CLS41, CLS42', value: 'east' },
+          { label: 'U.S. West - CLS30, CLS31, CLS32, CLS33, CLS34', value: 'west' },
+          { label: 'U.S. West - CLS50', value: 'west50' },
+          { label: 'Asia Pacific - CLS60', value: 'apac' },
+          { label: 'Australia - CLS66', value: 'aus' },
+          { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },
+          { label: 'Germany - CLS70', value: 'germany' },
+          { label: 'France - CLS71', value: 'france' },
+          { label: 'BHNext', value: 'bhnext' },
+          { label: 'CLS91', value: 'cls91' },
+          { label: 'UK - CLS29', value: 'cls29' },
+          { label: 'Other', value: 'other' }],
+        sortOrder: 21,
+        interactions: [
+          { event: 'change', script: SettingsModalComponent.onDataCenterChange },
+        ],
+      }, {
         name: 'authorizeUrl',
         type: 'text',
         label: 'Authorize URL',
-        required: false,
-        enabled: false,
+        required: true,
         description: 'The location of your Bullhorn authorization server.',
         sortOrder: 22,
       }, {
         name: 'tokenUrl',
         type: 'text',
         label: 'Token URL',
-        required: false,
-        enabled: false,
+        required: true,
         description: 'The location of your Bullhorn REST token server.',
         sortOrder: 23,
       }, {
         name: 'loginUrl',
         type: 'text',
         label: 'Login URL',
-        required: false,
-        enabled: false,
+        required: true,
         description: 'The location of your Bullhorn REST login server.',
         sortOrder: 24,
       }, {

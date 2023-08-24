@@ -4,6 +4,7 @@
 $dl-header-height: 63px;
 $dl-stepper-height: 80px;
 $dl-side-pane-width: 300px;
+$dl-new-run-height: 39px;
 
 @mixin scrollable() {
   height: calc(100vh - #{$dl-header-height});
@@ -51,20 +52,6 @@ $dl-side-pane-width: 300px;
   }
 }
 
-// Zoom out 90% to match Novo sizing
 body {
   overflow: hidden;
-  zoom: 0.9;
-  background: $white;
-
-  // Zoom correction for positioning of popovers
-  .cdk-overlay-pane {
-    margin-bottom: calc(100vh * 0.11);
-    margin-right: calc(100vw * 0.11);
-  }
-
-  // Zoom correction for charts that can't handle zoom - only use if chart interactions are enabled
-  //canvas {
-  //  zoom: 1.11;
-  //}
 }

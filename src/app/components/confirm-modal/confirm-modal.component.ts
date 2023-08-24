@@ -7,8 +7,8 @@ import { NovoModalParams, NovoModalRef } from 'novo-elements';
   selector: 'app-confirm-modal',
   template: `
     <novo-notification type="warning">
-      <h1>{{ headerText }}</h1>
-      <h2 *ngIf="subheaderText">{{ subheaderText }}</h2>
+      <h2>{{ headerText }}</h2>
+      <h3 *ngIf="subheaderText">{{ subheaderText }}</h3>
       <button theme="standard" (click)="cancel()">Cancel</button>
       <button theme="primary" [color]="buttonColor" (click)="yes()" [icon]="confirmButtonIcon">{{ confirmButtonText }}</button>
     </novo-notification>

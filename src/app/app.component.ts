@@ -90,11 +90,10 @@ export class AppComponent implements OnInit {
     this.dataloaderService.load(this.currentRun.previewData);
     this.fileService.onResultsFileChange(this.onResultsFileChange.bind(this));
     this.currentRun.running = true;
-    this.analyticsService.trackEvent('Load', this.currentRun);
   }
 
   onStopped(): void {
-    this.analyticsService.trackEvent('Stopped', this.currentRun);
+    this.analyticsService.trackEvent(this.currentRun);
     this.dataloaderService.stop();
   }
 
@@ -176,7 +175,7 @@ export class AppComponent implements OnInit {
    */
   private sendNotification(): void {
     if (this.currentRun.results) {
-      this.analyticsService.trackEvent('Completed', this.currentRun);
+      this.analyticsService.trackEvent(this.currentRun);
       const entity = EntityUtil.getEntityNameFromFile(this.currentRun.previewData.entity || this.currentRun.previewData.filePath);
       const total = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
       const counts =

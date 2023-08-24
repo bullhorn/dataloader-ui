@@ -1,7 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
 // Vendor
-import * as ga from 'ga-lite';
 import { v4 as uuid } from 'uuid';
 // App
 import { ElectronService } from '../electron/electron.service';
@@ -11,6 +10,7 @@ import { Config, Run } from '../../../interfaces';
 
 @Injectable()
 export class AnalyticsService {
+  private readonly clientID: string;
 
   constructor(private electronService: ElectronService,
               private fileService: FileService) {
@@ -21,35 +21,53 @@ export class AnalyticsService {
         config.uuid = uuid();
         this.fileService.writeConfig(config);
       }
-      // This is the way that the ga-lite grabs the user id
-      window.localStorage.setItem('uid', config.uuid);
-      ga('create', 'UA-84038213-1');
+      this.clientID = config.uuid;
     }
   }
 
-  trackEvent(category: string, run: Run): void {
+  trackEvent(run: Run): void {
     if (ElectronService.isElectron()) {
-      // Params: 'send', 'event', category, action, label, value
-      ga('send', 'event', category, EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath),
-        this.electronService.version(), run.results ? run.results.processed : 0);
+      const entityName = EntityUtil.getEntityNameFromFile(run.previewData.entity || run.previewData.filePath);
+      const rowCount = run.results ? run.results.processed : 0;
+      this.sendEvent(entityName, rowCount);
     }
   }
 
   async acceptTermsAndConditions(version: number): Promise<void> {
     if (ElectronService.isElectron()) {
-      const username = await this.electronService.username();
       const fullName = await this.electronService.fullName();
+      const username = await this.electronService.username();
       const ipAddress = await this.getIpAddress();
-      // Params: 'send', 'event', category, action, label, value
-      ga('send', 'event', 'Accepted', `${fullName} (${username})`, ipAddress, version);
+      this.sendEvent(`${fullName} (${username}) - ${ipAddress} - v${version}`);
     }
+  }
+
+  private sendEvent(name: string, count = null): Promise<Response> {
+    return fetch(`https://google-analytics.com/mp/collect?measurement_id=G-HH51W1WWJ3&api_secret=2rmO0J1RTTCxJXbK2Y8A4A`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: this.clientID,
+        events: [{
+          name: 'purchase',
+          params: {
+            items: [{
+              item_name: name,
+              quantity: count || 1,
+              price: count ? 1 : 0,
+            }],
+            value: count || 0,
+          }
+        }],
+      }),
+    });
   }
 
   private async getIpAddress() {
     let ipAddress: string;
     try {
       const ip = await this.electronService.getIp();
-      ipAddress = `Location: ${ip.replace(/\./g, ' / ')}`;
+      ipAddress = ip.replace(/\./g, ' / ');
     } catch (error) {
       ipAddress = 'Error Obtaining Location';
     }

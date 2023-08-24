@@ -9,13 +9,14 @@ import { ElectronService } from '../electron/electron.service';
 import { environment } from '../../../environments/environment';
 import { InfoModalComponent } from '../../components/info-modal/info-modal.component';
 import { FakePreviewData, FileServiceFakes } from './file.service.fakes';
-import { Config, PreviewData, Results, Run, Settings } from '../../../interfaces';
+import { Config, DataCenters, PreviewData, Results, Run, Settings } from '../../../interfaces';
 import { EncryptUtil } from '../../util';
+import { OpenDialogReturnValue } from 'electron';
 
 @Injectable()
 export class FileService {
   // The version of the settings file to use for backwards compatibility breaking changes
-  static SETTINGS_FILE_VERSION = 8;
+  static SETTINGS_FILE_VERSION = 9;
 
   runDeleted = new Subject();
 
@@ -32,6 +33,7 @@ export class FileService {
     singleByteEncoding: false,
     executeFormTriggers: false,
     dateFormat: 'MM/dd/yy HH:mm',
+    dataCenter: DataCenters.waltham,
     authorizeUrl: 'https://auth.bullhornstaffing.com/oauth/authorize',
     tokenUrl: 'https://auth.bullhornstaffing.com/oauth/token',
     loginUrl: 'https://rest.bullhornstaffing.com/rest-services/login',
@@ -135,6 +137,10 @@ export class FileService {
             settings.skipDuplicates = false;
             settings.wildcardMatching = false;
           }
+          // Default dataCenter to 'waltham' before version 9 because dataCenter used to be waltham
+          if (!settings.version || settings.version < 9) {
+            settings.dataCenter = DataCenters.waltham;
+          }
           return settings;
         } catch (parseErr) {
           this.modalService.open(InfoModalComponent, {
@@ -198,7 +204,7 @@ export class FileService {
   /**
    * Since the CLI does not save off the stderr/stdout to file, we capture it and save it out when a run completes
    *
-   * @param output: the output text that has been captured during a run
+   * @param output - the output text that has been captured during a run
    */
   writeOutputFile(output: string): void {
     if (ElectronService.isElectron()) {
@@ -339,7 +345,7 @@ export class FileService {
     } else {
       FileServiceFakes.deleteRun(runDirectory);
     }
-    this.runDeleted.next();
+    this.runDeleted.next(null);
   }
 
   unsubscribe(): void {
@@ -353,7 +359,7 @@ export class FileService {
       this.electronService.dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'CSV Files', extensions: ['csv'] }],
-      }).then((result) => {
+      }).then((result: OpenDialogReturnValue) => {
         if (result.filePaths && result.filePaths.length) {
           onFileSelected(result.filePaths[0]);
         }
