@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/bullhorn/dataloader-app/compare/v2.8.0...v2.9.0) (2023-08-25)
+
+
+### Features
+
+* **Entities:** Add PersonCustomObjects 26-35 ([#161](https://github.com/bullhorn/dataloader-app/issues/161)) ([e3c19c0](https://github.com/bullhorn/dataloader-app/commit/e3c19c017090c7313048c18920ded0f81045b1e4))
+
 ## [2.8.0](https://github.com/bullhorn/dataloader-app/compare/v2.7.0...v2.8.0) (2022-12-09)
 
 
