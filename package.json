@@ -87,7 +87,7 @@
     "glob": "10.3.4",
     "moment": "2.29.4",
     "moment-duration-format": "2.3.2",
-    "novo-design-tokens": "0.0.10",
+    "novo-design-tokens": "0.0.9",
     "novo-elements": "8.2.0",
     "rimraf": "5.0.1",
     "rxjs": "7.8.1",
