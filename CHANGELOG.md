@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.1](https://github.com/bullhorn/dataloader-app/compare/v2.9.0...v2.9.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* **Login:** CLI update to follow redirects at login ([#162](https://github.com/bullhorn/dataloader-app/issues/162)) ([d59f7a3](https://github.com/bullhorn/dataloader-app/commit/d59f7a3d2981569d1207e16c76fb99ec87f71721))
+
 ## [2.9.0](https://github.com/bullhorn/dataloader-app/compare/v2.8.0...v2.9.0) (2023-08-25)
 
 
