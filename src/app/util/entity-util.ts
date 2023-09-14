@@ -148,6 +148,8 @@ export class EntityUtil {
       EntityTypes.PlacementCustomObjectInstance8,
       EntityTypes.PlacementCustomObjectInstance9,
       EntityTypes.PlacementCustomObjectInstance10,
+      EntityTypes.WorkersCompensation,
+      EntityTypes.WorkersCompensationRate,
     ];
   }
 
