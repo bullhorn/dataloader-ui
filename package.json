@@ -107,7 +107,7 @@
     "@types/crypto-js": "4.1.2",
     "@types/node": "18.17.4",
     "copyfiles": "2.4.1",
-    "electron": "26.1.0",
+    "electron": "26.2.4",
     "electron-builder": "24.6.4",
     "extract-zip": "2.0.1",
     "pre-commit": "1.2.2",
