@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/bullhorn/dataloader-app/compare/v2.9.1...v2.10.0) (2023-11-09)
+
+
+### Features
+
+* **Entities:** Add WorkersCompensation and WorkersCompensationRate ([#163](https://github.com/bullhorn/dataloader-app/issues/163)) ([92b9750](https://github.com/bullhorn/dataloader-app/commit/92b975053c765d214780472dd57ebcca7d9067b4))
+
 ### [2.9.1](https://github.com/bullhorn/dataloader-app/compare/v2.9.0...v2.9.1) (2023-09-06)
 
 
