@@ -47,8 +47,10 @@ export class FileService {
   private settingsFile: string;
   private configFile: string;
 
-  constructor(private electronService: ElectronService,
-              private modalService: NovoModalService) {
+  constructor(
+    private electronService: ElectronService,
+    private modalService: NovoModalService,
+  ) {
     if (ElectronService.isElectron()) {
       this.userDataDir = environment.production ? this.electronService.app.getPath('userData') : 'userData';
       this.settingsFile = this.electronService.path.join(this.userDataDir, 'settings.json');
@@ -145,8 +147,9 @@ export class FileService {
         } catch (parseErr) {
           this.modalService.open(InfoModalComponent, {
             title: 'Error Reading Settings File!',
-            message: `Oops, something went wrong with reading '${this.settingsFile}' from disk.`
-              + `Please re-save your settings.\n\n${parseErr}`,
+            message:
+              `Oops, something went wrong with reading '${this.settingsFile}' from disk.` +
+              `Please re-save your settings.\n\n${parseErr}`,
           });
           return this.defaultSettings;
         }
@@ -228,7 +231,11 @@ export class FileService {
    *    }]
    * }
    */
-  getCsvPreviewData(filePath: string, onSuccess: (previewData: PreviewData) => {}, onError: (message: string) => {}): void {
+  getCsvPreviewData(
+    filePath: string,
+    onSuccess: (previewData: PreviewData) => void,
+    onError: (message: string) => object,
+  ): void {
     if (ElectronService.isElectron()) {
       if (this.electronService.path.extname(filePath).toLowerCase() !== '.csv') {
         onError(`Input file must be a *.csv file, where the filename matches a valid entity name.`);
@@ -241,8 +248,9 @@ export class FileService {
         data: [],
       };
 
-      this.electronService.csv.parseFile(filePath, { headers: true, trim: true, strictColumnHandling: true })
-        .on('data', (row) => {
+      this.electronService.csv
+        .parseFile(filePath, { headers: true, trim: true, strictColumnHandling: true })
+        .on('data', row => {
           previewData.total++;
           if (previewData.headers.length === 0) {
             previewData.headers = Object.keys(row);
@@ -254,7 +262,7 @@ export class FileService {
         .on('end', () => {
           onSuccess(previewData);
         })
-        .on('error', (err) => {
+        .on('error', err => {
           console.error(err); // tslint:disable-line:no-console
           onError(err.message);
         });
@@ -281,7 +289,7 @@ export class FileService {
 
   onResultsFileChange(onChange: (results: Results) => {}): void {
     if (ElectronService.isElectron()) {
-      const options: { persistent?: boolean; interval?: number; } = { persistent: true, interval: 500 };
+      const options: { persistent?: boolean; interval?: number } = { persistent: true, interval: 500 };
       this.electronService.fs.watchFile(this.resultsFile, options, this.readResultsFile.bind(this, onChange));
     } else {
       FileServiceFakes.generateFakeResults(onChange);
@@ -300,7 +308,7 @@ export class FileService {
         if (err) {
           console.error(err); // tslint:disable-line:no-console
         } else {
-          files.forEach((file) => {
+          files.forEach(file => {
             const dir: string = this.electronService.path.join(this.runsDir, file);
             if (this.electronService.fs.statSync(dir).isDirectory()) {
               const previewData: string = this.electronService.path.join(dir, 'previewData.json');
@@ -356,14 +364,16 @@ export class FileService {
 
   browseForFile(onFileSelected: (filePath: string) => {}): void {
     if (ElectronService.isElectron()) {
-      this.electronService.dialog.showOpenDialog({
-        properties: ['openFile'],
-        filters: [{ name: 'CSV Files', extensions: ['csv'] }],
-      }).then((result: OpenDialogReturnValue) => {
-        if (result.filePaths && result.filePaths.length) {
-          onFileSelected(result.filePaths[0]);
-        }
-      });
+      this.electronService.dialog
+        .showOpenDialog({
+          properties: ['openFile'],
+          filters: [{ name: 'CSV Files', extensions: ['csv'] }],
+        })
+        .then((result: OpenDialogReturnValue) => {
+          if (result.filePaths && result.filePaths.length) {
+            onFileSelected(result.filePaths[0]);
+          }
+        });
     } else {
       onFileSelected('/path/to/CandidImport.csv');
     }

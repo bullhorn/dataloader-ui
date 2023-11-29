@@ -23,10 +23,11 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
     event.preventDefault(); // do nothing here
   }
 
-  constructor(private element: ElementRef,
-              private fileService: FileService,
-              private zone: NgZone) {
-  }
+  constructor(
+    private element: ElementRef,
+    private fileService: FileService,
+    private zone: NgZone,
+  ) {}
 
   ngAfterViewInit(): void {
     this.commands = {
@@ -35,13 +36,13 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
       dragover: DropzoneComponent.noOpHandler,
       drop: this.dropHandler.bind(this),
     };
-    ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
+    ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(type => {
       this.element.nativeElement.addEventListener(type, this.commands[type]);
     });
   }
 
   ngOnDestroy(): void {
-    ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
+    ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(type => {
       this.element.nativeElement.removeEventListener(type, this.commands[type]);
     });
   }

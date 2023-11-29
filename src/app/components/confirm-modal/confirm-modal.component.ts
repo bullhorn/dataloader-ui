@@ -10,9 +10,11 @@ import { NovoModalParams, NovoModalRef } from 'novo-elements';
       <h2>{{ headerText }}</h2>
       <h3 *ngIf="subheaderText">{{ subheaderText }}</h3>
       <button theme="standard" (click)="cancel()">Cancel</button>
-      <button theme="primary" [color]="buttonColor" (click)="yes()" [icon]="confirmButtonIcon">{{ confirmButtonText }}</button>
+      <button theme="primary" [color]="buttonColor" (click)="yes()" [icon]="confirmButtonIcon">
+        {{ confirmButtonText }}
+      </button>
     </novo-notification>
-  `
+  `,
 })
 export class ConfirmModalComponent implements OnInit {
   headerText: any;
@@ -21,7 +23,10 @@ export class ConfirmModalComponent implements OnInit {
   confirmButtonText: string;
   confirmButtonIcon: string;
 
-  constructor(public modalRef: NovoModalRef, public params: NovoModalParams) {}
+  constructor(
+    public modalRef: NovoModalRef,
+    public params: NovoModalParams,
+  ) {}
 
   ngOnInit(): any {
     this.headerText = this.params['headerText'];

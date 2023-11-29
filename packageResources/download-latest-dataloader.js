@@ -15,7 +15,7 @@ if (GH_TOKEN === undefined) {
 (async () => {
   const headers = {
     'User-Agent': `Data Loader UI Downloader`,
-    'Authorization': `Bearer ${GH_TOKEN}`,
+    Authorization: `Bearer ${GH_TOKEN}`,
   };
   const latest = await fetch(`${BASE_URL}/releases/latest`, { headers });
 
@@ -35,12 +35,12 @@ if (GH_TOKEN === undefined) {
   }
 
   console.log(`downloading version: ${version}`);
-  const assetID = body.assets.find((asset) => asset.name === ZIP_FILE_NAME).id;
+  const assetID = body.assets.find(asset => asset.name === ZIP_FILE_NAME).id;
   const response = await fetch(`${BASE_URL}/releases/assets/${assetID}`, {
     headers: {
       ...headers,
       Accept: 'application/octet-stream',
-    }
+    },
   });
   const blob = await response.blob();
   const arrayBuffer = await blob.arrayBuffer();

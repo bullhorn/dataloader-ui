@@ -9,10 +9,11 @@ import { NovoModalParams, NovoModalRef } from 'novo-elements';
   templateUrl: './missing-java-modal.component.html',
 })
 export class MissingJavaModalComponent {
-  constructor(public params: NovoModalParams,
-              private electronService: ElectronService,
-              private modalRef: NovoModalRef) {
-  }
+  constructor(
+    public params: NovoModalParams,
+    private electronService: ElectronService,
+    private modalRef: NovoModalRef,
+  ) {}
 
   download(): void {
     if (ElectronService.isElectron()) {

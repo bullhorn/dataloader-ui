@@ -1,5 +1,16 @@
 // Angular
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, forwardRef, Inject, Input, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  ContentChildren,
+  forwardRef,
+  Inject,
+  Input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkStep, CdkStepLabel, CdkStepper } from '@angular/cdk/stepper';
 // Vendor
@@ -12,10 +23,9 @@ import { StepHeaderComponent } from './step-header.component';
  */
 @Component({
   selector: 'app-step',
-  template: `
-    <ng-template>
-      <ng-content></ng-content>
-    </ng-template>`,
+  template: ` <ng-template>
+    <ng-content></ng-content>
+  </ng-template>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepComponent extends CdkStep {
@@ -35,12 +45,14 @@ export class StepComponent extends CdkStep {
   selector: 'app-stepper',
   templateUrl: 'stepper.component.html',
   styleUrls: ['stepper.component.scss'],
-  animations: [trigger('stepTransition', [
-    state('previous', style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
-    state('current', style({ transform: 'none', visibility: 'visible' })),
-    state('next', style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
-    transition('* => *', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')),
-  ])],
+  animations: [
+    trigger('stepTransition', [
+      state('previous', style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+      state('current', style({ transform: 'none', visibility: 'visible' })),
+      state('next', style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+      transition('* => *', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')),
+    ]),
+  ],
   host: {
     class: 'stepper',
   },
@@ -51,7 +63,7 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<StepHeaderComponent>;
 
   // Full list of steps inside the stepper, including inside nested steppers.
-  @ContentChildren(StepComponent, {descendants: true}) _steps: QueryList<StepComponent>;
+  @ContentChildren(StepComponent, { descendants: true }) _steps: QueryList<StepComponent>;
 
   // Steps that belong to the current stepper, excluding ones from nested steppers.
   steps: QueryList<StepComponent> = new QueryList<StepComponent>();

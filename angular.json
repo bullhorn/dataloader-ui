@@ -47,10 +47,7 @@
             "preserveSymlinks": true,
             "tsConfig": "src/tsconfig.app.json",
             "assets": [],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/@bullhorn/bullhorn-icons/fonts/Bullhorn-Glyphicons.css"
-            ],
+            "styles": ["src/styles.scss", "node_modules/@bullhorn/bullhorn-icons/fonts/Bullhorn-Glyphicons.css"],
             "scripts": []
           },
           "configurations": {
@@ -93,12 +90,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

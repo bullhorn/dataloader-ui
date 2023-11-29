@@ -20,7 +20,7 @@ class FakeResultsData {
   errors: Errors[] = [];
 
   constructor(previewData: PreviewData = null) {
-    this.startTime = Math.floor(Math.random() * (Date.now()));
+    this.startTime = Math.floor(Math.random() * Date.now());
     this.durationMsec = Math.floor(Math.random() * (100000000 - 1000)) + 1000;
     if (previewData) {
       this.processed = previewData.total;
@@ -69,19 +69,20 @@ export class FakePreviewData {
     'address.city',
     'address.state',
     'address.zip',
-    'address.countryName'];
+    'address.countryName',
+  ];
   data: any[] = [
     {
       'First Name': 'John',
-      'Last': 'Smith',
-      'Email': 'jsmith@example.com',
+      Last: 'Smith',
+      Email: 'jsmith@example.com',
       'Categories.customText1': 'cat-ext-1',
-      'Owners': '',
+      Owners: '',
       'primarySkills.name': '',
-      'Department': '',
+      Department: '',
       'Skill Code': '',
-      'Age': 35,
-      'Priority': 4,
+      Age: 35,
+      Priority: 4,
       'TPS-GZD-TOKEN': 'ABCD123456',
       'address.address1': '',
       'address.address2': '',
@@ -92,15 +93,15 @@ export class FakePreviewData {
     },
     {
       'First Name': 'John',
-      'Last': 'Doe',
-      'Email': 'jdoe@example.com',
+      Last: 'Doe',
+      Email: 'jdoe@example.com',
       'Categories.customText1': 'cat-ext-1',
-      'Owners': '',
+      Owners: '',
       'primarySkills.name': 'Skill2;Skill3',
-      'Department': '',
+      Department: '',
       'Skill Code': 'A123',
-      'Age': 25,
-      'Priority': 10,
+      Age: 25,
+      Priority: 10,
       'TPS-GZD-TOKEN': 'ABCD123456',
       'address.address1': '',
       'address.address2': '',
@@ -111,15 +112,15 @@ export class FakePreviewData {
     },
     {
       'First Name': 'Jane',
-      'Last': 'Doe',
-      'Email': 'jdoe@example.com',
+      Last: 'Doe',
+      Email: 'jdoe@example.com',
       'Categories.customText1': 'cat-ext-1',
-      'Owners': 'Recruiter CorporateUser',
+      Owners: 'Recruiter CorporateUser',
       'primarySkills.name': 'Skill3;Skill4',
-      'Department': '',
+      Department: '',
       'Skill Code': 'A123',
-      'Age': 30,
-      'Priority': 3,
+      Age: 30,
+      Priority: 3,
       'TPS-GZD-TOKEN': 'ABCD123456',
       'address.address1': '100 Summer Street',
       'address.address2': '17th Floor',
@@ -127,7 +128,8 @@ export class FakePreviewData {
       'address.state': 'MA',
       'address.zip': '2150',
       'address.countryName': 'United States',
-    }];
+    },
+  ];
 
   constructor() {
     const entityName: EntityTypes = EntityUtil.ENTITY_NAMES[Math.floor(Math.random() * 30)];
@@ -166,19 +168,23 @@ export class FileServiceFakes {
     executeFormTriggers: false,
     numThreads: 15,
     caching: true,
-    existFields: [{
-      entity: 'Candidate',
-      enabled: true,
-      fields: ['firstName', 'lastName', 'email'],
-    }, {
-      entity: 'ClientContact',
-      enabled: true,
-      fields: ['firstName', 'lastName'],
-    }, {
-      entity: 'Note',
-      enabled: true,
-      fields: ['externalID'],
-    }],
+    existFields: [
+      {
+        entity: 'Candidate',
+        enabled: true,
+        fields: ['firstName', 'lastName', 'email'],
+      },
+      {
+        entity: 'ClientContact',
+        enabled: true,
+        fields: ['firstName', 'lastName'],
+      },
+      {
+        entity: 'Note',
+        enabled: true,
+        fields: ['externalID'],
+      },
+    ],
   };
 
   static CONFIG: Config = {
@@ -187,9 +193,41 @@ export class FileServiceFakes {
     acceptedLicenseVersion: 0,
   };
 
-  static ALL_RUNS: Run[] = [new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
-    new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
-    new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(), new Run(),
+  static ALL_RUNS: Run[] = [
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
+    new Run(),
   ];
 
   static getAllRuns(): Run[] {
@@ -223,7 +261,7 @@ export class FileServiceFakes {
   }
 
   static deleteRun(dir: string) {
-    this.ALL_RUNS = this.ALL_RUNS.filter((run) => {
+    this.ALL_RUNS = this.ALL_RUNS.filter(run => {
       return run.runDirectory !== dir;
     });
   }

@@ -3,8 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-step-status',
-  template: `
-    <div class="stepper-status-line" [ngClass]="state"></div>
+  template: ` <div class="stepper-status-line" [ngClass]="state"></div>
     <div [ngSwitch]="state" class="stepper-status-icon">
       <novo-icon color="positive" *ngSwitchCase="'edit'">check-circle</novo-icon>
       <novo-icon color="positive" *ngSwitchCase="'done'">check-circle-filled</novo-icon>

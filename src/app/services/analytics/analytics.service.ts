@@ -12,8 +12,10 @@ import { Config, Run } from '../../../interfaces';
 export class AnalyticsService {
   private readonly clientID: string;
 
-  constructor(private electronService: ElectronService,
-              private fileService: FileService) {
+  constructor(
+    private electronService: ElectronService,
+    private fileService: FileService,
+  ) {
     if (ElectronService.isElectron()) {
       // Retrieve uuid from the config file, and if it's not there, assign it a new uuid.
       const config: Config = this.fileService.readConfig();
@@ -43,24 +45,31 @@ export class AnalyticsService {
   }
 
   private sendEvent(name: string, count = null): Promise<Response> {
-    return fetch(`https://google-analytics.com/mp/collect?measurement_id=G-HH51W1WWJ3&api_secret=2rmO0J1RTTCxJXbK2Y8A4A`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        client_id: this.clientID,
-        events: [{
-          name: 'purchase',
-          params: {
-            items: [{
-              item_name: name,
-              quantity: count || 1,
-              price: count ? 1 : 0,
-            }],
-            value: count || 0,
-          }
-        }],
-      }),
-    });
+    return fetch(
+      `https://google-analytics.com/mp/collect?measurement_id=G-HH51W1WWJ3&api_secret=2rmO0J1RTTCxJXbK2Y8A4A`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: this.clientID,
+          events: [
+            {
+              name: 'purchase',
+              params: {
+                items: [
+                  {
+                    item_name: name,
+                    quantity: count || 1,
+                    price: count ? 1 : 0,
+                  },
+                ],
+                value: count || 0,
+              },
+            },
+          ],
+        }),
+      },
+    );
   }
 
   private async getIpAddress() {

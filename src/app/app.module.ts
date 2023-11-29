@@ -63,12 +63,7 @@ import { StepStatusComponent } from './components/stepper/step-status.component'
     MissingJavaModalComponent,
     SettingsModalComponent,
   ],
-  providers: [
-    AnalyticsService,
-    DataloaderService,
-    ElectronService,
-    FileService,
-    Title],
+  providers: [AnalyticsService, DataloaderService, ElectronService, FileService, Title],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

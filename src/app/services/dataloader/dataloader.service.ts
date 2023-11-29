@@ -9,10 +9,10 @@ import { Error, PreviewData, Settings } from '../../../interfaces';
 
 @Injectable()
 export class DataloaderService {
-
-  constructor(private electronService: ElectronService,
-              private fileService: FileService) {
-  }
+  constructor(
+    private electronService: ElectronService,
+    private fileService: FileService,
+  ) {}
 
   /**
    * Combines the filePath argument with all of the settings and sends it over to the main process for
@@ -93,7 +93,11 @@ export class DataloaderService {
    * @param {(error: IError) => void} missingJavaCallback - Specific callback for missing Java on the command line
    * @param {() => void} aboutCallback - Shows the about dialog
    */
-  onMessages(errorCallback: (error: Error) => void, missingJavaCallback: (error: Error) => void, aboutCallback: () => void): void {
+  onMessages(
+    errorCallback: (error: Error) => void,
+    missingJavaCallback: (error: Error) => void,
+    aboutCallback: () => void,
+  ): void {
     if (ElectronService.isElectron()) {
       this.electronService.ipcRenderer.on('error', (event, error) => errorCallback(error));
       this.electronService.ipcRenderer.on('missing-java', (event, error) => missingJavaCallback(error));

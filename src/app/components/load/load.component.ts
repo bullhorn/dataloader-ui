@@ -1,7 +1,17 @@
 // Angular
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  NgZone,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 // Vendor
-import { NovoModalService, NovoToastService, } from 'novo-elements';
+import { NovoModalService, NovoToastService } from 'novo-elements';
 import Fuse from 'fuse.js';
 // App
 import { DataloaderService } from '../../services/dataloader/dataloader.service';
@@ -45,21 +55,26 @@ export class LoadComponent {
   rows: any[];
   columns: any[];
   displayedColumns: string[];
-  duplicateCheckEnabledTileOptions = [{ label: 'Enable Duplicate Check', value: true }, { label: 'Disable (Always Insert)', value: false }];
+  duplicateCheckEnabledTileOptions = [
+    { label: 'Enable Duplicate Check', value: true },
+    { label: 'Disable (Always Insert)', value: false },
+  ];
   duplicateCheckFieldsPickerConfig = { format: '$label', options: [] };
-  duplicateCheckModel: { name: string, label: string }[] = [];
+  duplicateCheckModel: { name: string; label: string }[] = [];
   backupEnabled = false;
   stepEnum: typeof StepEnum = StepEnum;
   entityPickerModifiedByUser = false;
 
   private _entity = '';
 
-  constructor(private fileService: FileService,
-              private dataloaderService: DataloaderService,
-              private modalService: NovoModalService,
-              private toaster: NovoToastService,
-              private zone: NgZone,
-              private ref: ChangeDetectorRef) {
+  constructor(
+    private fileService: FileService,
+    private dataloaderService: DataloaderService,
+    private modalService: NovoModalService,
+    private toaster: NovoToastService,
+    private zone: NgZone,
+    private ref: ChangeDetectorRef,
+  ) {
     this.columns = [
       { id: 'header', label: 'Column Header', enabled: true, template: 'textCell', sortable: true, filterable: true },
       { id: 'sample', label: 'Sample Data', enabled: true, template: 'textCell', sortable: true, filterable: true },
@@ -84,14 +99,19 @@ export class LoadComponent {
   }
 
   get numInvalidRows(): number {
-    return !this.numSelectedRows ? 0 : this.tables.first.state.selected.reduce((acc, row) => {
-      return acc + (this.isRowValid(row) ? 0 : 1);
-    }, 0);
+    return !this.numSelectedRows
+      ? 0
+      : this.tables.first.state.selected.reduce((acc, row) => {
+          return acc + (this.isRowValid(row) ? 0 : 1);
+        }, 0);
   }
 
   get mapColumnsTooltip(): string {
-    return !this.numSelectedRows ? `No columns are mapped, select one or more columns to continue` :
-      this.numInvalidRows ? `There are ${this.numInvalidRows} selected columns that are not mapped to a bullhorn field` : '';
+    return !this.numSelectedRows
+      ? `No columns are mapped, select one or more columns to continue`
+      : this.numInvalidRows
+      ? `There are ${this.numInvalidRows} selected columns that are not mapped to a bullhorn field`
+      : '';
   }
 
   get duplicateCheckValid(): boolean {
@@ -135,10 +155,12 @@ export class LoadComponent {
           this.getMeta();
           this.stepper.next();
         } else {
-          this.toaster.alert(LoadComponent.createAlertOptions({
-            title: 'Choose Entity to Continue',
-            message: 'Use the picker to select the bullhorn entity to load data for'
-          }));
+          this.toaster.alert(
+            LoadComponent.createAlertOptions({
+              title: 'Choose Entity to Continue',
+              message: 'Use the picker to select the bullhorn entity to load data for',
+            }),
+          );
         }
         break;
       case StepEnum.MapColumns:
@@ -146,16 +168,22 @@ export class LoadComponent {
           this.run.previewData.entity = this.entity;
           this.run.previewData.columnMap = this.rows.reduce((acc, row) => {
             return Object.assign(acc, {
-              [row.header]: this.tables.first.isSelected(row) ? row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name : '',
+              [row.header]: this.tables.first.isSelected(row)
+                ? row.subfield
+                  ? `${row.field.name}.${row.subfield.name}`
+                  : row.field.name
+                : '',
             });
           }, {});
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {
-          this.toaster.alert(LoadComponent.createAlertOptions({
-            title: `${this.numInvalidRows} Selected Columns Not Mapped`,
-            message: `All selected columns must be mapped to a bullhorn field, including an associated field for associations`,
-          }));
+          this.toaster.alert(
+            LoadComponent.createAlertOptions({
+              title: `${this.numInvalidRows} Selected Columns Not Mapped`,
+              message: `All selected columns must be mapped to a bullhorn field, including an associated field for associations`,
+            }),
+          );
         }
         break;
       case StepEnum.DuplicateCheck:
@@ -165,17 +193,19 @@ export class LoadComponent {
             this.started.emit();
           }
         } else {
-          this.toaster.alert(LoadComponent.createAlertOptions({
-            title: `No Duplicate Check Fields Selected`,
-            message: `Select field(s) to use when duplicate checking, or disable duplicate checking.`,
-          }));
+          this.toaster.alert(
+            LoadComponent.createAlertOptions({
+              title: `No Duplicate Check Fields Selected`,
+              message: `Select field(s) to use when duplicate checking, or disable duplicate checking.`,
+            }),
+          );
         }
         break;
     }
   }
 
   onFieldMappingChanged(event: any, row: any) {
-    row.fieldMeta = event && event.data ? this.meta.fields.find((field) => field.name === event.data.name) : null;
+    row.fieldMeta = event && event.data ? this.meta.fields.find(field => field.name === event.data.name) : null;
     Object.assign(row, LoadComponent.getSubfieldData(row.fieldMeta));
   }
 
@@ -222,15 +252,21 @@ export class LoadComponent {
           this.previous();
           this.modalService.open(InfoModalComponent, {
             title: 'Technical Error Getting Meta Data',
-            message: 'This may be due to the version of Java on your machine.' +
+            message:
+              'This may be due to the version of Java on your machine.' +
               ' Ensure that you have the latest version of Java 1.8 installed,' +
               ' and there are no other competing Java versions installed on your machine.' +
-              '\n\nActual error:' + parseErr,
+              '\n\nActual error:' +
+              parseErr,
           });
         }
         this.fieldPickerConfig.options = LoadComponent.createPickerOptionsFromMeta(this.meta);
         // Kick off preview data from the CSV file, and wait to render table until it's finished reading
-        this.fileService.getCsvPreviewData(this.filePath, this.onPreviewData.bind(this), this.onPreviewDataError.bind(this));
+        this.fileService.getCsvPreviewData(
+          this.filePath,
+          this.onPreviewData.bind(this),
+          this.onPreviewDataError.bind(this),
+        );
       }
     });
   }
@@ -242,22 +278,25 @@ export class LoadComponent {
       this.totalRows = Util.getAbbreviatedNumber(this.run.previewData.total);
       this.existField = DataloaderUtil.getExistField(this.fileService.readSettings(), this.entity);
       this.rows = this.run.previewData.headers.map(header => {
-        const sampleData: Object = this.run.previewData.data.find((data) => data[header]);
+        const sampleData: Object = this.run.previewData.data.find(data => data[header]);
         const [fieldName, associatedFieldName] = header.split('.');
         const fieldMeta = LoadComponent.findMatchingFieldMeta(this.meta, fieldName);
-        return Object.assign({
-          id: header,
-          header: header,
-          sample: sampleData ? sampleData[header] : '',
-          field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
-          fieldMeta,
-        }, LoadComponent.getSubfieldData(fieldMeta, associatedFieldName));
+        return Object.assign(
+          {
+            id: header,
+            header: header,
+            sample: sampleData ? sampleData[header] : '',
+            field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
+            fieldMeta,
+          },
+          LoadComponent.getSubfieldData(fieldMeta, associatedFieldName),
+        );
       });
 
       // Start out all columns in the file as selected
       setTimeout(() => {
-        this.tables.forEach((table) => {
-          table.dataSource.data.forEach((item) => {
+        this.tables.forEach(table => {
+          table.dataSource.data.forEach(item => {
             table.selectRow(item);
           });
         });
@@ -275,9 +314,10 @@ export class LoadComponent {
 
   private setupDuplicateCheck(): void {
     // The picker deals with values in the format: { name: string, label: string } while the existField data stored is names only
-    this.duplicateCheckFieldsPickerConfig.options = this.tables.first.state.selected.map((row) => row.field);
-    this.duplicateCheckModel = this.duplicateCheckFieldsPickerConfig.options
-      .filter(option => option && this.existField.fields.includes(option.name));
+    this.duplicateCheckFieldsPickerConfig.options = this.tables.first.state.selected.map(row => row.field);
+    this.duplicateCheckModel = this.duplicateCheckFieldsPickerConfig.options.filter(
+      option => option && this.existField.fields.includes(option.name),
+    );
   }
 
   private verifyCsvFile(filepath: string): boolean {
@@ -314,16 +354,19 @@ export class LoadComponent {
 
   private static getSubfieldData(fieldMeta: Field, associatedFieldName?: string): Object {
     const associatedEntityMeta = this.getAssociatedEntityMeta(fieldMeta, associatedFieldName);
-    const subfieldMeta = associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
+    const subfieldMeta =
+      associatedEntityMeta && LoadComponent.findMatchingFieldMeta(associatedEntityMeta, associatedFieldName);
     const subfield = subfieldMeta && LoadComponent.createPickerOptionFromFieldMeta(subfieldMeta);
     const subfieldPickerConfig = associatedEntityMeta && {
       format: '$label',
       minSearchLength: 0,
-      options: (term) => {
-        return new Promise((resolve) => {
+      options: term => {
+        return new Promise(resolve => {
           // When using a subfield picker, allow the user to enter any term as the subfield name, since the names are not exhaustive
           const options = LoadComponent.createPickerOptionsFromMeta(associatedEntityMeta);
-          const exists = options.find(option => Util.equalsIgnoreCase(term, option.name) || Util.equalsIgnoreCase(term, option.label));
+          const exists = options.find(
+            option => Util.equalsIgnoreCase(term, option.name) || Util.equalsIgnoreCase(term, option.label),
+          );
           if (term.length && !exists) {
             options.unshift({ name: term, label: term });
           }
@@ -361,7 +404,9 @@ export class LoadComponent {
     // Allow the user defined subfield specified in the header to be used as a valid picker value
     if (meta && associatedFieldName) {
       const name = associatedFieldName.replace(/\s/g, '');
-      if (!meta.fields.find(field => Util.equalsIgnoreCase(field.name, name) || Util.equalsIgnoreCase(field.label, name))) {
+      if (
+        !meta.fields.find(field => Util.equalsIgnoreCase(field.name, name) || Util.equalsIgnoreCase(field.label, name))
+      ) {
         meta.fields.unshift({ name, type: 'SCALAR' });
       }
     }
@@ -378,7 +423,10 @@ export class LoadComponent {
       }
       // Fuzzy match only on non-hidden fields to avoid unused fields from being selected as the default
       if (!bestMatch) {
-        const fuzzySearch = new Fuse(meta.fields.filter(f => !f.readOnly), { keys: ['name', 'label'] });
+        const fuzzySearch = new Fuse(
+          meta.fields.filter(f => !f.readOnly),
+          { keys: ['name', 'label'] },
+        );
         const results = fuzzySearch.search(fieldName);
         bestMatch = results.length ? results[0].item : null;
       }
@@ -386,13 +434,15 @@ export class LoadComponent {
     return bestMatch;
   }
 
-  private static createPickerOptionsFromMeta(meta: Meta): { name: string, label: string }[] {
-    return meta && meta.fields ? meta.fields.map((field) => {
-      return LoadComponent.createPickerOptionFromFieldMeta(field);
-    }) : null;
+  private static createPickerOptionsFromMeta(meta: Meta): { name: string; label: string }[] {
+    return meta && meta.fields
+      ? meta.fields.map(field => {
+          return LoadComponent.createPickerOptionFromFieldMeta(field);
+        })
+      : null;
   }
 
-  private static createPickerOptionFromFieldMeta(field: Field): { name: string, label: string } {
+  private static createPickerOptionFromFieldMeta(field: Field): { name: string; label: string } {
     return { name: field.name, label: field.label ? `${field.label} (${field.name})` : field.name };
   }
 

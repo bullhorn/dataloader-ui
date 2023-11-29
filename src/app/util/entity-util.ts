@@ -5,7 +5,6 @@ import Fuse from 'fuse.js';
 import { Util } from './util';
 
 export class EntityUtil {
-
   // This is the full list of supported entities from Data Loader. It must be kept up to date manually with:
   // https://github.com/bullhorn/dataloader/blob/master/src/main/java/com/bullhorn/dataloader/enums/EntityInfo.java#L29
   // The EntityInfo enums in Data Loader that have a zero load order are not loadable, they are for lookup only.
@@ -208,9 +207,9 @@ export class EntityUtil {
     let icon = 'circle';
     const entityName: string = EntityUtil.getEntityNameFromFile(filePath);
     if (entityName.includes('CustomObject')) {
-        icon = 'custom-objects';
+      icon = 'custom-objects';
     } else if (EntityUtil.ENTITY_ICONS[entityName]) {
-        icon = EntityUtil.ENTITY_ICONS[entityName];
+      icon = EntityUtil.ENTITY_ICONS[entityName];
     }
     return useBhiPrefix ? 'bhi-' + icon : icon;
   }
@@ -235,7 +234,7 @@ export class EntityUtil {
     const fileName: string = Util.getFilenameFromPath(filePath).replace(/\..+$/, '');
 
     // Preserve the original startsWith() logic so that changes are backwards compatible
-    EntityUtil.ENTITY_NAMES.forEach((entityName) => {
+    EntityUtil.ENTITY_NAMES.forEach(entityName => {
       if (fileName.toLowerCase().startsWith(entityName.toLowerCase())) {
         if (bestMatch.length < entityName.length) {
           bestMatch = entityName; // longer name is better
@@ -245,9 +244,11 @@ export class EntityUtil {
 
     if (!bestMatch) {
       // Search for the entity name anywhere in the filename
-      EntityUtil.ENTITY_NAMES.forEach((entityName) => {
-        if (fileName.toLowerCase().includes(entityName.toLowerCase()) ||
-          fileName.toLowerCase().includes(this.getThemeForFilename(entityName.toLowerCase(), null))) {
+      EntityUtil.ENTITY_NAMES.forEach(entityName => {
+        if (
+          fileName.toLowerCase().includes(entityName.toLowerCase()) ||
+          fileName.toLowerCase().includes(this.getThemeForFilename(entityName.toLowerCase(), null))
+        ) {
           if (bestMatch.length < entityName.length) {
             bestMatch = entityName; // longer name is better
           }
@@ -257,16 +258,19 @@ export class EntityUtil {
 
     // If no entity names exist in the file name, then try a fuzzy search using the words in the filename
     if (!bestMatch) {
-      const entities = EntityUtil.ENTITY_NAMES
-        .filter(name => name.toLowerCase().includes('custom') ? fileName.toLowerCase().includes('custom') :
-          name.toLowerCase().includes('housing') ? fileName.toLowerCase().includes('housing') : true)
-        .map(name => {
-          return {
-            name: name,
-            label: Util.getWordsFromText(name).join(' '),
-            theme: this.getThemeForFilename(name, ''),
-          };
-        });
+      const entities = EntityUtil.ENTITY_NAMES.filter(name =>
+        name.toLowerCase().includes('custom')
+          ? fileName.toLowerCase().includes('custom')
+          : name.toLowerCase().includes('housing')
+          ? fileName.toLowerCase().includes('housing')
+          : true,
+      ).map(name => {
+        return {
+          name: name,
+          label: Util.getWordsFromText(name).join(' '),
+          theme: this.getThemeForFilename(name, ''),
+        };
+      });
       const fuzzySearch = new Fuse(entities, { keys: ['name', 'label', 'theme'], includeScore: true });
       const words = Util.getWordsFromText(fileName);
       const results = words.reduce((acc, current) => {

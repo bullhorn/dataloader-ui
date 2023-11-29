@@ -2,7 +2,6 @@
 import { ExistField, PreviewData, Settings } from '../../interfaces';
 
 export class DataloaderUtil {
-
   /**
    * Given a settings object with dataloader properties and a filename to load, this method returns CLI args
    *

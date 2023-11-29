@@ -4,9 +4,8 @@ import { CdkStepHeader } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-step-header',
-  template: `
-    <div class="step-icon" [class.selected]="selected">
-      <novo-icon>{{icon}}</novo-icon>
+  template: ` <div class="step-icon" [class.selected]="selected">
+      <novo-icon>{{ icon }}</novo-icon>
     </div>
     <div class="step-label" [class.selected]="selected">
       <div class="step-text-label">{{ label }}</div>

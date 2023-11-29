@@ -13,20 +13,22 @@
     "build:prod": "npm run build -- --configuration production &> build.log",
     "compile": "tsc ./mainProcess/mainProcess.ts ./mainProcess/menu.ts --skipLibCheck true --outDir dist",
     "download": "node packageResources/download-latest-dataloader.js",
-    "lint": "tslint --project tsconfig.json",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "lint": "eslint .",
     "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
     "publish": "cd dist && electron-builder --win --mac",
     "serve": "electron dist/mainProcess.js --serve",
     "stage": "copyfiles package*.json 'dataloader/**/*' dist",
     "start": "npm run download && npm run build && npm run compile && npm run serve",
     "test": "ng serve",
-    "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
+    "precommit-msg": "echo 'Pre-commit linter checks and auto formatting...' && exit 0",
     "release": "standard-version",
     "postrelease": "git push --follow-tags origin master"
   },
   "pre-commit": [
     "precommit-msg",
-    "lint"
+    "lint",
+    "format"
   ],
   "main": "mainProcess.js",
   "build": {
@@ -106,14 +108,18 @@
     "@types/chart.js": "2.9.38",
     "@types/crypto-js": "4.1.2",
     "@types/node": "18.17.4",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
     "copyfiles": "2.4.1",
     "electron": "26.1.0",
     "electron-builder": "24.6.4",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
     "extract-zip": "2.0.1",
     "pre-commit": "1.2.2",
+    "prettier": "^3.0.3",
     "standard-version": "9.5.0",
     "ts-node": "10.9.1",
-    "tslint": "6.1.3",
     "typescript": "4.6.4"
   },
   "resolutions": {

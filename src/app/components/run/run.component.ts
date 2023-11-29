@@ -8,7 +8,7 @@ import { PreviewData, Results } from '../../../interfaces';
   selector: 'app-run',
   styleUrls: ['./run.component.scss'],
   template: `
-    <div class="run" [ngClass]="{'selected': isSelected, 'running': running}">
+    <div class="run" [ngClass]="{ selected: isSelected, running: running }">
       <div class="header">
         <i class="{{ icon }} {{ theme }}" theme="entity"></i>
         <div class="filename">{{ fileName }}</div>

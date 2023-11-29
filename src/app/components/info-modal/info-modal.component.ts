@@ -8,9 +8,10 @@ import { NovoModalParams, NovoModalRef } from 'novo-elements';
   templateUrl: './info-modal.component.html',
 })
 export class InfoModalComponent {
-  constructor(public params: NovoModalParams,
-              private modalRef: NovoModalRef) {
-  }
+  constructor(
+    public params: NovoModalParams,
+    private modalRef: NovoModalRef,
+  ) {}
 
   close(): void {
     this.modalRef.close();

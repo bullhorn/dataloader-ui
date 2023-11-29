@@ -13,7 +13,7 @@ remoteMain.initialize();
 
 // The --serve argument will run electron in development mode
 const args: string[] = process.argv.slice(1);
-const serve: boolean = args.some((arg) => arg === '--serve');
+const serve: boolean = args.some(arg => arg === '--serve');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -38,7 +38,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-    }
+    },
   });
   const menu: Electron.Menu = Menu.buildFromTemplate(getMenuTemplate(mainWindow));
   Menu.setApplicationMenu(menu);
@@ -100,9 +100,9 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
 
   // Locate the user and application directories
   const userDataDir: string = serve ? path.resolve('userData') : app.getPath('userData');
-  const dataloaderDir: string = serve ?
-    path.resolve('dataloader') :
-    path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
+  const dataloaderDir: string = serve
+    ? path.resolve('dataloader')
+    : path.join(app.getAppPath(), 'dataloader').replace('app.asar', 'app.asar.unpacked');
   log.info(`Resolved User Data location:`, userDataDir);
   log.info(`Resolved Data Loader location:`, dataloaderDir);
 
@@ -142,26 +142,28 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
   log.info(`Spawned dataloader process with pid:`, dataloaderProcess.pid);
 
   // Subscribe to all java process events
-  dataloaderProcess.stdout.on('data', (data) => {
+  dataloaderProcess.stdout.on('data', data => {
     log.info(`Process StdOut:`, data.toString());
     event.sender.send('print', data.toString());
   });
-  dataloaderProcess.stderr.on('data', (data) => {
+  dataloaderProcess.stderr.on('data', data => {
     log.error(`Process StdErr:`, data.toString());
     event.sender.send('print', data.toString());
     event.sender.send('error', {
       title: 'Technical Error Executing Java',
-      message: 'This may be due to the version of Java on your machine.' +
+      message:
+        'This may be due to the version of Java on your machine.' +
         ' Ensure that you have the latest version of Java 1.8 installed,' +
         ' and there are no other competing Java versions installed on your machine.' +
-        '\n\nActual error:' + data.toString(),
+        '\n\nActual error:' +
+        data.toString(),
     });
   });
   dataloaderProcess.on('close', () => {
     log.info(`Process closed - sending 'done' signal to UI`);
     event.sender.send('done', '');
   });
-  dataloaderProcess.on('error', (err) => {
+  dataloaderProcess.on('error', err => {
     log.error(`Process error: ${err.name} - sending 'missing-java' signal to UI`);
     event.sender.send('missing-java', { title: err.name, message: err.message });
   });

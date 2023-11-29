@@ -16,11 +16,12 @@ import { Config } from '../../../interfaces';
 export class AboutModalComponent implements OnInit {
   showLicense = false;
 
-  constructor(private analyticsService: AnalyticsService,
-              private electronService: ElectronService,
-              private fileService: FileService,
-              private modalRef: NovoModalRef) {
-  }
+  constructor(
+    private analyticsService: AnalyticsService,
+    private electronService: ElectronService,
+    private fileService: FileService,
+    private modalRef: NovoModalRef,
+  ) {}
 
   ngOnInit(): void {
     // Show the accept terms and conditions banner if not already accepted
@@ -33,8 +34,9 @@ export class AboutModalComponent implements OnInit {
   async accept(): Promise<void> {
     this.showLicense = false;
     await this.analyticsService.acceptTermsAndConditions(ElectronService.LICENSE_VERSION);
-    this.fileService.writeConfig(Object.assign(this.fileService.readConfig(),
-      { acceptedLicenseVersion: ElectronService.LICENSE_VERSION }));
+    this.fileService.writeConfig(
+      Object.assign(this.fileService.readConfig(), { acceptedLicenseVersion: ElectronService.LICENSE_VERSION }),
+    );
   }
 
   async openLink(link: string): Promise<void> {
@@ -48,9 +50,11 @@ export class AboutModalComponent implements OnInit {
   }
 
   get analyticsDisclaimer(): string {
-    return 'Google Analytics is used to gather generic statistics about the type of entities loaded and the number of records per run. ' +
+    return (
+      'Google Analytics is used to gather generic statistics about the type of entities loaded and the number of records per run. ' +
       'This provides aggregate data points that helps Bullhorn understand how Data Loader is being used and how to improve it over time. ' +
-      'No personally identifiable information is ever tracked or logged in any way.';
+      'No personally identifiable information is ever tracked or logged in any way.'
+    );
   }
 
   // A copy-paste from https://raw.githubusercontent.com/bullhorn/dataloader/master/LICENSE for offline access

@@ -36,15 +36,17 @@ export class AppComponent implements OnInit {
   selectedRun: Run | null = this.currentRun;
   runHistory: Run[] = [];
 
-  constructor(private analyticsService: AnalyticsService,
-              private dataloaderService: DataloaderService,
-              private electronService: ElectronService,
-              private fileService: FileService,
-              private modalService: NovoModalService,
-              private toaster: NovoToastService,
-              private titleService: Title,
-              private view: ViewContainerRef, // tslint:disable-line
-              private zone: NgZone) {
+  constructor(
+    private analyticsService: AnalyticsService,
+    private dataloaderService: DataloaderService,
+    private electronService: ElectronService,
+    private fileService: FileService,
+    private modalService: NovoModalService,
+    private toaster: NovoToastService,
+    private titleService: Title,
+    private view: ViewContainerRef, // tslint:disable-line
+    private zone: NgZone,
+  ) {
     this.modalService.parentViewContainer = view;
     this.toaster.parentViewContainer = view;
   }
@@ -53,23 +55,27 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(`Bullhorn Data Loader v${this.electronService.version()}`);
 
     // Subscribe to messages from the main process
-    this.dataloaderService.onMessages((error) => {
-      this.modalService.open(InfoModalComponent, error);
-    }, (error) => {
-      this.modalService.open(MissingJavaModalComponent, error);
-    }, () => {
-      this.zone.run(() => {
-        this.modalService.open(AboutModalComponent);
-      });
-    });
+    this.dataloaderService.onMessages(
+      error => {
+        this.modalService.open(InfoModalComponent, error);
+      },
+      error => {
+        this.modalService.open(MissingJavaModalComponent, error);
+      },
+      () => {
+        this.zone.run(() => {
+          this.modalService.open(AboutModalComponent);
+        });
+      },
+    );
 
     // Initialize run history
     this.fileService.getAllRuns(this.onRunData.bind(this));
     this.fileService.runDeleted.subscribe(this.onRunDeleted.bind(this));
 
     // Disable drag and drop to stop electron from redirecting away from the app to the dropped file
-    document.addEventListener('dragover', (event) => event.preventDefault());
-    document.addEventListener('drop', (event) => event.preventDefault());
+    document.addEventListener('dragover', event => event.preventDefault());
+    document.addEventListener('drop', event => event.preventDefault());
 
     // Show settings modal if user has not filled in the credentials section
     const settings: Settings = this.fileService.readSettings();
@@ -176,10 +182,11 @@ export class AppComponent implements OnInit {
   private sendNotification(): void {
     if (this.currentRun.results) {
       this.analyticsService.trackEvent(this.currentRun);
-      const entity = EntityUtil.getEntityNameFromFile(this.currentRun.previewData.entity || this.currentRun.previewData.filePath);
+      const entity = EntityUtil.getEntityNameFromFile(
+        this.currentRun.previewData.entity || this.currentRun.previewData.filePath,
+      );
       const total = `${this.currentRun.results.processed.toLocaleString()} / ${this.currentRun.previewData.total.toLocaleString()}`;
-      const counts =
-        `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
+      const counts = `${this.currentRun.results.inserted} Added, ${this.currentRun.results.updated} Updated, ${this.currentRun.results.failed} Errors`;
       const duration = Util.msecToHMS(this.currentRun.results.durationMsec);
       new Notification(`Loaded ${total} ${entity} Records in ${duration}`, { body: counts }); // tslint:disable-line
     }
