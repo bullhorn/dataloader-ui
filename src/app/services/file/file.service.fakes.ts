@@ -1,5 +1,4 @@
 // Vendor
-import Timer = NodeJS.Timer;
 import { EntityTypes } from '@bullhorn/bullhorn-types';
 // App
 import { Config, DataCenters, Errors, PreviewData, Results, Settings } from '../../../interfaces';
@@ -200,7 +199,7 @@ export class FileServiceFakes {
     const fakeResults: Results = new FakeResultsData();
     const MAX_ITERATIONS = 30;
     let i = 0;
-    const interval: Timer = setInterval(() => {
+    const interval = setInterval(() => {
       fakeResults.processed += 8;
       fakeResults.inserted += 4;
       fakeResults.updated += 2;
