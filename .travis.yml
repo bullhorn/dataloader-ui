@@ -2,7 +2,7 @@ os: osx
 osx_image: xcode14.2
 
 language: node_js
-node_js: '18'
+node_js: '20'
 
 addons:
   chrome: stable

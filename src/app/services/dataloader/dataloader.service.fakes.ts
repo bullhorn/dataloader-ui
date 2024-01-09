@@ -1,5 +1,4 @@
 // Vendor
-import Timer = NodeJS.Timer;
 import { Error } from '../../../interfaces';
 import { FakeMeta } from './fake-meta';
 
@@ -54,7 +53,7 @@ export class DataloaderServiceFakes {
 
   static generateFakePrintLoadCallbacks(callback: (text: string) => void): void {
     let i = 0;
-    const interval: Timer = setInterval(() => {
+    const interval = setInterval(() => {
       callback(this.FAKE_OUTPUT_DATA[i]);
       if (++i >= this.FAKE_OUTPUT_DATA.length) {
         clearInterval(interval);
