@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/bullhorn/dataloader-app/compare/v2.10.0...v2.11.0) (2024-01-10)
+
+
+### Features
+
+* **Entities:** Add branch entity ([#168](https://github.com/bullhorn/dataloader-app/issues/168)) ([db6e2a3](https://github.com/bullhorn/dataloader-app/commit/db6e2a3146095f8d20792e50d41ed3c86cd253b0))
+
 ## [2.10.0](https://github.com/bullhorn/dataloader-app/compare/v2.9.1...v2.10.0) (2023-11-09)
 
 
