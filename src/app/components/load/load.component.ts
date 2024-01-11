@@ -52,8 +52,6 @@ export class LoadComponent {
   stepEnum: typeof StepEnum = StepEnum;
   entityPickerModifiedByUser = false;
 
-  private _entity = '';
-
   constructor(private fileService: FileService,
               private dataloaderService: DataloaderService,
               private modalService: NovoModalService,
@@ -69,14 +67,16 @@ export class LoadComponent {
     this.displayedColumns = ['selection', 'header', 'sample', 'field', 'subfield'];
   }
 
+  private _entity = '';
+
+  get entity(): string {
+    return this._entity;
+  }
+
   set entity(entity: string) {
     this._entity = entity;
     this.theme = this._entity ? EntityUtil.getThemeForFilename(this._entity) : '';
     this.icon = this._entity ? EntityUtil.getIconForFilename(this._entity) : '';
-  }
-
-  get entity(): string {
-    return this._entity;
   }
 
   get numSelectedRows(): number {
