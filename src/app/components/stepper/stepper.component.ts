@@ -51,7 +51,7 @@ export class StepperComponent extends CdkStepper implements AfterContentInit {
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<StepHeaderComponent>;
 
   // Full list of steps inside the stepper, including inside nested steppers.
-  @ContentChildren(StepComponent, {descendants: true}) _steps: QueryList<StepComponent>;
+  @ContentChildren(StepComponent, { descendants: true }) _steps: QueryList<StepComponent>;
 
   // Steps that belong to the current stepper, excluding ones from nested steppers.
   steps: QueryList<StepComponent> = new QueryList<StepComponent>();
