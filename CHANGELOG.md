@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.1](https://github.com/bullhorn/dataloader-app/compare/v2.11.0...v2.11.1) (2024-01-12)
+
+
+### Bug Fixes
+
+* **WorkersCompensationRate:** Ensure privateLabel is included ([#169](https://github.com/bullhorn/dataloader-app/issues/169)) ([a4ad7f7](https://github.com/bullhorn/dataloader-app/commit/a4ad7f7a54efda43ec212ac3d1a804c974ac45eb))
+
 ## [2.11.0](https://github.com/bullhorn/dataloader-app/compare/v2.10.0...v2.11.0) (2024-01-10)
 
 
