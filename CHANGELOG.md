@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.2](https://github.com/bullhorn/dataloader-app/compare/v2.11.1...v2.11.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* **Dependencies:** Updated to the latest Electron version ([5fd3bc0](https://github.com/bullhorn/dataloader-app/commit/5fd3bc064fee5a0563a3bc126005e373f36884dc))
+
 ### [2.11.1](https://github.com/bullhorn/dataloader-app/compare/v2.11.0...v2.11.1) (2024-01-12)
 
 
