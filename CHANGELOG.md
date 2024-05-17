@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.3](https://github.com/bullhorn/dataloader-app/compare/v2.11.2...v2.11.3) (2024-05-17)
+
+
+### Bug Fixes
+
+* **Technical Error:** Fix for Windows Java disallowing stdout ([#170](https://github.com/bullhorn/dataloader-app/issues/170)) ([18ab468](https://github.com/bullhorn/dataloader-app/commit/18ab4682c49df774fbbd5e049d7ccf80f1934b6e))
+
 ### [2.11.2](https://github.com/bullhorn/dataloader-app/compare/v2.11.1...v2.11.2) (2024-04-26)
 
 
