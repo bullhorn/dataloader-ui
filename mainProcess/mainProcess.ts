@@ -91,6 +91,7 @@ app.on('activate', () => {
  */
 ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
   log.info(`Start: received ${params.length} params`);
+  let stdOutput = false;
 
   // Version check for triaging any java related issues
   const javaVersionCheckProcess: ChildProcess = spawn('java', ['-version']);
@@ -126,9 +127,14 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
     log.info(`...Finished copying properties file`);
   }
 
+  // Workaround for Java on Windows not redirecting stdout
+  const lastParam = params[params.length - 1];
+  const isLogin = lastParam === 'login';
+  const isMeta = params[params.length - 2] === 'meta';
+  const outputFile = isLogin ? 'login.txt' : isMeta ? 'meta.json' : null;
+
   // Output Data Loader version info when loading, except when retrieving meta
-  const command = params[params.length - 2];
-  if (command !== 'meta') {
+  if (!isMeta) {
     const version: string = path.basename(jarFiles[0], '.jar').split('-')[1];
     event.sender.send('print', `Data Loader CLI v${version}\n`);
   }
@@ -145,6 +151,7 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
   dataloaderProcess.stdout.on('data', (data) => {
     log.info(`Process StdOut:`, data.toString());
     event.sender.send('print', data.toString());
+    stdOutput = true;
   });
   dataloaderProcess.stderr.on('data', (data) => {
     log.error(`Process StdErr:`, data.toString());
@@ -166,6 +173,21 @@ ipcMain.on('start', (event: Electron.IpcMainEvent, params: string[]) => {
     event.sender.send('missing-java', { title: err.name, message: err.message });
   });
   dataloaderProcess.on('exit', (code, signal) => {
+    // In the event of the command returning without any stdout received,
+    // read the output file and send through as if it were printed to stdout.
+    if (outputFile && !stdOutput) {
+      const outputFilePath = path.join(userDataDir, outputFile);
+      try {
+        log.info(`StdOut is missing. Reading temporary output file: ${outputFilePath}`);
+        const outputFileContents = fs.readFileSync(outputFilePath).toString();
+        log.info(`Temporary output file Contents: ${outputFileContents}`);
+        event.sender.send('print', outputFileContents);
+        log.info(`Deleting temporary output file: ${outputFilePath}`);
+        fs.unlinkSync(outputFilePath);
+      } catch (e) {
+        log.warn(`Error reading/deleting temporary file: ${outputFilePath}: ${e}`);
+      }
+    }
     log.info(`Process exit. code: ${code}, signal: ${signal}`);
   });
   dataloaderProcess.on('message', (message, sendHandle) => {
