@@ -43,6 +43,9 @@
       "entitlementsInherit": "../packageResources/mac-entitlements.plist",
       "notarize": {
         "teamId": "8AGHEBNNMX"
+      },
+      "win": {
+        "publisherName": "Bullhorn"
       }
     }
   },
