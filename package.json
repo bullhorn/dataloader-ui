@@ -99,7 +99,7 @@
     "username": "5.1.0",
     "util": "0.12.5",
     "uuidv4": "6.2.13",
-    "zone.js": "0.11.8"
+    "zone.js": "0.14.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.11",
