@@ -81,7 +81,7 @@ export function getMenuTemplate(mainWindow: BrowserWindow): Electron.MenuItemCon
               return 'Ctrl+Shift+I';
             }
           })(),
-          click: (item, focusedWindow) => {
+          click: (item, focusedWindow: any) => {
             if (focusedWindow) {
               focusedWindow.webContents.toggleDevTools();
             }
