@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.12.0](https://github.com/bullhorn/dataloader-app/compare/v2.11.3...v2.12.0) (2024-11-26)
+
+
+### Features
+
+* **Entities:** Add PlacementCertification ([#176](https://github.com/bullhorn/dataloader-app/issues/176)) ([3f17a27](https://github.com/bullhorn/dataloader-app/commit/3f17a27c7f678c3bfe7f2d7748cb052e9e7bc69d))
+
 ### [2.11.3](https://github.com/bullhorn/dataloader-app/compare/v2.11.2...v2.11.3) (2024-05-17)
 
 
