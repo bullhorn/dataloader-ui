@@ -14,6 +14,10 @@ __Examples:__
 
 `chore(cleanup): cleaned up xyz`
 
+__Dataloader Auto-Update Behavior__
+The dataloader-ui automatically retrieves the latest dataloader version from GitHub's /latest API endpoint. While this 
+eliminates manual version updates, conventional commits are still required to trigger proper version bumping during releases.
+
 ### Creating a Release
 
 [standard-version](https://www.npmjs.com/package/standard-version) is used to calculate the version number based on the standard commits on master since the last tagged version. Provide a specific number instead to bypass the calculated version.
