@@ -45,6 +45,12 @@
       "notarize": true
     },
     "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
       "signtoolOptions": {
         "publisherName": "Bullhorn"
       }
