@@ -1,7 +1,7 @@
 {
   "name": "dataloader-ui",
   "productName": "Bullhorn Data Loader",
-  "version": "2.13.2",
+  "version": "2.13.3",
   "description": "Desktop App for quickly importing CSV data into your Bullhorn CRM",
   "repository": "https://github.com/bullhorn/dataloader-app",
   "author": "Bullhorn",
@@ -50,7 +50,10 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ]
     },
@@ -58,7 +61,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "signtoolOptions": {
