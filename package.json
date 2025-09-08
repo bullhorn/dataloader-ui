@@ -15,7 +15,11 @@
     "download": "node packageResources/download-latest-dataloader.js",
     "lint": "tslint --project tsconfig.json",
     "package": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish",
+    "package:mac": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish:mac",
+    "package:win": "npm run download && npm run build:prod && npm run compile && npm run stage && npm run publish:win",
     "publish": "cd dist && electron-builder --win --mac",
+    "publish:mac": "cd dist && electron-builder --mac",
+    "publish:win": "cd dist && electron-builder --win",
     "publish-always": "npm run publish -- --publish always",
     "serve": "electron dist/mainProcess.js --serve",
     "stage": "copyfiles package*.json 'dataloader/**/*' dist",
@@ -42,7 +46,13 @@
       "gatekeeperAssess": false,
       "entitlements": "../packageResources/mac-entitlements.plist",
       "entitlementsInherit": "../packageResources/mac-entitlements.plist",
-      "notarize": true
+      "notarize": true,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ]
     },
     "win": {
       "target": [
@@ -54,6 +64,10 @@
       "signtoolOptions": {
         "publisherName": "Bullhorn"
       }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "browser": {
