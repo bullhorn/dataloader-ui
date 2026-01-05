@@ -35,8 +35,9 @@ export class DataloaderUtil {
 
     if (previewData.columnMap) {
       Object.keys(previewData.columnMap).forEach(key => {
-        if (key !== previewData.columnMap[key]) {
-          args = args.concat(`${key}Column`, `${previewData.columnMap[key]}`);
+        const mappedValue = previewData.columnMap[key];
+        if (mappedValue !== '') {
+          args = args.concat(`${key}Column`, mappedValue);
         }
       });
     }

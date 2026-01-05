@@ -145,16 +145,20 @@ export class LoadComponent {
         if (this.numSelectedRows && !this.numInvalidRows) {
           this.run.previewData.entity = this.entity;
           this.run.previewData.columnMap = this.rows.reduce((acc, row) => {
-            return Object.assign(acc, {
-              [row.header]: this.tables.first.isSelected(row) ? row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name : '',
-            });
+            let mappedField = '';
+            if (this.tables.first.isSelected(row)) {
+              // If CSV header has a subfield suffix (e.g., "field.subfield"), use the subfield mapping
+              // Otherwise, use just the field name
+              mappedField = row.hasSubfieldInHeader && row.subfield ? `${row.field.name}.${row.subfield.name}` : row.field.name;
+            }
+            return Object.assign(acc, { [row.header]: mappedField });
           }, {});
           this.setupDuplicateCheck();
           this.stepper.next();
         } else if (this.numSelectedRows) {
           this.toaster.alert(LoadComponent.createAlertOptions({
             title: `${this.numInvalidRows} Selected Columns Not Mapped`,
-            message: `All selected columns must be mapped to a bullhorn field, including an associated field for associations`,
+            message: `All selected columns must be mapped to a bullhorn field. Association fields require a subfield if the CSV header includes one (e.g., "field.subfield").`,
           }));
         }
         break;
@@ -180,7 +184,7 @@ export class LoadComponent {
   }
 
   isRowValid(row: any): boolean {
-    return row.field && (!row.associatedEntityMeta || row.subfield);
+    return row.field && (!row.associatedEntityMeta || !row.hasSubfieldInHeader || row.subfield);
   }
 
   private getMeta(): void {
@@ -251,6 +255,7 @@ export class LoadComponent {
           sample: sampleData ? sampleData[header] : '',
           field: fieldMeta ? LoadComponent.createPickerOptionFromFieldMeta(fieldMeta) : null,
           fieldMeta,
+          hasSubfieldInHeader: header.includes('.'),
         }, LoadComponent.getSubfieldData(fieldMeta, associatedFieldName));
       });
 
