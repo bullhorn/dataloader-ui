@@ -53,8 +53,14 @@ jobs:
         if: matrix.os == 'windows-latest'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
-          WIN_CSC_PUBLISHER_NAME: ${{ secrets.WIN_CSC_PUBLISHER_NAME }}
+      
+          # Enable signing ONLY on main or release branches
+          WIN_CSC_KEY_PASSWORD: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && secrets.WIN_CSC_KEY_PASSWORD || '' }}
+          WIN_CSC_LINK: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && secrets.WIN_CSC_LINK || '' }}
+          WIN_CSC_PUBLISHER_NAME: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && secrets.WIN_CSC_PUBLISHER_NAME || '' }}
+      
+          # Explicitly disable auto-discovery for PRs / non-release branches
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')) && 'true' || 'false' }}
+      
         run: yarn package:win
         timeout-minutes: 90
