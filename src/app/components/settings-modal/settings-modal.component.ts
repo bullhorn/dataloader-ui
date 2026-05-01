@@ -58,6 +58,11 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-west50.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-west50.bullhornstaffing.com/rest-services/login',
       },
+      [DataCenters.syd]: {
+        authorizeUrl: 'https://auth-syd.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-syd.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-syd.bullhornstaffing.com/rest-services/login',
+      },
       [DataCenters.apac]: {
         authorizeUrl: 'https://auth-apac.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-apac.bullhornstaffing.com/oauth/token',
@@ -244,6 +249,7 @@ export class SettingsModalComponent implements OnInit {
           { label: 'U.S. East - CLS40, CLS41, CLS42', value: 'east' },
           { label: 'U.S. West - CLS30, CLS31, CLS32, CLS33, CLS34', value: 'west' },
           { label: 'U.S. West - CLS50', value: 'west50' },
+          { label: 'Sydney - CLS61, CLS62', value: 'syd' },
           { label: 'Asia Pacific - CLS60', value: 'apac' },
           { label: 'Australia - CLS66', value: 'aus' },
           { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },

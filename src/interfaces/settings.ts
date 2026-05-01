@@ -9,6 +9,7 @@ export enum DataCenters {
   'east' = 'east',
   'west' = 'west',
   'west50' = 'west50',
+  'syd' = 'syd',
   'apac' = 'apac',
   'aus' = 'aus',
   'uk' = 'uk',
