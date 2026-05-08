@@ -70,7 +70,9 @@ export class DropzoneComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     if (DropzoneComponent.isDragFileEvent(event)) {
       const file = event.dataTransfer.files[0];
-      this.onFileProvided(file.path || file.name); // path for electron, name for 'ng serve'
+      const webUtils = window.require?.('electron')?.webUtils;
+      const filePath = webUtils ? webUtils.getPathForFile(file) : file.name;
+      this.onFileProvided(filePath);
       this.dragging = false;
     }
   }
