@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.13.5](https://github.com/bullhorn/dataloader-app/compare/v2.13.4...v2.13.5) (2026-05-08)
+
+
+### Bug Fixes
+
+* **Load:** Allow mapping association fields without .id suffix in CSV headers ([b6f7ea8](https://github.com/bullhorn/dataloader-app/commit/b6f7ea8d7072d6180713ee467989afd6afe6b379))
+
 ### [2.13.4](https://github.com/bullhorn/dataloader-app/compare/v2.13.3...v2.13.4) (2025-09-08)
 
 ### [2.13.3](https://github.com/bullhorn/dataloader-app/compare/v2.13.2...v2.13.3) (2025-09-08)
