@@ -14,6 +14,7 @@ export enum DataCenters {
   'aus' = 'aus',
   'uk' = 'uk',
   'germany' = 'germany',
+  'frk' = 'frk',
   'france' = 'france',
   'bhnext' = 'bhnext',
   'cls91' = 'cls91',

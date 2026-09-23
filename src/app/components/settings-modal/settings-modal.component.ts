@@ -83,6 +83,11 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-ger.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-ger.bullhornstaffing.com/rest-services/login',
       },
+      [DataCenters.frk]: {
+        authorizeUrl: 'https://auth-frk.bullhornstaffing.com/oauth/authorize',
+        tokenUrl: 'https://auth-frk.bullhornstaffing.com/oauth/token',
+        loginUrl: 'https://rest-frk.bullhornstaffing.com/rest-services/login',
+      },
       [DataCenters.france]: {
         authorizeUrl: 'https://auth-fra.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-fra.bullhornstaffing.com/oauth/token',
@@ -254,6 +259,7 @@ export class SettingsModalComponent implements OnInit {
           { label: 'Australia - CLS66', value: 'aus' },
           { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },
           { label: 'Germany - CLS70', value: 'germany' },
+          { label: 'Germany - CLS72', value: 'frk' },
           { label: 'France - CLS71', value: 'france' },
           { label: 'BHNext', value: 'bhnext' },
           { label: 'CLS91', value: 'cls91' },
