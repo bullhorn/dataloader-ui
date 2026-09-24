@@ -63,25 +63,10 @@ export class SettingsModalComponent implements OnInit {
         tokenUrl: 'https://auth-syd.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-syd.bullhornstaffing.com/rest-services/login',
       },
-      [DataCenters.apac]: {
-        authorizeUrl: 'https://auth-apac.bullhornstaffing.com/oauth/authorize',
-        tokenUrl: 'https://auth-apac.bullhornstaffing.com/oauth/token',
-        loginUrl: 'https://rest-apac.bullhornstaffing.com/rest-services/login',
-      },
-      [DataCenters.aus]: {
-        authorizeUrl: 'https://auth-aus.bullhornstaffing.com/oauth/authorize',
-        tokenUrl: 'https://auth-aus.bullhornstaffing.com/oauth/token',
-        loginUrl: 'https://rest-aus.bullhornstaffing.com/rest-services/login',
-      },
       [DataCenters.uk]: {
         authorizeUrl: 'https://auth-emea.bullhornstaffing.com/oauth/authorize',
         tokenUrl: 'https://auth-emea.bullhornstaffing.com/oauth/token',
         loginUrl: 'https://rest-emea.bullhornstaffing.com/rest-services/login',
-      },
-      [DataCenters.germany]: {
-        authorizeUrl: 'https://auth-ger.bullhornstaffing.com/oauth/authorize',
-        tokenUrl: 'https://auth-ger.bullhornstaffing.com/oauth/token',
-        loginUrl: 'https://rest-ger.bullhornstaffing.com/rest-services/login',
       },
       [DataCenters.frk]: {
         authorizeUrl: 'https://auth-frk.bullhornstaffing.com/oauth/authorize',
@@ -255,10 +240,7 @@ export class SettingsModalComponent implements OnInit {
           { label: 'U.S. West - CLS30, CLS31, CLS32, CLS33, CLS34', value: 'west' },
           { label: 'U.S. West - CLS50', value: 'west50' },
           { label: 'Sydney - CLS61, CLS62', value: 'syd' },
-          { label: 'Asia Pacific - CLS60', value: 'apac' },
-          { label: 'Australia - CLS66', value: 'aus' },
           { label: 'UK - CLS21, CLS22, CLS23', value: 'uk' },
-          { label: 'Germany - CLS70', value: 'germany' },
           { label: 'Germany - CLS72', value: 'frk' },
           { label: 'France - CLS71', value: 'france' },
           { label: 'BHNext', value: 'bhnext' },
