@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.13.6](https://github.com/bullhorn/dataloader-app/compare/v2.13.4...v2.13.6) (2026-09-30)
+
+
+### Features
+
+* **Settings:** Added Frankfurt (CLS72) to the Data Center dropdown ([89843a0](https://github.com/bullhorn/dataloader-app/commit/89843a06a36c8c7e06d63a0ecfda79bec9ba5fc8))
+* **Settings:** Removed retired data centers Asia Pacific (CLS60), Australia (CLS66), and Germany (CLS70) ([81cb309](https://github.com/bullhorn/dataloader-app/commit/81cb309))
+
+
+### Bug Fixes
+
+* **Build:** Bump CI to Node 22 for electron-builder 26.16.1 ([d0ec781](https://github.com/bullhorn/dataloader-app/commit/d0ec7818580feefa22b01e412d3352e25d12f8ad))
+* **Build:** Upgrade electron-builder to 26.16.1 for macOS keychain signing fix ([6e09cb3](https://github.com/bullhorn/dataloader-app/commit/6e09cb3039ff37c07c254828e0340796e816c23d))
+* **Load:** Allow mapping association fields without .id suffix in CSV headers ([b6f7ea8](https://github.com/bullhorn/dataloader-app/commit/b6f7ea8d7072d6180713ee467989afd6afe6b379))
+
 ### [2.13.4](https://github.com/bullhorn/dataloader-app/compare/v2.13.3...v2.13.4) (2025-09-08)
 
 ### [2.13.3](https://github.com/bullhorn/dataloader-app/compare/v2.13.2...v2.13.3) (2025-09-08)
