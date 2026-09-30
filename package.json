@@ -137,7 +137,7 @@
     "@types/node": "20.12.7",
     "copyfiles": "2.4.1",
     "electron": "37.2.4",
-    "electron-builder": "26.0.12",
+    "electron-builder": "26.16.1",
     "extract-zip": "2.0.1",
     "pre-commit": "1.2.2",
     "standard-version": "9.5.0",
